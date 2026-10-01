@@ -9,6 +9,7 @@ Etapă: definirea MVP-ului
 - [x] Scop inițial și limite documentate.
 - [x] Evidență pentru progres, versiuni, decizii și sarcini.
 - [x] Flux conceptual AI wrapper + RAG.
+- [x] Repository privat creat pe GitHub: https://github.com/marcossoames/ProfOS.
 
 ## În lucru
 
@@ -24,7 +25,6 @@ Etapă: definirea MVP-ului
 
 - Nu există documente de referință în directorul sincronizat `sources/`.
 - Publicul țintă, bugetul și furnizorul AI nu sunt stabilite.
-- Publicarea GitHub este în așteptare; conectorul nu oferă creare de repository.
 
 ## Verificare
 

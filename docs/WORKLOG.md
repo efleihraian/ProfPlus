@@ -6,7 +6,7 @@
 - Nu existau materiale în sources/ din care să deducem cerințe suplimentare.
 - Verificat contul GitHub conectat: marcossoames.
 - Repository-ul marcossoames/ProfOS nu a fost găsit prin conector.
-- Publicarea este în așteptare: instrumentele GitHub disponibile nu includ creare de repository; browserul a refuzat accesul din cauza verificării politicii de securitate.
+- Crearea prin plugin/browser a fost blocată inițial. După autentificarea GitHub CLI de către utilizator, repository-ul privat marcossoames/ProfOS a fost creat și configurat ca origin.
 - Următorul pas: definirea MVP-ului și setului de evaluare, P-001 și P-002.
 
 ## Șablon

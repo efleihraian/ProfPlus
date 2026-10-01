@@ -11,5 +11,6 @@ Adăugăm aici schimbările după fiecare sarcină. La versiune, mutăm intrări
 - Documentație pentru scop, stare, MVP și arhitectură conceptuală.
 - Backlog, roadmap, jurnal de lucru și registru de decizii.
 - Reguli pentru actualizarea progresului și șabloane GitHub.
+- Repository privat GitHub pentru versionarea proiectului.
 
 Această versiune conține doar documentație.
