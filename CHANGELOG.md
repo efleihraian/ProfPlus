@@ -4,6 +4,8 @@
 
 Adăugăm aici schimbările după fiecare sarcină. La versiune, mutăm intrările într-o secțiune datată.
 
+- Configurare locală a cheii OpenAI prin introducere ascunsă și test API cu timeout, erori și afișarea consumului. Apelul real nu a fost încă verificat.
+
 ## 0.1.0 — 2026-10-01
 
 ### Adăugat

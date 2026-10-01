@@ -23,7 +23,8 @@ Un utilizator încarcă documente text sau PDF cu text, pune o întrebare și pr
 - [Decizii](docs/DECISIONS.md) — alegeri și motivele lor.
 - [Jurnal de lucru](docs/WORKLOG.md) — ce s-a lucrat efectiv.
 - [Reguli de contribuție](CONTRIBUTING.md) — cum menținem evidența.
+- [Configurarea API](docs/API_SETUP.md) — introducerea locală a cheii și testul conexiunii.
 
 ## Stare
 
-Versiune: **0.1.0** — documentație inițială. Aplicația nu este încă implementată. Nu există încă instalare, teste sau deployment.
+Versiune: **0.1.0**. Configurarea locală și testul API sunt pregătite. Aplicația și RAG-ul nu sunt încă implementate; apelul real așteaptă cheia salvată local.

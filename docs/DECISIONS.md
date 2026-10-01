@@ -9,7 +9,13 @@ Propunere: primul MVP răspunde la întrebări din documente și afișează surs
 
 De confirmat: utilizatorul țintă, corpusul și bugetul. Nicio tehnologie nu este aprobată prin această propunere.
 
-## Șablon pentru decizii noi
+## DEC-002 — Test local OpenAI API
+
+Data: 2026-10-01. Stare: acceptată pentru testul de conexiune.
+
+Utilizatorul a creat o cheie OpenAI. Pregătim un test Python fără dependențe externe, cu Responses API și modelul configurabil gpt-4.1-mini. Această alegere nu stabilește tehnologiile aplicației finale. Cheia este păstrată local și exclusă din GitHub.
+
+## Șablon pentru decizii viitoare
 
 - ID și titlu:
 - Data:

@@ -14,6 +14,7 @@ Etapă: definirea MVP-ului
 ## În lucru
 
 - Confirmarea publicului țintă și a unui singur caz de utilizare.
+- P-005: configurare locală a cheii și test OpenAI API pregătite; așteptăm introducerea cheii de către utilizator și verificarea reală.
 
 ## Urmează
 
@@ -24,8 +25,8 @@ Etapă: definirea MVP-ului
 ## Blocaje și limite
 
 - Nu există documente de referință în directorul sincronizat `sources/`.
-- Publicul țintă, bugetul și furnizorul AI nu sunt stabilite.
+- Publicul țintă și bugetul nu sunt stabilite. OpenAI este furnizorul pentru primul test; modelul final rămâne de ales.
 
 ## Verificare
 
-Documentație inițială creată. Niciun comportament al aplicației nu este implementat sau testat.
+Configurarea și tratarea erorii pentru cheia lipsă au fost verificate local. Niciun apel real către model nu a fost efectuat; interfața și RAG-ul nu sunt implementate.
