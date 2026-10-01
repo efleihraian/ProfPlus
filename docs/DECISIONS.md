@@ -17,6 +17,14 @@ Utilizatorul a creat o cheie OpenAI. Pregătim un test Python fără dependențe
 
 ## Șablon pentru decizii viitoare
 
+## DEC-003 — Site-ul de chat înaintea RAG-ului
+
+Data: 2026-10-01. Stare: acceptată.
+
+Utilizatorul a cerut amânarea documentelor și începerea site-ului, cu o casetă de conversație AI. Implementăm React/TypeScript cu Vinext și un API JSON server-side, compatibil cu găzduirea Sites. Prima versiune este privată și folosește gpt-4.1-mini. Nu persistăm conversațiile și nu introducem încă documente sau RAG. Viitoarele aplicații mobile vor avea nevoie de autentificare proprie peste contractul API.
+
+## Format pentru decizii noi
+
 - ID și titlu:
 - Data:
 - Stare: propusă / acceptată / înlocuită

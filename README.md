@@ -27,4 +27,17 @@ Un utilizator încarcă documente text sau PDF cu text, pune o întrebare și pr
 
 ## Stare
 
-Versiune: **0.1.0**. Configurarea locală și conexiunea OpenAI API sunt verificate printr-un apel real. Aplicația și RAG-ul nu sunt încă implementate.
+Versiune: **0.2.0**. Site-ul de chat și API-ul sunt implementate; RAG-ul este amânat pentru etapa următoare. [Contractul API și limitele](docs/CHAT_API.md).
+
+Site privat: [ProfOS](https://profos-chat.cosminsoames.chatgpt.site).
+
+## Pornirea site-ului local
+
+Necesită Node.js 22.13 sau mai nou. Din directorul web:
+
+```bash
+npm ci
+npm run dev -- --host 127.0.0.1 --port 3000
+```
+
+Configurarea locală folosește web/.dev.vars cu OPENAI_API_KEY și OPENAI_MODEL. Fișierul este exclus din GitHub. Deschide URL-ul afișat de server. Conversațiile se șterg la reîncărcarea paginii.

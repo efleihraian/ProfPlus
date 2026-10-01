@@ -11,3 +11,5 @@ coverage/
 data/
 uploads/
 *.log
+.sites-runtime/
+*.tsbuildinfo

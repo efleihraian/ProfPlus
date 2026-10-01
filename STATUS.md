@@ -1,8 +1,8 @@
 # Starea proiectului
 
 Ultima actualizare: 2026-10-01
-Versiune: 0.1.0
-Etapă: definirea MVP-ului
+Versiune: 0.2.0
+Etapă: primul site cu chat AI
 
 ## Finalizat
 
@@ -10,17 +10,20 @@ Etapă: definirea MVP-ului
 - [x] Evidență pentru progres, versiuni, decizii și sarcini.
 - [x] Flux conceptual AI wrapper + RAG.
 - [x] Repository privat creat pe GitHub: https://github.com/marcossoames/ProfOS.
+- [x] Interfață de chat în română, adaptată pentru desktop și telefon.
+- [x] API server-side pentru conversații OpenAI, cu validări și tratarea erorilor.
+- [x] Site publicat privat: https://profos-chat.cosminsoames.chatgpt.site.
 
 ## În lucru
 
 - Confirmarea publicului țintă și a unui singur caz de utilizare.
-- P-005: conexiunea OpenAI API verificată cu succes; backend-ul aplicației rămâne de implementat.
+- Feedback asupra primei versiuni a interfeței.
 
 ## Urmează
 
-1. Finalizarea `docs/MVP.md` cu utilizator, documente și întrebări reale.
-2. Alegerea tehnologiilor și documentarea deciziei.
-3. Implementarea unui flux complet: document → căutare → răspuns cu surse.
+1. Feedback asupra primei interfețe de chat.
+2. Ulterior: definirea documentelor și setului de evaluare pentru RAG.
+3. Ulterior: autentificare și limite de consum înainte de acces public sau aplicații mobile.
 
 ## Blocaje și limite
 
@@ -29,4 +32,4 @@ Etapă: definirea MVP-ului
 
 ## Verificare
 
-Apel real verificat cu gpt-4.1-mini: răspuns „Conexiunea ProfOS funcționează.”, 24 tokeni de intrare și 12 de ieșire. Certificatele sistemului macOS sunt folosite când Python nu are propriul bundle. Interfața și RAG-ul nu sunt implementate.
+Pagina răspunde HTTP 200; verificarea TypeScript și build-ul de producție trec. API-ul a răspuns la un mesaj real și a păstrat contextul unei conversații de test. Cererile goale, rolurile nepermise, mesajele prea lungi și cererile din altă origine sunt respinse. Verificarea vizuală și WebMCP în browser nu au fost disponibile: browserul a refuzat accesul din cauza verificării politicii de securitate. RAG-ul nu este implementat.
