@@ -27,4 +27,4 @@ Un utilizator încarcă documente text sau PDF cu text, pune o întrebare și pr
 
 ## Stare
 
-Versiune: **0.1.0**. Configurarea locală și testul API sunt pregătite. Aplicația și RAG-ul nu sunt încă implementate; apelul real așteaptă cheia salvată local.
+Versiune: **0.1.0**. Configurarea locală și conexiunea OpenAI API sunt verificate printr-un apel real. Aplicația și RAG-ul nu sunt încă implementate.

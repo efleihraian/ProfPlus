@@ -17,4 +17,13 @@
 
 ## Șablon pentru intrări viitoare
 
+## 2026-10-01 — P-005: conexiune API verificată
+
+- Utilizatorul a salvat cheia local; cheia nu a fost afișată sau comisă.
+- Primul test s-a oprit din cauza lipsei certificatelor în instalarea Python. Adăugat fallback la certificatele sistemului macOS, fără dezactivarea verificării TLS.
+- Apel real reușit cu gpt-4.1-mini: „Conexiunea ProfOS funcționează.” Consum: 24 tokeni de intrare, 12 de ieșire, 36 total.
+- Backend-ul, interfața și RAG-ul rămân de implementat.
+
+## Formatul intrărilor
+
 Data, sarcini/ID-uri, rezultat concret, verificări și rezultate, blocaje, următorul pas. Nu include secrete sau conținut sensibil din documentele utilizatorilor.

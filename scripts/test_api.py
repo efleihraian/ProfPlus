@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 import sys
+import ssl
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
@@ -30,8 +31,13 @@ def main():
                       data=json.dumps(payload).encode(),
                       headers={'Authorization': 'Bearer ' + config['OPENAI_API_KEY'],
                                'Content-Type': 'application/json'})
+    context = ssl.create_default_context()
+    # Some python.org macOS installs have no default certificate bundle.
+    system_ca = Path('/etc/ssl/cert.pem')
+    if sys.platform == 'darwin' and not ssl.get_default_verify_paths().cafile and system_ca.is_file():
+        context.load_verify_locations(cafile=str(system_ca))
     try:
-        with urlopen(request, timeout=30) as response:
+        with urlopen(request, timeout=30, context=context) as response:
             result = json.load(response)
     except HTTPError as error:
         messages = {401: 'Cheie invalidă sau revocată.',

@@ -14,7 +14,7 @@ Etapă: definirea MVP-ului
 ## În lucru
 
 - Confirmarea publicului țintă și a unui singur caz de utilizare.
-- P-005: configurare locală a cheii și test OpenAI API pregătite; așteptăm introducerea cheii de către utilizator și verificarea reală.
+- P-005: conexiunea OpenAI API verificată cu succes; backend-ul aplicației rămâne de implementat.
 
 ## Urmează
 
@@ -29,4 +29,4 @@ Etapă: definirea MVP-ului
 
 ## Verificare
 
-Configurarea și tratarea erorii pentru cheia lipsă au fost verificate local. Niciun apel real către model nu a fost efectuat; interfața și RAG-ul nu sunt implementate.
+Apel real verificat cu gpt-4.1-mini: răspuns „Conexiunea ProfOS funcționează.”, 24 tokeni de intrare și 12 de ieșire. Certificatele sistemului macOS sunt folosite când Python nu are propriul bundle. Interfața și RAG-ul nu sunt implementate.

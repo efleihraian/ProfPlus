@@ -8,7 +8,7 @@ Stări: TODO, IN PROGRESS, BLOCKED, DONE. ID-urile rămân stabile.
 | P-002 | P0 | TODO | Set de evaluare | 10–20 întrebări reale, surse și răspunsuri așteptate, inclusiv întrebări fără răspuns |
 | P-003 | P0 | TODO | Alegerea tehnologiilor | Decizie cu costuri, găzduire, model, embeddings și stocare |
 | P-004 | P0 | TODO | Schelet aplicație | Interfață și backend pornesc local; configurare documentată |
-| P-005 | P0 | IN PROGRESS | AI wrapper; configurare și test API pregătite, apel real în așteptare | Apel server-side, chei protejate, timeout și erori tratate |
+| P-005 | P0 | IN PROGRESS | AI wrapper; conexiunea API verificată, backend în așteptare | Apel server-side, chei protejate, timeout și erori tratate |
 | P-006 | P0 | TODO | Ingestie documente | Text extras, împărțit în fragmente, indexat cu document și pagină/secțiune |
 | P-007 | P0 | TODO | Căutare RAG | Fragmente relevante returnate pentru setul de evaluare |
 | P-008 | P0 | TODO | Răspuns cu surse | Răspuns legat de fragmente și comportament verificat când lipsesc dovezi |
