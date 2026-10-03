@@ -41,3 +41,7 @@ Proiectele și istoricul sunt exclusiv în stânga, grupate și accesibile direc
 ## P-021 — Organizație GitHub și colaboratori — IN PROGRESS
 
 Organizația gratuită ProfOS-Edu creată; repository privat transferat și origin actualizat. Invitațiile și accesul colegilor așteaptă identificatorii lor GitHub. Integrarea Claude a colegilor nu este încă verificată.
+
+## P-022 — Mutare lizibilă și ștergere — DONE
+
+Titlurile nu se deplasează la deschiderea opțiunilor. Mutare disponibilă pentru orice conversație; ștergere chat/proiect cu confirmare, verificarea proprietarului și păstrarea documentelor. Ștergerea proiectului păstrează conversațiile fără proiect. 0.7.0.

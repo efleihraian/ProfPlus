@@ -89,3 +89,11 @@ Sites a confirmat publicarea privată 0.6.1. Arhiva și repository-ul au fost ve
 ## 2026-10-03 — P-021: organizație GitHub
 
 Confirmată organizația gratuită ProfOS-Edu în contul utilizatorului. Repository-ul transferat prin API; verificat noul proprietar ProfOS-Edu/ProfOS și vizibilitatea PRIVATE. Origin actualizat fără rescrierea istoricului. Invitațiile așteaptă username-urile colegilor; integrarea Claude nu a fost verificată. Site-ul folosește repository-ul separat Sites și nu necesită republicare pentru acest transfer.
+
+## 2026-10-03 — P-022: mutare lizibilă și ștergere
+
+Înlocuit dropdownul din rând cu dialog și listă de proiecte; butoane de opțiuni cu dimensiune fixă pentru toate conversațiile/proiectele. Adăugate confirmări și DELETE privat pe proprietar. Transcript golit cu marcaj minim; documentele rămân în bibliotecă. Proiect șters atomic cu conversații păstrate fără proiect. Migrare 0002 nouă, verificată local.
+
+TypeScript, lint fișiere modificate și build trecute. Teste locale: autentificare/origine/proprietar, ștergere proiect păstrează mesajele, ștergere chat golește transcriptul, păstrează metadatele documentelor, împiedică reapariția la listări și salvările vechi. Date sintetice șterse. QA vizual în browser neexecutat. 0.7.0.
+
+Sites a confirmat publicarea privată 0.7.0, cu migrarea nouă inclusă. Arhiva și fișierele din repository verificate fără secrete.

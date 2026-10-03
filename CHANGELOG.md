@@ -2,6 +2,13 @@
 
 ## Ne lansat încă
 
+## 0.7.0 — 2026-10-03
+
+- Meniuri „···” pentru fiecare conversație și proiect; mutare prin listă de proiecte în dialog separat, fără înghesuirea titlului.
+- Ștergere conversație cu confirmare: mesaje/citări eliminate, documentele păstrate în bibliotecă.
+- Ștergere proiect cu confirmare: conversațiile rămân în istoric, fără proiect.
+- Protecție împotriva accesului altor conturi, reapariției chatului din documentele vechi și salvărilor concurente după ștergere.
+
 - Repository privat transferat în organizația GitHub ProfOS-Edu; conexiunea locală actualizată.
 
 ## 0.6.1 — 2026-10-03

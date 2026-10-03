@@ -27,7 +27,7 @@ Un utilizator încarcă documente text sau PDF cu text, pune o întrebare și pr
 
 ## Stare
 
-Versiune: **0.6.1**. Documentele profesorului și manualele au prioritate; internetul completează informațiile lipsă. Documente încărcate, indexate și șterse direct în chat. [Contractul API și limitele](docs/CHAT_API.md).
+Versiune: **0.7.0**. Documentele profesorului și manualele au prioritate; internetul completează informațiile lipsă. Documente încărcate, indexate și șterse direct în chat. [Contractul API și limitele](docs/CHAT_API.md).
 
 Organizație GitHub: [ProfOS-Edu](https://github.com/ProfOS-Edu). Repository privat: [ProfOS](https://github.com/ProfOS-Edu/ProfOS).
 
@@ -58,4 +58,4 @@ Deschide „Bibliotecă de surse” pentru a vedea, căuta, filtra, selecta și 
 
 ## Proiecte și conversații
 
-Proiectele și conversațiile sunt în bara din stânga. Creează un proiect cu butonul de lângă „Proiecte”, caută conversații și redeschide-le din listă. Meniul „···” al conversației curente permite mutarea ei într-un proiect. Pe telefon, deschide bara din butonul de meniu. Mesajele, citările și selecția surselor se salvează în contul Sites, pe server, și sunt disponibile pe alte dispozitive autentificate. [Comportament și limite](docs/HISTORY.md).
+Proiectele și conversațiile sunt în bara din stânga. Creează un proiect cu butonul de lângă „Proiecte”, caută conversații și redeschide-le din listă. Meniul „···” al fiecărei conversații permite mutarea sau ștergerea ei. Proiectele pot fi șterse din propriul meniu. Pe telefon, deschide bara din butonul de meniu. Mesajele, citările și selecția surselor se salvează în contul Sites, pe server, și sunt disponibile pe alte dispozitive autentificate. [Comportament și limite](docs/HISTORY.md).

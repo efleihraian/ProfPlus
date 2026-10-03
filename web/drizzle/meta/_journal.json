@@ -15,6 +15,13 @@
       "when": 1791031666177,
       "tag": "0001_abandoned_thanos",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1791036309488,
+      "tag": "0002_mute_red_skull",
+      "breakpoints": true
     }
   ]
 }

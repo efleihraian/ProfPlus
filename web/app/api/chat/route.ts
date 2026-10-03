@@ -23,7 +23,7 @@ export async function POST(request: Request) {
   let savedChat: {messages:string;revision:number} | null = null;
   if (body.revision !== undefined) {
     if (!chat || !user || !Number.isInteger(body.revision)) return json({error:"Conversație invalidă."},400);
-    try { savedChat=await storage().db.prepare('SELECT messages,revision FROM conversations WHERE id=? AND user_id=?').bind(chat,user).first<{messages:string;revision:number}>();
+    try { savedChat=await storage().db.prepare('SELECT messages,revision FROM conversations WHERE id=? AND user_id=? AND deleted=0').bind(chat,user).first<{messages:string;revision:number}>();
       if(!savedChat) return json({error:"Conversație indisponibilă."},404);
       if(savedChat.revision!==body.revision) return json({error:"Conversația a fost modificată în altă fereastră. Redeschide versiunea salvată."},409);
     } catch {return json({error:"Istoricul nu este disponibil momentan."},503);}
@@ -89,7 +89,7 @@ export async function POST(request: Request) {
     if(savedChat && chat && user) {
       const transcript=JSON.parse(savedChat.messages);
       transcript.push({role:'assistant',content:cited.reply,sources:cited.sources,warnings});
-      const saved=await storage().db.prepare('UPDATE conversations SET messages=?,revision=revision+1,updated_at=? WHERE id=? AND user_id=? AND revision=?').bind(JSON.stringify(transcript),Date.now(),chat,user,savedChat.revision).run();
+      const saved=await storage().db.prepare('UPDATE conversations SET messages=?,revision=revision+1,updated_at=? WHERE id=? AND user_id=? AND revision=? AND deleted=0').bind(JSON.stringify(transcript),Date.now(),chat,user,savedChat.revision).run();
       if(saved.meta.changes) revision=savedChat.revision+1;
     }
     return json({ ...cited, revision, grounded: cited.sources.length > 0, mode: hasWeb ? hasDocuments ? "mixed" : "web" : hasDocuments ? "documents" : "general", webUsed, knowledgeUsed: decision.knowledgeUsed, warnings });

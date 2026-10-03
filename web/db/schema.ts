@@ -9,6 +9,6 @@ export const projects = sqliteTable('projects', {
 }, t => [index('projects_user').on(t.userId)]);
 export const conversations = sqliteTable('conversations', {
   id: text('id').primaryKey(), userId: text('user_id').notNull(), title: text('title').notNull(), projectId: text('project_id'),
-  messages: text('messages').notNull(), selection: text('selection').notNull(), revision: integer('revision').notNull(),
+  deleted: integer('deleted').notNull().default(0), messages: text('messages').notNull(), selection: text('selection').notNull(), revision: integer('revision').notNull(),
   createdAt: integer('created_at').notNull(), updatedAt: integer('updated_at').notNull(),
 }, t => [index('conversations_user_updated').on(t.userId,t.updatedAt)]);

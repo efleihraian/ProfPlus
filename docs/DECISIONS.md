@@ -69,3 +69,7 @@ Utilizatorul cere navigarea surselor încărcate și posibile, nu doar a documen
 ## DEC-009 — Repository într-o organizație
 
 2026-10-03. Acceptată. Transferăm repository-ul privat în organizația gratuită ProfOS-Edu pentru colaborare. Numele ProfOS era ocupat; utilizatorul a aprobat ProfOS-Edu și termenii. Nu schimbăm vizibilitatea. Invitațiile se trimit după identificarea colegilor.
+
+## DEC-010 — Ștergere cu limite explicite
+
+2026-10-03. Acceptată. Dialog separat pentru mutare și confirmare înainte de ștergere. Ștergerea proiectului păstrează conversațiile; ștergerea chatului elimină transcriptul, dar păstrează documentele disponibile în bibliotecă. Un marcaj minim împiedică reapariția chatului din documentele vechi; reviziile și verificarea deleted împiedică salvările concurente.
