@@ -2,6 +2,13 @@
 
 ## Ne lansat încă
 
+## 0.6.1 — 2026-10-03
+
+- Proiecte și istoric direct în bara laterală, cu căutare, grupuri expandabile și creare proiect inline.
+- Mutarea conversației în meniul „···”; eliminate istoricul din antet și selectorul de proiect din composer.
+- Meniu lateral pe mobil, fundal de închidere și suport Escape.
+- Simplificate antetul, ecranul de pornire și caseta de mesaj.
+
 ## 0.6.0 — 2026-10-03
 
 - Proiecte și istoric persistent în contul Sites.

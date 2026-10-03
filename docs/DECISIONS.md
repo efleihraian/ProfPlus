@@ -61,3 +61,7 @@ Utilizatorul cere navigarea surselor încărcate și posibile, nu doar a documen
 ## DEC-007 — Istoricul se păstrează în cont
 
 2026-10-03. Acceptată. D1 stochează proiecte și transcripturi pe identitatea Sites; browserul reține doar chatul curent. Reviziile împiedică suprascrierile concurente. Proiectele organizează conversații și documentele acestora; nu copiază indexurile. Documentele vechi sunt adoptate fără inventarea mesajelor lipsă.
+
+## DEC-008 — Navigarea se concentrează în stânga
+
+2026-10-03. Acceptată. Conform cererii utilizatorului, proiectele și istoricul devin liste direct în bara laterală. Eliminăm dialogul de istoric și accesările duplicate. Pe mobil aceeași navigare apare într-un panou lateral; mesajele și sursele păstrează comportamentul existent.

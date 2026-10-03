@@ -1,6 +1,6 @@
-# Proiecte și istoric — 0.6.0
+# Proiecte și istoric — 0.6.1
 
-„Proiecte și istoric” este accesibil în bara laterală și în antet, inclusiv pe mobil. Creează proiecte, filtrează conversațiile după proiect, caută după titlu și redeschide un chat. Titlul implicit provine din primul mesaj. Selectorul „Proiect” organizează conversația curentă; proiectele sunt grupuri de conversații, nu indexuri RAG independente. Documentele rămân atașate conversației; biblioteca permite selectarea documentelor proprii din alte conversații.
+Proiectele și istoricul sunt exclusiv în bara din stânga. Butonul de lângă „Proiecte” deschide formularul pentru un proiect nou. Proiectele se extind pentru a arăta conversațiile; fiecare are „Conversație în proiect”. „Conversație nouă” din partea de sus creează un chat fără proiect. Căutarea filtrează titlurile, inclusiv fără diacritice. Meniul „···” al conversației curente permite mutarea între proiecte. Pe telefon, bara se deschide din meniu și se închide cu fundalul, butonul X sau Escape. Zona centrală este dedicată chatului. Proiectele grupează conversațiile și documentele acestora, fără indexuri RAG separate. Biblioteca permite selectarea documentelor proprii din alte conversații.
 
 D1 păstrează proiectele și conversațiile pe identitatea furnizată de Sites. LocalStorage păstrează numai identificatorul ultimului chat. Transcriptul include mesajele, sursele și avertismentele. Selecția explicită a surselor este salvata pe server. Conversațiile nu sunt partajate cu alte conturi; site-ul rămâne privat.
 

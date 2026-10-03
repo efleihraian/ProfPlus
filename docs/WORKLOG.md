@@ -77,3 +77,11 @@ Proiecte, istoric cu titluri/filtre, conversații distincte, redeschidere cu tra
 Verificat: TypeScript, lint fișiere modificate, build producție; creare/listare/proiect/chat, salvare/redeschidere mesaje/citări/selecție, mutare, 401/403/404/409 și izolare între conturi. OpenAI real: răspuns salvat de server și recuperat din istoric; revizie veche și alt cont respinse înainte de apel AI. Date sintetice șterse. Lint general: două erori preexistente privind efectele în biblioteca de surse. QA vizual în browser indisponibil. Versiune 0.6.0.
 
 Sites a confirmat publicarea privată 0.6.0, cu configurarea existentă și migrarea D1 inclusă. Arhiva și fișierele repository-ului au trecut verificarea fără secrete/metadate macOS.
+
+## 2026-10-03 — P-020: navigare simplificată
+
+Proiecte și conversații direct în stânga, grupuri expandabile, căutare fără diacritice și creare proiect inline. Mutarea conversației în meniul contextual; eliminate accesările repetate din antet și composer, dialogul vechi și elementele decorative din ecranul inițial. Bara devine panou lateral pe mobil, cu închidere prin buton/fundal/Escape și zona centrală inactivă cât timp este deschisă. Mesaje, documente, selecții și API păstrate.
+
+Verificări: TypeScript, lint pentru fișierele modificate și build de producție trecute; diff fără erori. QA vizual/interactiv în browser indisponibil în această sesiune. Versiune 0.6.1.
+
+Sites a confirmat publicarea privată 0.6.1. Arhiva și repository-ul au fost verificate fără secrete.
