@@ -27,7 +27,7 @@ Un utilizator încarcă documente text sau PDF cu text, pune o întrebare și pr
 
 ## Stare
 
-Versiune: **0.5.0**. Documentele profesorului și manualele au prioritate; internetul completează informațiile lipsă. Documente încărcate, indexate și șterse direct în chat. [Contractul API și limitele](docs/CHAT_API.md).
+Versiune: **0.6.0**. Documentele profesorului și manualele au prioritate; internetul completează informațiile lipsă. Documente încărcate, indexate și șterse direct în chat. [Contractul API și limitele](docs/CHAT_API.md).
 
 Site privat: [ProfOS](https://profos-chat.cosminsoames.chatgpt.site).
 
@@ -48,8 +48,12 @@ Colecția activă include cele 9 manuale de matematică de clasa a V-a din catal
 
 ## Documentele profesorului și completarea web
 
-Butonul „Adaugă document” acceptă PDF, DOC, DOCX, PPTX, TXT, MD și HTML (maximum 10 MB/fișier, 10 documente pe conversație, 50 pe cont). Documentele sunt păstrate pe server până la ștergere, izolate după utilizator și conversație. „Conversație nouă” golește mesajele și păstrează documentele active. [Flux, acces și limite](docs/HYBRID_CHAT.md).
+Butonul „Adaugă document” acceptă PDF, DOC, DOCX, PPTX, TXT, MD și HTML (maximum 10 MB/fișier, 10 documente pe conversație, 50 pe cont). Documentele sunt păstrate pe server până la ștergere, izolate după utilizator și conversație. „Conversație nouă” creează un chat separat; mesajele și documentele rămân accesibile în istoricul vechi. [Flux, acces și limite](docs/HYBRID_CHAT.md).
 
 ## Biblioteca de surse
 
 Deschide „Bibliotecă de surse” pentru a vedea, căuta, filtra, selecta și deschide manualele și documentele disponibile pentru AI. Include catalogul comun și sursele web citate; starea diferențiază materialele indexate de cele doar inventariate. [Detalii](docs/LIBRARY.md).
+
+## Proiecte și conversații
+
+Deschide „Proiecte și istoric” pentru a crea proiecte, căuta conversații după titlu și a le redeschide. Selectorul „Proiect” mută conversația curentă într-un proiect. Mesajele, citările și selecția surselor se salvează în contul Sites, pe server, și sunt disponibile pe alte dispozitive autentificate. [Comportament și limite](docs/HISTORY.md).

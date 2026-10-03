@@ -1,10 +1,12 @@
 # Starea proiectului
 
 Ultima actualizare: 2026-10-03
-Versiune: 0.5.0
-Etapă: bibliotecă de surse navigabilă și selecție pentru AI
+Versiune: 0.6.0
+Etapă: proiecte și istoric persistent al conversațiilor
 
 ## Finalizat
+
+- Proiecte, istoric în cont, căutare după titlu, redeschidere și mutarea conversațiilor. Mesaje, citări și selecții salvate în D1.
 
 - Repository privat și evidența lucrărilor/versiunilor.
 - Pilot: 9 manuale de matematică de clasa V, 2.020 pagini PDF, 1.995 pagini cu text extras.
@@ -20,13 +22,15 @@ Etapă: bibliotecă de surse navigabilă și selecție pentru AI
 
 ## Verificare
 
+Istoric: CRUD și mutare, recuperare transcript/citări/selecție, izolare conturi, conflict de revizie; răspuns OpenAI real salvat pe server și recuperat la redeschidere. TypeScript, lint fișiere modificate și build trecute; publicare 0.6.0 confirmată. Vezi docs/HISTORY.md.
+
 TypeScript și build trecute. Teste reale: TXT/PDF/DOCX, răspuns din document, răspuns din manual, răspuns web și mixt, validări, izolare între identități locale, ștergerea completă a documentelor de test. Vezi docs/HYBRID_EVALUATION.md. QA în browser nu a fost disponibil. Biblioteca: catalog complet, selecție doar Intuitext, respingere neindexat, document din altă conversație cu citare, izolare între utilizatori și ștergere test — vezi docs/LIBRARY.md.
 
 ## Urmează și limite
 
 - Evaluare pedagogică și calitatea căutării, inclusiv cazul istoric despre triunghiuri.
 - Verificarea anonimizării interogărilor web, formulelor și scanărilor; DOC/PPTX/HTML nu au încă probe reale.
-- Biblioteca între dispozitive, istoric persistent, consum controlat și aplicații mobile.
+- Consum controlat și aplicații mobile.
 - Importul general al manualelor este oprit; colecția activă rămâne matematica de clasa V.
 
-Documentele sunt păstrate până la ștergere; „Conversație nouă” golește mesajele și păstrează documentele. Fișierele și metadatele sunt stocate pe server, identificatorul conversației în browser. Site-ul rămâne privat: https://profos-chat.cosminsoames.chatgpt.site.
+Documentele sunt păstrate până la ștergere; „Conversație nouă” creează un chat separat; mesajele și documentele vechi rămân accesibile în istoric. Fișierele și metadatele sunt stocate pe server, identificatorul conversației în browser. Site-ul rămâne privat: https://profos-chat.cosminsoames.chatgpt.site.

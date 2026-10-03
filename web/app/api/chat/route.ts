@@ -1,7 +1,7 @@
 import { env } from "cloudflare:workers";
 import { retrieve, collectionIds } from "../../../lib/rag";
 import { assessmentFormat, citedSources, outputText, response, teacherEvidence, webEvidence } from "../../../lib/hybrid-rag";
-import { userId, validChatId } from "../../../lib/document-store";
+import { storage, userId, validChatId } from "../../../lib/document-store";
 import { manualStates } from "../../../lib/library";
 import { ownedDocument } from "../../../lib/document-store";
 type Message = { role: "user" | "assistant"; content: string };
@@ -10,7 +10,7 @@ export async function POST(request: Request) {
   const origin = request.headers.get("origin");
   if (origin && origin !== new URL(request.url).origin) return json({ error: "Origine nepermisă." }, 403);
   if (!request.headers.get("content-type")?.includes("application/json")) return json({ error: "Trimite un mesaj valid." }, 415);
-  let body: { messages?: unknown; chatId?: unknown; selection?: { manualIds?: unknown; documentIds?: unknown } };
+  let body: { messages?: unknown; chatId?: unknown; revision?: unknown; selection?: { manualIds?: unknown; documentIds?: unknown } };
   try { const text = await request.text(); if (text.length > 65000) return json({ error: "Conversația este prea lungă. Începe una nouă." }, 413); body = JSON.parse(text); }
   catch { return json({ error: "Mesaj invalid." }, 400); }
   const messages = body?.messages;
@@ -20,6 +20,14 @@ export async function POST(request: Request) {
   const chat = body.chatId;
   const user = userId(request);
   if (chat !== undefined && (!validChatId(chat) || !user)) return json({ error: !user ? "Autentificare necesară pentru documentele conversației." : "Conversație invalidă." }, !user ? 401 : 400);
+  let savedChat: {messages:string;revision:number} | null = null;
+  if (body.revision !== undefined) {
+    if (!chat || !user || !Number.isInteger(body.revision)) return json({error:"Conversație invalidă."},400);
+    try { savedChat=await storage().db.prepare('SELECT messages,revision FROM conversations WHERE id=? AND user_id=?').bind(chat,user).first<{messages:string;revision:number}>();
+      if(!savedChat) return json({error:"Conversație indisponibilă."},404);
+      if(savedChat.revision!==body.revision) return json({error:"Conversația a fost modificată în altă fereastră. Redeschide versiunea salvată."},409);
+    } catch {return json({error:"Istoricul nu este disponibil momentan."},503);}
+  }
   const selection = body.selection;
   if (selection !== undefined && (!selection || typeof selection !== "object" || !Array.isArray(selection.manualIds) || !Array.isArray(selection.documentIds) || selection.manualIds.length > 50 || selection.documentIds.length > 10 || [...selection.manualIds, ...selection.documentIds].some(id => typeof id !== "string" || id.length > 80))) return json({ error: "Selecție invalidă: cel mult 50 manuale și 10 documente." }, 400);
   const manualIds = selection ? [...new Set(selection.manualIds as string[])] : collectionIds;
@@ -77,7 +85,14 @@ export async function POST(request: Request) {
     }
     const cited = citedSources(reply, evidence.map(e => e.source));
     const hasDocuments = cited.sources.some(s => s.kind !== "web"), hasWeb = cited.sources.some(s => s.kind === "web");
-    return json({ ...cited, grounded: cited.sources.length > 0, mode: hasWeb ? hasDocuments ? "mixed" : "web" : hasDocuments ? "documents" : "general", webUsed, knowledgeUsed: decision.knowledgeUsed, warnings });
+    let revision: number | undefined;
+    if(savedChat && chat && user) {
+      const transcript=JSON.parse(savedChat.messages);
+      transcript.push({role:'assistant',content:cited.reply,sources:cited.sources,warnings});
+      const saved=await storage().db.prepare('UPDATE conversations SET messages=?,revision=revision+1,updated_at=? WHERE id=? AND user_id=? AND revision=?').bind(JSON.stringify(transcript),Date.now(),chat,user,savedChat.revision).run();
+      if(saved.meta.changes) revision=savedChat.revision+1;
+    }
+    return json({ ...cited, revision, grounded: cited.sources.length > 0, mode: hasWeb ? hasDocuments ? "mixed" : "web" : hasDocuments ? "documents" : "general", webUsed, knowledgeUsed: decision.knowledgeUsed, warnings });
   } catch (error) {
     const code = error instanceof Error ? error.message : "";
     return json({ error: code === "PROVIDER_429" ? "Serviciul AI a atins o limită. Încearcă mai târziu." : abort.signal.aborted ? "Răspunsul a durat prea mult sau a fost oprit. Reîncearcă." : "Conexiunea AI este temporar indisponibilă. Reîncearcă." }, code === "PROVIDER_429" ? 429 : 503);

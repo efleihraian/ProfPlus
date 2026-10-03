@@ -2,6 +2,14 @@
 
 ## Ne lansat încă
 
+## 0.6.0 — 2026-10-03
+
+- Proiecte și istoric persistent în contul Sites.
+- Conversații noi distincte, căutare după titlu, filtrare după proiect și redeschidere cu mesaje, citări și documente.
+- Mutarea conversațiilor între proiecte; selecția surselor se salvează pe server.
+- Salvare înainte de apelul AI și salvarea răspunsului pe server înainte de trimitere; protecție la suprascriere între ferestre.
+- Recuperarea grupurilor de documente anterioare; mesajele vechi nesalvate nu pot fi reconstruite.
+
 ## 0.5.0 — 2026-10-03
 
 - Bibliotecă de surse: catalogul comun, materialele indexate, documentele profesorului din toate conversațiile și sursele web citate.

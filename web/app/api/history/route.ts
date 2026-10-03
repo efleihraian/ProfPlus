@@ -1,0 +1,38 @@
+import { json, sameOrigin, storage, userId, validChatId } from '../../../lib/document-store';
+export async function GET(request: Request) {
+  const user = userId(request); if (!user) return json({error:'Autentificare necesară.'},401);
+  try {
+    const db = storage().db, id = new URL(request.url).searchParams.get('id');
+    if (id) { const chat = await db.prepare('SELECT * FROM conversations WHERE id=? AND user_id=?').bind(id,user).first(); if (!chat) return json({error:'Conversație indisponibilă.'},404); return json({chat:{...chat,messages:JSON.parse(String(chat.messages)),selection:JSON.parse(String(chat.selection))}}); }
+    // Adopt previous document-only conversations without inventing missing messages.
+    await db.prepare("INSERT OR IGNORE INTO conversations (id,user_id,title,messages,selection,revision,created_at,updated_at) SELECT chat_id,user_id,'Documente anterioare','[]','null',0,MIN(created_at),MAX(created_at) FROM documents WHERE user_id=? GROUP BY chat_id,user_id").bind(user).run();
+    const [projects,chats] = await Promise.all([db.prepare('SELECT id,name FROM projects WHERE user_id=? ORDER BY created_at DESC').bind(user).all(),db.prepare('SELECT id,title,project_id,revision,updated_at FROM conversations WHERE user_id=? ORDER BY updated_at DESC').bind(user).all()]);
+    return json({projects:projects.results,chats:chats.results});
+  } catch { return json({error:'Istoricul nu este disponibil momentan.'},503); }
+}
+export async function POST(request: Request) {
+  if (!sameOrigin(request)) return json({error:'Origine nepermisă.'},403);
+  const user = userId(request); if (!user) return json({error:'Autentificare necesară.'},401);
+  try { const raw=await request.text(); if(raw.length>2000)return json({error:'Cerere prea mare.'},413); const b=JSON.parse(raw) as {kind?:string;name?:string;projectId?:string|null}; const db=storage().db;
+    if (b.kind==='project') { if(typeof b.name!=='string'||!b.name.trim()||b.name.length>100) return json({error:'Numele proiectului trebuie să aibă 1–100 caractere.'},400); const id=crypto.randomUUID(); await db.prepare('INSERT INTO projects(id,user_id,name,created_at) VALUES(?,?,?,?)').bind(id,user,b.name.trim(),Date.now()).run(); return json({id},201); }
+    if(b.projectId && !await db.prepare('SELECT id FROM projects WHERE id=? AND user_id=?').bind(b.projectId,user).first()) return json({error:'Proiect indisponibil.'},404);
+    const id=crypto.randomUUID(), now=Date.now(); await db.prepare("INSERT INTO conversations(id,user_id,title,project_id,messages,selection,revision,created_at,updated_at) VALUES(?,?,'Conversație nouă',?,'[]','null',0,?,?)").bind(id,user,b.projectId||null,now,now).run(); return json({id},201);
+  } catch { return json({error:'Nu am putut crea elementul.'},503); }
+}
+export async function PUT(request: Request) {
+  if (!sameOrigin(request)) return json({error:'Origine nepermisă.'},403);
+  const user=userId(request); if(!user) return json({error:'Autentificare necesară.'},401);
+  try { const raw=await request.text(); if(raw.length>1000000) return json({error:'Conversația este prea mare.'},413);
+    const b=JSON.parse(raw); if(!validChatId(b.id)||!Number.isInteger(b.revision)||!Array.isArray(b.messages)||b.messages.length>1000||b.messages.some((m: {role?:string;content?:string;sources?:unknown[];warnings?:unknown[]})=>!m||!['user','assistant'].includes(m.role||'')||typeof m.content!=='string'||m.content.length>20000|| (m.sources!==undefined&&!Array.isArray(m.sources)) || (m.warnings!==undefined&&!Array.isArray(m.warnings)))) return json({error:'Conversație invalidă.'},400);
+    for (const message of b.messages) {
+      if (message.warnings?.some((w:unknown)=>typeof w!=='string') || message.sources?.some((source:{url?:unknown;id?:unknown;title?:unknown})=>!source||typeof source.url!=='string'||! /^(https?:\/\/|\/api\/documents\/)/.test(source.url)||typeof source.title!=='string'||typeof source.id!=='number')) return json({error:'Surse invalide.'},400);
+    }
+    if(b.selection!==null&&(!b.selection||!Array.isArray(b.selection.manualIds)||!Array.isArray(b.selection.documentIds)||b.selection.manualIds.length>50||b.selection.documentIds.length>10||[...b.selection.manualIds,...b.selection.documentIds].some((id:unknown)=>typeof id!=='string'||id.length>80))) return json({error:'Selecție invalidă.'},400);
+    const db=storage().db;
+    if(b.projectId && !await db.prepare('SELECT id FROM projects WHERE id=? AND user_id=?').bind(b.projectId,user).first()) return json({error:'Proiect indisponibil.'},404);
+    const title=typeof b.title==='string'&&b.title.trim()?b.title.trim().slice(0,100):String(b.messages.find((m:{role:string})=>m.role==='user')?.content||'Conversație nouă').slice(0,80);
+    const result=await db.prepare('UPDATE conversations SET title=?,project_id=?,messages=?,selection=?,revision=revision+1,updated_at=? WHERE id=? AND user_id=? AND revision=?').bind(title,b.projectId||null,JSON.stringify(b.messages),JSON.stringify(b.selection),Date.now(),b.id,user,b.revision).run();
+    if(!result.meta.changes) return json({error:'Conversația a fost modificată în altă fereastră. Redeschide-o din istoric.'},409);
+    return json({revision:b.revision+1});
+  } catch { return json({error:'Salvarea a eșuat. Reîncearcă înainte să schimbi conversația.'},503); }
+}

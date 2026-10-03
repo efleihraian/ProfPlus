@@ -57,3 +57,7 @@ Referințe: https://developers.openai.com/api/docs/guides/tools-web-search și h
 Data: 2026-10-03. Stare: acceptată.
 
 Utilizatorul cere navigarea surselor încărcate și posibile, nu doar a documentelor proprii sau a unui contor. Afișăm catalogul comun și starea reală a indexării, documentele profesorului și sursele citate. Numai sursele indexate pot fi selectate pentru căutare; cele inventariate au linkuri la originale. Selecția este aplicată server-side după verificarea stării și accesului. Documentele private ale altor profesori nu devin comune automat. Sursele web citate se deschid și pot fi discutate fără a pretinde indexarea lor permanentă.
+
+## DEC-007 — Istoricul se păstrează în cont
+
+2026-10-03. Acceptată. D1 stochează proiecte și transcripturi pe identitatea Sites; browserul reține doar chatul curent. Reviziile împiedică suprascrierile concurente. Proiectele organizează conversații și documentele acestora; nu copiază indexurile. Documentele vechi sunt adoptate fără inventarea mesajelor lipsă.

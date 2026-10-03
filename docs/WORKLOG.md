@@ -69,3 +69,11 @@ Creată biblioteca pentru catalogul comun (1.349 volume), manuale indexate, docu
 Verificate: catalog complet/stări reale, selecție manual Intuitext cu surse numai din acel manual, 409 pentru neindexat, document din altă conversație a profesorului cu citare, 409 pentru selectarea documentului altui utilizator, biblioteca exclude datele altui utilizator. Datele de test șterse. Corectată omiterea citării prin revizuire condiționată. TypeScript și build trecute; browser QA indisponibil.
 
 Publicarea privată a bibliotecii 0.5.0 a fost confirmată de Sites. Arhiva a fost verificată fără secrete.
+
+## 2026-10-03 — P-019: proiecte și istoric
+
+Proiecte, istoric cu titluri/filtre, conversații distincte, redeschidere cu transcript/citări/selecție și mutare între proiecte. Salvare D1 pe identitatea Sites; revizii contra suprascrierilor, reîncercare și revenire explicită la versiunea salvată. Adoptarea documentelor vechi fără inventarea mesajelor. Ultimele 20 mesaje devin context AI.
+
+Verificat: TypeScript, lint fișiere modificate, build producție; creare/listare/proiect/chat, salvare/redeschidere mesaje/citări/selecție, mutare, 401/403/404/409 și izolare între conturi. OpenAI real: răspuns salvat de server și recuperat din istoric; revizie veche și alt cont respinse înainte de apel AI. Date sintetice șterse. Lint general: două erori preexistente privind efectele în biblioteca de surse. QA vizual în browser indisponibil. Versiune 0.6.0.
+
+Sites a confirmat publicarea privată 0.6.0, cu configurarea existentă și migrarea D1 inclusă. Arhiva și fișierele repository-ului au trecut verificarea fără secrete/metadate macOS.

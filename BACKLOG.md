@@ -29,3 +29,7 @@ Stări: TODO, IN PROGRESS, BLOCKED, DONE. ID-urile rămân stabile.
 | ID | Data | Rezultat |
 |---|---|---|
 | D-001 | 2026-10-01 | Documentația inițială și regulile de lucru |
+
+## P-019 — Proiecte și istoric — DONE
+
+Criteriu: creare proiecte/conversații, istoric persistent privat pe utilizator, filtrare/căutare după titlu, redeschidere și continuare, păstrarea citărilor/documentelor și mutare între proiecte. Implementat în 0.6.0.

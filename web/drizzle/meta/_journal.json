@@ -8,6 +8,13 @@
       "when": 1791023917994,
       "tag": "0000_yellow_abomination",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1791031666177,
+      "tag": "0001_abandoned_thanos",
+      "breakpoints": true
     }
   ]
 }

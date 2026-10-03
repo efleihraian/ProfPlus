@@ -37,3 +37,5 @@ Aplicațiile viitoare pot folosi același contract JSON. Înainte de integrarea 
 `OPENAI_VECTOR_STORE_ID` configurează indexul serverului. `/api/library/status` returnează numărul manualelor din colecția activă indexate și totalul 9. Fără dovezi în documente, modelul poate căuta web; fără surse citate, răspunsul are `grounded:false` și `sources:[]`. Vezi RAG.md pentru limite.
 
 Documentele proprii, câmpurile suplimentare ale răspunsului și accesul pe utilizator sunt descrise în HYBRID_CHAT.md. Sursele includ `kind` (`manual`, `document`, `web`); pagina este opțională și disponibilă numai pentru manualele extrase pe pagini.
+
+În 0.6.0, chatul trimite și revision după salvarea mesajului utilizatorului în /api/history. Serverul verifică proprietarul și revizia, salvează răspunsul cu surse înainte de trimitere și returnează noua revision. Apelurile fără revision păstrează compatibilitatea API anterioară, fără salvare automată a răspunsului. Vezi HISTORY.md.
