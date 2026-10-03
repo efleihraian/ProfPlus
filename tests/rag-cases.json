@@ -1,0 +1,52 @@
+[
+  {
+    "id": "div3",
+    "question": "Explică criteriul de divizibilitate cu 3 și dă un exemplu din manual.",
+    "expectedGrounded": true
+  },
+  {
+    "id": "div5",
+    "question": "Când este un număr divizibil cu 5?",
+    "expectedGrounded": true
+  },
+  {
+    "id": "prime",
+    "question": "Ce este un număr prim?",
+    "expectedGrounded": true
+  },
+  {
+    "id": "fractions",
+    "question": "Cum adun fracții cu același numitor?",
+    "expectedGrounded": true
+  },
+  {
+    "id": "decimal",
+    "question": "Cum se compară două fracții zecimale?",
+    "expectedGrounded": true
+  },
+  {
+    "id": "rectangle",
+    "question": "Care este formula ariei dreptunghiului?",
+    "expectedGrounded": true
+  },
+  {
+    "id": "triangle",
+    "question": "Ce tipuri de triunghiuri există după lungimile laturilor?",
+    "expectedGrounded": true
+  },
+  {
+    "id": "order",
+    "question": "Care este ordinea efectuării operațiilor?",
+    "expectedGrounded": true
+  },
+  {
+    "id": "outside",
+    "question": "Cine a câștigat alegerile prezidențiale din SUA din 2024?",
+    "expectedGrounded": false
+  },
+  {
+    "id": "missing",
+    "question": "Care este parola contului meu ProfOS?",
+    "expectedGrounded": false
+  }
+]

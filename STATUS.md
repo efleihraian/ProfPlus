@@ -1,36 +1,32 @@
 # Starea proiectului
 
 Ultima actualizare: 2026-10-03
-Versiune: 0.2.0
-Etapă: primul site cu chat AI
+Versiune: 0.3.0
+Etapă: pilot RAG — matematică, clasa a V-a
 
 ## Finalizat
 
-- [x] Scop inițial și limite documentate.
-- [x] Evidență pentru progres, versiuni, decizii și sarcini.
-- [x] Flux conceptual AI wrapper + RAG.
-- [x] Repository privat creat pe GitHub: https://github.com/marcossoames/ProfOS.
-- [x] Interfață de chat în română, adaptată pentru desktop și telefon.
-- [x] API server-side pentru conversații OpenAI, cu validări și tratarea erorilor.
-- [x] Site publicat privat: https://profos-chat.cosminsoames.chatgpt.site.
+- Repository privat GitHub cu documentație, versiuni și evidența lucrărilor.
+- Site privat de chat AI, API server-side și cheia protejată.
+- Catalog general: 1.341 înregistrări / 1.349 volume PDF.
+- Toate cele 9 manuale de matematică de clasa a V-a indexate: 7 română, 1 maghiară, 1 germană.
+- 2.020 pagini PDF; 1.995 pagini cu text extras, cu metadate de document și pagină.
+- Import reluabil, descărcare cu reîncercări, extracție/OCR și index OpenAI.
+- Căutare limitată la cele 9 manuale, răspunsuri cu citări și linkuri la pagina PDF.
+- RAG publicat privat: https://profos-chat.cosminsoames.chatgpt.site.
 
 ## În lucru
 
-- Confirmarea publicului țintă și a unui singur caz de utilizare.
-- Feedback asupra primei versiuni a interfeței.
-- P-006: catalogul manuale.edu.ro inventariat — 1341 înregistrări și 1349 volume/linkuri PDF. Documentele nu sunt încă descărcate sau indexate.
+- Calitatea recuperării pasajelor: 9/10 cazuri ale primei evaluări au trecut; clasificarea triunghiurilor produce un refuz.
+- Verificarea sistematică a formulelor, figurilor și exercițiilor.
+- Importul celorlalte clase este oprit; volumele deja importate din alte clase sunt excluse din căutarea activă.
 
 ## Urmează
 
-1. Feedback asupra primei interfețe de chat.
-2. Ulterior: definirea documentelor și setului de evaluare pentru RAG.
-3. Ulterior: autentificare și limite de consum înainte de acces public sau aplicații mobile.
+1. Testarea pilotului de către utilizator și întrebări reale de matematică.
+2. Îmbunătățirea recuperării pentru cazul despre triunghiuri și evaluarea pedagogică a răspunsurilor.
+3. Extinderea colecției după validare; autentificare și limite înainte de acces public/mobile.
 
-## Blocaje și limite
+## Verificare și limite
 
-- Nu există documente de referință în directorul sincronizat `sources/`.
-- Publicul țintă și bugetul nu sunt stabilite. OpenAI este furnizorul pentru primul test; modelul final rămâne de ales.
-
-## Verificare
-
-Pagina răspunde HTTP 200; verificarea TypeScript și build-ul de producție trec. API-ul a răspuns la un mesaj real și a păstrat contextul unei conversații de test. Cererile goale, rolurile nepermise, mesajele prea lungi și cererile din altă origine sunt respinse. Verificarea vizuală și WebMCP în browser nu au fost disponibile: browserul a refuzat accesul din cauza verificării politicii de securitate. RAG-ul nu este implementat.
+TypeScript și build-ul de producție trec. 10 cereri reale, cu surse controlate și două întrebări fără suport: 9/10 au trecut criteriile fluxului. Pagina PDF 76 din Paralela 45 a fost verificată vizual pentru criteriul cu 3. Publicarea confirmată de Sites. Interfața nu a fost verificată vizual în browser, accesul fiind indisponibil. Extracția textului nu garantează formulele sau diagramele; citările nu garantează automat fiecare afirmație. Vezi docs/RAG_EVALUATION.md.

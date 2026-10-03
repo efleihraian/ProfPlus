@@ -2,9 +2,12 @@
 
 ## Ne lansat încă
 
-Adăugăm aici schimbările după fiecare sarcină. La versiune, mutăm intrările într-o secțiune datată.
+## 0.3.0 — 2026-10-03
 
-- Catalog inițial manuale.edu.ro: metadate și linkuri pentru 1349 volume, fără descărcarea sau indexarea textului manualelor.
+- Catalog general manuale.edu.ro și colecție activă de matematică pentru clasa a V-a: 9/9 volume indexate.
+- Import reluabil cu stări SQLite, extracție pe pagini, OCR, metadate și reîncercări.
+- Chat RAG cu căutare filtrată, citări și linkuri la paginile PDF; numărul manualelor afișat în interfață.
+- Pilot privat publicat; 9/10 verificări ale fluxului au trecut. Recuperarea pentru triunghiuri și verificarea formulelor rămân deschise.
 
 ## 0.2.0 — 2026-10-01
 

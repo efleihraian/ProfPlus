@@ -1,10 +1,10 @@
-# Chat web — 0.2.0
+# Chat web — 0.3.0
 
 ## Comportament
 
 Interfață în română pentru desktop și mobil, cu mesaje, indicator de așteptare, oprire locală, reîncercare și conversație nouă. Enter trimite pe desktop; Shift+Enter adaugă o linie. Pe mobil, trimiterea se face prin buton.
 
-Conversația este păstrată numai în memoria paginii; reîncărcarea o șterge. Nu există încă istoric persistent, încărcare documente sau RAG. Mesajele sunt trimise către OpenAI pentru generarea răspunsurilor, cu store:false. Acest parametru nu este o promisiune de zero retenție pentru întreg serviciul furnizorului.
+Conversația este păstrată numai în memoria paginii; reîncărcarea o șterge. Există RAG pentru cele 9 manuale de matematică de clasa V. Nu există încă istoric persistent sau încărcare documente din interfață. Mesajele sunt trimise către OpenAI pentru generarea răspunsurilor, cu store:false. Acest parametru nu este o promisiune de zero retenție pentru întreg serviciul furnizorului.
 
 ## API separat de interfață
 
@@ -17,7 +17,7 @@ POST /api/chat, Content-Type: application/json
 Succes (200):
 
 ```json
-{"reply":"Salut! Cu ce te pot ajuta?"}
+{"reply":"Răspuns cu citări [1].", "grounded":true, "sources":[{"id":1,"title":"Matematică","schoolClass":"Clasa a V-a","subject":"Matematica","publisher":"Editura","page":76,"url":"https://manuale.edu.ro/...pdf#page=76"}]}
 ```
 
 Eroare: corp cu `error`, status 400/413/415 pentru intrare invalidă, 403 pentru origine nepermisă, 429 pentru limita furnizorului, 502/503/504 pentru serviciu indisponibil/configurare/timeout.
@@ -33,3 +33,5 @@ Site-ul este destinat accesului privat al proprietarului. Înainte de acces publ
 ## iOS și Android
 
 Aplicațiile viitoare pot folosi același contract JSON. Înainte de integrarea lor vom defini autentificarea mobilă, autorizarea și limitele de consum. Nu există încă aplicații mobile sau autentificare cu token pentru acestea.
+
+`OPENAI_VECTOR_STORE_ID` configurează indexul serverului. `/api/library/status` returnează numărul manualelor din colecția activă indexate și totalul 9. Fără dovezi, răspunsul are `grounded:false` și `sources:[]`. Vezi RAG.md pentru limite.

@@ -1,0 +1,86 @@
+{
+  "date": "2026-10-03",
+  "manuals": [
+    {
+      "uid": "1188-1",
+      "status": "indexed",
+      "pages": 196,
+      "readable_pages": 192,
+      "sha256": "7c471e129d8b9cb5d0082b8f73a9d24387b681ff2d3bf01f8d275e59b329de95",
+      "publisher": "BOOKLET",
+      "subject": "Matematica"
+    },
+    {
+      "uid": "1189-1",
+      "status": "indexed",
+      "pages": 220,
+      "readable_pages": 219,
+      "sha256": "bf41f9ecf09df0ccbe7709ebd120121075d84fe3952b54264bb3ccdeb30baf85",
+      "publisher": "PARALELA 45",
+      "subject": "Matematica"
+    },
+    {
+      "uid": "1190-1",
+      "status": "indexed",
+      "pages": 236,
+      "readable_pages": 235,
+      "sha256": "a29ae4bf1131837cdd56f576dfcf2b5ed7c4658693780a13b12f948f75ec72b9",
+      "publisher": "INTUITEXT",
+      "subject": "Matematica"
+    },
+    {
+      "uid": "1191-1",
+      "status": "indexed",
+      "pages": 196,
+      "readable_pages": 196,
+      "sha256": "bdfdcec7dc0807640f96b28fd61e8f384c55cdb5dc18d2963fda9f3e12d268e6",
+      "publisher": "CORINT LOGISTIC",
+      "subject": "Matematica"
+    },
+    {
+      "uid": "1192-1",
+      "status": "indexed",
+      "pages": 196,
+      "readable_pages": 194,
+      "sha256": "b20bece98d53f276a5f4992459270cf4fd0d5cbfe97c4e3df071bd916265b8ea",
+      "publisher": "CD PRESS",
+      "subject": "Matematica"
+    },
+    {
+      "uid": "1193-1",
+      "status": "indexed",
+      "pages": 244,
+      "readable_pages": 244,
+      "sha256": "2967e3c6daba2e24ae90bf1fc4145baddd587187658d0139fa26e63a067fbb88",
+      "publisher": "GRUP EDITORIAL LITERA",
+      "subject": "Matematica"
+    },
+    {
+      "uid": "1194-1",
+      "status": "indexed",
+      "pages": 244,
+      "readable_pages": 236,
+      "sha256": "4d043b0999ffadefc6772fb53c16c61bf6d8f602a0f23d5fbc58187787746bef",
+      "publisher": "ART KLETT",
+      "subject": "Matematica"
+    },
+    {
+      "uid": "1291-1",
+      "status": "indexed",
+      "pages": 244,
+      "readable_pages": 243,
+      "sha256": "27cce69a3d50e28638ad3c61a23cd76668bcc231e9b246d2802aabf6ba29e8ec",
+      "publisher": "GRUP EDITORIAL LITERA",
+      "subject": "Matematica in limba maghiara"
+    },
+    {
+      "uid": "1290-1",
+      "status": "indexed",
+      "pages": 244,
+      "readable_pages": 236,
+      "sha256": "38a42b5f03ed6e3e71cb7ddc6848c1b81a7bcac8bd2d366f22f3c84b031631bd",
+      "publisher": "ART KLETT",
+      "subject": "Matematica in limba germana"
+    }
+  ]
+}

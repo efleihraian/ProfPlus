@@ -10,7 +10,7 @@ Publicul țintă și cazul concret de utilizare trebuie confirmate. Numele proie
 
 ## Prima versiune funcțională
 
-Un utilizator încarcă documente text sau PDF cu text, pune o întrebare și primește un răspuns cu trimiteri la document și pagină/secțiune. Dacă documentele nu oferă informația necesară, aplicația explică acest lucru. Documentele scanate și OCR sunt amânate.
+Un utilizator încarcă documente text sau PDF cu text, pune o întrebare și primește un răspuns cu trimiteri la document și pagină/secțiune. Dacă documentele nu oferă informația necesară, aplicația explică acest lucru. Extracția de text și OCR pentru paginile scanate sunt disponibile; formulele și figurile necesită verificare separată.
 
 ## Documentație
 
@@ -27,7 +27,7 @@ Un utilizator încarcă documente text sau PDF cu text, pune o întrebare și pr
 
 ## Stare
 
-Versiune: **0.2.0**. Site-ul de chat și API-ul sunt implementate; RAG-ul este amânat pentru etapa următoare. [Contractul API și limitele](docs/CHAT_API.md).
+Versiune: **0.3.0**. Chat cu RAG pentru manualele de matematică de clasa a V-a; răspunsuri cu surse și pagini PDF. [Contractul API și limitele](docs/CHAT_API.md).
 
 Site privat: [ProfOS](https://profos-chat.cosminsoames.chatgpt.site).
 
@@ -41,3 +41,7 @@ npm run dev -- --host 127.0.0.1 --port 3000
 ```
 
 Configurarea locală folosește web/.dev.vars cu OPENAI_API_KEY și OPENAI_MODEL. Fișierul este exclus din GitHub. Deschide URL-ul afișat de server. Conversațiile se șterg la reîncărcarea paginii.
+
+## Biblioteca RAG
+
+Colecția activă include cele 9 manuale de matematică de clasa a V-a din catalogul ministerului: 7 în română, unul în maghiară și unul în germană. [Inventar și verificări](docs/RAG.md). Textele și starea importului sunt excluse din GitHub; sunt indexate în colecția OpenAI, cu cheia folosită exclusiv pe server.

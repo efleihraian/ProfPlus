@@ -33,3 +33,11 @@ Utilizatorul a cerut amânarea documentelor și începerea site-ului, cu o caset
 - Decizie și motiv:
 - Consecințe și compromisuri:
 - Înlocuiește / este înlocuită de:
+
+## DEC-004 — Pilot RAG: toate manualele de matematică, clasa a V-a
+
+Data: 2026-10-03. Stare: acceptată.
+
+Utilizatorul a ales toate manualele de matematică pentru clasa a V-a. Păstrăm catalogul general, oprim importul general și selectăm cele 9 volume corespunzătoare, inclusiv traducerile. Folosim temporar OpenAI Vector Stores pentru index și SQLite local pentru import reluabil. Căutarea serverului este filtrată explicit după ID-urile colecției. Acest flux nu antrenează modelul. Păstrăm paginile PDF ca metadate repetate în text; formulele și figurile rămân o limită a extracției.
+
+Referință API pentru filtrare: https://developers.openai.com/api/reference/python/resources/vector_stores/methods/search.
