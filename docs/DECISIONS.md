@@ -51,3 +51,9 @@ Utilizatorul a cerut folosirea preponderentă a documentelor și căutare intern
 Interogarea web este generată separat și nu primește direct documentele ori istoricul; anonimizarea este cerută prin prompt și necesită evaluare suplimentară. Preferăm surse primare, fără listă exclusivă. Nu pretindem pagini pentru documentele indexate nativ.
 
 Referințe: https://developers.openai.com/api/docs/guides/tools-web-search și https://developers.openai.com/api/docs/guides/tools-file-search.
+
+## DEC-006 — Biblioteca include sursele comune și selecția reală
+
+Data: 2026-10-03. Stare: acceptată.
+
+Utilizatorul cere navigarea surselor încărcate și posibile, nu doar a documentelor proprii sau a unui contor. Afișăm catalogul comun și starea reală a indexării, documentele profesorului și sursele citate. Numai sursele indexate pot fi selectate pentru căutare; cele inventariate au linkuri la originale. Selecția este aplicată server-side după verificarea stării și accesului. Documentele private ale altor profesori nu devin comune automat. Sursele web citate se deschid și pot fi discutate fără a pretinde indexarea lor permanentă.

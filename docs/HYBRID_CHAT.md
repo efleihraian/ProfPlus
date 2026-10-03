@@ -12,7 +12,7 @@ Nu impunem un procent mecanic de informație din documente. Prioritatea surselor
 
 ## Documentele profesorului
 
-„Adaugă document” acceptă PDF, DOC, DOCX, PPTX, TXT, MD și HTML. Limită: 10 MB/fișier, 10 documente/conversație, 50/cont. Formatele declarate și semnăturile de bază PDF/Word sunt verificate. Documentele nu sunt executate și sunt descărcate ca atașamente.
+„Adaugă document” acceptă PDF, DOC, DOCX, PPTX, TXT, MD și HTML. Limită: 10 MB/fișier, 10 documente/conversație, 50/cont. Formatele declarate și semnăturile de bază PDF/Word sunt verificate. Documentele nu sunt executate; PDF-urile pot fi vizualizate în browser, alte formate sunt descărcate.
 
 Originalele sunt în R2; metadatele în D1; fiecare document are un index OpenAI separat. Identitatea este furnizată serverului de autentificarea Sites, nu de corpul cererii. Listarea, căutarea, descărcarea și ștergerea verifică utilizatorul și conversația. Fișierele nu sunt introduse în indexul comun al manualelor ori în GitHub.
 
@@ -39,3 +39,5 @@ Manuscrisele/scanările, formulele, diagramele și tabelele pot fi extrase incom
 Modelul și serviciile de căutare/indexare sunt OpenAI; fișierele sunt trimise furnizorului pentru indexare, iar întrebările pentru răspuns. Datele originale ale documentelor sunt păstrate și în stocarea privată a site-ului. Responses utilizează `store:false`; acest parametru nu promite retenție zero pentru toate serviciile.
 
 Site-ul rămâne privat. Accesul pentru mai mulți profesori, consumul controlat, evaluarea pedagogică și tratarea erorilor distribuite rămân de dezvoltat. Fișierele DOC, PPTX și HTML sunt acceptate pe baza formatelor documentate de furnizor; în această versiune s-au verificat practic TXT, PDF și DOCX.
+
+Actualizare 0.5.0: biblioteca poate selecta documente din alte conversații ale aceluiași profesor; căutarea verifică identitatea și selecția. Vezi LIBRARY.md.

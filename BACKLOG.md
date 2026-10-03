@@ -19,10 +19,10 @@ Stări: TODO, IN PROGRESS, BLOCKED, DONE. ID-urile rămân stabile.
 | P-013 | P2 | TODO | Aplicații iOS și Android | Cerințe și autentificare mobilă definite, apoi aplicațiile implementate |
 | P-014 | P0 | TODO | Recuperarea pasajelor despre triunghiuri | Cazul nereușit din docs/RAG_EVALUATION.md trece cu surse corecte |
 | P-015 | P1 | TODO | Formule, figuri și calitate pedagogică | Eșantion verificat față de PDF; impreciziile răspunsurilor documentate și corectate |
-
 | P-016 | P0 | DONE | Chat cu documente prioritare și completare web; încărcări proprii | Încărcare, indexare, izolare, ștergere și trei categorii de surse verificate |
-
 | P-017 | P0 | TODO | Evaluarea completării web și anonimizării | Întrebări reale, surse primare, conflicte și interogări fără detalii private verificate |
+
+| P-018 | P0 | DONE | Bibliotecă de surse pentru profesor | Catalog comun, documente, surse citate; căutare, filtre, selecție reală pentru RAG și deschidere originale |
 
 ## Finalizat
 

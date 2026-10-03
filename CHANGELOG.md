@@ -2,6 +2,14 @@
 
 ## Ne lansat încă
 
+## 0.5.0 — 2026-10-03
+
+- Bibliotecă de surse: catalogul comun, materialele indexate, documentele profesorului din toate conversațiile și sursele web citate.
+- Căutare după metadate, filtre, selecție/golire și linkuri la originale.
+- Căutarea RAG aplică selecția verificată pe server; materialele neindexate și documentele altor utilizatori sunt respinse.
+- Vizualizare PDF pentru documentele profesorului; revizuire a răspunsurilor documentare care omit citarea.
+- Verificări documentate în docs/LIBRARY.md.
+
 ## 0.4.0 — 2026-10-03
 
 - Documentele profesorului și manualele au prioritate; căutarea web completează informațiile lipsă.

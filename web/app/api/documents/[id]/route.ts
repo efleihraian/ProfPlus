@@ -6,7 +6,7 @@ export async function GET(request: Request, context: Context) {
     const row = await ownedDocument(user, (await context.params).id);
     if (!row || row.status === "deleting") return json({ error: "Document indisponibil." }, 404);
     const object = await storage().bucket.get(row.id); if (!object) return json({ error: "Document indisponibil." }, 404);
-    return new Response(object.body, { headers: { "Content-Type": "application/octet-stream", "Content-Disposition": `attachment; filename*=UTF-8''${encodeURIComponent(row.name)}`, "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff" } });
+    return new Response(object.body, { headers: { "Content-Type": row.mime === "application/pdf" ? "application/pdf" : "application/octet-stream", "Content-Disposition": `${row.mime === "application/pdf" ? "inline" : "attachment"}; filename*=UTF-8''${encodeURIComponent(row.name)}`, "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff" } });
   } catch { return json({ error: "Document temporar indisponibil." }, 503); }
 }
 export async function DELETE(request: Request, context: Context) {

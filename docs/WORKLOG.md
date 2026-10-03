@@ -61,3 +61,11 @@ Implementat fluxul hibrid: căutare în documentele profesorului și manuale, ev
 Verificat local cu build de producție și OpenAI real: TXT/PDF/DOCX indexate, răspuns din fișa sintetică, manuale fără web, web/NASA, răspuns mixt, parolă necunoscută fără web, 401 fără identitate, 404 pentru alt utilizator, 415/413/403 validări, ștergere completă. Datele de test șterse. TypeScript și build trecute. Documentate limitele anonimizării, extracției, formatelor neverificate și lipsa QA în browser. Versiune 0.4.0.
 
 Publicarea privată 0.4.0 a fost confirmată de Sites, cu configurarea existentă a cheii și resursele D1/R2. Arhiva include migrarea inspectată și exclude secretele și metadatele macOS.
+
+## 2026-10-03 — P-018: biblioteca tuturor surselor disponibile
+
+Creată biblioteca pentru catalogul comun (1.349 volume), manuale indexate, documente încărcate în conversațiile profesorului și surse web citate. Căutare fără diacritice, filtre, selecție pentru următoarea căutare RAG și linkuri la originale. Serverul validează indexarea manualelor și proprietarul/starea documentelor. Default-ul pilotului rămâne când nu există selecție explicită. Preferințele sunt doar ID-uri în browser.
+
+Verificate: catalog complet/stări reale, selecție manual Intuitext cu surse numai din acel manual, 409 pentru neindexat, document din altă conversație a profesorului cu citare, 409 pentru selectarea documentului altui utilizator, biblioteca exclude datele altui utilizator. Datele de test șterse. Corectată omiterea citării prin revizuire condiționată. TypeScript și build trecute; browser QA indisponibil.
+
+Publicarea privată a bibliotecii 0.5.0 a fost confirmată de Sites. Arhiva a fost verificată fără secrete.

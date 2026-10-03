@@ -1,8 +1,8 @@
 # Starea proiectului
 
 Ultima actualizare: 2026-10-03
-Versiune: 0.4.0
-Etapă: documente ale profesorului, manuale prioritare și completare web
+Versiune: 0.5.0
+Etapă: bibliotecă de surse navigabilă și selecție pentru AI
 
 ## Finalizat
 
@@ -15,9 +15,12 @@ Etapă: documente ale profesorului, manuale prioritare și completare web
 - Limită 10 MB/fișier, 10 documente/conversație și 50/cont.
 - Versiune publicată privat, confirmată de Sites.
 
+- Bibliotecă pentru catalogul comun, manualele indexate, documentele profesorului din toate conversațiile și sursele web citate.
+- Căutare, filtre, selecție pentru RAG și linkuri la originale. Serverul verifică starea și accesul.
+
 ## Verificare
 
-TypeScript și build trecute. Teste reale: TXT/PDF/DOCX, răspuns din document, răspuns din manual, răspuns web și mixt, validări, izolare între identități locale, ștergerea completă a documentelor de test. Vezi docs/HYBRID_EVALUATION.md. QA în browser nu a fost disponibil.
+TypeScript și build trecute. Teste reale: TXT/PDF/DOCX, răspuns din document, răspuns din manual, răspuns web și mixt, validări, izolare între identități locale, ștergerea completă a documentelor de test. Vezi docs/HYBRID_EVALUATION.md. QA în browser nu a fost disponibil. Biblioteca: catalog complet, selecție doar Intuitext, respingere neindexat, document din altă conversație cu citare, izolare între utilizatori și ștergere test — vezi docs/LIBRARY.md.
 
 ## Urmează și limite
 

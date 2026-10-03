@@ -1,13 +1,14 @@
 import type { Evidence, Source } from "./rag";
-import { openai, refreshDocument, rowsForChat, type DocumentRow } from "./document-store";
-export async function teacherEvidence(user: string, chat: string, query: string, key: string, signal: AbortSignal): Promise<Evidence[]> {
-  const rows = await Promise.all((await rowsForChat(user, chat)).map(refreshDocument));
+import { openai, refreshDocument, rowsForChat, type DocumentRow, ownedDocument } from "./document-store";
+export async function teacherEvidence(user: string, chat: string, query: string, key: string, signal: AbortSignal, selected?: string[]): Promise<Evidence[]> {
+  const owned = selected ? (await Promise.all(selected.map(id => ownedDocument(user, id)))).filter((r): r is DocumentRow => !!r) : await rowsForChat(user, chat);
+  const rows = await Promise.all(owned.map(refreshDocument));
   const ready = rows.filter((r): r is DocumentRow & { store_id: string; file_id: string } => r.status === "ready" && !!r.store_id && !!r.file_id);
   const results = await Promise.all(ready.map(async row => {
     const response = await openai(key, `/vector_stores/${row.store_id}/search`, { method: "POST", headers: { "Content-Type": "application/json" }, signal,
       body: JSON.stringify({ query, max_num_results: 3, rewrite_query: true, ranking_options: { score_threshold: 0.25 } }) });
     const data = await response.json() as { data: { file_id: string; score: number; content: { type: string; text?: string }[] }[] };
-    return data.data.filter(hit => hit.file_id === row.file_id).map(hit => ({ score: hit.score, source: { id: 0, kind: "document" as const, title: row.name, url: `/api/documents/${row.id}` }, text: hit.content.filter(c => c.type === "text").map(c => c.text || "").join("\n").slice(0, 4800) }));
+    return data.data.filter(hit => hit.file_id === row.file_id).map(hit => ({ score: hit.score, source: { id: 0, kind: "document" as const, documentId: row.id, title: row.name, url: `/api/documents/${row.id}` }, text: hit.content.filter(c => c.type === "text").map(c => c.text || "").join("\n").slice(0, 4800) }));
   }));
   return results.flat().sort((a,b) => b.score - a.score).slice(0, 5);
 }
