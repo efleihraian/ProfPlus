@@ -31,3 +31,7 @@ Cheia și ID-ul indexului sunt configurate numai pe server. Site-ul rămâne pri
 ## Import finalizat la 2026-10-03
 
 Toate cele 9 manuale sunt indexate. [Stare pe manual](../catalog/matematica-clasa-5-status.json): 2.020 pagini PDF și 1.995 pagini cu text extras. [Evaluare](RAG_EVALUATION.md): 9/10 verificări ale fluxului au trecut; cazul despre triunghiuri rămâne deschis.
+
+## Actualizare 0.4.0
+
+Colecția manualelor este o sursă prioritară, nu exclusivă. [Chatul hibrid](HYBRID_CHAT.md) permite documentele profesorului și completare web. Evaluarea 0.3.0 rămâne o înregistrare istorică a modului exclusiv.

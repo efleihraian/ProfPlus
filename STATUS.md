@@ -1,32 +1,29 @@
 # Starea proiectului
 
 Ultima actualizare: 2026-10-03
-Versiune: 0.3.0
-Etapă: pilot RAG — matematică, clasa a V-a
+Versiune: 0.4.0
+Etapă: documente ale profesorului, manuale prioritare și completare web
 
 ## Finalizat
 
-- Repository privat GitHub cu documentație, versiuni și evidența lucrărilor.
-- Site privat de chat AI, API server-side și cheia protejată.
-- Catalog general: 1.341 înregistrări / 1.349 volume PDF.
-- Toate cele 9 manuale de matematică de clasa a V-a indexate: 7 română, 1 maghiară, 1 germană.
-- 2.020 pagini PDF; 1.995 pagini cu text extras, cu metadate de document și pagină.
-- Import reluabil, descărcare cu reîncercări, extracție/OCR și index OpenAI.
-- Căutare limitată la cele 9 manuale, răspunsuri cu citări și linkuri la pagina PDF.
-- RAG publicat privat: https://profos-chat.cosminsoames.chatgpt.site.
+- Repository privat și evidența lucrărilor/versiunilor.
+- Pilot: 9 manuale de matematică de clasa V, 2.020 pagini PDF, 1.995 pagini cu text extras.
+- Căutare prioritară în documentele profesorului și manuale; completare prin căutare web când informațiile lipsesc.
+- Surse distincte și citări accesibile: documente proprii, manuale, internet.
+- Încărcare, indexare, listare, descărcare și ștergere documente direct în chat.
+- Metadate D1, originale R2 și indexuri OpenAI separate pentru documente; verificarea utilizatorului și conversației pe server.
+- Limită 10 MB/fișier, 10 documente/conversație și 50/cont.
+- Versiune publicată privat, confirmată de Sites.
 
-## În lucru
+## Verificare
 
-- Calitatea recuperării pasajelor: 9/10 cazuri ale primei evaluări au trecut; clasificarea triunghiurilor produce un refuz.
-- Verificarea sistematică a formulelor, figurilor și exercițiilor.
-- Importul celorlalte clase este oprit; volumele deja importate din alte clase sunt excluse din căutarea activă.
+TypeScript și build trecute. Teste reale: TXT/PDF/DOCX, răspuns din document, răspuns din manual, răspuns web și mixt, validări, izolare între identități locale, ștergerea completă a documentelor de test. Vezi docs/HYBRID_EVALUATION.md. QA în browser nu a fost disponibil.
 
-## Urmează
+## Urmează și limite
 
-1. Testarea pilotului de către utilizator și întrebări reale de matematică.
-2. Îmbunătățirea recuperării pentru cazul despre triunghiuri și evaluarea pedagogică a răspunsurilor.
-3. Extinderea colecției după validare; autentificare și limite înainte de acces public/mobile.
+- Evaluare pedagogică și calitatea căutării, inclusiv cazul istoric despre triunghiuri.
+- Verificarea anonimizării interogărilor web, formulelor și scanărilor; DOC/PPTX/HTML nu au încă probe reale.
+- Biblioteca între dispozitive, istoric persistent, consum controlat și aplicații mobile.
+- Importul general al manualelor este oprit; colecția activă rămâne matematica de clasa V.
 
-## Verificare și limite
-
-TypeScript și build-ul de producție trec. 10 cereri reale, cu surse controlate și două întrebări fără suport: 9/10 au trecut criteriile fluxului. Pagina PDF 76 din Paralela 45 a fost verificată vizual pentru criteriul cu 3. Publicarea confirmată de Sites. Interfața nu a fost verificată vizual în browser, accesul fiind indisponibil. Extracția textului nu garantează formulele sau diagramele; citările nu garantează automat fiecare afirmație. Vezi docs/RAG_EVALUATION.md.
+Documentele sunt păstrate până la ștergere; „Conversație nouă” golește mesajele și păstrează documentele. Fișierele și metadatele sunt stocate pe server, identificatorul conversației în browser. Site-ul rămâne privat: https://profos-chat.cosminsoames.chatgpt.site.

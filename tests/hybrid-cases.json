@@ -1,0 +1,13 @@
+{
+  "fixtures": "TXT/PDF/DOCX sintetice; fișa cu activitate de 18 minute",
+  "checks": [
+    "manuale: divizibilitate cu 3 fără web",
+    "web: exoplanete/NASA când lipsesc informații în manuale",
+    "doc: durata activității din fișa profesorului fără web",
+    "mixed: durata din fișă și exoplanete/NASA",
+    "parolă necunoscută: fără web și fără surse fabricate",
+    "alt utilizator: descărcare și ștergere 404",
+    "ștergere: listă goală, original inaccesibil",
+    "validare: fișier executabil, PDF fals, gol, origine străină"
+  ]
+}

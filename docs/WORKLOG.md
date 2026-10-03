@@ -53,3 +53,11 @@ Data, sarcini/ID-uri, rezultat concret, verificări și rezultate, blocaje, urm�
 Importul general a fost oprit și selecția schimbată la toate cele 9 manuale din catalog pentru clasa a V-a, matematică. Toate indexate, 2.020 pagini PDF, 1.995 pagini cu text extras. Au fost reluate descărcările cu erori temporare. Căutarea și contorul serverului exclud volumele din alte clase. Chatul afișează citări și surse pe pagini PDF; fragmentele aceleiași pagini sunt combinate pentru a nu pierde informații recuperate.
 
 Verificări: TypeScript, build, 10 cereri reale (9 trecute, triunghiuri nereușit), două refuzuri fără suport, pagina PDF 76 Paralela 45 verificată vizual. Documentate imprecizia formulării despre multiplii lui 5, limitările formulelor și lipsa QA a interfeței în browser. Sites a confirmat publicarea privată cu setul de configurare 2. Versiune 0.3.0.
+
+## 2026-10-03 — P-016: documente prioritare, completare internet, încărcări
+
+Implementat fluxul hibrid: căutare în documentele profesorului și manuale, evaluarea suficienței, căutare web separată când este nevoie, răspuns cu surse distincte. Adăugat buton de încărcare, stări și ștergere; originale R2, metadate D1, indexuri OpenAI separate, verificarea identității Sites și a conversației. Conversația nouă golește mesajele și păstrează documentele.
+
+Verificat local cu build de producție și OpenAI real: TXT/PDF/DOCX indexate, răspuns din fișa sintetică, manuale fără web, web/NASA, răspuns mixt, parolă necunoscută fără web, 401 fără identitate, 404 pentru alt utilizator, 415/413/403 validări, ștergere completă. Datele de test șterse. TypeScript și build trecute. Documentate limitele anonimizării, extracției, formatelor neverificate și lipsa QA în browser. Versiune 0.4.0.
+
+Publicarea privată 0.4.0 a fost confirmată de Sites, cu configurarea existentă a cheii și resursele D1/R2. Arhiva include migrarea inspectată și exclude secretele și metadatele macOS.

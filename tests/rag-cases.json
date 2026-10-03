@@ -41,8 +41,8 @@
   },
   {
     "id": "outside",
-    "question": "Cine a câștigat alegerile prezidențiale din SUA din 2024?",
-    "expectedGrounded": false
+    "question": "Ce este o exoplanetă și care este misiunea telescopului James Webb? Folosește surse oficiale NASA.",
+    "expectedGrounded": true
   },
   {
     "id": "missing",

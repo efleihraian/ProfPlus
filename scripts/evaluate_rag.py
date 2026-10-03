@@ -19,7 +19,7 @@ def main():
             response = requests.post('http://127.0.0.1:3000/api/chat', json={'messages': [{'role': 'user', 'content': case['question']}]}, timeout=65)
             data = response.json()
             sources = data.get('sources', [])
-            valid = all(s.get('url', '').split('#')[0] in urls and isinstance(s.get('page'), int) and 1 <= s['page'] <= pages[urls[s['url'].split('#')[0]]] for s in sources)
+            valid = all((s.get('kind') == 'web' and s.get('url', '').startswith(('https://', 'http://'))) or (s.get('url', '').split('#')[0] in urls and isinstance(s.get('page'), int) and 1 <= s['page'] <= pages[urls[s['url'].split('#')[0]]]) for s in sources)
             citations = bool(sources) if case['expectedGrounded'] else not sources
             passed = response.status_code == 200 and data.get('grounded') == case['expectedGrounded'] and valid and citations
             return {**case, 'http': response.status_code, **data, 'passed': passed}

@@ -6,11 +6,11 @@ ProfOS este un proiect în faza de definire pentru o aplicație AI care răspund
 
 Construim un AI wrapper: o aplicație proprie care gestionează conversația și apelurile către un model AI. Componenta RAG caută informații relevante în documente și le oferă modelului pentru răspunsuri cu surse verificabile.
 
-Publicul țintă și cazul concret de utilizare trebuie confirmate. Numele proiectului nu presupune automat o anumită profesie sau industrie.
+Pilot educațional pentru profesori și elevi; pornim de la matematica de clasa a V-a și documentele proprii ale profesorului.
 
 ## Prima versiune funcțională
 
-Un utilizator încarcă documente text sau PDF cu text, pune o întrebare și primește un răspuns cu trimiteri la document și pagină/secțiune. Dacă documentele nu oferă informația necesară, aplicația explică acest lucru. Extracția de text și OCR pentru paginile scanate sunt disponibile; formulele și figurile necesită verificare separată.
+Un utilizator încarcă documente text sau PDF cu text, pune o întrebare și primește un răspuns cu trimiteri la document și pagină/secțiune. Dacă documentele nu oferă informația necesară, aplicația poate căuta surse web și le afișează separat. Extracția de text și OCR pentru paginile scanate sunt disponibile; formulele și figurile necesită verificare separată.
 
 ## Documentație
 
@@ -27,7 +27,7 @@ Un utilizator încarcă documente text sau PDF cu text, pune o întrebare și pr
 
 ## Stare
 
-Versiune: **0.3.0**. Chat cu RAG pentru manualele de matematică de clasa a V-a; răspunsuri cu surse și pagini PDF. [Contractul API și limitele](docs/CHAT_API.md).
+Versiune: **0.4.0**. Documentele profesorului și manualele au prioritate; internetul completează informațiile lipsă. Documente încărcate, indexate și șterse direct în chat. [Contractul API și limitele](docs/CHAT_API.md).
 
 Site privat: [ProfOS](https://profos-chat.cosminsoames.chatgpt.site).
 
@@ -45,3 +45,7 @@ Configurarea locală folosește web/.dev.vars cu OPENAI_API_KEY și OPENAI_MODEL
 ## Biblioteca RAG
 
 Colecția activă include cele 9 manuale de matematică de clasa a V-a din catalogul ministerului: 7 în română, unul în maghiară și unul în germană. [Inventar și verificări](docs/RAG.md). Textele și starea importului sunt excluse din GitHub; sunt indexate în colecția OpenAI, cu cheia folosită exclusiv pe server.
+
+## Documentele profesorului și completarea web
+
+Butonul „Adaugă document” acceptă PDF, DOC, DOCX, PPTX, TXT, MD și HTML (maximum 10 MB/fișier, 10 documente pe conversație, 50 pe cont). Documentele sunt păstrate pe server până la ștergere, izolate după utilizator și conversație. „Conversație nouă” golește mesajele și păstrează documentele active. [Flux, acces și limite](docs/HYBRID_CHAT.md).

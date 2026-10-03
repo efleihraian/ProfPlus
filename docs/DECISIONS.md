@@ -41,3 +41,13 @@ Data: 2026-10-03. Stare: acceptată.
 Utilizatorul a ales toate manualele de matematică pentru clasa a V-a. Păstrăm catalogul general, oprim importul general și selectăm cele 9 volume corespunzătoare, inclusiv traducerile. Folosim temporar OpenAI Vector Stores pentru index și SQLite local pentru import reluabil. Căutarea serverului este filtrată explicit după ID-urile colecției. Acest flux nu antrenează modelul. Păstrăm paginile PDF ca metadate repetate în text; formulele și figurile rămân o limită a extracției.
 
 Referință API pentru filtrare: https://developers.openai.com/api/reference/python/resources/vector_stores/methods/search.
+
+## DEC-005 — Documente prioritare, completare web și documente proprii
+
+Data: 2026-10-03. Stare: acceptată, înlocuiește restricția exclusivă a DEC-004.
+
+Utilizatorul a cerut folosirea preponderentă a documentelor și căutare internet când informația lipsește, plus încărcări proprii ale profesorului în chat. Păstrăm căutarea prioritară în documente, evaluăm suficiența pasajelor, apoi căutăm web separat prin Responses. Generarea finală are surse distincte. D1 păstrează metadate cu identitatea Sites și conversația, R2 păstrează originale, fiecare document are index OpenAI propriu. Documentele rămân până la ștergere și sunt disponibile în conversația curentă după reîncărcare.
+
+Interogarea web este generată separat și nu primește direct documentele ori istoricul; anonimizarea este cerută prin prompt și necesită evaluare suplimentară. Preferăm surse primare, fără listă exclusivă. Nu pretindem pagini pentru documentele indexate nativ.
+
+Referințe: https://developers.openai.com/api/docs/guides/tools-web-search și https://developers.openai.com/api/docs/guides/tools-file-search.

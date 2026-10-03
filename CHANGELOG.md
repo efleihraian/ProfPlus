@@ -2,6 +2,14 @@
 
 ## Ne lansat încă
 
+## 0.4.0 — 2026-10-03
+
+- Documentele profesorului și manualele au prioritate; căutarea web completează informațiile lipsă.
+- Încărcare documente în chat, stări de procesare, păstrare pe server și ștergere completă.
+- Originale R2, metadate D1, indexuri OpenAI separate și acces verificat pe utilizator/conversație.
+- Citări accesibile și surse distincte pentru documente, manuale și internet.
+- Fluxuri reale verificate pentru TXT/PDF/DOCX, răspunsuri document/web/mixt, validări, izolare și ștergere. Limitele sunt în docs/HYBRID_EVALUATION.md.
+
 ## 0.3.0 — 2026-10-03
 
 - Catalog general manuale.edu.ro și colecție activă de matematică pentru clasa a V-a: 9/9 volume indexate.
