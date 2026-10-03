@@ -2,6 +2,8 @@
 
 ## Ne lansat încă
 
+- Repository privat transferat în organizația GitHub ProfOS-Edu; conexiunea locală actualizată.
+
 ## 0.6.1 — 2026-10-03
 
 - Proiecte și istoric direct în bara laterală, cu căutare, grupuri expandabile și creare proiect inline.

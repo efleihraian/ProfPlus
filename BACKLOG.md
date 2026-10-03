@@ -37,3 +37,7 @@ Criteriu: creare proiecte/conversații, istoric persistent privat pe utilizator,
 ## P-020 — Layout simplificat — DONE
 
 Proiectele și istoricul sunt exclusiv în stânga, grupate și accesibile direct. Eliminate scurtăturile duplicate din antet/composer; pe mobil, meniu lateral. Chat și casetă de mesaj aerisite. Versiune 0.6.1.
+
+## P-021 — Organizație GitHub și colaboratori — IN PROGRESS
+
+Organizația gratuită ProfOS-Edu creată; repository privat transferat și origin actualizat. Invitațiile și accesul colegilor așteaptă identificatorii lor GitHub. Integrarea Claude a colegilor nu este încă verificată.

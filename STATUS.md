@@ -10,7 +10,8 @@ Etapă: navigare simplificată, proiecte și istoric în bara laterală
 
 - Proiecte, istoric în cont, căutare după titlu, redeschidere și mutarea conversațiilor. Mesaje, citări și selecții salvate în D1.
 
-- Repository privat și evidența lucrărilor/versiunilor.
+- Repository privat în organizația GitHub ProfOS-Edu și evidența lucrărilor/versiunilor.
+- Invitațiile colegilor așteaptă username-urile GitHub.
 - Pilot: 9 manuale de matematică de clasa V, 2.020 pagini PDF, 1.995 pagini cu text extras.
 - Căutare prioritară în documentele profesorului și manuale; completare prin căutare web când informațiile lipsesc.
 - Surse distincte și citări accesibile: documente proprii, manuale, internet.

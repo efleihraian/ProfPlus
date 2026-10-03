@@ -85,3 +85,7 @@ Proiecte și conversații direct în stânga, grupuri expandabile, căutare făr
 Verificări: TypeScript, lint pentru fișierele modificate și build de producție trecute; diff fără erori. QA vizual/interactiv în browser indisponibil în această sesiune. Versiune 0.6.1.
 
 Sites a confirmat publicarea privată 0.6.1. Arhiva și repository-ul au fost verificate fără secrete.
+
+## 2026-10-03 — P-021: organizație GitHub
+
+Confirmată organizația gratuită ProfOS-Edu în contul utilizatorului. Repository-ul transferat prin API; verificat noul proprietar ProfOS-Edu/ProfOS și vizibilitatea PRIVATE. Origin actualizat fără rescrierea istoricului. Invitațiile așteaptă username-urile colegilor; integrarea Claude nu a fost verificată. Site-ul folosește repository-ul separat Sites și nu necesită republicare pentru acest transfer.

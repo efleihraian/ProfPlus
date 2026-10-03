@@ -65,3 +65,7 @@ Utilizatorul cere navigarea surselor încărcate și posibile, nu doar a documen
 ## DEC-008 — Navigarea se concentrează în stânga
 
 2026-10-03. Acceptată. Conform cererii utilizatorului, proiectele și istoricul devin liste direct în bara laterală. Eliminăm dialogul de istoric și accesările duplicate. Pe mobil aceeași navigare apare într-un panou lateral; mesajele și sursele păstrează comportamentul existent.
+
+## DEC-009 — Repository într-o organizație
+
+2026-10-03. Acceptată. Transferăm repository-ul privat în organizația gratuită ProfOS-Edu pentru colaborare. Numele ProfOS era ocupat; utilizatorul a aprobat ProfOS-Edu și termenii. Nu schimbăm vizibilitatea. Invitațiile se trimit după identificarea colegilor.
