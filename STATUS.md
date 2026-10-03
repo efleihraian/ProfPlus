@@ -1,6 +1,6 @@
 # Starea proiectului
 
-Ultima actualizare: 2026-10-01
+Ultima actualizare: 2026-10-03
 Versiune: 0.2.0
 Etapă: primul site cu chat AI
 
@@ -18,6 +18,7 @@ Etapă: primul site cu chat AI
 
 - Confirmarea publicului țintă și a unui singur caz de utilizare.
 - Feedback asupra primei versiuni a interfeței.
+- P-006: catalogul manuale.edu.ro inventariat — 1341 înregistrări și 1349 volume/linkuri PDF. Documentele nu sunt încă descărcate sau indexate.
 
 ## Urmează
 

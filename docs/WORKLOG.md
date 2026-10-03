@@ -37,4 +37,13 @@
 
 ## Format pentru intrări noi
 
+## 2026-10-03 — P-006: catalogul manualelor
+
+- Utilizatorul a stabilit manualele ca prima colecție; vor urma exerciții, olimpiade, concursuri și alte documente PDF, DOC și web.
+- Citit catalogul public manuale.edu.ro și regulile publice pentru linkuri. Inventariat 1341 înregistrări, separate în 1349 volume PDF.
+- Verificat un link de probă prin HTTP HEAD: 200, application/pdf. Nu au fost verificate toate linkurile și nu au fost descărcate textele manualelor.
+- Catalogul este în catalog/manuale-edu.csv. Chatul și site-ul nu au fost modificate; RAG-ul rămâne de implementat.
+
+## Format pentru următoarele intrări
+
 Data, sarcini/ID-uri, rezultat concret, verificări și rezultate, blocaje, următorul pas. Nu include secrete sau conținut sensibil din documentele utilizatorilor.

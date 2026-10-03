@@ -9,7 +9,7 @@ Stări: TODO, IN PROGRESS, BLOCKED, DONE. ID-urile rămân stabile.
 | P-003 | P0 | TODO | Alegerea tehnologiilor | Decizie cu costuri, găzduire, model, embeddings și stocare |
 | P-004 | P0 | DONE | Schelet aplicație | Interfață și backend pornesc local; configurare documentată |
 | P-005 | P0 | DONE | AI wrapper pentru primul chat privat | Apel server-side, chei protejate, timeout și erori tratate |
-| P-006 | P0 | TODO | Ingestie documente | Text extras, împărțit în fragmente, indexat cu document și pagină/secțiune |
+| P-006 | P0 | IN PROGRESS | Ingestie documente; catalogul manuale.edu.ro inventariat | Text extras, împărțit în fragmente, indexat cu document și pagină/secțiune |
 | P-007 | P0 | TODO | Căutare RAG | Fragmente relevante returnate pentru setul de evaluare |
 | P-008 | P0 | TODO | Răspuns cu surse | Răspuns legat de fragmente și comportament verificat când lipsesc dovezi |
 | P-009 | P0 | TODO | Protecția datelor | Acces limitat la documentele utilizatorului; ștergere document și index verificată |

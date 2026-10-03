@@ -4,6 +4,8 @@
 
 Adăugăm aici schimbările după fiecare sarcină. La versiune, mutăm intrările într-o secțiune datată.
 
+- Catalog inițial manuale.edu.ro: metadate și linkuri pentru 1349 volume, fără descărcarea sau indexarea textului manualelor.
+
 ## 0.2.0 — 2026-10-01
 
 ### Adăugat
