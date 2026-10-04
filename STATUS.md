@@ -1,10 +1,12 @@
 # Starea proiectului
 
 Ultima actualizare: 2026-10-04
-Versiune: 0.8.0
+Versiune: 0.8.1
 Etapă: documente educaționale editabile și exportabile
 
 ## Finalizat
+
+- Editorul documentului centrat în pagină, cu margini egale și lățime limitată pe desktop.
 
 - Documente generate de AI: deschidere automată în dialog, editare directă cu formatare, salvare și redeschidere din conversație, export PDF A4 și Word editabil.
 
@@ -28,6 +30,8 @@ Etapă: documente educaționale editabile și exportabile
 - Căutare, filtre, selecție pentru RAG și linkuri la originale. Serverul verifică starea și accesul.
 
 ## Verificare
+
+0.8.1: build trecut, centrarea editorului verificată vizual în browser local pe desktop; publicare privată confirmată.
 
 0.8.0: TypeScript și build trecute; trei apeluri AI reale verifică document vs explicație, persistență/editare/izolare/validare. Exporturi verificate pentru diacritice, tabele, editări și PDF de 4 pagini, prima pagină inspectată vizual. Interfață locală: generare cu deschidere automată, deschidere, editare, salvare, previzualizare și meniu/export PDF verificate. Publicarea privată 0.8.0 confirmată de Sites.
 

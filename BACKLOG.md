@@ -49,3 +49,7 @@ Titlurile nu se deplasează la deschiderea opțiunilor. Mutare disponibilă pent
 ## P-023 — Editor pentru documente generate — DONE
 
 Documentele efectiv create de AI deschid automat dialogul; editare directă, titlu, formatare, salvare în conversație și redeschidere, export PDF și DOCX. Versiune 0.8.0. Limite și verificări în docs/DOCUMENT_EDITOR.md.
+
+## P-024 — Centrare editor document — DONE
+
+Dialog centrat în viewport, margini egale pe desktop, foaie centrată și spațiere adaptivă; mobil pe tot ecranul. 0.8.1.

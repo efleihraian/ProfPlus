@@ -103,3 +103,7 @@ Sites a confirmat publicarea privată 0.7.0, cu migrarea nouă inclusă. Arhiva 
 Documentul creat de AI are titlu și conținut persistat în mesaj; dialog automat și card de redeschidere. Editor direct cu formatare de bază, previzualizare, salvare cu revizie și protecție pentru modificări nesalvate. Export local PDF/DOCX cu surse, fonturi și licență incluse. Fără migrare SQL sau apel AI suplimentar pentru clasificare.
 
 Verificări și limite documentate în docs/DOCUMENT_EDITOR.md. Trei apeluri AI reale (inclusiv deschidere automată în UI), persistență/editare/izolare/validare trecute; exporturi binare și PDF vizual verificate; interfața locală verificată cu fixture sintetic. TypeScript și build trecute. Versiune 0.8.0; publicarea privată confirmată de Sites. Arhiva și repository-ul au trecut verificarea fără secrete. Serverele temporare oprite și fixture-urile locale șterse.
+
+## 2026-10-04 — P-024: centrare editor
+
+Centrare explicită a dialogului cu inset și margin auto, lățime maximum 1120px și margini de 32px pe desktop; spațiere adaptivă a foii. Mobilul păstrează dialogul pe tot ecranul. Build trecut; verificare vizuală în browser local la 1280×720, dialog centrat cu 80px stânga/dreapta și 32px sus/jos. Arhivă verificată fără secrete, publicare privată 0.8.1 confirmată de Sites. Serverele de test oprite și fixture-ul local șters. Mobilul nu a fost verificat vizual în această ajustare.

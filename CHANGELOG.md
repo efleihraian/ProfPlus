@@ -2,6 +2,11 @@
 
 ## Ne lansat încă
 
+## 0.8.1 — 2026-10-04
+
+- Dialogul documentului centrat explicit orizontal și vertical, lățime mai echilibrată și spațiu egal față de marginile ecranului.
+- Documentul păstrează centrarea în interior; spațiere adaptivă și editor pe tot ecranul pe mobil.
+
 ## 0.8.0 — 2026-10-04
 
 - AI identifică documentele create și deschide automat editorul; card pentru redeschidere din conversație.

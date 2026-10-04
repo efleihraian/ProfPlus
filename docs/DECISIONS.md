@@ -77,3 +77,7 @@ Utilizatorul cere navigarea surselor încărcate și posibile, nu doar a documen
 ## 2026-10-04 — Documente în transcript și export în browser
 
 Indicatorul documentului este inclus în evaluarea structurată AI existentă. Conținutul rămâne Markdown în transcript, pentru portabilitate și redeschidere fără stocare duplicată. Dialogul oferă editare vizuală simplă; DOCX/PDF se generează local în browser. Evităm transmiterea documentelor unui serviciu suplimentar de conversie. Extensii viitoare: formule, imagini, versiuni și editor mai avansat.
+
+## 2026-10-04 — Centrare explicită dialog
+
+Dialogul nativ are inset 0 și margin auto pentru a păstra centrarea chiar când resetul CSS elimină marginile implicite. Desktop cu margini egale; mobil pe tot ecranul pentru spațiu de editare.
