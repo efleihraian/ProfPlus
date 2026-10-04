@@ -5,8 +5,8 @@
 - Creat documentația proiectului și structura pentru urmărirea lucrului.
 - Nu existau materiale în sources/ din care să deducem cerințe suplimentare.
 - Verificat contul GitHub conectat: marcossoames.
-- Repository-ul marcossoames/ProfOS nu a fost găsit prin conector.
-- Crearea prin plugin/browser a fost blocată inițial. După autentificarea GitHub CLI de către utilizator, repository-ul privat marcossoames/ProfOS a fost creat și configurat ca origin.
+- Repository-ul marcossoames/ProfPlus nu a fost găsit prin conector.
+- Crearea prin plugin/browser a fost blocată inițial. După autentificarea GitHub CLI de către utilizator, repository-ul privat marcossoames/ProfPlus a fost creat și configurat ca origin.
 - Următorul pas: definirea MVP-ului și setului de evaluare, P-001 și P-002.
 
 ## 2026-10-01 — P-005: pregătire API
@@ -21,7 +21,7 @@
 
 - Utilizatorul a salvat cheia local; cheia nu a fost afișată sau comisă.
 - Primul test s-a oprit din cauza lipsei certificatelor în instalarea Python. Adăugat fallback la certificatele sistemului macOS, fără dezactivarea verificării TLS.
-- Apel real reușit cu gpt-4.1-mini: „Conexiunea ProfOS funcționează.” Consum: 24 tokeni de intrare, 12 de ieșire, 36 total.
+- Apel real reușit cu gpt-4.1-mini: „Conexiunea ProfPlus funcționează.” Consum: 24 tokeni de intrare, 12 de ieșire, 36 total.
 - Backend-ul, interfața și RAG-ul rămân de implementat.
 
 ## Formatul intrărilor
@@ -88,7 +88,7 @@ Sites a confirmat publicarea privată 0.6.1. Arhiva și repository-ul au fost ve
 
 ## 2026-10-03 — P-021: organizație GitHub
 
-Confirmată organizația gratuită ProfOS-Edu în contul utilizatorului. Repository-ul transferat prin API; verificat noul proprietar ProfOS-Edu/ProfOS și vizibilitatea PRIVATE. Origin actualizat fără rescrierea istoricului. Invitațiile așteaptă username-urile colegilor; integrarea Claude nu a fost verificată. Site-ul folosește repository-ul separat Sites și nu necesită republicare pentru acest transfer.
+Confirmată organizația gratuită ProfOS-Edu în contul utilizatorului. Repository-ul transferat prin API; verificat noul proprietar ProfOS-Edu/ProfPlus și vizibilitatea PRIVATE. Origin actualizat fără rescrierea istoricului. Invitațiile așteaptă username-urile colegilor; integrarea Claude nu a fost verificată. Site-ul folosește repository-ul separat Sites și nu necesită republicare pentru acest transfer.
 
 ## 2026-10-03 — P-022: mutare lizibilă și ștergere
 
@@ -137,3 +137,15 @@ Publicare privată 0.9.0 confirmată de Sites (deployment appgdep_6ac2558e7e1481
 AUTH_EMAIL_ENABLED implicit fals; UI și toate operațiile server de e-mail/parolă, plus callback token hash, blocate când este fals. Codul viitor păstrat pentru domeniu/Resend. Ghid actualizat pentru conturile existente, distincția callbackurilor și setarea globală de signup vs flagul local. TypeScript/build și ambele suite Auth simulate trecute, inclusiv zero apeluri la furnizor pentru operațiile dezactivate și PKCE Google/Apple. Browser local: numai butoane sociale, fără register/forgot în securitate sau formular e-mail la ?view=register. Configurarea externă și testele OAuth reale încă lipsesc. Cerințe date minime/DPIA actualizate; nicio cheie nouă, schimbare de audiență sau trimitere de e-mail.
 
 Publicare privată 0.9.1 confirmată (appgdep_6ac2626bcc488191ba6755abea5d302f; source 08c92f90b1d98b40215dcdaf8823f32fb32be8c9). Arhivă/repository fără secrete. VERSION actualizat și metadatele lockfile pentru source-map-support corectate la versiunea instalată/rezolvată 0.8.1, fără schimbarea dependenței. Serverul local oprit.
+
+## 2026-10-04 — P-036 — Rebranding ProfPlus și inspecție externă
+
+Implementat numele ProfPlus în chat, cont/setări, bibliotecă, metadata, instrucțiunea AI, numele indexurilor noi, pachet și documentație. Repository privat redenumit ProfOS-Edu/ProfPlus, origin actualizat; numele afișat al organizației GitHub și titlul Sites devin ProfPlus. Supabase afișează repository-ul redenumit. Numele App ID Apple uniformizat și salvarea confirmată în lista identificatorilor.
+
+Inspectat proiectul Supabase ProfPlus, regiunea UE, integrarea Git/main, providerii, URL-urile și limitele Auth; Apple App ID/capabilitate, Services IDs, Keys și reînnoirea membership. Google/Apple sunt dezactivate în Supabase; Email activ necesită aliniere cu etapa social-only. Apple nu are capacitatea activată sau Services ID/cheie dedicate ProfPlus. Nu s-au citit/generat chei private, activat provideri, cumpărat abonamente sau migrat date. Raport în docs/AUTH_CONFIGURATION_REVIEW.md; blocajele de activare rămân P-033.
+
+Verificări executate: TypeScript, build local și build din sursa Sites, git diff --check, scanare arhivă și intrări Git pentru fișiere excluse/chei locale. QA browser local: nume/titlu/etichete ProfPlus, cont/securitate, mod întunecat și persistență după reload. Browserul local fără identitate refuză istoricul; nu s-au efectuat apeluri AI sau loginuri OAuth reale. Compatibilitate păstrată pentru cookie și localStorage. Cerințe afectate: transparență, continuitatea accesului/preferințelor și documentația furnizorilor; DPIA actualizată fără schimbarea fluxurilor sau aprobări fictive.
+
+Publicare privată 0.9.2 confirmată de Sites (status succeeded, titlu ProfPlus, sursă cca44a227e1773e665b753e5a71a79d0fc6d762a, deployment appgdep_6ac29ff9ea048191a676b6d89b7cfbdb). URL-ul și accesul existent păstrate.
+
+QA după publicare: titlu, navigare și eticheta asistentului ProfPlus confirmate în browserul live; istoricul existent și documentul generat anterior rămân accesibile. Captură locală păstrată în directorul ignorat de Git.

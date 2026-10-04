@@ -1,6 +1,6 @@
-# Configurare conturi ProfOS — Google și Apple
+# Configurare conturi ProfPlus — Google și Apple
 
-Actualizat: 2026-10-04 · 0.9.1. Decizia utilizatorului: acum Google/Apple; e-mail/parolă și Resend după cumpărarea domeniului. Nu au fost configurate conturile externe prin această schimbare. Butoanele rămân inactive până la configurare.
+Actualizat: 2026-10-04 · 0.9.2. Decizia utilizatorului: acum Google/Apple; e-mail/parolă și Resend după cumpărarea domeniului. Nu au fost configurate conturile externe prin această schimbare. Butoanele rămân inactive până la configurare.
 
 ## 1. Alegerea adresei aplicației
 
@@ -24,22 +24,22 @@ Copiază callbackul afișat de Supabase în configurarea providerului; dacă pro
 
 ## 2. Supabase
 
-1. În dashboard creează proiectul **ProfOS** în organizația ta; alege o regiune UE potrivită și salvează parola bazei într-un manager de parole.
+1. În dashboard creează proiectul **ProfPlus** în organizația ta; alege o regiune UE potrivită și salvează parola bazei într-un manager de parole.
 2. Păstrează URL-ul proiectului și cheia **publishable** din Connect/Settings → API Keys. Aplicația folosește această cheie; nu are nevoie de service role pentru login.
 3. În Authentication → Sign In / Providers: dezactivează **Email**, Phone și Anonymous; pregătește doar Google și Apple.
 4. Pentru crearea contului la prima conectare OAuth, **Allow new users to sign up** trebuie permis în mediul de test controlat. Dezactivarea lui globală blochează și utilizatorii OAuth noi. La lansare respectă condițiile DPIA.
 5. În URL Configuration setează valorile din tabel. La mutarea de pe localhost actualizăm împreună adresele și `APP_ORIGIN`.
-6. Nu configura SMTP/Resend acum. Numele poate fi completat opțional în ProfOS, inclusiv dacă Apple nu îl furnizează.
+6. Nu configura SMTP/Resend acum. Numele poate fi completat opțional în ProfPlus, inclusiv dacă Apple nu îl furnizează.
 
 [Configurarea Supabase Auth](https://supabase.com/docs/guides/auth/general-configuration). Supabase se ocupă de identitate; conversațiile/documentele existente rămân în D1/R2 și indexurile AI, până la o decizie separată de migrare.
 
 ## 3. Google Cloud
 
-1. Selectează/creează proiectul **ProfOS**, apoi Google Auth Platform.
-2. Branding: numele ProfOS; suport și contact dezvoltator `ajutor.profplus@gmail.com`.
+1. Selectează/creează proiectul **ProfPlus**, apoi Google Auth Platform.
+2. Branding: numele ProfPlus; suport și contact dezvoltator `ajutor.profplus@gmail.com`.
 3. Audience: **External**, inițial **Testing**; adaugă conturile echipei în Test users.
 4. Data Access: numai `openid`, `userinfo.email`, `userinfo.profile`.
-5. Clients → Create client → **Web application**; nume **ProfOS Web**. Completează origin și redirect URI din tabel.
+5. Clients → Create client → **Web application**; nume **ProfPlus Web**. Completează origin și redirect URI din tabel.
 6. Salvează Client ID și Client Secret în Supabase → Google și activează providerul. Testează înainte de activarea generală. Brandingul public și politicile trebuie finalizate înainte de lansare.
 
 [Ghid Supabase Google](https://supabase.com/docs/guides/auth/social-login/auth-google), [configurarea OAuth Google](https://developers.google.com/identity/protocols/oauth2/web-server#creatingcred).
@@ -48,8 +48,8 @@ Copiază callbackul afișat de Supabase în configurarea providerului; dacă pro
 
 Verifică înscrierea activă în **Apple Developer Program**, nu doar existența unui Apple Account. [Detalii Apple](https://developer.apple.com/help/account/membership/program-enrollment/).
 
-1. Certificates, Identifiers & Profiles → Identifiers: creează/alege App ID pentru viitoarea aplicație ProfOS și activează Sign in with Apple ca Primary App ID.
-2. Creează **Services ID** pentru web, activează Sign in with Apple, asociază Primary App ID și completează domeniul/Return URL din tabel. Identificatorii trebuie aleși stabil pentru proiect; `ro.profos.app` și `ro.profos.web` sunt doar exemple de structură, nu identificatori înregistrați.
+1. Certificates, Identifiers & Profiles → Identifiers: creează/alege App ID pentru viitoarea aplicație ProfPlus și activează Sign in with Apple ca Primary App ID.
+2. Creează **Services ID** pentru web, activează Sign in with Apple, asociază Primary App ID și completează domeniul/Return URL din tabel. Identificatorii trebuie aleși stabil pentru proiect; `ro.profplus.app` și `ro.profplus.web` sunt doar exemple de structură, nu identificatori înregistrați.
 3. Keys → creează o cheie Sign in with Apple asociată aplicației. Salvează în siguranță fișierul `.p8`, Key ID și Team ID.
 4. Generează client secret-ul Apple semnat, folosind generatorul din ghidul Supabase, și introdu-l în Supabase → Apple. Client ID pentru web este **Services ID**. Dacă există mai multe Client IDs, Services ID este primul.
 5. Notează expirarea secretului și reînnoiește-l înainte de expirare, cel târziu la 6 luni. Testează și **Hide My Email**. Trimiterea ulterioară către adresele relay va necesita configurarea surselor de e-mail Apple.
@@ -71,7 +71,7 @@ AUTH_EMAIL_ENABLED=false
 AUTH_REGISTRATION_ENABLED=false
 ```
 
-Flagul ProfOS `AUTH_REGISTRATION_ENABLED` controlează numai formularul viitor de înregistrare prin e-mail; nu este setarea globală Supabase pentru utilizatori noi. `AUTH_EMAIL_ENABLED=false` blochează login/register/forgot/resend/parolă/schimbare e-mail și callbackurile cu token hash pe server. Providerul Email trebuie dezactivat și în Supabase, deoarece API-ul Supabase există separat de aplicație.
+Flagul ProfPlus `AUTH_REGISTRATION_ENABLED` controlează numai formularul viitor de înregistrare prin e-mail; nu este setarea globală Supabase pentru utilizatori noi. `AUTH_EMAIL_ENABLED=false` blochează login/register/forgot/resend/parolă/schimbare e-mail și callbackurile cu token hash pe server. Providerul Email trebuie dezactivat și în Supabase, deoarece API-ul Supabase există separat de aplicație.
 
 Identitatea se verifică prin getUser; cookie-urile sunt HttpOnly, SameSite=Lax, Secure pe HTTPS. Identitățile noi sunt `supabase:<uuid>`; datele Sites nu sunt asociate automat după e-mail. Înainte de mutarea conversațiilor trebuie confirmată deținerea ambelor identități. Conturile Google/Apple cu e-mailuri diferite, inclusiv relay Apple, nu trebuie presupuse identice; verificăm comportamentul real de asociere în Supabase.
 
@@ -93,3 +93,7 @@ Linkuri de template:
 Condițiile din [DPIA](DPIA.md) se aplică și loginului social: informarea despre e-mail/ID/nume și furnizori, roluri și contracte, retenție, ștergere și securitate. Nu cerem acces Google Drive, Gmail, contacte sau telefon pentru login. Alegerea regiunii UE nu certifică singură conformitatea tuturor serviciilor.
 
 Aplicațiile iOS/Android vor necesita configurări native, callbackuri/deep links, identificatori și stocarea sigură a tokenurilor. Păstrăm același proiect Supabase pentru identitate; integrarea web nu reprezintă implementarea loginului nativ.
+
+## Verificare efectuată
+
+Starea dashboardurilor din 2026-10-04 și pașii rămași sunt în [raportul configurației](AUTH_CONFIGURATION_REVIEW.md). GitHub este legat, însă loginurile Google/Apple sunt dezactivate; URL-urile sunt locale.

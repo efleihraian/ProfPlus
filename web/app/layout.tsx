@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import {ProfosThemeProvider} from "./theme-controls";
+import {ProfPlusThemeProvider} from "./theme-controls";
 
 export const metadata: Metadata = {
-  title: "ProfOS — Conversație AI",
+  title: "ProfPlus — Conversație AI",
   description: "Spațiul tău pentru conversații cu AI.",
   icons: {
     icon: "/favicon.svg",
@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ro" suppressHydrationWarning>
-      <body className="antialiased"><ProfosThemeProvider>{children}</ProfosThemeProvider></body>
+      <body className="antialiased"><ProfPlusThemeProvider>{children}</ProfPlusThemeProvider></body>
     </html>
   );
 }

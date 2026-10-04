@@ -2,6 +2,13 @@
 
 ## Ne lansat încă
 
+## 0.9.2 — 2026-10-04
+
+- Rebranding ProfPlus în chat, cont/setări, bibliotecă, titlul paginii, etichete accesibile, asistent AI, indexuri noi și documentație.
+- Repository privat redenumit ProfPlus; nume afișat organizație și titlu Sites actualizate. Supabase recunoaște repository-ul redenumit.
+- Compatibilitate păstrată pentru sesiunile, preferințele, datele și adresele existente.
+- Verificare dashboard Supabase și Apple Developer; pașii nefinalizați și limitele documentate. Google/Apple nu sunt încă activate/testate live.
+
 ## 0.9.1 — 2026-10-04
 
 - Prima etapă cu Google/Apple; formularele de e-mail și parolă ascunse și operațiile aferente blocate implicit pe server.

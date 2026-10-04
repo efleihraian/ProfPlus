@@ -1,4 +1,4 @@
-# ProfOS web
+# ProfPlus web
 
 Site de chat în română, cu API server-side OpenAI.
 

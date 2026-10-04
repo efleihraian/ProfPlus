@@ -97,3 +97,7 @@ Evaluare preliminară, fluxuri de date și registru de riscuri în docs/DPIA.md.
 ## P-035 — Prima etapă doar Google/Apple — DONE
 
 0.9.1: interfață numai cu login social, e-mail/parolă blocate pe server prin flag explicit implicit fals; callbackurile de e-mail blocate. Ghid actualizat pentru Supabase, Google, Apple și găzduire. DONE reprezintă schimbarea aplicației; activarea și verificarea reală rămân P-033. Resend după domeniu.
+
+## P-036 — Rebranding ProfPlus și verificare configurație — DONE
+
+0.9.2: nume nou în aplicație/documentație, metadata Sites, repository și nume afișat organizație. Compatibilitatea identificatorilor în docs/BRANDING.md. Inspecție dashboard Supabase/Apple în docs/AUTH_CONFIGURATION_REVIEW.md; providerii reali rămân neconfigurați, urmăriți în P-033. Criteriu: branding publicat privat, verificări relevante trecute și raport de configurație disponibil.

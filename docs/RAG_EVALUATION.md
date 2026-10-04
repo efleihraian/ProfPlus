@@ -15,7 +15,7 @@ Colecție: 9/9 manuale indexate; 2.020 pagini PDF, 1.995 pagini cu text extras. 
 | Ce tipuri de triunghiuri există după lungimile laturilor? | Nereușit: refuz în loc de răspuns |
 | Care este ordinea efectuării operațiilor? | Trecut |
 | Cine a câștigat alegerile prezidențiale din SUA din 2024? | Trecut |
-| Care este parola contului meu ProfOS? | Trecut |
+| Care este parola contului meu ProfPlus? | Trecut |
 
 Clasificarea triunghiurilor există într-un pasaj cu structură grafică din CD Press, dar căutarea/generarea nu a furnizat răspunsul verificabil. Nu am eliminat cazul din evaluare. Este necesară îmbunătățirea recuperării pasajelor și a tratării diagramelor.
 

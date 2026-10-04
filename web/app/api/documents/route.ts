@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     const upload = new FormData(); upload.append("purpose", "assistants"); upload.append("file", new Blob([bytes], { type: mime }), name);
     const uploaded = await (await openai(key, "/files", { method: "POST", body: upload })).json() as { id: string }; fileId = uploaded.id;
     await db.prepare("UPDATE documents SET file_id = ? WHERE id = ? AND user_id = ?").bind(fileId, id, user).run();
-    const store = await (await openai(key, "/vector_stores", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: "ProfOS document " + id }) })).json() as { id: string }; storeId = store.id;
+    const store = await (await openai(key, "/vector_stores", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: "ProfPlus document " + id }) })).json() as { id: string }; storeId = store.id;
     await db.prepare("UPDATE documents SET store_id = ? WHERE id = ? AND user_id = ?").bind(storeId, id, user).run();
     await openai(key, `/vector_stores/${storeId}/files`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ file_id: fileId, attributes: { document_id: id }, chunking_strategy: { type: "static", static: { max_chunk_size_tokens: 500, chunk_overlap_tokens: 100 } } }) });
     await db.prepare("UPDATE documents SET status = 'indexing' WHERE id = ? AND user_id = ?").bind(id, user).run();

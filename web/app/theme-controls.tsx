@@ -3,7 +3,7 @@ import {useSyncExternalStore} from 'react';
 import {ThemeProvider,useTheme} from 'next-themes';
 import {Moon,Sun} from 'lucide-react';
 const subscribe=()=>()=>{};
-export function ProfosThemeProvider({children}:{children:React.ReactNode}) {
+export function ProfPlusThemeProvider({children}:{children:React.ReactNode}) {
  return <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem storageKey="profos-theme" disableTransitionOnChange>{children}</ThemeProvider>;
 }
 export function ThemeToggle(){

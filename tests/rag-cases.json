@@ -46,7 +46,7 @@
   },
   {
     "id": "missing",
-    "question": "Care este parola contului meu ProfOS?",
+    "question": "Care este parola contului meu ProfPlus?",
     "expectedGrounded": false
   }
 ]

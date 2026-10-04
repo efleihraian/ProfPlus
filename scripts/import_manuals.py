@@ -97,7 +97,7 @@ def process(row):
                 temp = pdf.with_suffix('.part')
                 for attempt in range(3):
                     try:
-                        with requests.get(row['pdf_url'], stream=True, timeout=(30, 120), headers={'User-Agent': 'ProfOS textbook research import/0.3'}) as response:
+                        with requests.get(row['pdf_url'], stream=True, timeout=(30, 120), headers={'User-Agent': 'ProfPlus textbook research import/0.3'}) as response:
                             if response.status_code != 200:
                                 raise RuntimeError('DOWNLOAD_HTTP_' + str(response.status_code))
                             total = 0
@@ -219,7 +219,7 @@ def main():
         except BlockingIOError:
             raise SystemExit('Un import este deja în curs.')
         if not (DATA / 'store.json').exists():
-            store = api('POST', '/vector_stores', json={'name': 'ProfOS — manuale.edu.ro'})
+            store = api('POST', '/vector_stores', json={'name': 'ProfPlus — manuale.edu.ro'})
             (DATA / 'store.json').write_text(json.dumps({'vector_store_id': store['id']}))
         with db() as conn:
             excluded = ('indexed',) if OCR else ('indexed', 'needs_ocr')

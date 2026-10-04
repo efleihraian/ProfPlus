@@ -25,7 +25,7 @@ def main():
     if not config['OPENAI_API_KEY']:
         sys.exit('Cheia lipsește. Rulează mai întâi scripts/setup_api.py în Terminal.')
     payload = {'model': config['OPENAI_MODEL'] or 'gpt-4.1-mini',
-               'input': 'Răspunde exact: Conexiunea ProfOS funcționează.',
+               'input': 'Răspunde exact: Conexiunea ProfPlus funcționează.',
                'max_output_tokens': 64, 'store': False}
     request = Request('https://api.openai.com/v1/responses',
                       data=json.dumps(payload).encode(),

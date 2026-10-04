@@ -1,4 +1,4 @@
-# Cerințe permanente ProfOS
+# Cerințe permanente ProfPlus
 
 Solicitate de utilizator la 2026-10-04. Se aplică website-ului și viitoarelor aplicații Android și iOS, inclusiv backendului, integrărilor și comunicărilor. Sunt cerințe de produs și dezvoltare; înregistrarea lor nu confirmă implementarea sau conformitatea juridică.
 

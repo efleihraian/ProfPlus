@@ -68,7 +68,7 @@ Utilizatorul cere navigarea surselor încărcate și posibile, nu doar a documen
 
 ## DEC-009 — Repository într-o organizație
 
-2026-10-03. Acceptată. Transferăm repository-ul privat în organizația gratuită ProfOS-Edu pentru colaborare. Numele ProfOS era ocupat; utilizatorul a aprobat ProfOS-Edu și termenii. Nu schimbăm vizibilitatea. Invitațiile se trimit după identificarea colegilor.
+2026-10-03. Acceptată. Transferăm repository-ul privat în organizația gratuită ProfOS-Edu pentru colaborare. Numele ProfPlus era ocupat; utilizatorul a aprobat ProfOS-Edu și termenii. Nu schimbăm vizibilitatea. Invitațiile se trimit după identificarea colegilor.
 
 ## DEC-010 — Ștergere cu limite explicite
 
@@ -82,7 +82,7 @@ Indicatorul documentului este inclus în evaluarea structurată AI existentă. C
 
 Dialogul nativ are inset 0 și margin auto pentru a păstra centrarea chiar când resetul CSS elimină marginile implicite. Desktop cu margini egale; mobil pe tot ecranul pentru spațiu de editare.
 
-## 2026-10-04 — Paleta ProfOS
+## 2026-10-04 — Paleta ProfPlus
 
 #2563EB pentru acțiuni, #10B981 pentru progres, #F8FAFC fundal și #0F172A text. Suprafețele documentelor rămân albe; borduri și text secundar slate. Emerald pe fundal folosește text închis pentru lizibilitate; textul de succes folosește o nuanță emerald mai închisă. Erorile și ștergerea rămân roșii pentru sensul acțiunii.
 
@@ -101,3 +101,7 @@ Supabase Auth pentru identitate și Resend SMTP/API pentru e-mailuri. E-mail ver
 ## 2026-10-04 — Login social înainte de e-mail
 
 La cererea utilizatorului, Google și Apple sunt primele metode independente. E-mail/parolă/verificare Resend se activează după domeniu. Flag separat AUTH_EMAIL_ENABLED implicit fals și dezactivarea providerului Email în Supabase; înregistrarea OAuth rămâne distinctă de formularul e-mail. Găzduirea Sites își păstrează autentificarea, migrarea spre găzduire proprie și datele fiind separate.
+
+## 2026-10-04 — ProfPlus și identificatori stabili
+
+Produsul folosește ProfPlus pe toate platformele. Repository-ul devine ProfOS-Edu/ProfPlus, numele afișat al organizației ProfPlus. URL-ul Sites, identificatorul organizației, cookie-urile și cheile locale existente se păstrează pentru compatibilitate; nu se rescriu datele utilizatorilor. Rebrandingul nu activează automat autentificarea externă. Inspecția Supabase/Apple se documentează separat de testele reale OAuth și de aprobarea GDPR/DPIA.

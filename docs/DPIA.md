@@ -1,4 +1,4 @@
-# ProfOS — evaluare preliminară DPIA și registru de riscuri
+# ProfPlus — evaluare preliminară DPIA și registru de riscuri
 
 Data: 2026-10-04 · versiune analizată: 0.9.0 · **DRAFT — neaprobat pentru lansare generală**.
 
@@ -6,11 +6,11 @@ Document de lucru bazat pe cod și verificările disponibile. Nu este o certific
 
 ## 1. Scop, persoane și responsabilități
 
-ProfOS asistă profesorul la căutarea în manuale/documente, explicații și redactarea de teste, bareme și planificări. Profesorul verifică documentele generate. Aplicația actuală nu implementează admitere, sancționare sau decizii automate de notare a elevilor.
+ProfPlus asistă profesorul la căutarea în manuale/documente, explicații și redactarea de teste, bareme și planificări. Profesorul verifică documentele generate. Aplicația actuală nu implementează admitere, sancționare sau decizii automate de notare a elevilor.
 
 Datele pot privi profesorii și orice persoane menționate în documente/conversații, inclusiv elevi. Faptul că doar profesorul are cont nu exclude prelucrarea datelor copiilor. În pilot se recomandă materiale publice ori anonimizate; nu există un filtru care să garanteze anonimizarea tuturor încărcărilor.
 
-De completat înainte de extindere: denumirea și contactul operatorului, rolurile ProfOS/școală/profesor pentru fiecare scop, existența unui DPO dacă este necesar, temeiurile aplicabile, publicul și vârsta, volumul prelucrării, țările și responsabilul pentru solicitări/incidente. Nu se presupune că un acord bifat de profesor acoperă orice date ale elevilor.
+De completat înainte de extindere: denumirea și contactul operatorului, rolurile ProfPlus/școală/profesor pentru fiecare scop, existența unui DPO dacă este necesar, temeiurile aplicabile, publicul și vârsta, volumul prelucrării, țările și responsabilul pentru solicitări/incidente. Nu se presupune că un acord bifat de profesor acoperă orice date ale elevilor.
 
 ## 2. Evaluarea necesității DPIA
 
@@ -22,8 +22,8 @@ Evaluare preliminară proprie: AI extern, posibile date ale copiilor și documen
 
 | Flux | Date/scop | Destinație actuală sau planificată | Păstrare și limite cunoscute |
 |---|---|---|---|
-| Pilot autentificat | ID, e-mail/nume furnizate de platformă; acces la cont | Sites/ChatGPT → server ProfOS | Sesiunea platformei; duratele și logurile furnizorului trebuie inventariate |
-| Conturi independente, inactive | E-mail, parolă, nume opțional; Google/Apple și ID | Supabase Auth; providerul OAuth ales | De configurat și verificat; ProfOS nu salvează parola în D1 |
+| Pilot autentificat | ID, e-mail/nume furnizate de platformă; acces la cont | Sites/ChatGPT → server ProfPlus | Sesiunea platformei; duratele și logurile furnizorului trebuie inventariate |
+| Conturi independente, inactive | E-mail, parolă, nume opțional; Google/Apple și ID | Supabase Auth; providerul OAuth ales | De configurat și verificat; ProfPlus nu salvează parola în D1 |
 | E-mailuri de cont, inactive | Destinatar și mesaj de confirmare/recuperare | Supabase → Resend SMTP | Retenția evenimentelor/logurilor și contractele de verificat |
 | Proiecte/conversații | Titluri, mesaje, citări, selecții, ID proprietar | D1 | Până la ștergere; ștergerea chatului golește transcriptul și păstrează un marcaj tehnic. Nu există încă o perioadă automată de expirare |
 | Documente proprii | Originale, nume, fragmente și ID proprietar | R2 + metadate D1 + fișier/index OpenAI | Ștergerea documentului apelează eliminarea din fiecare stocare. Nu reprezintă ștergerea întregului cont |
@@ -72,4 +72,8 @@ Apreciere preliminară calitativă, fără a inventa probabilități sau aprobă
 
 Utilizatorul a amânat e-mail/parolă și Resend până la domeniu. Fluxurile respective sunt ascunse și refuzate de server, inclusiv linkurile de recuperare. Google/Apple și Supabase rămân neactivate până la configurare. Se documentează ID/e-mail/nume și asocierea identităților; nu se cer permisiuni Gmail/Drive/contacte. Revizuirea furnizorilor și fluxul complet de ștergere rămân condiții de lansare; loginul social nu încheie evaluarea DPIA.
 
-La activare se inventariază și metadatele de profil primite efectiv de Supabase de la provider (pot include URL-ul avatarului). ProfOS afișează ID-ul asociat contului, e-mailul și numele; minimizarea și retenția datelor păstrate de provider se verifică pe configurația reală.
+La activare se inventariază și metadatele de profil primite efectiv de Supabase de la provider (pot include URL-ul avatarului). ProfPlus afișează ID-ul asociat contului, e-mailul și numele; minimizarea și retenția datelor păstrate de provider se verifică pe configurația reală.
+
+## Revizie 0.9.2 — 2026-10-04
+
+Rebrandingul ProfPlus păstrează aceleași fluxuri, identități și date. Inspecția externă confirmă proiectul Supabase într-o regiune UE și providerii Google/Apple încă dezactivați. Providerul Email este activ în dashboard, deși aplicația blochează fluxurile de e-mail; alinierea configurației înainte de activarea externă rămâne P-033. Nu s-a deschis accesul general, nu s-au generat chei și nu s-au transferat conversațiile/documentele în Supabase. Raport: AUTH_CONFIGURATION_REVIEW.md. Această verificare nu închide R1, R4, R5 sau R6 și nu reprezintă aprobarea DPIA.
