@@ -175,3 +175,5 @@ După loginurile efectuate de titular prin Google și Apple, Supabase afișează
 ## 2026-10-04 — P-037 — Clarificarea stării contului
 
 Capturile titularului indicau cont autentificat, dar secțiunea securitate afișa numai disponibilitatea metodelor și linkul Conectare. API-ul de cont expune acum numai lista filtrată/deduplicată a providerilor din identitățile utilizatorului verificate prin getUser, fără ID-uri/metadata OAuth suplimentare. UI afișează «Asociat contului», confirmă sesiunea și ascunde Conectare când este autentificat. Browser local: salvarea numelui existent a returnat «Profil salvat», ambele metode asociate afișate. Build, TypeScript și ambele suite Auth trecute; testul contractului verifică lista exactă și excluderea providerilor neacceptați. Nicio migrare sau publicare.
+
+Lint punctual: nu trece din cauza regulilor existente în pagina cont (setState în efect și ancore HTML pentru rute interne); nu este raportat ca trecut. Erorile sunt în cod preexistent, în afara schimbării etichetelor. TypeScript/build și suitele Auth sunt trecute.
