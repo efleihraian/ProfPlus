@@ -163,3 +163,7 @@ Aplicația nu a fost încă trecută pe Supabase; ținta localhost/pilot Sites r
 Verificare: stări dashboard Google Enabled / Email Disabled, confirmare salvare client Google, Apple Services ID bifat după salvare și cheia creată. Nu sunt probe OAuth end-to-end. Cerințe afectate: minimizarea datelor, identitate, audit furnizori și păstrarea accesului privat; DPIA actualizată fără declararea conformității.
 
 Actualizare descărcare: titularul nu găsește alt fișier descărcat; folderul indicat conține numai credentialul Google. Apple marchează cheia ADSNFYHLSN drept Downloaded și nu mai oferă descărcare. Fișierul privat nu este disponibil; înlocuirea/revocarea necesită intervenția titularului conform politicii browserului pentru schimbarea credențialelor. Nu s-a creat o a doua cheie și nu s-a revocat prima.
+
+## 2026-10-04 — P-033 — Apple activ și test local OAuth
+
+Cheia nouă salvată de titular găsită și protejată 0600, asocierea ProfPlus verificată. Secret Apple ES256 verificat criptografic și salvat numai în Supabase; Apple Enabled confirmat. Expirare 2 aprilie 2027, 20:04:40 UTC. Configurare locală ignorată de Git: Supabase + numai Google/Apple, localhost:3000. Server pornit. Browser verificat: numai butoane sociale și redirecturi oficiale Apple/Google; loginul complet și sesiunile așteaptă autentificarea titularului. Nicio migrare, publicare, revocare sau aprobare GDPR/DPIA presupusă. Raportul AUTH_CONFIGURATION_REVIEW.md actualizat.

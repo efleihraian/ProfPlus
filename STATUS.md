@@ -67,7 +67,7 @@ TypeScript și build trecute. Teste reale: TXT/PDF/DOCX, răspuns din document, 
 
 ## Urmează și limite
 
-- P-033 în lucru: Google activ în Supabase și callback Google corectat; Email dezactivat. Apple App ID/Services ID active, cheie creată; fișierul descărcat necesită localizare înainte de activarea providerului Apple. Integrarea aplicației și loginurile reale rămân de verificat; ținta localhost/pilot Sites așteaptă clarificare.
+- P-033 în lucru: Google activ în Supabase și callback Google corectat; Email dezactivat. Apple activ în Supabase cu cheia nouă salvată local și secret semnat. Aplicația locală localhost:3000 configurată; redirecturi oficiale Google/Apple verificate. Loginurile complete și sesiunile așteaptă autentificarea titularului; site-ul găzduit nu a fost modificat.
 
 - Evaluare preliminară DPIA și inventar în docs/DPIA.md; P-034 urmărește finalizarea și aprobarea. Conformitatea GDPR integrală nu este încă demonstrată.
 

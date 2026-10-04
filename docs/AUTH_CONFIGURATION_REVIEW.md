@@ -54,3 +54,11 @@ Apple: App ID profplus.ro are Sign In with Apple activ ca Primary App ID. Servic
 Aplicația nu a fost încă trecută pe Supabase; ținta localhost/pilot Sites rămâne de clarificat. Nu s-au migrat date sau modificat accesul site-ului privat. Login/logout/refresh, Apple relay și izolarea cu identități Supabase reale rămân netestate. P-033 rămâne IN PROGRESS; Resend este amânat până la domeniu.
 
 Actualizare descărcare: titularul nu găsește alt fișier descărcat; folderul indicat conține numai credentialul Google. Apple marchează cheia ADSNFYHLSN drept Downloaded și nu mai oferă descărcare. Fișierul privat nu este disponibil; înlocuirea/revocarea necesită intervenția titularului conform politicii browserului pentru schimbarea credențialelor. Nu s-a creat o a doua cheie și nu s-a revocat prima.
+
+## Finalizare provider Apple — 2026-10-04
+
+Titularul a creat și salvat cheia ProfPlus Sign In 2, Key ID DH6J23P4H5. Fișierul privat este păstrat în afara repository-ului, cu permisiuni 0600; asocierea Sign In with Apple cu N8TPPFJ2Z9.profplus.ro a fost verificată în portal. Secret ES256 generat local și semnătura verificată criptografic; numai secretul semnat transmis Supabase. Expiră 2027-04-02T20:04:40Z și necesită reînnoire înainte de expirare. Providerul Apple Enabled verificat, Google Enabled și Email Disabled păstrate. Cheia veche ADSNFYHLSN nu a fost revocată.
+
+Aplicația locală configurată în fișierul ignorat web/.dev.vars pentru Supabase, APP_ORIGIN http://localhost:3000, Google/Apple active și Email/registration false. Cheia publică publishable folosită, fără service_role. Credențialele OpenAI existente păstrate. Nu s-a schimbat site-ul găzduit sau accesul său.
+
+Verificare browser local: pagina cont afișează numai Google/Apple; butonul Apple ajunge la pagina oficială «Use your Apple Account to sign in to ProfPlus Web» cu Services ID și callback Supabase corecte, Google ajunge la selectorul de conturi oficial. Autentificarea titularului, callbackul final, logout/refresh, Apple relay și izolarea conturilor reale rămân de verificat. Serverul local este pornit pentru test; fluxurile se testează succesiv pentru a evita înlocuirea cookie-ului PKCE.

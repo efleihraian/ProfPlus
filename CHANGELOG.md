@@ -2,7 +2,7 @@
 
 ## Ne lansat încă
 
-- Configurare externă P-033: Google activ în Supabase, callback Google corectat, Email dezactivat; Apple App ID/Services ID active și cheie dedicată creată. Fișierul Apple necesită localizare; activarea în aplicație și testele OAuth reale rămân în curs.
+- Configurare externă P-033: Google activ în Supabase, callback Google corectat, Email dezactivat; Apple App ID/Services ID active și cheie dedicată creată. Apple activat cu cheia nouă salvată de titular; aplicația locală configurată și redirecturi oficiale verificate. Loginurile complete și sesiunile rămân în curs.
 
 ## 0.9.2 — 2026-10-04
 

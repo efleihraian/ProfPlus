@@ -81,3 +81,5 @@ Rebrandingul ProfPlus păstrează aceleași fluxuri, identități și date. Insp
 ## Configurare externă pilot — 2026-10-04
 
 Google activat în Supabase cu aprobarea titularului; Email dezactivat. Apple App ID/Services ID activate și cheie dedicată creată cu aprobarea titularului, providerul Supabase Apple încă dezactivat. Secretul Google a fost transmis numai către Supabase, fără afișare sau Git; fișierul Apple nu este încă disponibil pentru generarea secretului semnat. Aplicația și accesul privat Sites nu au fost modificate, nu există încă probe de login real sau migrare. Testarea datelor efectiv primite, retenției, ștergerii, contractelor și transferurilor rămâne deschisă; nu se declară conformitate sau aprobare DPIA.
+
+Continuare pilot 2026-10-04: Apple activat în Supabase folosind secret semnat generat local din cheia nouă salvată de titular. Cheia privată rămâne locală, în afara Git. Aplicația locală folosește identitatea Supabase; nu se migrează sau asociază automat istoricul Sites. Testarea datelor primite și a sesiunilor reale așteaptă autentificarea titularului. Nu se modifică accesul public și nu se declară conformitatea.

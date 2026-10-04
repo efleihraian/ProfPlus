@@ -103,3 +103,5 @@ Evaluare preliminară, fluxuri de date și registru de riscuri în docs/DPIA.md.
 ## P-036 — Rebranding ProfPlus și verificare configurație — DONE
 
 0.9.2: nume nou în aplicație/documentație, metadata Sites, repository și nume afișat organizație. Compatibilitatea identificatorilor în docs/BRANDING.md. Inspecție dashboard Supabase/Apple în docs/AUTH_CONFIGURATION_REVIEW.md; providerii reali rămân neconfigurați, urmăriți în P-033. Criteriu: branding publicat privat, verificări relevante trecute și raport de configurație disponibil.
+
+P-033, progres suplimentar 2026-10-04: Apple Enabled verificat cu secret semnat și cheia nouă salvată de titular; aplicația locală localhost:3000 configurată. Redirecturile oficiale Google/Apple verificate, loginurile complete/refresh/logout/izolare încă netestate; secret Apple de reînnoit înainte de 2 aprilie 2027.
