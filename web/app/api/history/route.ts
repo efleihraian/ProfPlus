@@ -1,7 +1,7 @@
 import {validGeneratedDocument} from '../../../lib/generated-document';
 import { json, sameOrigin, storage, userId, validChatId } from '../../../lib/document-store';
 export async function GET(request: Request) {
-  const user = userId(request); if (!user) return json({error:'Autentificare necesară.'},401);
+  const user = await userId(request); if (!user) return json({error:'Autentificare necesară.'},401);
   try {
     const db = storage().db, id = new URL(request.url).searchParams.get('id');
     if (id) { const chat = await db.prepare('SELECT * FROM conversations WHERE id=? AND user_id=? AND deleted=0').bind(id,user).first(); if (!chat) return json({error:'Conversație indisponibilă.'},404); return json({chat:{...chat,messages:JSON.parse(String(chat.messages)),selection:JSON.parse(String(chat.selection))}}); }
@@ -13,7 +13,7 @@ export async function GET(request: Request) {
 }
 export async function POST(request: Request) {
   if (!sameOrigin(request)) return json({error:'Origine nepermisă.'},403);
-  const user = userId(request); if (!user) return json({error:'Autentificare necesară.'},401);
+  const user = await userId(request); if (!user) return json({error:'Autentificare necesară.'},401);
   try { const raw=await request.text(); if(raw.length>2000)return json({error:'Cerere prea mare.'},413); const b=JSON.parse(raw) as {kind?:string;name?:string;projectId?:string|null}; const db=storage().db;
     if (b.kind==='project') { if(typeof b.name!=='string'||!b.name.trim()||b.name.length>100) return json({error:'Numele proiectului trebuie să aibă 1–100 caractere.'},400); const id=crypto.randomUUID(); await db.prepare('INSERT INTO projects(id,user_id,name,created_at) VALUES(?,?,?,?)').bind(id,user,b.name.trim(),Date.now()).run(); return json({id},201); }
     if(b.projectId && !await db.prepare('SELECT id FROM projects WHERE id=? AND user_id=?').bind(b.projectId,user).first()) return json({error:'Proiect indisponibil.'},404);
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
 }
 export async function PUT(request: Request) {
   if (!sameOrigin(request)) return json({error:'Origine nepermisă.'},403);
-  const user=userId(request); if(!user) return json({error:'Autentificare necesară.'},401);
+  const user=await userId(request); if(!user) return json({error:'Autentificare necesară.'},401);
   try { const raw=await request.text(); if(raw.length>1000000) return json({error:'Conversația este prea mare.'},413);
     const b=JSON.parse(raw); if(!validChatId(b.id)||!Number.isInteger(b.revision)||!Array.isArray(b.messages)||b.messages.length>1000||b.messages.some((m: {role?:string;content?:string;sources?:unknown[];warnings?:unknown[]})=>!m||!['user','assistant'].includes(m.role||'')||typeof m.content!=='string'||m.content.length>20000|| (m.sources!==undefined&&!Array.isArray(m.sources)) || (m.warnings!==undefined&&!Array.isArray(m.warnings)))) return json({error:'Conversație invalidă.'},400);
     for (const message of b.messages) {
@@ -41,7 +41,7 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   if(!sameOrigin(request))return json({error:'Origine nepermisă.'},403);
-  const user=userId(request);if(!user)return json({error:'Autentificare necesară.'},401);
+  const user=await userId(request);if(!user)return json({error:'Autentificare necesară.'},401);
   const url=new URL(request.url),id=url.searchParams.get('id'),kind=url.searchParams.get('kind');
   if(!validChatId(id)||!['chat','project'].includes(kind||''))return json({error:'Element invalid.'},400);
   try {

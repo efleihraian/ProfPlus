@@ -2,6 +2,15 @@
 
 ## Ne lansat încă
 
+## 0.9.0 — 2026-10-04
+
+- Cerință GDPR/DPIA permanentă, inventar de date, evaluare preliminară și condiții explicite înainte de lansarea generală.
+
+- Secțiune Cont și setări: profil, securitate, aspect și confidențialitate, accesibilă din bara laterală.
+- Preferință temă luminos/întunecat/sistem, memorare opțională și resetare locală.
+- Integrare opțională Supabase pentru e-mail verificat/parolă, înregistrare, recuperare, Google/Apple, editare profil/e-mail și deconectare. Metodele neconfigurate sunt dezactivate explicit; Sites păstrează autentificarea ChatGPT.
+- Ghid complet de configurare Supabase + Resend și teste locale cu furnizor simulat. Serviciile externe nu sunt încă activate.
+
 ## 0.8.3 — 2026-10-04
 
 - Mod întunecat/luminos cu buton accesibil în antet, pe desktop și mobil.

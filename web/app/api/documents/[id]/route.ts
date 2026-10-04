@@ -1,7 +1,7 @@
 import { json, openai, ownedDocument, sameOrigin, storage, userId } from "../../../../lib/document-store";
 type Context = { params: Promise<{ id: string }> };
 export async function GET(request: Request, context: Context) {
-  const user = userId(request); if (!user) return json({ error: "Autentificare necesară." }, 401);
+  const user = await userId(request); if (!user) return json({ error: "Autentificare necesară." }, 401);
   try {
     const row = await ownedDocument(user, (await context.params).id);
     if (!row || row.status === "deleting") return json({ error: "Document indisponibil." }, 404);
@@ -11,7 +11,7 @@ export async function GET(request: Request, context: Context) {
 }
 export async function DELETE(request: Request, context: Context) {
   if (!sameOrigin(request)) return json({ error: "Origine nepermisă." }, 403);
-  const user = userId(request); if (!user) return json({ error: "Autentificare necesară." }, 401);
+  const user = await userId(request); if (!user) return json({ error: "Autentificare necesară." }, 401);
   try {
     const row = await ownedDocument(user, (await context.params).id); if (!row) return json({ error: "Document indisponibil." }, 404);
     if (row.status === "uploading" && Date.now() - row.created_at < 120000) return json({ error: "Încărcarea este în curs. Reîncearcă ștergerea după un minut." }, 409);

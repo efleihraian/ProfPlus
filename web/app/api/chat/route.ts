@@ -18,7 +18,8 @@ export async function POST(request: Request) {
   const config = env as unknown as { OPENAI_API_KEY?: string; OPENAI_MODEL?: string; OPENAI_VECTOR_STORE_ID?: string };
   if (!config.OPENAI_API_KEY) return json({ error: "Conexiunea AI nu este configurată încă." }, 503);
   const chat = body.chatId;
-  const user = userId(request);
+  const user = await userId(request);
+  if(!user)return json({error:"Autentificare necesară."},401);
   if (chat !== undefined && (!validChatId(chat) || !user)) return json({ error: !user ? "Autentificare necesară pentru documentele conversației." : "Conversație invalidă." }, !user ? 401 : 400);
   let savedChat: {messages:string;revision:number} | null = null;
   if (body.revision !== undefined) {

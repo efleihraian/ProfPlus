@@ -1,14 +1,14 @@
 import { json, openai, publicDocument, refreshDocument, rowsForChat, sameOrigin, storage, userId, validChatId } from "../../../lib/document-store";
 const types: Record<string, string> = { pdf: "application/pdf", doc: "application/msword", docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation", txt: "text/plain", md: "text/markdown", html: "text/html" };
 export async function GET(request: Request) {
-  const user = userId(request); if (!user) return json({ error: "Autentifică-te pentru documentele tale." }, 401);
+  const user = await userId(request); if (!user) return json({ error: "Autentifică-te pentru documentele tale." }, 401);
   const chat = new URL(request.url).searchParams.get("chatId"); if (!validChatId(chat)) return json({ error: "Conversație invalidă." }, 400);
   try { return json({ documents: await Promise.all((await rowsForChat(user, chat)).map(async r => publicDocument(await refreshDocument(r)))) }); }
   catch { return json({ error: "Documentele sunt temporar indisponibile. Reîncearcă." }, 503); }
 }
 export async function POST(request: Request) {
   if (!sameOrigin(request)) return json({ error: "Origine nepermisă." }, 403);
-  const user = userId(request); if (!user) return json({ error: "Autentifică-te pentru a încărca documente." }, 401);
+  const user = await userId(request); if (!user) return json({ error: "Autentifică-te pentru a încărca documente." }, 401);
   if (!request.headers.get("content-type")?.includes("multipart/form-data")) return json({ error: "Selectează un document." }, 415);
   if (Number(request.headers.get("content-length")) > 11 * 1024 * 1024) return json({ error: "Documentul poate avea cel mult 10 MB." }, 413);
   let id = "", fileId = "", storeId = "";

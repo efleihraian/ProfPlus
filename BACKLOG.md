@@ -81,3 +81,15 @@ Cale vizibilă și verificarea identității; eliminare date cont, conversații,
 ## P-031 — Mod întunecat — DONE
 
 Activare din antet, preferință persistentă local și sistem implicit; suprafețe și text adaptate în toată aplicația. 0.8.3.
+
+## P-032 — Cont și setări, integrare pregătită — DONE
+
+0.9.0: profil curent, securitate, formulare login/register/recuperare, temă/sistem, memorare opțională și resetare preferințe, informații despre stocare. Adapter Supabase cu e-mail verificat și Google/Apple OAuth pregătit și verificat cu furnizor simulat. Accesul Sites rămâne prin ChatGPT; nu sunt create conturi externe.
+
+## P-033 — Activare autentificare și e-mailuri reale — TODO
+
+Domeniu și găzduire potrivită, Supabase/Resend, DNS/SMTP, Google/Apple, politici reale și limite antiabuz; verificarea fluxurilor reale inclusiv sesiuni/refresh, linkuri expirate/reutilizate, livrare și izolare. Plan de migrare pentru identitățile și datele Sites. Criteriu: utilizator nou verificat, login, reset și OAuth funcționale în găzduirea finală; nicio expunere de date între conturi. Pașii: docs/ACCOUNT_SETUP.md.
+
+## P-034 — DPIA și validarea pregătirii GDPR — IN PROGRESS
+
+Evaluare preliminară, fluxuri de date și registru de riscuri în docs/DPIA.md. Criteriu: roluri/temeiuri/operator stabilite, evaluare completată și aprobată, contracte/transferuri/retenție/incidențe/drepturi verificate, riscurile reziduale tratate și dovezi tehnice legate de versiunea lansată. Nu este o certificare de conformitate; condițiile deschise împiedică declararea pregătirii pentru lansare generală.

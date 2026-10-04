@@ -1,3 +1,4 @@
+import {accountIdentity} from "./account-auth";
 import { env } from "cloudflare:workers";
 export type DocumentRow = { id: string; user_id: string; chat_id: string; name: string; mime: string; size: number; store_id: string | null; file_id: string | null; status: string; created_at: number };
 export type ChatDocument = { id: string; name: string; size: number; status: string };
@@ -8,7 +9,7 @@ export function storage() {
   if (!config.DB || !config.DOCUMENTS || !config.OPENAI_API_KEY) throw new Error("STORAGE_UNAVAILABLE");
   return { db: config.DB, bucket: config.DOCUMENTS, key: config.OPENAI_API_KEY };
 }
-export function userId(request: Request) { return request.headers.get("oai-authenticated-user-id") || null; }
+export async function userId(request: Request) { return (await accountIdentity(request))?.id || null; }
 export function validChatId(value: unknown): value is string { return typeof value === "string" && /^[0-9a-f]{8}-[0-9a-f-]{27}$/i.test(value); }
 export function sameOrigin(request: Request) { const origin = request.headers.get("origin"); return !origin || origin === new URL(request.url).origin; }
 export function publicDocument(row: DocumentRow): ChatDocument { return { id: row.id, name: row.name, size: row.size, status: row.status }; }

@@ -93,3 +93,7 @@ Cerințele utilizatorului devin instrucțiuni de proiect pentru web, Android și
 ## 2026-10-04 — Preferință locală de temă
 
 Tema respectă sistemul până când utilizatorul alege explicit luminos/întunecat. Preferința rămâne în browser, fără date noi pe server. Aceeași separare între culorile de suprafață, text, acțiuni și progres va fi folosită pentru aplicațiile mobile. Linkuri albastre mai deschise în dark mode, butoane albastre cu text alb și salvare emerald cu text închis.
+
+## 2026-10-04 — Identitate independentă pregătită separat de pilot
+
+Supabase Auth pentru identitate și Resend SMTP/API pentru e-mailuri. E-mail verificat obligatoriu; telefonul nu este cerut acum. Utilizatorul a ales pregătirea integrării, neavând conturi externe sau domeniu. Pilotul Sites păstrează accesul ChatGPT și audiența privată. Integrarea viitoare folosește ID-uri `supabase:<uuid>` și cookie-uri HttpOnly; profilul este verificat pe server cu getUser. Migrarea necesită dovada deținerii identităților, nu potrivirea adresei de e-mail. Înregistrarea și fiecare provider sunt activate separat după configurare/verificare.

@@ -6,7 +6,7 @@ export async function GET(request: Request) {
   const warnings: string[] = []; let states: Record<string, string> = {}, documents = [] as Awaited<ReturnType<typeof userDocuments>>;
   try { if (config.OPENAI_API_KEY && config.OPENAI_VECTOR_STORE_ID) states = await manualStates(config.OPENAI_API_KEY, config.OPENAI_VECTOR_STORE_ID); else warnings.push("Starea indexării manualelor nu este disponibilă."); }
   catch { warnings.push("Starea indexării manualelor nu a putut fi verificată. Reîncearcă."); }
-  const user = userId(request);
+  const user = await userId(request);
   if (user) {
     try { documents = await Promise.all((await userDocuments(user)).map(refreshDocument)); }
     catch { warnings.push("Documentele încărcate nu au putut fi citite. Reîncearcă."); }

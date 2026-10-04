@@ -36,3 +36,7 @@ Solicitate de utilizator la 2026-10-04. Se aplică website-ului și viitoarelor 
 La fiecare funcție nouă sau schimbare relevantă, verifică cerințele de mai sus care sunt afectate și notează verificările reale și limitele. Documentația, declarațiile de confidențialitate din magazine și comportamentul efectiv trebuie să rămână aliniate. Cerințele comerciale se pregătesc înainte de activarea plăților; cele pentru copii înainte de fluxurile respective. Nu publica texte juridice cu detalii inventate sau promisiuni neverificate. Când sunt necesare informații despre firmă, public, furnizori sau condițiile comerciale, obține-le înainte de finalizarea textelor dependente de ele.
 
 Implementarea și evaluarea acestor cerințe sunt urmărite separat în BACKLOG.md. Acest document nu este politica de confidențialitate și nu înlocuiește verificarea juridică a versiunii care va fi lansată.
+
+## GDPR și DPIA — cerință permanentă explicită
+
+Confirmată de utilizator la 2026-10-04. Protecția datelor din proiectare și implicit se aplică tuturor platformelor și integrărilor. La schimbarea fluxurilor, actualizează inventarul și evaluarea [DPIA](DPIA.md), verifică scopul, temeiul, minimizarea, accesul, retenția, drepturile, furnizorii și transferurile. Păstrează separat dovezile tehnice, evaluarea riscurilor și aprobarea operatorului. Nu declara produsul „GDPR/DPIA compliant” pe baza unui checklist sau a unui SDK. Riscurile și condițiile de lansare neînchise se urmăresc în backlog.
