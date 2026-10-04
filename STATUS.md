@@ -81,3 +81,5 @@ TypeScript și build trecute. Teste reale: TXT/PDF/DOCX, răspuns din document, 
 - Importul general al manualelor este oprit; colecția activă rămâne matematica de clasa V.
 
 Documentele sunt păstrate până la ștergere; „Conversație nouă” creează un chat separat; mesajele și documentele vechi rămân accesibile în istoric. Fișierele și metadatele sunt stocate pe server, identificatorul conversației în browser. Site-ul rămâne privat: https://profos-chat.cosminsoames.chatgpt.site.
+
+P-037 implementat local: asocierea Google/Apple afișată din identitățile Supabase verificate, cu mesaj explicit de conectare. Salvarea profilului real reușită; build/TypeScript/suite Auth trecute. Nicio publicare online în această sarcină.

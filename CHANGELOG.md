@@ -2,6 +2,8 @@
 
 ## Ne lansat încă
 
+- P-037: metodele sociale asociate contului sunt afișate explicit; butonul redundant de conectare este ascuns pentru utilizatorul autentificat.
+
 - Configurare externă P-033: Google activ în Supabase, callback Google corectat, Email dezactivat; Apple App ID/Services ID active și cheie dedicată creată. Apple activat cu cheia nouă salvată de titular; aplicația locală configurată și redirecturi oficiale verificate. Loginurile complete și sesiunile rămân în curs.
 
 ## 0.9.2 — 2026-10-04

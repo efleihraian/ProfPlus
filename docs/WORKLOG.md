@@ -171,3 +171,7 @@ Cheia nouă salvată de titular găsită și protejată 0600, asocierea ProfPlus
 ## Verificare OAuth real — 2026-10-04
 
 După loginurile efectuate de titular prin Google și Apple, Supabase afișează ambele identități Apple, Google pe aceeași înregistrare de utilizator. Nu s-a făcut asociere manuală în ProfPlus și nu se copiază datele personale/UID-ul în Git. În aplicația locală profilul este autentificat, e-mail verificat; sesiunea rămâne validă după reîncărcarea paginii. Asocierea celor două metode și callbackul real sunt confirmate pentru contul testat. Logout, reînnoirea la expirare, Apple Hide My Email și izolarea între conturi distincte rămân netestate. Aceasta nu validează site-ul online sau conformitatea GDPR/DPIA.
+
+## 2026-10-04 — P-037 — Clarificarea stării contului
+
+Capturile titularului indicau cont autentificat, dar secțiunea securitate afișa numai disponibilitatea metodelor și linkul Conectare. API-ul de cont expune acum numai lista filtrată/deduplicată a providerilor din identitățile utilizatorului verificate prin getUser, fără ID-uri/metadata OAuth suplimentare. UI afișează «Asociat contului», confirmă sesiunea și ascunde Conectare când este autentificat. Browser local: salvarea numelui existent a returnat «Profil salvat», ambele metode asociate afișate. Build, TypeScript și ambele suite Auth trecute; testul contractului verifică lista exactă și excluderea providerilor neacceptați. Nicio migrare sau publicare.

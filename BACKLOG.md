@@ -107,3 +107,7 @@ Evaluare preliminară, fluxuri de date și registru de riscuri în docs/DPIA.md.
 P-033, progres suplimentar 2026-10-04: Apple Enabled verificat cu secret semnat și cheia nouă salvată de titular; aplicația locală localhost:3000 configurată. Redirecturile oficiale Google/Apple verificate, loginurile complete/refresh/logout/izolare încă netestate; secret Apple de reînnoit înainte de 2 aprilie 2027.
 
 P-033, verificare 2026-10-04: loginurile reale Google/Apple efectuate de titular confirmate pe același cont Supabase; profil autentificat și sesiune persistentă după reload. Logout/refresh la expirare/izolare cu două conturi rămân deschise.
+
+## P-037 — Stare clară pentru cont și metodele asociate — DONE
+
+Google/Apple afișează «Asociat contului» din identitățile verificate pe server; «Conectare» nu mai apare când există sesiune. Profilul existent a fost salvat cu succes în testul real local. Build, TypeScript și suitele Auth trecute; migrarea site-ului online rămâne P-033.

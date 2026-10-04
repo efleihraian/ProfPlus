@@ -1,7 +1,7 @@
 import {env} from 'cloudflare:workers';
 import {cookies} from 'next/headers';
 import {createServerClient} from '@supabase/ssr';
-export type AccountIdentity={id:string;email:string;name:string;emailVerified:boolean|null;provider:'sites'|'supabase'};
+export type AccountIdentity={id:string;email:string;name:string;emailVerified:boolean|null;provider:'sites'|'supabase';linkedProviders?:string[]};
 type Config={AUTH_PROVIDER?:string;SUPABASE_URL?:string;SUPABASE_PUBLISHABLE_KEY?:string;APP_ORIGIN?:string;AUTH_GOOGLE_ENABLED?:string;AUTH_APPLE_ENABLED?:string;AUTH_REGISTRATION_ENABLED?:string;AUTH_EMAIL_ENABLED?:string};
 export function authConfig(){
  const c=env as unknown as Config;
@@ -24,7 +24,7 @@ export async function accountIdentity(request:Request):Promise<AccountIdentity|n
   if(!c.ready)return null;
   try{const client=await authClient();const {data,error}=await client.auth.getUser();const u=data.user;
    if(error||!u||!u.email_confirmed_at)return null;
-   return {id:'supabase:'+u.id,email:u.email||'',name:String(u.user_metadata?.full_name||'').slice(0,100),emailVerified:true,provider:'supabase'};
+   return {id:'supabase:'+u.id,email:u.email||'',name:String(u.user_metadata?.full_name||'').slice(0,100),emailVerified:true,provider:'supabase',linkedProviders:[...new Set((u.identities||[]).map(identity=>identity.provider).filter(provider=>['google','apple','email'].includes(provider)))]};
   }catch{return null;}
  }
  const id=request.headers.get('oai-authenticated-user-id');if(!id)return null;

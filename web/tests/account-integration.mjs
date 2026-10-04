@@ -12,7 +12,7 @@ const original=await readFile(configPath).catch(()=>null);
 let worker,output='',requests=0,confirmed=true,autoConfirm=false;
 const uid='44444444-4444-4444-8444-444444444444';
 const jwt=[{alg:'HS256',typ:'JWT'},{sub:uid,exp:Math.floor(Date.now()/1000)+3600},'test-only'].map(x=>Buffer.from(typeof x==='string'?x:JSON.stringify(x)).toString('base64url')).join('.');
-const user=()=>({id:uid,aud:'authenticated',role:'authenticated',email:'fixture@example.test',email_confirmed_at:confirmed?'2026-10-04T00:00:00Z':null,created_at:'2026-10-04T00:00:00Z',app_metadata:{provider:'email'},user_metadata:{full_name:'Profesor test'}});
+const user=()=>({id:uid,aud:'authenticated',role:'authenticated',email:'fixture@example.test',email_confirmed_at:confirmed?'2026-10-04T00:00:00Z':null,created_at:'2026-10-04T00:00:00Z',app_metadata:{provider:'email'},identities:[{provider:'google'},{provider:'apple'},{provider:'google'},{provider:'unsupported'}],user_metadata:{full_name:'Profesor test'}});
 const session=()=>({access_token:jwt,token_type:'bearer',expires_in:3600,refresh_token:'synthetic-refresh',user:user()});
 const server=createServer(async(req,res)=>{
  requests++;let raw='';for await(const chunk of req)raw+=chunk;
@@ -63,7 +63,7 @@ try{
  confirmed=false;await action({action:'login',email:'fixture@example.test',password:'valid-test-password'},401);assert.equal((await(await call()).json()).user,null);
  confirmed=true;r=await action({action:'login',email:'fixture@example.test',password:'valid-test-password'},200);
  assert.ok(r.headers.getSetCookie().some(c=>c.startsWith('profos-auth=')&&/httponly/i.test(c)&&/samesite=lax/i.test(c)),'Session cookie must be HTTP-only and SameSite=Lax');
- const before=requests,identity=(await(await call()).json()).user;assert.equal(identity.id,'supabase:'+uid);assert.equal(identity.emailVerified,true);assert.ok(requests>before,'Identity must be checked remotely');
+ const before=requests,identity=(await(await call()).json()).user;assert.equal(identity.id,'supabase:'+uid);assert.equal(identity.emailVerified,true);assert.deepEqual(identity.linkedProviders,['google','apple']);assert.ok(requests>before,'Identity must be checked remotely');
  await action({action:'profile',name:'Profesor test'},200);
  await action({action:'email',email:'new@example.test'},200);
  await action({action:'logout'},200);assert.equal((await(await call()).json()).user,null);
