@@ -81,3 +81,7 @@ Indicatorul documentului este inclus în evaluarea structurată AI existentă. C
 ## 2026-10-04 — Centrare explicită dialog
 
 Dialogul nativ are inset 0 și margin auto pentru a păstra centrarea chiar când resetul CSS elimină marginile implicite. Desktop cu margini egale; mobil pe tot ecranul pentru spațiu de editare.
+
+## 2026-10-04 — Paleta ProfOS
+
+#2563EB pentru acțiuni, #10B981 pentru progres, #F8FAFC fundal și #0F172A text. Suprafețele documentelor rămân albe; borduri și text secundar slate. Emerald pe fundal folosește text închis pentru lizibilitate; textul de succes folosește o nuanță emerald mai închisă. Erorile și ștergerea rămân roșii pentru sensul acțiunii.

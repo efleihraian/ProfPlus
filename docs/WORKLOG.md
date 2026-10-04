@@ -107,3 +107,7 @@ Verificări și limite documentate în docs/DOCUMENT_EDITOR.md. Trei apeluri AI 
 ## 2026-10-04 — P-024: centrare editor
 
 Centrare explicită a dialogului cu inset și margin auto, lățime maximum 1120px și margini de 32px pe desktop; spațiere adaptivă a foii. Mobilul păstrează dialogul pe tot ecranul. Build trecut; verificare vizuală în browser local la 1280×720, dialog centrat cu 80px stânga/dreapta și 32px sus/jos. Arhivă verificată fără secrete, publicare privată 0.8.1 confirmată de Sites. Serverele de test oprite și fixture-ul local șters. Mobilul nu a fost verificat vizual în această ajustare.
+
+## 2026-10-04 — P-025: paletă globală
+
+Culorile vechi înlocuite cu variabile comune; roluri explicite pentru acțiuni, selecții, progres, salvare și erori. Aplicare în toate componentele active, favicon și focus. Înlăturată metadată temporară de preview. 0.8.2: build trecut; verificare vizuală desktop pentru chat, navigare, bibliotecă (inclusiv sursă selectată) și editor. Culori calculate în browser confirmate: fundal rgb(248,250,252), text rgb(15,23,42), acțiune rgb(37,99,235), salvare rgb(16,185,129). Fără verificare mobilă în această schimbare. Arhivă verificată fără secrete; publicare privată confirmată de Sites. Fixture-ul local șters, serverele temporare oprite.

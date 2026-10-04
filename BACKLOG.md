@@ -53,3 +53,7 @@ Documentele efectiv create de AI deschid automat dialogul; editare directă, tit
 ## P-024 — Centrare editor document — DONE
 
 Dialog centrat în viewport, margini egale pe desktop, foaie centrată și spațiere adaptivă; mobil pe tot ecranul. 0.8.1.
+
+## P-025 — Paletă albastru / emerald — DONE
+
+Schema utilizatorului aplicată global, inclusiv bibliotecă, editor, dialoguri și favicon. Acțiuni albastre, progres verde, fundal și text conform paletei. 0.8.2.

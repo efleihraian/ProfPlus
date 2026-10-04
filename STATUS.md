@@ -1,10 +1,12 @@
 # Starea proiectului
 
 Ultima actualizare: 2026-10-04
-Versiune: 0.8.1
+Versiune: 0.8.2
 Etapă: documente educaționale editabile și exportabile
 
 ## Finalizat
+
+- Paletă unitară albastru / emerald, fundal #F8FAFC și text #0F172A în toate suprafețele aplicației.
 
 - Editorul documentului centrat în pagină, cu margini egale și lățime limitată pe desktop.
 
@@ -30,6 +32,8 @@ Etapă: documente educaționale editabile și exportabile
 - Căutare, filtre, selecție pentru RAG și linkuri la originale. Serverul verifică starea și accesul.
 
 ## Verificare
+
+0.8.2: build și verificare vizuală desktop pentru paleta globală trecute; culorile calculate confirmă exact cele patru valori cerute. Publicare privată confirmată.
 
 0.8.1: build trecut, centrarea editorului verificată vizual în browser local pe desktop; publicare privată confirmată.
 

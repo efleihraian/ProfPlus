@@ -2,6 +2,12 @@
 
 ## Ne lansat încă
 
+## 0.8.2 — 2026-10-04
+
+- Paletă globală: albastru #2563EB, emerald #10B981, fundal #F8FAFC, text #0F172A.
+- Acțiuni și selecții albastre; progres și salvare emerald; suprafețe, contururi și text secundar în nuanțe slate.
+- Aplicată în navigare, chat, documente, bibliotecă, dialoguri, editor și favicon; focus vizibil și culori semantice pentru erori.
+
 ## 0.8.1 — 2026-10-04
 
 - Dialogul documentului centrat explicit orizontal și vertical, lățime mai echilibrată și spațiu egal față de marginile ecranului.
