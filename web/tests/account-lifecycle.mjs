@@ -1,0 +1,19 @@
+import assert from 'node:assert/strict';
+import ts from 'typescript';
+import {readFile} from 'node:fs/promises';
+async function moduleAt(path,replace=s=>s){const source=replace(await readFile(path,'utf8'));const js=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;return import('data:text/javascript;base64,'+Buffer.from(js).toString('base64'));}
+const catalog=JSON.parse(await readFile('lib/manual-catalog.json','utf8'));
+const {teachingProfile,matchesTeaching,defaultManualIds}=await moduleAt('lib/teaching-profile.ts',s=>s.replace("import catalog from './manual-catalog.json';",'const catalog='+JSON.stringify(catalog)+';'));
+const primary=teachingProfile({role:'primary',subject:'unused',stages:['high']});assert.deepEqual(primary,{role:'primary',subject:'*',stages:['primary']});
+assert.equal(matchesTeaching({subject:'Limba română',schoolClass:'Clasa a IV-a'},primary),true);assert.equal(matchesTeaching({subject:'Matematică',schoolClass:'Clasa a V-a'},primary),false);
+assert.equal(matchesTeaching({subject:'Matematică',schoolClass:'Clasa pregătitoare'},primary),true);
+const teacher=teachingProfile({role:'teacher',subject:'Matematică',stages:['middle','middle']});assert.deepEqual(teacher.stages,['middle']);assert.equal(matchesTeaching({subject:'Matematică',schoolClass:'Clasa a VIII-a'},teacher),true);assert.equal(matchesTeaching({subject:'Istorie',schoolClass:'Clasa a VI-a'},teacher),false);assert.equal(matchesTeaching({subject:'Matematică',schoolClass:'Clasa a IX-a'},teacher),false);
+assert.equal(teachingProfile({role:'teacher',subject:'Matematică',stages:[]}),null);assert.equal(teachingProfile({role:'teacher',subject:'invalid',stages:['middle']}),null);
+const high=teachingProfile({role:'teacher',subject:'Matematică',stages:['high']});assert.equal(matchesTeaching({subject:'Matematică',schoolClass:'Clasa a XI-a, a XII-a'},high),true);
+const {uids}=JSON.parse(await readFile('lib/active-collection.json','utf8'));assert.deepEqual(defaultManualIds(primary,uids),[]);assert.equal(defaultManualIds(teacher,uids).length,7);assert.deepEqual(defaultManualIds(teacher,[]),[]);
+const {eraseAccount}=await moduleAt('lib/account-erasure.ts');
+let owned=[{id:'doc-a',user_id:'owner',store_id:'vs-a',file_id:'file-a'},{id:'doc-b',user_id:'owner',store_id:null,file_id:null}];let events=[],locked=false,fail=true;
+const backend={lock:async u=>{assert.equal(u,'owner');locked=true;events.push('lock');},documents:async u=>owned.filter(r=>r.user_id===u),mark:async(u,id)=>events.push('mark:'+id),eraseIndex:async id=>{events.push('index:'+id);if(fail)throw Error('provider unavailable');},eraseFile:async id=>events.push('file:'+id),eraseOriginal:async id=>events.push('original:'+id),eraseRow:async(u,id)=>{events.push('row:'+id);owned=owned.filter(r=>!(r.id===id&&r.user_id===u));},eraseAppData:async()=>events.push('app-data'),eraseIdentity:async()=>events.push('auth'),finish:async()=>{events.push('finish');locked=false;}};
+await assert.rejects(eraseAccount('owner',backend));assert.equal(locked,true);assert.equal(owned.length,2);assert.ok(!events.includes('auth'));fail=false;await eraseAccount('owner',backend);assert.equal(owned.length,0);assert.equal(locked,false);assert.ok(events.indexOf('file:file-a')<events.indexOf('row:doc-a'));assert.ok(events.indexOf('app-data')<events.indexOf('auth'));assert.ok(events.indexOf('auth')<events.indexOf('finish'));
+await assert.rejects(eraseAccount('owner',{...backend,documents:async()=>[{id:'someone-elses-doc',user_id:'other',store_id:'shared-manual-index',file_id:'other-file'}]}),/OWNERSHIP/);assert.ok(!events.includes('index:shared-manual-index'));
+console.log('PASS: teaching validation, primary/middle/high matching, empty-index behavior, erasure ownership, partial failure/retry and cleanup order. No real provider or account was deleted.');

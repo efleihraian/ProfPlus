@@ -12,3 +12,6 @@ export const conversations = sqliteTable('conversations', {
   deleted: integer('deleted').notNull().default(0), messages: text('messages').notNull(), selection: text('selection').notNull(), revision: integer('revision').notNull(),
   createdAt: integer('created_at').notNull(), updatedAt: integer('updated_at').notNull(),
 }, t => [index('conversations_user_updated').on(t.userId,t.updatedAt)]);
+export const accountDeletions = sqliteTable('account_deletions', {
+ userId: text('user_id').primaryKey(), startedAt: integer('started_at').notNull(),
+});

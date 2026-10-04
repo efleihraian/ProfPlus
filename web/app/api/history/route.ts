@@ -6,7 +6,7 @@ export async function GET(request: Request) {
     const db = storage().db, id = new URL(request.url).searchParams.get('id');
     if (id) { const chat = await db.prepare('SELECT * FROM conversations WHERE id=? AND user_id=? AND deleted=0').bind(id,user).first(); if (!chat) return json({error:'Conversație indisponibilă.'},404); return json({chat:{...chat,messages:JSON.parse(String(chat.messages)),selection:JSON.parse(String(chat.selection))}}); }
     // Adopt previous document-only conversations without inventing missing messages.
-    await db.prepare("INSERT OR IGNORE INTO conversations (id,user_id,title,messages,selection,revision,created_at,updated_at) SELECT chat_id,user_id,'Documente anterioare','[]','null',0,MIN(created_at),MAX(created_at) FROM documents WHERE user_id=? GROUP BY chat_id,user_id").bind(user).run();
+    await db.prepare("INSERT OR IGNORE INTO conversations (id,user_id,title,messages,selection,revision,created_at,updated_at) SELECT chat_id,user_id,'Documente anterioare','[]','null',0,MIN(created_at),MAX(created_at) FROM documents WHERE user_id=? AND NOT EXISTS (SELECT 1 FROM account_deletions WHERE user_id=?) GROUP BY chat_id,user_id").bind(user,user).run();
     const [projects,chats] = await Promise.all([db.prepare('SELECT id,name FROM projects WHERE user_id=? ORDER BY created_at DESC').bind(user).all(),db.prepare('SELECT id,title,project_id,revision,updated_at FROM conversations WHERE user_id=? AND deleted=0 ORDER BY updated_at DESC').bind(user).all()]);
     return json({projects:projects.results,chats:chats.results});
   } catch { return json({error:'Istoricul nu este disponibil momentan.'},503); }
@@ -15,9 +15,9 @@ export async function POST(request: Request) {
   if (!sameOrigin(request)) return json({error:'Origine nepermisă.'},403);
   const user = await userId(request); if (!user) return json({error:'Autentificare necesară.'},401);
   try { const raw=await request.text(); if(raw.length>2000)return json({error:'Cerere prea mare.'},413); const b=JSON.parse(raw) as {kind?:string;name?:string;projectId?:string|null}; const db=storage().db;
-    if (b.kind==='project') { if(typeof b.name!=='string'||!b.name.trim()||b.name.length>100) return json({error:'Numele proiectului trebuie să aibă 1–100 caractere.'},400); const id=crypto.randomUUID(); await db.prepare('INSERT INTO projects(id,user_id,name,created_at) VALUES(?,?,?,?)').bind(id,user,b.name.trim(),Date.now()).run(); return json({id},201); }
+    if (b.kind==='project') { if(typeof b.name!=='string'||!b.name.trim()||b.name.length>100) return json({error:'Numele proiectului trebuie să aibă 1–100 caractere.'},400); const id=crypto.randomUUID(); const inserted=await db.prepare('INSERT INTO projects(id,user_id,name,created_at) SELECT ?,?,?,? WHERE NOT EXISTS (SELECT 1 FROM account_deletions WHERE user_id=?)').bind(id,user,b.name.trim(),Date.now(),user).run(); if(!inserted.meta.changes)return json({error:'Ștergerea contului este în curs.'},409); return json({id},201); }
     if(b.projectId && !await db.prepare('SELECT id FROM projects WHERE id=? AND user_id=?').bind(b.projectId,user).first()) return json({error:'Proiect indisponibil.'},404);
-    const id=crypto.randomUUID(), now=Date.now(); await db.prepare("INSERT INTO conversations(id,user_id,title,project_id,messages,selection,revision,created_at,updated_at) VALUES(?,?,'Conversație nouă',?,'[]','null',0,?,?)").bind(id,user,b.projectId||null,now,now).run(); return json({id},201);
+    const id=crypto.randomUUID(), now=Date.now(); const inserted=await db.prepare("INSERT INTO conversations(id,user_id,title,project_id,messages,selection,revision,created_at,updated_at) SELECT ?,?,'Conversație nouă',?,'[]','null',0,?,? WHERE NOT EXISTS (SELECT 1 FROM account_deletions WHERE user_id=?)").bind(id,user,b.projectId||null,now,now,user).run(); if(!inserted.meta.changes)return json({error:'Ștergerea contului este în curs.'},409); return json({id},201);
   } catch { return json({error:'Nu am putut crea elementul.'},503); }
 }
 export async function PUT(request: Request) {

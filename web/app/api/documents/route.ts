@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     const bytes = new Uint8Array(await file.arrayBuffer());
     if ((ext === "pdf" && new TextDecoder().decode(bytes.slice(0, 5)) !== "%PDF-") || (["docx", "pptx"].includes(ext) && (bytes[0] !== 80 || bytes[1] !== 75)) || (ext === "doc" && ![208, 123].includes(bytes[0]))) return json({ error: "Fișierul nu corespunde formatului declarat." }, 415);
     const { db, bucket, key } = storage(); id = crypto.randomUUID();
-    const reserved = await db.prepare("INSERT INTO documents (id,user_id,chat_id,name,mime,size,status,created_at) SELECT ?,?,?,?,?,?,'uploading',? WHERE (SELECT COUNT(*) FROM documents WHERE user_id = ? AND chat_id = ?) < 10 AND (SELECT COUNT(*) FROM documents WHERE user_id = ?) < 50").bind(id, user, chat, name, mime, file.size, Date.now(), user, chat, user).run();
+    const reserved = await db.prepare("INSERT INTO documents (id,user_id,chat_id,name,mime,size,status,created_at) SELECT ?,?,?,?,?,?,'uploading',? WHERE (SELECT COUNT(*) FROM documents WHERE user_id = ? AND chat_id = ?) < 10 AND (SELECT COUNT(*) FROM documents WHERE user_id = ?) < 50 AND NOT EXISTS (SELECT 1 FROM account_deletions WHERE user_id = ?)").bind(id, user, chat, name, mime, file.size, Date.now(), user, chat, user, user).run();
     if (!reserved.meta.changes) return json({ error: "Limita este de 10 documente pe conversație și 50 pe cont. Șterge un document pentru a continua." }, 409);
     await bucket.put(id, bytes, { httpMetadata: { contentType: mime } });
     const upload = new FormData(); upload.append("purpose", "assistants"); upload.append("file", new Blob([bytes], { type: mime }), name);

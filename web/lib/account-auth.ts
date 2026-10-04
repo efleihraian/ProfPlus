@@ -1,7 +1,9 @@
 import {env} from 'cloudflare:workers';
 import {cookies} from 'next/headers';
 import {createServerClient} from '@supabase/ssr';
-export type AccountIdentity={id:string;email:string;name:string;emailVerified:boolean|null;provider:'sites'|'supabase';linkedProviders?:string[]};
+import {teachingProfile,type TeachingProfile} from './teaching-profile';
+import {deletionPending} from './account-state';
+export type AccountIdentity={id:string;email:string;name:string;emailVerified:boolean|null;provider:'sites'|'supabase';linkedProviders?:string[];teaching?:TeachingProfile|null;deleting?:boolean};
 type Config={AUTH_PROVIDER?:string;SUPABASE_URL?:string;SUPABASE_PUBLISHABLE_KEY?:string;APP_ORIGIN?:string;AUTH_GOOGLE_ENABLED?:string;AUTH_APPLE_ENABLED?:string;AUTH_REGISTRATION_ENABLED?:string;AUTH_EMAIL_ENABLED?:string};
 export function authConfig(){
  const c=env as unknown as Config;
@@ -24,12 +26,12 @@ export async function accountIdentity(request:Request):Promise<AccountIdentity|n
   if(!c.ready)return null;
   try{const client=await authClient();const {data,error}=await client.auth.getUser();const u=data.user;
    if(error||!u||!u.email_confirmed_at)return null;
-   return {id:'supabase:'+u.id,email:u.email||'',name:String(u.user_metadata?.full_name||'').slice(0,100),emailVerified:true,provider:'supabase',linkedProviders:[...new Set((u.identities||[]).map(identity=>identity.provider).filter(provider=>['google','apple','email'].includes(provider)))]};
+   return {id:'supabase:'+u.id,email:u.email||'',name:String(u.user_metadata?.full_name||'').slice(0,100),emailVerified:true,provider:'supabase',teaching:teachingProfile(u.user_metadata?.teaching),deleting:await deletionPending('supabase:'+u.id),linkedProviders:[...new Set((u.identities||[]).map(identity=>identity.provider).filter(provider=>['google','apple','email'].includes(provider)))]};
   }catch{return null;}
  }
  const id=request.headers.get('oai-authenticated-user-id');if(!id)return null;
  let name=request.headers.get('oai-authenticated-user-full-name')||'';
  if(request.headers.get('oai-authenticated-user-full-name-encoding')==='percent-encoded-utf-8'){try{name=decodeURIComponent(name);}catch{name='';}}
- return {id,email:request.headers.get('oai-authenticated-user-email')||'',name:name.slice(0,100),emailVerified:null,provider:'sites'};
+ return {id,email:request.headers.get('oai-authenticated-user-email')||'',name:name.slice(0,100),emailVerified:null,provider:'sites',deleting:await deletionPending(id)};
 }
 export const accountJson=(body:unknown,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'private, no-store, max-age=0','Pragma':'no-cache','Expires':'0'}});

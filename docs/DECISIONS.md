@@ -109,3 +109,7 @@ Produsul folosește ProfPlus pe toate platformele. Repository-ul devine ProfOS-E
 ## 2026-10-04 — OAuth fără domeniu propriu
 
 Folosim callbackul HTTPS Supabase pentru Google și Apple, separat de callbackul aplicației locale. Refolosim clientul și secretul Google existente; cheia Apple este dedicată ProfPlus. Providerul Email și Resend rămân dezactivate/amânate. Nu schimbăm filtrul de acces Sites și nu migrăm automat identități pe baza adresei de e-mail. Activarea aplicației așteaptă ținta și probele reale.
+
+## 2026-10-05 — Profil minim și ștergere a datelor active
+
+Rolul, disciplina și ciclurile personalizează sursele, fără date suplimentare despre școală/elevi. Învățătorul acoperă toate materiile 0–4; profesorul poate alege mai multe cicluri. Selecția manualelor rămâne schimbabilă și nu inventează indexuri pentru discipline încă neimportate. La ștergere, identitatea este verificată de server; datele/documentele personale sunt eliminate înainte de identitatea Supabase, cu referințe și blocare pentru retry. Cheia administrativă existentă a fost aprobată numai pentru serverul local și rămâne exclusă din Git. Nu condiționăm ștergerea ProfPlus de revocarea manuală Apple; automatizarea Apple și monitorizarea operațională sunt urmărite separat. Nu asociem sau ștergem implicit vechile date Sites pe baza e-mailului.

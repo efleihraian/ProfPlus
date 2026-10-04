@@ -2,6 +2,8 @@ import { env } from "cloudflare:workers";
 import { retrieve, collectionIds } from "../../../lib/rag";
 import { assessmentFormat, citedSources, outputText, response, teacherEvidence, webEvidence } from "../../../lib/hybrid-rag";
 import { storage, userId, validChatId } from "../../../lib/document-store";
+import {accountIdentity,authConfig} from '../../../lib/account-auth';
+import {defaultManualIds} from '../../../lib/teaching-profile';
 import { manualStates } from "../../../lib/library";
 import { ownedDocument } from "../../../lib/document-store";
 type Message = { role: "user" | "assistant"; content: string };
@@ -31,7 +33,8 @@ export async function POST(request: Request) {
   }
   const selection = body.selection;
   if (selection !== undefined && (!selection || typeof selection !== "object" || !Array.isArray(selection.manualIds) || !Array.isArray(selection.documentIds) || selection.manualIds.length > 50 || selection.documentIds.length > 10 || [...selection.manualIds, ...selection.documentIds].some(id => typeof id !== "string" || id.length > 80))) return json({ error: "Selecție invalidă: cel mult 50 manuale și 10 documente." }, 400);
-  const manualIds = selection ? [...new Set(selection.manualIds as string[])] : collectionIds;
+  const identity=await accountIdentity(request);if(authConfig().provider==='supabase'&&(!identity||identity.deleting))return json({error:'Autentificare necesară.'},401);
+  const manualIds = selection ? [...new Set(selection.manualIds as string[])] : defaultManualIds(identity?.teaching||null,collectionIds);
   const documentIds = selection ? [...new Set(selection.documentIds as string[])] : undefined;
   if (documentIds?.length && (!user || !chat)) return json({ error: "Autentificare necesară." }, 401);
   if (selection) {

@@ -2,6 +2,16 @@
 
 ## Ne lansat încă
 
+- Găzduire independentă, retenții operaționale și revocare Apple automată rămân de finalizat; site-ul publicat este încă 0.9.2.
+
+## 0.9.3 — 2026-10-05 — pilot local
+
+- Delogare în bara laterală și în pagina contului; ștergere confirmată, cu identitate verificată și autentificare recentă.
+- Eliminare date proprii D1/R2/OpenAI/Supabase; acces blocat pe durata unei ștergeri incomplete și reluare după eșecul unui furnizor.
+- Profil minim învățător/profesor, disciplină și cicluri 0–4, 5–8, 9–12; preselecție manuale potrivite deja indexate și filtre schimbabile.
+- Revocarea autorizării Apple este explicată separat și nu blochează ștergerea datelor ProfPlus; automatizarea rămâne condiție pentru iOS.
+- Verificări automate cu conturi fictive, D1/R2 locale și furnizori simulați; interfață desktop/mobil. Fără ștergerea contului titularului sau publicare online.
+
 - P-037: metodele sociale asociate contului sunt afișate explicit; butonul redundant de conectare este ascuns pentru utilizatorul autentificat.
 
 - Configurare externă P-033: Google activ în Supabase, callback Google corectat, Email dezactivat; Apple App ID/Services ID active și cheie dedicată creată. Apple activat cu cheia nouă salvată de titular; aplicația locală configurată și redirecturi oficiale verificate. Loginurile complete și sesiunile rămân în curs.

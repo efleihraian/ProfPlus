@@ -1,6 +1,6 @@
 # ProfPlus — evaluare preliminară DPIA și registru de riscuri
 
-Data: 2026-10-04 · versiune analizată: 0.9.0 · **DRAFT — neaprobat pentru lansare generală**.
+Data: 2026-10-05 · versiune analizată: 0.9.3 local · **DRAFT — neaprobat pentru lansare generală**.
 
 Document de lucru bazat pe cod și verificările disponibile. Nu este o certificare GDPR, o politică publică sau o evaluare juridică finalizată. Responsabilul operatorului și persoana care aprobă evaluarea nu sunt încă identificați. Cerința utilizatorului: protecția datelor se aplică website-ului, backendului și aplicațiilor Android/iOS.
 
@@ -16,17 +16,19 @@ De completat înainte de extindere: denumirea și contactul operatorului, roluri
 
 DPIA se efectuează înaintea prelucrărilor susceptibile de risc ridicat; riscurile ridicate rămase după măsuri pot necesita consultarea autorității înainte de continuare. Vezi [EDPB](https://www.edpb.europa.eu/topics/accountability-and-compliance-tools/data-protection-impact-assessment_en). Pentru România se verifică și [Decizia ANSPDCP 174/2018](https://www.dataprotection.ro/servlet/ViewDocument?id=1556); lista nu înlocuiește analiza contextului concret.
 
-Evaluare preliminară proprie: AI extern, posibile date ale copiilor și documente educaționale confidențiale justifică efectuarea unei DPIA complete înainte de utilizarea extinsă cu astfel de date. Scara, categoriile efective și relația cu școlile sunt necunoscute; concluzia juridică privind obligativitatea nu este încă aprobată. Autentificarea nouă rămâne inactivă în pilot; nu se deschide înregistrarea generală înainte de închiderea condițiilor de lansare de mai jos.
+Evaluare preliminară proprie: AI extern, posibile date ale copiilor și documente educaționale confidențiale justifică efectuarea unei DPIA complete înainte de utilizarea extinsă cu astfel de date. Scara, categoriile efective și relația cu școlile sunt necunoscute; concluzia juridică privind obligativitatea nu este încă aprobată. Google/Apple sunt active în pilotul local controlat; accesul Sites publicat este separat; nu se deschide înregistrarea generală înainte de închiderea condițiilor de lansare de mai jos.
 
 ## 3. Fluxuri și inventar tehnic verificat
 
 | Flux | Date/scop | Destinație actuală sau planificată | Păstrare și limite cunoscute |
 |---|---|---|---|
 | Pilot autentificat | ID, e-mail/nume furnizate de platformă; acces la cont | Sites/ChatGPT → server ProfPlus | Sesiunea platformei; duratele și logurile furnizorului trebuie inventariate |
-| Conturi independente, inactive | E-mail, parolă, nume opțional; Google/Apple și ID | Supabase Auth; providerul OAuth ales | De configurat și verificat; ProfPlus nu salvează parola în D1 |
+| Conturi independente, local | ID, e-mail verificat, nume opțional și identități Google/Apple | Supabase Auth și providerul OAuth ales | E-mail/parolă inactive; ștergerea identității cere API-ul administrativ. Contractele și retențiile furnizorilor rămân de verificat |
+| Profil didactic | Rol, disciplină și cicluri; personalizarea bibliotecii | Supabase user_metadata; verificare în ProfPlus | Modificabil în cont, eliminat cu identitatea. Fără școală, adresă, telefon, elevi sau folosire pentru marketing |
+| Ștergere în curs | ID intern proprietar și moment de început; blocare acces/reluare | D1 account_deletions | Eliminat la succes; dacă procesul rămâne întrerupt necesită reluare/monitorizare. Politica și automatizarea de retenție rămân P-039 |
 | E-mailuri de cont, inactive | Destinatar și mesaj de confirmare/recuperare | Supabase → Resend SMTP | Retenția evenimentelor/logurilor și contractele de verificat |
 | Proiecte/conversații | Titluri, mesaje, citări, selecții, ID proprietar | D1 | Până la ștergere; ștergerea chatului golește transcriptul și păstrează un marcaj tehnic. Nu există încă o perioadă automată de expirare |
-| Documente proprii | Originale, nume, fragmente și ID proprietar | R2 + metadate D1 + fișier/index OpenAI | Ștergerea documentului apelează eliminarea din fiecare stocare. Nu reprezintă ștergerea întregului cont |
+| Documente proprii | Originale, nume, fragmente și ID proprietar | R2 + metadate D1 + fișier/index OpenAI | Ștergerea documentului apelează eliminarea din fiecare stocare. Ștergerea contului local apelează aceleași stocări înainte de eliminarea identității; copiile/logurile furnizorilor sunt separate |
 | Generare AI/RAG | Întrebare, context selectat și fragmente | OpenAI API | Codul trimite `store:false` pentru Responses; aceasta NU dovedește retenție zero pentru toate serviciile, logurile sau fișierele/indexurile |
 | Completare web | Interogare generată pornind de la întrebare | Instrumentul web OpenAI și infrastructura acestuia | Fragmentele nu sunt trimise direct de funcția web; anonimizarea interogării generate nu este demonstrată. P-017 |
 | Export PDF/DOCX | Documentul ales de utilizator | Generare în browser, fișier pe dispozitiv | Păstrarea/copierea după descărcare este în afara controlului aplicației |
@@ -50,7 +52,7 @@ Apreciere preliminară calitativă, fără a inventa probabilități sau aprobă
 | R1 | Accesul altui profesor la documente/conversații | Verificare proprietar pe server; probe de izolare; Supabase getUser, e-mail confirmat, cookie HttpOnly/Lax/Secure în producție | Echipa tehnică: test integrare reală, refresh/revocare, acces fișiere și audit înainte de lansare |
 | R2 | Date ale elevilor divulgate prin AI sau căutare web | Selecții de surse și separare documente; instrucțiuni pentru interogări | Echipa tehnică + operator: minimizare/anonimizare verificată, reguli pentru încărcări, validare căutare web; risc deschis P-017 |
 | R3 | Păstrare excesivă sau ștergere incompletă | Ștergere document din D1/R2/index și fișier; limitele ștergerii chatului explicate | Operator + tehnic: retenții, proces complet de ștergere cont, retry și probe inclusiv backup/loguri; P-030 |
-| R4 | Transferuri/furnizori insuficient documentați | Inventar preliminar și autentificare externă neactivată | Operator: DPA, subîmputerniciți, locații și mecanisme de transfer aplicabile; verificare pentru fiecare serviciu |
+| R4 | Transferuri/furnizori insuficient documentați | Inventar preliminar; Google/Apple active numai în pilotul local | Operator: DPA, subîmputerniciți, locații și mecanisme de transfer aplicabile; verificare pentru fiecare serviciu |
 | R5 | Cont compromis, recuperare abuzată | Origine verificată, e-mail confirmat, răspunsuri generice, PKCE, redirect fix, lipsa fallbackului între identități | Tehnic: rate limits/antiabuz, teste live, administratori cu MFA, rotație și plan incident |
 | R6 | Asocierea greșită a datelor la migrare | Spații de ID separate; fără migrare pe baza e-mailului | Tehnic + operator: dovada deținerii ambelor conturi, backup și test de revenire |
 | R7 | Răspuns AI eronat folosit împotriva elevului | Surse și mesaj că AI poate greși; verificarea de către profesor | Produs + evaluatori: probe pedagogice, fără decizii educaționale semnificative exclusiv automate; analiză nouă pentru evaluarea elevilor |
@@ -85,3 +87,15 @@ Google activat în Supabase cu aprobarea titularului; Email dezactivat. Apple Ap
 Continuare pilot 2026-10-04: Apple activat în Supabase folosind secret semnat generat local din cheia nouă salvată de titular. Cheia privată rămâne locală, în afara Git. Aplicația locală folosește identitatea Supabase; nu se migrează sau asociază automat istoricul Sites. Testarea datelor primite și a sesiunilor reale așteaptă autentificarea titularului. Nu se modifică accesul public și nu se declară conformitatea.
 
 P-037 (2026-10-04): UI folosește doar numele providerilor din identitățile deja verificate de server pentru clarificarea stării contului. Nu adaugă SDK-uri sau date persistate; nu expune ID-uri de identitate/tokenuri. Condițiile de lansare și riscurile deschise rămân aplicabile.
+
+## Revizie 0.9.3 — 2026-10-05 — profil și ștergere locală
+
+Date noi: rol didactic, disciplină și cicluri, exclusiv pentru biblioteca personalizată. Disciplina predată nu este tratată ca declarație despre convingeri personale. Profesorul poate corecta alegerile. Scopul și temeiul trebuie reflectate în informarea finală a operatorului; nu se deduce un consimțământ de marketing.
+
+Ștergerea folosește identitatea verificată, origine controlată, confirmare și autentificare recentă. Secretul Supabase administrativ existent a fost configurat local cu aprobarea titularului, exclus din Git și protejat 0600; nu este transmis browserului. Datele proprii sunt eliminate din D1/R2 și fișierele/indexurile OpenAI înainte de identitatea Supabase. Un eșec păstrează referințele pentru reluare și blochează accesul. Datele altor conturi și manualele comune nu sunt șterse. Confirmarea de succes se referă la datele active, nu la retenție zero în infrastructura furnizorilor.
+
+Dovezi: teste cu Auth simulat, D1/R2 izolate, identitate recentă, eroare/reluare, izolare și sesiune invalidată; adaptoare simulate pentru ordinea ștergerii OpenAI. Accesul administrativ real a fost verificat numai prin citire; contul titularului nu a fost șters. Interfața didactică și dialogul au fost verificate pe desktop și la 390px.
+
+Riscuri deschise: retențiile/logurile/copii de siguranță și restaurarea fără reintroducerea datelor șterse; reluare operațională dacă identitatea a fost eliminată înainte de curățarea marcajului; întreruperi/încărcări concurente; probe reale complete cu conturi dedicate. În pilot, autorizarea Apple se oprește manual din contul Apple; nu condiționează dreptul de ștergere a datelor ProfPlus. Revocarea automată Apple și declarațiile App Store/Google Play sunt de finalizat înainte de mobil (P-039). Datele vechi Sites nu se asociază și nu se elimină prin potrivirea e-mailului; necesită un flux separat cu dovada identității.
+
+Această implementare reduce R1/R3/R5, dar nu închide P-030/P-034 și nu aprobă DPIA. Referință pentru minimizare, ștergere și protecție din proiectare: [GDPR, articolele 5, 17 și 25](https://eur-lex.europa.eu/eli/reg/2016/679/oj). Cerințele Apple pentru ștergere/revocare: [Account deletion](https://developer.apple.com/support/offering-account-deletion-in-your-app/).

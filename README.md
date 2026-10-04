@@ -27,7 +27,7 @@ Un utilizator încarcă documente text sau PDF cu text, pune o întrebare și pr
 
 ## Stare
 
-Versiune: **0.9.2**. Documentele profesorului și manualele au prioritate; internetul completează informațiile lipsă. Documente încărcate, indexate și șterse direct în chat. [Contractul API și limitele](docs/CHAT_API.md).
+Versiune locală: **0.9.3**. Documentele profesorului și manualele au prioritate; internetul completează informațiile lipsă. Documente încărcate, indexate și șterse direct în chat. [Contractul API și limitele](docs/CHAT_API.md).
 
 Organizație GitHub: [ProfPlus (identificator ProfOS-Edu)](https://github.com/ProfOS-Edu). Repository privat: [ProfPlus](https://github.com/ProfOS-Edu/ProfPlus).
 
@@ -42,7 +42,7 @@ npm ci
 npm run dev -- --host 127.0.0.1 --port 3000
 ```
 
-Configurarea locală folosește web/.dev.vars cu OPENAI_API_KEY și OPENAI_MODEL. Fișierul este exclus din GitHub. Deschide URL-ul afișat de server. Conversațiile sunt salvate în D1 pentru identitatea autentificată Sites.
+Configurarea locală folosește web/.dev.vars cu OPENAI_API_KEY și OPENAI_MODEL. Fișierul este exclus din GitHub. Deschide URL-ul afișat de server. Conversațiile sunt salvate în D1 pentru identitatea autentificată. Configurația locală folosește acum Supabase; site-ul privat publicat păstrează identitatea Sites.
 
 ## Biblioteca RAG
 
@@ -66,7 +66,7 @@ Documentele create de AI se deschid în editor, cu salvare în conversație și 
 
 ## Conturi și setări
 
-Secțiunea **Cont și setări** reunește profilul, securitatea, tema și preferințele locale. Integrarea Google/Apple/e-mail este pregătită, dar necesită conturile furnizorilor și configurarea găzduirii. Pilotul continuă să folosească ChatGPT. [Pașii de activare Supabase + Resend](docs/ACCOUNT_SETUP.md).
+Secțiunea **Cont și setări** reunește profilul, profilul didactic, securitatea, tema, preferințele locale, delogarea și ștergerea contului. Local, Google și Apple sunt active; la prima conectare profesorul alege rolul, disciplina și ciclurile. Biblioteca preselectează materialele potrivite indexate. E-mail și Resend rămân amânate. Site-ul publicat continuă să folosească ChatGPT. [Profil didactic și ștergere](docs/ACCOUNT_LIFECYCLE.md). [Pașii de activare Supabase + Resend](docs/ACCOUNT_SETUP.md).
 
 Protecția datelor: [DPIA preliminară și condiții de lansare](docs/DPIA.md). Conformitatea completă se validează pe baza proceselor și dovezilor reale, nu a existenței documentului.
 

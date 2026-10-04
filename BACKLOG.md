@@ -74,9 +74,9 @@ Inventar de date/cookie-uri/SDK-uri, scopuri, retenție și permisiuni; consimț
 
 Audit alt text, contrast, tastatură/focus și VoiceOver/TalkBack; fără dark patterns, costuri ascunse, recenzii false sau afirmații nedovedite; licențe verificate; dezabonare când sunt introduse e-mailuri de marketing. Criteriu: probe documentate pentru suprafețele și funcțiile existente pe fiecare platformă.
 
-## P-030 — Solicitări de ștergere a datelor — TODO
+## P-030 — Solicitări de ștergere a datelor — IN PROGRESS
 
-Cale vizibilă și verificarea identității; eliminare date cont, conversații, fișiere originale și indexuri AI, cu retențiile/excepțiile explicate. Criteriu: flux complet testat și documentat, distinct de ștergerea unei conversații care păstrează documentele.
+Cale vizibilă și verificarea identității; eliminare date cont, conversații, fișiere originale și indexuri AI, cu retențiile/excepțiile explicate. Criteriu: flux complet testat și documentat, distinct de ștergerea unei conversații care păstrează documentele. 0.9.3 implementează ștergerea datelor active în pilotul local; retențiile, logurile, copiile, revocarea Apple și monitorizarea rămân P-034/P-039.
 
 ## P-031 — Mod întunecat — DONE
 
@@ -111,3 +111,13 @@ P-033, verificare 2026-10-04: loginurile reale Google/Apple efectuate de titular
 ## P-037 — Stare clară pentru cont și metodele asociate — DONE
 
 Google/Apple afișează «Asociat contului» din identitățile verificate pe server; «Conectare» nu mai apare când există sesiune. Profilul existent a fost salvat cu succes în testul real local. Build, TypeScript și suitele Auth trecute; migrarea site-ului online rămâne P-033.
+
+## P-038 — Profil didactic, preselecție și ștergere cont — DONE (local)
+
+Delogare vizibilă, profil minim învățător/profesor cu disciplină și cicluri, preselecție doar materiale potrivite indexate, schimbare ulterioară. Ștergere confirmată, identitate verificată, eliminare date proprii D1/R2/OpenAI/Supabase și eșec reluabil; nu se șterge contul real în test. Evidențe și limite GDPR/DPIA înainte de finalizare.
+
+Dovezi: docs/ACCOUNT_LIFECYCLE.md; TypeScript/build, teste de profil, API/D1/R2 și Auth simulate trecute; UI desktop/390px. Niciun cont real șters. P-030/P-034 rămân deschise pentru condițiile operaționale și juridice.
+
+## P-039 — Finalizarea operațională a ștergerii și integrarea mobilă — TODO
+
+Revocare Apple prin API cu tokenuri protejate și notificări de furnizor, reluare administrativă automată pentru întreruperi inclusiv după eliminarea identității, retenție pentru marcaje/copie de siguranță/loguri și protecție pentru restaurări. Probe reale pe conturi dedicate, încărcări/ștergeri concurente și cereri deja pornite, identități Sites separate și implementare web/Android/iOS. Nu se declară conformitate sau ștergere instantanee a copiilor furnizorilor. Responsabili și termene de stabilit înainte de lansarea generală.

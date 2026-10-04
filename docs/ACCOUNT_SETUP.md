@@ -97,3 +97,7 @@ Aplicațiile iOS/Android vor necesita configurări native, callbackuri/deep link
 ## Verificare efectuată
 
 Starea dashboardurilor din 2026-10-04 și pașii rămași sunt în [raportul configurației](AUTH_CONFIGURATION_REVIEW.md). GitHub este legat, însă loginurile Google/Apple sunt dezactivate; URL-urile sunt locale.
+
+## 8. Pilot local 0.9.3: profil și ștergere
+
+Google/Apple au fost activate pentru localhost; loginurile titularului au confirmat identitățile asociate aceluiași cont. Profilul didactic, delogarea și ștergerea contului sunt implementate local. Configurarea SUPABASE_SECRET_KEY numai pe server permite eliminarea identității; această cheie este privată, nu publishable. Ștergerea are confirmare și autentificare recentă. Resend și fluxurile e-mail rămân amânate. Vezi [fluxul, verificările și limitele](ACCOUNT_LIFECYCLE.md); probele automate folosesc conturi fictive, nu contul titularului.
