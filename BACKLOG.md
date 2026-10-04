@@ -86,9 +86,11 @@ Activare din antet, preferință persistentă local și sistem implicit; suprafe
 
 0.9.0: profil curent, securitate, formulare login/register/recuperare, temă/sistem, memorare opțională și resetare preferințe, informații despre stocare. Adapter Supabase cu e-mail verificat și Google/Apple OAuth pregătit și verificat cu furnizor simulat. Accesul Sites rămâne prin ChatGPT; nu sunt create conturi externe.
 
-## P-033 — Activare autentificare și e-mailuri reale — TODO
+## P-033 — Activare autentificare și e-mailuri reale — IN PROGRESS
 
 Domeniu și găzduire potrivită, Supabase/Resend, DNS/SMTP, Google/Apple, politici reale și limite antiabuz; verificarea fluxurilor reale inclusiv sesiuni/refresh, linkuri expirate/reutilizate, livrare și izolare. Plan de migrare pentru identitățile și datele Sites. Criteriu: utilizator nou verificat, login, reset și OAuth funcționale în găzduirea finală; nicio expunere de date între conturi. Pașii: docs/ACCOUNT_SETUP.md.
+
+Progres 2026-10-04: Google Enabled și Email Disabled verificate în Supabase; callback Google salvat, Apple App ID/Services ID activate și cheie creată. Localizarea fișierului Apple, secretul semnat, providerul Apple, ținta aplicației și testele reale rămân deschise. Nu este lansare generală.
 
 ## P-034 — DPIA și validarea pregătirii GDPR — IN PROGRESS
 

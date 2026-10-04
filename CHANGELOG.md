@@ -2,6 +2,8 @@
 
 ## Ne lansat încă
 
+- Configurare externă P-033: Google activ în Supabase, callback Google corectat, Email dezactivat; Apple App ID/Services ID active și cheie dedicată creată. Fișierul Apple necesită localizare; activarea în aplicație și testele OAuth reale rămân în curs.
+
 ## 0.9.2 — 2026-10-04
 
 - Rebranding ProfPlus în chat, cont/setări, bibliotecă, titlul paginii, etichete accesibile, asistent AI, indexuri noi și documentație.

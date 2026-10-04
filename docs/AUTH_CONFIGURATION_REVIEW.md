@@ -42,3 +42,15 @@ Limite Auth inspectate: login/înregistrare 30 cereri/5 minute/IP, refresh 150/5
 6. Documentăm operatorul, politicile, contractele, retenția și finalizăm evaluarea DPIA înainte de lansarea generală. Resend rămâne amânat până la domeniu.
 
 Referințe oficiale: [GitHub integration](https://supabase.com/docs/guides/deployment/branching/github-integration), [redirect URLs](https://supabase.com/docs/guides/auth/redirect-urls), [Apple OAuth](https://supabase.com/docs/guides/auth/social-login/auth-apple), [Apple web configuration](https://developer.apple.com/help/account/capabilities/configure-sign-in-with-apple-for-the-web/). Instrucțiunile complete rămân în [ACCOUNT_SETUP.md](ACCOUNT_SETUP.md).
+
+## Continuare configurare — 2026-10-04
+
+Email este dezactivat în Supabase (Disabled verificat); telefonul și autentificarea anonimă rămân dezactivate. Google este activ în Supabase (Enabled verificat), folosind clientul existent ProfPlus Web și secretul original din fișierul local. Callbackul clientului Google a fost corectat și salvat către https://dgozbrdvmmtwhfrefjln.supabase.co/auth/v1/callback. Verificările nonce și cerința de e-mail au fost păstrate. Secretul nu este inclus în repository sau în acest raport.
+
+Google Auth Platform: External / Testing, zero test users; Branding ProfPlus, suport/contact ajutor.profplus@gmail.com, domeniu Supabase. Linkurile publice de homepage/politici lipsesc. Data Access salvat cu exact openid, userinfo.email și userinfo.profile (notificarea Data access changes saved verificată); loginul real nu a fost încă validat și nu s-a publicat aplicația OAuth.
+
+Apple: App ID profplus.ro are Sign In with Apple activ ca Primary App ID. Services ID ro.profplus.web (ProfPlus Web) este creat și activat, asociat cu ProfPlus, domeniul Supabase și callbackul de mai sus; starea bifată a fost verificată după salvare. Cheia dedicată ProfPlus Sign In a fost creată, Key ID ADSNFYHLSN. Portalul marchează descărcarea drept efectuată, dar API-ul browserului nu a returnat fișierul și nu a fost găsit local. Utilizatorului i s-a solicitat verificarea dialogului de salvare/căii. Nu se recreează sau revocă cheia implicit. Providerul Apple rămâne dezactivat până la accesul sigur la fișier și generarea secretului semnat.
+
+Aplicația nu a fost încă trecută pe Supabase; ținta localhost/pilot Sites rămâne de clarificat. Nu s-au migrat date sau modificat accesul site-ului privat. Login/logout/refresh, Apple relay și izolarea cu identități Supabase reale rămân netestate. P-033 rămâne IN PROGRESS; Resend este amânat până la domeniu.
+
+Actualizare descărcare: titularul nu găsește alt fișier descărcat; folderul indicat conține numai credentialul Google. Apple marchează cheia ADSNFYHLSN drept Downloaded și nu mai oferă descărcare. Fișierul privat nu este disponibil; înlocuirea/revocarea necesită intervenția titularului conform politicii browserului pentru schimbarea credențialelor. Nu s-a creat o a doua cheie și nu s-a revocat prima.

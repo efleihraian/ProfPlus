@@ -105,3 +105,7 @@ La cererea utilizatorului, Google și Apple sunt primele metode independente. E-
 ## 2026-10-04 — ProfPlus și identificatori stabili
 
 Produsul folosește ProfPlus pe toate platformele. Repository-ul devine ProfOS-Edu/ProfPlus, numele afișat al organizației ProfPlus. URL-ul Sites, identificatorul organizației, cookie-urile și cheile locale existente se păstrează pentru compatibilitate; nu se rescriu datele utilizatorilor. Rebrandingul nu activează automat autentificarea externă. Inspecția Supabase/Apple se documentează separat de testele reale OAuth și de aprobarea GDPR/DPIA.
+
+## 2026-10-04 — OAuth fără domeniu propriu
+
+Folosim callbackul HTTPS Supabase pentru Google și Apple, separat de callbackul aplicației locale. Refolosim clientul și secretul Google existente; cheia Apple este dedicată ProfPlus. Providerul Email și Resend rămân dezactivate/amânate. Nu schimbăm filtrul de acces Sites și nu migrăm automat identități pe baza adresei de e-mail. Activarea aplicației așteaptă ținta și probele reale.

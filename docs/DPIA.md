@@ -77,3 +77,7 @@ La activare se inventariază și metadatele de profil primite efectiv de Supabas
 ## Revizie 0.9.2 — 2026-10-04
 
 Rebrandingul ProfPlus păstrează aceleași fluxuri, identități și date. Inspecția externă confirmă proiectul Supabase într-o regiune UE și providerii Google/Apple încă dezactivați. Providerul Email este activ în dashboard, deși aplicația blochează fluxurile de e-mail; alinierea configurației înainte de activarea externă rămâne P-033. Nu s-a deschis accesul general, nu s-au generat chei și nu s-au transferat conversațiile/documentele în Supabase. Raport: AUTH_CONFIGURATION_REVIEW.md. Această verificare nu închide R1, R4, R5 sau R6 și nu reprezintă aprobarea DPIA.
+
+## Configurare externă pilot — 2026-10-04
+
+Google activat în Supabase cu aprobarea titularului; Email dezactivat. Apple App ID/Services ID activate și cheie dedicată creată cu aprobarea titularului, providerul Supabase Apple încă dezactivat. Secretul Google a fost transmis numai către Supabase, fără afișare sau Git; fișierul Apple nu este încă disponibil pentru generarea secretului semnat. Aplicația și accesul privat Sites nu au fost modificate, nu există încă probe de login real sau migrare. Testarea datelor efectiv primite, retenției, ștergerii, contractelor și transferurilor rămâne deschisă; nu se declară conformitate sau aprobare DPIA.
