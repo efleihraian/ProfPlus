@@ -167,3 +167,7 @@ Actualizare descărcare: titularul nu găsește alt fișier descărcat; folderul
 ## 2026-10-04 — P-033 — Apple activ și test local OAuth
 
 Cheia nouă salvată de titular găsită și protejată 0600, asocierea ProfPlus verificată. Secret Apple ES256 verificat criptografic și salvat numai în Supabase; Apple Enabled confirmat. Expirare 2 aprilie 2027, 20:04:40 UTC. Configurare locală ignorată de Git: Supabase + numai Google/Apple, localhost:3000. Server pornit. Browser verificat: numai butoane sociale și redirecturi oficiale Apple/Google; loginul complet și sesiunile așteaptă autentificarea titularului. Nicio migrare, publicare, revocare sau aprobare GDPR/DPIA presupusă. Raportul AUTH_CONFIGURATION_REVIEW.md actualizat.
+
+## Verificare OAuth real — 2026-10-04
+
+După loginurile efectuate de titular prin Google și Apple, Supabase afișează ambele identități Apple, Google pe aceeași înregistrare de utilizator. Nu s-a făcut asociere manuală în ProfPlus și nu se copiază datele personale/UID-ul în Git. În aplicația locală profilul este autentificat, e-mail verificat; sesiunea rămâne validă după reîncărcarea paginii. Asocierea celor două metode și callbackul real sunt confirmate pentru contul testat. Logout, reînnoirea la expirare, Apple Hide My Email și izolarea între conturi distincte rămân netestate. Aceasta nu validează site-ul online sau conformitatea GDPR/DPIA.

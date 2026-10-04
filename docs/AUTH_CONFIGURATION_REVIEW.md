@@ -62,3 +62,7 @@ Titularul a creat și salvat cheia ProfPlus Sign In 2, Key ID DH6J23P4H5. Fișie
 Aplicația locală configurată în fișierul ignorat web/.dev.vars pentru Supabase, APP_ORIGIN http://localhost:3000, Google/Apple active și Email/registration false. Cheia publică publishable folosită, fără service_role. Credențialele OpenAI existente păstrate. Nu s-a schimbat site-ul găzduit sau accesul său.
 
 Verificare browser local: pagina cont afișează numai Google/Apple; butonul Apple ajunge la pagina oficială «Use your Apple Account to sign in to ProfPlus Web» cu Services ID și callback Supabase corecte, Google ajunge la selectorul de conturi oficial. Autentificarea titularului, callbackul final, logout/refresh, Apple relay și izolarea conturilor reale rămân de verificat. Serverul local este pornit pentru test; fluxurile se testează succesiv pentru a evita înlocuirea cookie-ului PKCE.
+
+## Verificare OAuth real — 2026-10-04
+
+După loginurile efectuate de titular prin Google și Apple, Supabase afișează ambele identități Apple, Google pe aceeași înregistrare de utilizator. Nu s-a făcut asociere manuală în ProfPlus și nu se copiază datele personale/UID-ul în Git. În aplicația locală profilul este autentificat, e-mail verificat; sesiunea rămâne validă după reîncărcarea paginii. Asocierea celor două metode și callbackul real sunt confirmate pentru contul testat. Logout, reînnoirea la expirare, Apple Hide My Email și izolarea între conturi distincte rămân netestate. Aceasta nu validează site-ul online sau conformitatea GDPR/DPIA.
