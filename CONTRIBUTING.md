@@ -22,3 +22,7 @@ Fișierele se actualizează ca parte a lucrului; nu există încă automatizare 
 O sarcină este DONE când îndeplinește criteriul din backlog, verificările au trecut și documentația reflectă rezultatul. Nu marca drept testat ce nu a fost executat.
 
 Nu încărca chei API, .env, documente private sau date ale utilizatorilor în Git. Fișierele sincronizate din sources/ ale proiectului ChatGPT sunt referințe read-only și nu se modifică.
+
+## Website și aplicații mobile
+
+Aplică [cerințele permanente de produs](docs/PRODUCT_REQUIREMENTS.md) pe web, Android și iOS. În jurnal consemnează cerințele afectate și verificările executate; urmărește separat lucrările de implementare. Nu colecta date suplimentare, nu adăuga trackere sau SDK-uri fără evaluarea scopului și a datelor transmise. Folosește informațiile reale ale firmei și condițiile comerciale confirmate pentru politicile destinate utilizatorilor.

@@ -111,3 +111,7 @@ Centrare explicită a dialogului cu inset și margin auto, lățime maximum 1120
 ## 2026-10-04 — P-025: paletă globală
 
 Culorile vechi înlocuite cu variabile comune; roluri explicite pentru acțiuni, selecții, progres, salvare și erori. Aplicare în toate componentele active, favicon și focus. Înlăturată metadată temporară de preview. 0.8.2: build trecut; verificare vizuală desktop pentru chat, navigare, bibliotecă (inclusiv sursă selectată) și editor. Culori calculate în browser confirmate: fundal rgb(248,250,252), text rgb(15,23,42), acțiune rgb(37,99,235), salvare rgb(16,185,129). Fără verificare mobilă în această schimbare. Arhivă verificată fără secrete; publicare privată confirmată de Sites. Fixture-ul local șters, serverele temporare oprite.
+
+## 2026-10-04 — P-026: cerințe permanente web și mobil
+
+Înregistrate toate cele 20 cerințe ale utilizatorului în PRODUCT_REQUIREMENTS.md, cu aplicare web/Android/iOS. AGENTS.md și CONTRIBUTING.md solicită respectarea lor în schimbările viitoare. P-027–P-030 urmăresc implementarea, fără a o prezenta drept finalizată. Verificare: lista completă și legăturile locale; schimbare exclusiv de documentație, fără republicare sau modificare a comportamentului site-ului. Versiunea aplicației rămâne 0.8.2.

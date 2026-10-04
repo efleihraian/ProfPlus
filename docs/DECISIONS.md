@@ -85,3 +85,7 @@ Dialogul nativ are inset 0 și margin auto pentru a păstra centrarea chiar cân
 ## 2026-10-04 — Paleta ProfOS
 
 #2563EB pentru acțiuni, #10B981 pentru progres, #F8FAFC fundal și #0F172A text. Suprafețele documentelor rămân albe; borduri și text secundar slate. Emerald pe fundal folosește text închis pentru lizibilitate; textul de succes folosește o nuanță emerald mai închisă. Erorile și ștergerea rămân roșii pentru sensul acțiunii.
+
+## 2026-10-04 — Cerințe permanente multiplatformă
+
+Cerințele utilizatorului devin instrucțiuni de proiect pentru web, Android și iOS. Înregistrarea și implementarea sunt urmărite separat. Politicile viitoare se bazează pe date reale despre operator, destinatari și condiții comerciale; nu inventăm detalii sau declarații de conformitate.

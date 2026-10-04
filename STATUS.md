@@ -6,6 +6,8 @@ Etapă: documente educaționale editabile și exportabile
 
 ## Finalizat
 
+- Cerințele permanente pentru web/Android/iOS înregistrate și incluse în regulile de dezvoltare; implementarea integrală urmărită în P-027–P-030.
+
 - Paletă unitară albastru / emerald, fundal #F8FAFC și text #0F172A în toate suprafețele aplicației.
 
 - Editorul documentului centrat în pagină, cu margini egale și lățime limitată pe desktop.
@@ -48,6 +50,8 @@ Istoric: CRUD și mutare, recuperare transcript/citări/selecție, izolare contu
 TypeScript și build trecute. Teste reale: TXT/PDF/DOCX, răspuns din document, răspuns din manual, răspuns web și mixt, validări, izolare între identități locale, ștergerea completă a documentelor de test. Vezi docs/HYBRID_EVALUATION.md. QA în browser nu a fost disponibil. Biblioteca: catalog complet, selecție doar Intuitext, respingere neindexat, document din altă conversație cu citare, izolare între utilizatori și ștergere test — vezi docs/LIBRARY.md.
 
 ## Urmează și limite
+
+- Politici și informații reale despre operator; audit de consimțământ/date/terți, accesibilitate și flux complet de solicitare a ștergerii. Lista înregistrată nu certifică implementarea sau conformitatea juridică.
 
 - Evaluare pedagogică și calitatea căutării, inclusiv cazul istoric despre triunghiuri.
 - Verificarea anonimizării interogărilor web, formulelor și scanărilor; DOC/PPTX/HTML nu au încă probe reale.

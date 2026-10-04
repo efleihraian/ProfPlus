@@ -2,6 +2,8 @@
 
 ## Ne lansat încă
 
+- Cerințe permanente pentru website, Android și iOS: politici, consimțăminte, date minime, audit terți, transparență, accesibilitate, licențe și solicitări de ștergere. Înregistrate în instrucțiuni și backlog; implementarea rămâne separată.
+
 ## 0.8.2 — 2026-10-04
 
 - Paletă globală: albastru #2563EB, emerald #10B981, fundal #F8FAFC, text #0F172A.

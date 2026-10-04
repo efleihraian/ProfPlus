@@ -57,3 +57,23 @@ Dialog centrat în viewport, margini egale pe desktop, foaie centrată și spaț
 ## P-025 — Paletă albastru / emerald — DONE
 
 Schema utilizatorului aplicată global, inclusiv bibliotecă, editor, dialoguri și favicon. Acțiuni albastre, progres verde, fundal și text conform paletei. 0.8.2.
+
+## P-026 — Cerințe permanente multiplatformă — DONE
+
+Lista utilizatorului înregistrată în docs/PRODUCT_REQUIREMENTS.md și legată din AGENTS.md/CONTRIBUTING.md. Aplicabilă web, Android și iOS. DONE reprezintă înregistrarea instrucțiunilor, nu implementarea tuturor cerințelor.
+
+## P-027 — Politici și date reale despre operator — TODO
+
+Politică de confidențialitate, termeni, cookie-uri, datele firmei și contactul. Înainte de plăți: rambursări, abonamente, prețuri complete și anulare pentru web/App Store/Google Play. Criteriu: texte bazate pe operator, servicii și condiții reale, accesibile din platformele relevante.
+
+## P-028 — Consimțăminte, date minime și terți — TODO
+
+Inventar de date/cookie-uri/SDK-uri, scopuri, retenție și permisiuni; consimțăminte corecte în formulare și banner când se aplică; fără trackere opționale înainte de acord; opțiuni de refuz/retragere. Date ale copiilor: public și mecanism aplicabil stabilite înainte de activarea fluxurilor. Criteriu: comportament verificat, inventar și documentație aliniate.
+
+## P-029 — Accesibilitate și practici transparente — TODO
+
+Audit alt text, contrast, tastatură/focus și VoiceOver/TalkBack; fără dark patterns, costuri ascunse, recenzii false sau afirmații nedovedite; licențe verificate; dezabonare când sunt introduse e-mailuri de marketing. Criteriu: probe documentate pentru suprafețele și funcțiile existente pe fiecare platformă.
+
+## P-030 — Solicitări de ștergere a datelor — TODO
+
+Cale vizibilă și verificarea identității; eliminare date cont, conversații, fișiere originale și indexuri AI, cu retențiile/excepțiile explicate. Criteriu: flux complet testat și documentat, distinct de ștergerea unei conversații care păstrează documentele.

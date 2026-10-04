@@ -61,3 +61,5 @@ Deschide „Bibliotecă de surse” pentru a vedea, căuta, filtra, selecta și 
 Proiectele și conversațiile sunt în bara din stânga. Creează un proiect cu butonul de lângă „Proiecte”, caută conversații și redeschide-le din listă. Meniul „···” al fiecărei conversații permite mutarea sau ștergerea ei. Proiectele pot fi șterse din propriul meniu. Pe telefon, deschide bara din butonul de meniu. Mesajele, citările și selecția surselor se salvează în contul Sites, pe server, și sunt disponibile pe alte dispozitive autentificate. [Comportament și limite](docs/HISTORY.md).
 
 Documentele create de AI se deschid în editor, cu salvare în conversație și export PDF/DOCX. Vezi [editorul de documente](docs/DOCUMENT_EDITOR.md).
+
+[Cerințe permanente pentru web, Android și iOS](docs/PRODUCT_REQUIREMENTS.md): confidențialitate, transparență, accesibilitate, licențe și controlul datelor.
