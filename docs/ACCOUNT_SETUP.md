@@ -1,90 +1,95 @@
-# Conturi ProfOS: Supabase Auth + Resend
+# Configurare conturi ProfOS — Google și Apple
 
-## Ce funcționează acum și ce așteaptă configurarea
+Actualizat: 2026-10-04 · 0.9.1. Decizia utilizatorului: acum Google/Apple; e-mail/parolă și Resend după cumpărarea domeniului. Nu au fost configurate conturile externe prin această schimbare. Butoanele rămân inactive până la configurare.
 
-Secțiunea `/account` oferă profilul actual, acces la conectare/securitate, temă luminos/întunecat/sistem, memorarea sau resetarea preferințelor locale și informații despre cookie-uri/stocare. Pilotul Sites folosește în continuare identitatea ChatGPT verificată de platformă.
+## 1. Alegerea adresei aplicației
 
-Integrarea Supabase este pregătită în cod: e-mail/parolă, înregistrare cu confirmare, retrimitere confirmare, recuperare și schimbare parolă, Google/Apple prin OAuth PKCE, schimbare nume/e-mail și deconectare locală/globală. Butoanele neconfigurate sunt dezactivate și explicate. Nu s-a creat niciun cont extern și nu s-au trimis e-mailuri reale în această implementare.
+Pilotul actual `https://profos-chat.cosminsoames.chatgpt.site` este privat și are filtrul de autentificare ChatGPT al Sites. Configurarea Supabase nu înlătură acest filtru. Pentru acces numai prin Google/Apple pregătim o găzduire cu autentificare proprie. Pentru probe se poate folosi localhost sau o adresă temporară HTTPS, de exemplu [Cloudflare workers.dev](https://developers.cloudflare.com/workers/configuration/routing/workers-dev/); domeniul propriu se adaugă ulterior. Nu s-a efectuat migrarea găzduirii sau a datelor.
 
-Supabase gestionează identitatea și parolele. Resend livrează e-mailurile Auth prin SMTP și poate fi folosit ulterior prin API pentru alte mesaje tranzacționale sau marketing, cu preferințe și dezabonare. E-mailul verificat este suficient pentru prima versiune; telefonul nu se colectează acum.
+În exemplele de mai jos:
 
-## 1. Pregătește domeniul și găzduirea
+- `APP_ORIGIN` este adresa aplicației fără slash final; pentru probe locale `http://localhost:3000`, pentru test online adresa HTTPS efectiv creată.
+- `PROJECT_REF` este identificatorul real al proiectului Supabase. Nu introduce literal placeholderul în configurări.
 
-Alege un domeniu pe care îl controlezi. Site-ul actual `*.chatgpt.site` are acces privat prin ChatGPT; adăugarea Supabase nu elimină acel filtru de acces. Pentru login independent destinat publicului, pregătește o găzduire care permite autentificarea proprie (de exemplu Cloudflare Workers, cu păstrarea bindingurilor D1/R2) și domeniul ProfOS. Confirmă suportul platformei înainte de schimbarea autentificării. Nu publica pilotul și nu schimba automat audiența.
+| Unde completezi | Valoare |
+|---|---|
+| Supabase → Site URL | `APP_ORIGIN` |
+| Supabase → Redirect URLs | `APP_ORIGIN/auth/callback` |
+| Google → Authorized JavaScript origins | `APP_ORIGIN` |
+| Google → Authorized redirect URIs | `https://PROJECT_REF.supabase.co/auth/v1/callback` |
+| Apple Services ID → Domains and Subdomains | `PROJECT_REF.supabase.co` |
+| Apple Services ID → Return URLs | `https://PROJECT_REF.supabase.co/auth/v1/callback` |
 
-Datele existente sunt deținute de identificatori Sites; cele noi vor folosi `supabase:<uuid>`. Nu transfera date doar pe baza unei adrese de e-mail. Migrarea se planifică separat și cere dovada deținerii ambelor identități. Activarea Supabase fără migrare nu mută automat conversațiile vechi.
+Copiază callbackul afișat de Supabase în configurarea providerului; dacă proiectul folosește un domeniu Auth particularizat, valorile se schimbă corespunzător. Fără wildcard pentru adresa de producție.
 
-## 2. Creează proiectul Supabase
+## 2. Supabase
 
-- Creează un proiect și alege regiunea potrivită utilizatorilor și cerințelor de date.
-- Din Connect/Settings, preia URL-ul proiectului și cheia **publishable**. Nu folosi cheia service role pentru login.
-- În Authentication, activează e-mail/parolă și **Confirm email**. Păstrează confirmarea schimbării e-mailului pe ambele adrese și configurează politica de parole.
-- Configurează Site URL cu originea finală și adaugă explicit `<APP_ORIGIN>/auth/callback` la redirect URLs. Nu folosi wildcard în producție.
-- Configurează rate limits, protecție împotriva abuzului și verificările necesare înainte de înregistrarea publică. CAPTCHA, dacă este activat în Supabase, trebuie integrat și în formularele ProfOS înainte de deschidere; câmpul CAPTCHA nu este implementat în acest pas.
+1. În dashboard creează proiectul **ProfOS** în organizația ta; alege o regiune UE potrivită și salvează parola bazei într-un manager de parole.
+2. Păstrează URL-ul proiectului și cheia **publishable** din Connect/Settings → API Keys. Aplicația folosește această cheie; nu are nevoie de service role pentru login.
+3. În Authentication → Sign In / Providers: dezactivează **Email**, Phone și Anonymous; pregătește doar Google și Apple.
+4. Pentru crearea contului la prima conectare OAuth, **Allow new users to sign up** trebuie permis în mediul de test controlat. Dezactivarea lui globală blochează și utilizatorii OAuth noi. La lansare respectă condițiile DPIA.
+5. În URL Configuration setează valorile din tabel. La mutarea de pe localhost actualizăm împreună adresele și `APP_ORIGIN`.
+6. Nu configura SMTP/Resend acum. Numele poate fi completat opțional în ProfOS, inclusiv dacă Apple nu îl furnizează.
 
-## 3. Configurează Resend
+[Configurarea Supabase Auth](https://supabase.com/docs/guides/auth/general-configuration). Supabase se ocupă de identitate; conversațiile/documentele existente rămân în D1/R2 și indexurile AI, până la o decizie separată de migrare.
 
-- Creează contul, adaugă domeniul/subdomeniul de trimitere și publică în DNS înregistrările de verificare cerute de Resend. Folosește un subdomeniu dedicat, de exemplu `mail.<domeniul-tău>`.
-- Așteaptă verificarea domeniului. Creează o cheie de trimitere cu permisiuni potrivite.
-- Leagă Resend din integrarea Supabase sau configurează Custom SMTP după valorile actuale din Resend. Configurează numele ProfOS și o adresă de expeditor din domeniul verificat.
-- Păstrează cheia în configurarea SMTP/secret manager; nu o introduce în chat, Git sau în pagina web. Pentru e-mailuri viitoare prin API va exista un secret server separat `RESEND_API_KEY`, când funcția respectivă este implementată.
+## 3. Google Cloud
 
-## 4. Șabloane de e-mail
+1. Selectează/creează proiectul **ProfOS**, apoi Google Auth Platform.
+2. Branding: numele ProfOS; suport și contact dezvoltator `ajutor.profplus@gmail.com`.
+3. Audience: **External**, inițial **Testing**; adaugă conturile echipei în Test users.
+4. Data Access: numai `openid`, `userinfo.email`, `userinfo.profile`.
+5. Clients → Create client → **Web application**; nume **ProfOS Web**. Completează origin și redirect URI din tabel.
+6. Salvează Client ID și Client Secret în Supabase → Google și activează providerul. Testează înainte de activarea generală. Brandingul public și politicile trebuie finalizate înainte de lansare.
 
-Pentru fluxul server-side, linkurile folosesc token hash, nu fragmentul URL cu tokenuri. Configurează șabloanele Supabase astfel:
+[Ghid Supabase Google](https://supabase.com/docs/guides/auth/social-login/auth-google), [configurarea OAuth Google](https://developers.google.com/identity/protocols/oauth2/web-server#creatingcred).
 
-- Confirmare înregistrare: `{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=signup`
-- Recuperare parolă: `{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=recovery`
-- Schimbare e-mail: `{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=email_change`
+## 4. Apple Developer
 
-Nu include tokenuri în loguri. Callbackul consumă linkul și redirecționează spre un URL curat. E-mailurile trebuie testate real, inclusiv expirare, link deja folosit și adrese externe echipei Supabase.
+Verifică înscrierea activă în **Apple Developer Program**, nu doar existența unui Apple Account. [Detalii Apple](https://developer.apple.com/help/account/membership/program-enrollment/).
 
-## 5. Google
+1. Certificates, Identifiers & Profiles → Identifiers: creează/alege App ID pentru viitoarea aplicație ProfOS și activează Sign in with Apple ca Primary App ID.
+2. Creează **Services ID** pentru web, activează Sign in with Apple, asociază Primary App ID și completează domeniul/Return URL din tabel. Identificatorii trebuie aleși stabil pentru proiect; `ro.profos.app` și `ro.profos.web` sunt doar exemple de structură, nu identificatori înregistrați.
+3. Keys → creează o cheie Sign in with Apple asociată aplicației. Salvează în siguranță fișierul `.p8`, Key ID și Team ID.
+4. Generează client secret-ul Apple semnat, folosind generatorul din ghidul Supabase, și introdu-l în Supabase → Apple. Client ID pentru web este **Services ID**. Dacă există mai multe Client IDs, Services ID este primul.
+5. Notează expirarea secretului și reînnoiește-l înainte de expirare, cel târziu la 6 luni. Testează și **Hide My Email**. Trimiterea ulterioară către adresele relay va necesita configurarea surselor de e-mail Apple.
 
-În Google Cloud, configurează brandingul/consimțământul OAuth și un client Web. Introdu callbackul afișat de Supabase în lista exactă de redirect URI Google. Copiază Client ID și Client Secret în providerul Google din Supabase. Folosește numai permisiunile de identitate necesare. Testează login și contul rezultat înainte de a activa `AUTH_GOOGLE_ENABLED=true`.
+[Configurarea web Apple](https://developer.apple.com/help/account/capabilities/configure-sign-in-with-apple-for-the-web/), [integrarea și generatorul Supabase Apple](https://supabase.com/docs/guides/auth/social-login/auth-apple). Cheia `.p8` și client secret-urile se păstrează în managerul de secrete/configurarea furnizorului, niciodată în Git sau în chat.
 
-## 6. Apple
+## 5. Conectarea aplicației
 
-Este necesar contul Apple Developer și configurarea Sign in with Apple pentru aplicație și web (App ID, Services ID, domeniu/return URL, cheie). Urmează valorile și pașii actuali din documentația Apple/Supabase. Configurează providerul Apple în Supabase și rotația secretului când este necesară. Testează inclusiv Hide My Email; nu asocia automat conturi pe baza numelui sau e-mailului de relay. Activează `AUTH_APPLE_ENABLED=true` numai după test.
+După configurarea providerilor, dezvoltatorul configurează în găzduirea independentă valorile de mai jos. Nu activa Supabase în pilotul Sites pentru a încerca ocolirea autentificării platformei.
 
-## 7. Configurarea serverului
-
-Nume de variabile, fără valori reale:
-
-```
+```dotenv
 AUTH_PROVIDER=supabase
-SUPABASE_URL=<URL proiect>
+SUPABASE_URL=https://PROJECT_REF.supabase.co
 SUPABASE_PUBLISHABLE_KEY=<publishable key>
-APP_ORIGIN=https://<domeniul final>
-AUTH_GOOGLE_ENABLED=false
-AUTH_APPLE_ENABLED=false
+APP_ORIGIN=<adresa exactă a aplicației>
+AUTH_GOOGLE_ENABLED=true
+AUTH_APPLE_ENABLED=true
+AUTH_EMAIL_ENABLED=false
 AUTH_REGISTRATION_ENABLED=false
 ```
 
-Implicit, lipsa `AUTH_PROVIDER=supabase` păstrează Sites. În modul Supabase neconfigurat, rutele private refuză accesul; nu revin la identitatea Sites. Cookie-urile de sesiune sunt HttpOnly, SameSite=Lax și Secure în producție. Serverul verifică utilizatorul la Supabase și cere confirmarea e-mailului. Nu are încredere doar în conținutul cookie-ului.
+Flagul ProfOS `AUTH_REGISTRATION_ENABLED` controlează numai formularul viitor de înregistrare prin e-mail; nu este setarea globală Supabase pentru utilizatori noi. `AUTH_EMAIL_ENABLED=false` blochează login/register/forgot/resend/parolă/schimbare e-mail și callbackurile cu token hash pe server. Providerul Email trebuie dezactivat și în Supabase, deoarece API-ul Supabase există separat de aplicație.
 
-Înainte de `AUTH_REGISTRATION_ENABLED=true`: e-mailuri reale, redirecturi, sesiuni/refresh, logout, Google, Apple, izolare între conturi, limitare abuz, politicile și informațiile operatorului, planul migrării și recuperarea datelor trebuie verificate. Nu există consimțământ implicit de marketing.
+Identitatea se verifică prin getUser; cookie-urile sunt HttpOnly, SameSite=Lax, Secure pe HTTPS. Identitățile noi sunt `supabase:<uuid>`; datele Sites nu sunt asociate automat după e-mail. Înainte de mutarea conversațiilor trebuie confirmată deținerea ambelor identități. Conturile Google/Apple cu e-mailuri diferite, inclusiv relay Apple, nu trebuie presupuse identice; verificăm comportamentul real de asociere în Supabase.
 
-## Android și iOS
+Pentru probe reale: login cu ambii provideri, prima creare, logout/relogin, sesiune expirată/refresh, callback refuzat, două conturi fără acces reciproc la date, Hide My Email și fluxuri de ștergere/revocare. Testele actuale cu Auth simulat confirmă comportamentul codului, nu configurarea externă.
 
-Același proiect Supabase poate susține identitatea în aplicațiile mobile. Loginul nativ, deep links/universal links, callbackurile, stocarea sigură a tokenurilor și configurările magazinelor se implementează și testează în aplicații; codul web de aici nu le implementează automat. Autorizarea datelor rămâne pe server.
+## 6. E-mail și Resend — etapă ulterioară
 
-## Documentație oficială
+După domeniu: verificare DNS Resend, expeditor propriu, SMTP Supabase, provider Email și Confirm Email, template-uri și verificări reale. Apoi activăm `AUTH_EMAIL_ENABLED=true` și `AUTH_REGISTRATION_ENABLED=true`.
 
-- https://supabase.com/docs/guides/auth
-- https://supabase.com/docs/guides/auth/server-side/creating-a-client
-- https://supabase.com/docs/guides/auth/passwords
-- https://supabase.com/docs/guides/auth/social-login/auth-google
-- https://supabase.com/docs/guides/auth/social-login/auth-apple
-- https://resend.com/docs/send-with-supabase-smtp
-- https://supabase.com/partners/resend
+Linkuri de template:
+- Confirmare: `{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=signup`
+- Recuperare: `{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=recovery`
+- Schimbare adresă: `{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=email_change`
 
-## Verificările acestei versiuni
+[Ghid Resend/Supabase SMTP](https://resend.com/docs/send-with-supabase-smtp). Mesajele de marketing și API-ul Resend pentru alte comunicări se tratează separat, cu scopuri/preferințe/dezabonare unde se aplică.
 
-TypeScript și build; verificare UI desktop și mobil 390px (inclusiv memorare opțională a temei). API-urile Sites au fost verificate cu identități locale sintetice. Testul `cd web && npm run test:account`, după build, pornește un furnizor Auth simulat și un Worker local pe porturile 3098/3099; salvează/restaurează configurația locală temporară și nu folosește chei reale. Verifică contractele de login, verificare e-mail, recuperare, cookie-uri, PKCE și respingerea sesiunilor falsificate. Nu verifică livrarea SMTP, loginul real Google/Apple, rotația/refresh-ul real al sesiunilor sau aplicațiile native.
+## 7. GDPR/DPIA și aplicații mobile
 
-Inventar introdus: Supabase primește e-mailul, parola și numele opțional pentru autentificare; Resend primește destinatarii și conținutul e-mailurilor de cont. SDK-urile Supabase rulează pe server în această versiune, fără cheie service role. API-ul Resend pentru alte e-mailuri nu este încă implementat. Fluxurile sunt inactive în pilot; înainte de activare se finalizează politicile, retenția, contractele/regionarea și inventarul terților.
+Condițiile din [DPIA](DPIA.md) se aplică și loginului social: informarea despre e-mail/ID/nume și furnizori, roluri și contracte, retenție, ștergere și securitate. Nu cerem acces Google Drive, Gmail, contacte sau telefon pentru login. Alegerea regiunii UE nu certifică singură conformitatea tuturor serviciilor.
 
-## Condiția GDPR/DPIA pentru activare
-
-Înainte de lansarea generală și activarea providerilor/înregistrării, închide condițiile din [DPIA și registrul de riscuri](DPIA.md), inclusiv operatorul, temeiurile, politicile reale, contractele/transferurile, retenția și ștergerea. Flagurile de configurare controlează activarea tehnică; nu certifică de unele singure conformitatea.
+Aplicațiile iOS/Android vor necesita configurări native, callbackuri/deep links, identificatori și stocarea sigură a tokenurilor. Păstrăm același proiect Supabase pentru identitate; integrarea web nu reprezintă implementarea loginului nativ.

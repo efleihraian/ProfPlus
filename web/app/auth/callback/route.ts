@@ -4,6 +4,7 @@ export async function GET(request:Request){
  const redirect=(notice:string,view?:string)=>{target.searchParams.set('notice',notice);if(view)target.searchParams.set('view',view);return new Response(null,{status:303,headers:{Location:target.toString(),'Cache-Control':'private, no-store','Referrer-Policy':'no-referrer'}});};
  if(!c.ready)return redirect('not-configured');
  const url=new URL(request.url);const code=url.searchParams.get('code'),hash=url.searchParams.get('token_hash'),type=url.searchParams.get('type');
+ if(hash&&!c.emailEnabled)return redirect('email-disabled');
  try{
   const client=await authClient();
   if(hash&&['signup','recovery','email_change'].includes(type||'')){

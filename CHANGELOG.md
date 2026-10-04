@@ -2,6 +2,12 @@
 
 ## Ne lansat încă
 
+## 0.9.1 — 2026-10-04
+
+- Prima etapă cu Google/Apple; formularele de e-mail și parolă ascunse și operațiile aferente blocate implicit pe server.
+- Ghid Supabase/Google/Apple, callbackuri distincte și configurarea viitoare Resend. Providerii externi așteaptă configurare.
+- VERSION sincronizat cu versiunea aplicației.
+
 ## 0.9.0 — 2026-10-04
 
 - Cerință GDPR/DPIA permanentă, inventar de date, evaluare preliminară și condiții explicite înainte de lansarea generală.

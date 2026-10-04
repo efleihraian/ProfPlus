@@ -67,3 +67,9 @@ Apreciere preliminară calitativă, fără a inventa probabilități sau aprobă
 - P-017, P-027–P-030, P-033 și P-034 revizuite cu dovezi. Datele din fișele App Store/Google Play trebuie să reflecte aplicațiile implementate.
 
 **Aprobare:** operator — de completat; DPO/consilier dacă se aplică — de completat; decizie și data — de completat. Reanalizare la schimbarea scopurilor, datelor, furnizorilor, funcțiilor AI, publicului sau platformei și după incidente relevante. Nu se marchează „DPIA finalizată” doar prin completarea acestui fișier.
+
+## Revizie 0.9.1 — Google/Apple mai întâi
+
+Utilizatorul a amânat e-mail/parolă și Resend până la domeniu. Fluxurile respective sunt ascunse și refuzate de server, inclusiv linkurile de recuperare. Google/Apple și Supabase rămân neactivate până la configurare. Se documentează ID/e-mail/nume și asocierea identităților; nu se cer permisiuni Gmail/Drive/contacte. Revizuirea furnizorilor și fluxul complet de ștergere rămân condiții de lansare; loginul social nu încheie evaluarea DPIA.
+
+La activare se inventariază și metadatele de profil primite efectiv de Supabase de la provider (pot include URL-ul avatarului). ProfOS afișează ID-ul asociat contului, e-mailul și numele; minimizarea și retenția datelor păstrate de provider se verifică pe configurația reală.

@@ -93,3 +93,7 @@ Domeniu și găzduire potrivită, Supabase/Resend, DNS/SMTP, Google/Apple, polit
 ## P-034 — DPIA și validarea pregătirii GDPR — IN PROGRESS
 
 Evaluare preliminară, fluxuri de date și registru de riscuri în docs/DPIA.md. Criteriu: roluri/temeiuri/operator stabilite, evaluare completată și aprobată, contracte/transferuri/retenție/incidențe/drepturi verificate, riscurile reziduale tratate și dovezi tehnice legate de versiunea lansată. Nu este o certificare de conformitate; condițiile deschise împiedică declararea pregătirii pentru lansare generală.
+
+## P-035 — Prima etapă doar Google/Apple — DONE
+
+0.9.1: interfață numai cu login social, e-mail/parolă blocate pe server prin flag explicit implicit fals; callbackurile de e-mail blocate. Ghid actualizat pentru Supabase, Google, Apple și găzduire. DONE reprezintă schimbarea aplicației; activarea și verificarea reală rămân P-033. Resend după domeniu.

@@ -2,13 +2,13 @@ import {env} from 'cloudflare:workers';
 import {cookies} from 'next/headers';
 import {createServerClient} from '@supabase/ssr';
 export type AccountIdentity={id:string;email:string;name:string;emailVerified:boolean|null;provider:'sites'|'supabase'};
-type Config={AUTH_PROVIDER?:string;SUPABASE_URL?:string;SUPABASE_PUBLISHABLE_KEY?:string;APP_ORIGIN?:string;AUTH_GOOGLE_ENABLED?:string;AUTH_APPLE_ENABLED?:string;AUTH_REGISTRATION_ENABLED?:string};
+type Config={AUTH_PROVIDER?:string;SUPABASE_URL?:string;SUPABASE_PUBLISHABLE_KEY?:string;APP_ORIGIN?:string;AUTH_GOOGLE_ENABLED?:string;AUTH_APPLE_ENABLED?:string;AUTH_REGISTRATION_ENABLED?:string;AUTH_EMAIL_ENABLED?:string};
 export function authConfig(){
  const c=env as unknown as Config;
  const provider=c.AUTH_PROVIDER==='supabase'?'supabase':'sites';
  let origin='';try{const u=new URL(c.APP_ORIGIN||'');if(u.protocol==='https:'||(u.protocol==='http:'&&['localhost','127.0.0.1'].includes(u.hostname)))origin=u.origin;}catch{}
  const ready=provider==='supabase'&&!!c.SUPABASE_URL&&!!c.SUPABASE_PUBLISHABLE_KEY&&!!origin;
- return {...c,provider,ready,origin,google:ready&&c.AUTH_GOOGLE_ENABLED==='true',apple:ready&&c.AUTH_APPLE_ENABLED==='true',registration:ready&&c.AUTH_REGISTRATION_ENABLED==='true'};
+ return {...c,provider,ready,origin,google:ready&&c.AUTH_GOOGLE_ENABLED==='true',apple:ready&&c.AUTH_APPLE_ENABLED==='true',emailEnabled:ready&&c.AUTH_EMAIL_ENABLED==='true',registration:ready&&c.AUTH_EMAIL_ENABLED==='true'&&c.AUTH_REGISTRATION_ENABLED==='true'};
 }
 export async function authClient(){
  const c=authConfig();if(!c.ready)throw new Error('AUTH_NOT_CONFIGURED');

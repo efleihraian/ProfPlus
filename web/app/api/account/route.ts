@@ -1,19 +1,20 @@
 import {accountIdentity,accountJson,authClient,authConfig} from '../../../lib/account-auth';
 export async function GET(request:Request){
  const c=authConfig(),user=await accountIdentity(request);
- return accountJson({user,provider:c.provider,ready:c.ready,google:c.google,apple:c.apple,registration:c.registration});
+ return accountJson({user,provider:c.provider,ready:c.ready,google:c.google,apple:c.apple,registration:c.registration,emailEnabled:c.emailEnabled});
 }
 export async function POST(request:Request){
  const c=authConfig();
  const origin=request.headers.get('origin');
  if(!origin||origin!==(c.ready?c.origin:new URL(request.url).origin))return accountJson({error:'Origine nepermisă.'},403);
  if(!request.headers.get('content-type')?.includes('application/json'))return accountJson({error:'Cerere invalidă.'},415);
- if(!c.ready)return accountJson({error:'Autentificarea Google, Apple și e-mail nu este încă activată.'},503);
+ if(!c.ready)return accountJson({error:'Autentificarea independentă nu este încă activată.'},503);
  try{
   const raw=await request.text();if(raw.length>4000)return accountJson({error:'Cerere prea mare.'},413);
   const b=JSON.parse(raw),action=b.action;
   const actions=['login','register','forgot','resend','oauth','logout','profile','password','email'];
   if(!actions.includes(action))return accountJson({error:'Acțiune invalidă.'},400);
+  if(['login','register','forgot','resend','password','email'].includes(action)&&!c.emailEnabled)return accountJson({error:'Autentificarea prin e-mail este dezactivată. Folosește Google sau Apple.'},503);
   const email=typeof b.email==='string'?b.email.trim():'';
   if(['login','register','forgot','resend','email'].includes(action)&&(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||email.length>254))return accountJson({error:'Introdu o adresă de e-mail validă.'},400);
   if(['login','register','password'].includes(action)&&(typeof b.password!=='string'||b.password.length>(128)||b.password.length<(action==='login'?1:12)))return accountJson({error:'Parola nouă trebuie să aibă între 12 și 128 de caractere.'},400);

@@ -97,3 +97,7 @@ Tema respectă sistemul până când utilizatorul alege explicit luminos/întune
 ## 2026-10-04 — Identitate independentă pregătită separat de pilot
 
 Supabase Auth pentru identitate și Resend SMTP/API pentru e-mailuri. E-mail verificat obligatoriu; telefonul nu este cerut acum. Utilizatorul a ales pregătirea integrării, neavând conturi externe sau domeniu. Pilotul Sites păstrează accesul ChatGPT și audiența privată. Integrarea viitoare folosește ID-uri `supabase:<uuid>` și cookie-uri HttpOnly; profilul este verificat pe server cu getUser. Migrarea necesită dovada deținerii identităților, nu potrivirea adresei de e-mail. Înregistrarea și fiecare provider sunt activate separat după configurare/verificare.
+
+## 2026-10-04 — Login social înainte de e-mail
+
+La cererea utilizatorului, Google și Apple sunt primele metode independente. E-mail/parolă/verificare Resend se activează după domeniu. Flag separat AUTH_EMAIL_ENABLED implicit fals și dezactivarea providerului Email în Supabase; înregistrarea OAuth rămâne distinctă de formularul e-mail. Găzduirea Sites își păstrează autentificarea, migrarea spre găzduire proprie și datele fiind separate.

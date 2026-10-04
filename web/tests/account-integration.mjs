@@ -5,6 +5,7 @@ import {createServer} from 'node:http';
 import {spawn} from 'node:child_process';
 import {readFile,writeFile,rm} from 'node:fs/promises';
 import {setTimeout as delay} from 'node:timers/promises';
+const socialOnly=process.argv.includes('--social-only');
 const origin='http://127.0.0.1:3099',mockOrigin='http://127.0.0.1:3098';
 const configPath='dist/server/.dev.vars';
 const original=await readFile(configPath).catch(()=>null);
@@ -37,7 +38,7 @@ async function call(path='/api/account',body,extra={}){
 async function action(body,status){const r=await call('/api/account',body);assert.equal(r.status,status,JSON.stringify(body.action));return r;}
 try{
  await new Promise(resolve=>server.listen(3098,'127.0.0.1',resolve));
- await writeFile(configPath,`AUTH_PROVIDER=supabase\nSUPABASE_URL=${mockOrigin}\nSUPABASE_PUBLISHABLE_KEY=synthetic-publishable-key\nAPP_ORIGIN=${origin}\nAUTH_GOOGLE_ENABLED=true\nAUTH_APPLE_ENABLED=false\nAUTH_REGISTRATION_ENABLED=true\n`,{mode:0o600});
+ await writeFile(configPath,`AUTH_PROVIDER=supabase\nSUPABASE_URL=${mockOrigin}\nSUPABASE_PUBLISHABLE_KEY=synthetic-publishable-key\nAPP_ORIGIN=${origin}\nAUTH_GOOGLE_ENABLED=true\nAUTH_APPLE_ENABLED=${socialOnly}\nAUTH_EMAIL_ENABLED=${!socialOnly}\nAUTH_REGISTRATION_ENABLED=true\n`,{mode:0o600});
  worker=spawn(process.execPath,['--import','./scripts/sites-env.mjs','./node_modules/wrangler/bin/wrangler.js','dev','--config','dist/server/wrangler.json','--local','--persist-to','.wrangler/account-test','--ip','127.0.0.1','--inspector-port','0','--port','3099'],{stdio:['ignore','pipe','pipe']});
  worker.stdout.on('data',b=>output+=b);worker.stderr.on('data',b=>output+=b);
  let ready=false;for(let i=0;i<80;i++){try{const r=await call();if(r.ok){ready=true;break;}}catch{}await delay(250);}
@@ -45,6 +46,18 @@ try{
  let r=await call();assert.equal((await r.json()).user,null);assert.match(r.headers.get('Cache-Control'),/no-store/);
  r=await call('/api/account',undefined,{'oai-authenticated-user-id':'spoofed'});assert.equal((await r.json()).user,null,'No fallback to Sites identity in Supabase mode');
  r=await call('/api/account',{action:'login',email:'fixture@example.test',password:'valid-test-password'},{Origin:'https://untrusted.example'});assert.equal(r.status,403);
+ if(socialOnly){
+  const flags=await(await call()).json();assert.equal(flags.emailEnabled,false);assert.equal(flags.registration,false);
+  const before=requests;
+  for(const name of ['login','register','forgot','resend','password','email'])await action({action:name,email:'fixture@example.test',password:'valid-test-password'},503);
+  r=await call('/auth/callback?token_hash=valid-recovery&type=recovery');assert.match(r.headers.get('location'),/email-disabled/);
+  assert.equal(requests,before,'Disabled email flows must not contact the provider');
+  for(const provider of ['google','apple']){
+   const result=await action({action:'oauth',provider},200);const url=new URL((await result.json()).url);
+   assert.equal(url.searchParams.get('provider'),provider);assert.equal(url.searchParams.get('redirect_to'),origin+'/auth/callback');assert.ok(url.searchParams.get('code_challenge'));
+  }
+  console.log('PASS: social-only mode enables Google/Apple PKCE and blocks every email/password endpoint and token-hash callback without provider calls.');
+ }else{
  await action({action:'register',email:'fixture@example.test',password:'short'},400);
  await action({action:'login',email:'fixture@example.test',password:'wrong'},401);
  confirmed=false;await action({action:'login',email:'fixture@example.test',password:'valid-test-password'},401);assert.equal((await(await call()).json()).user,null);
@@ -67,6 +80,7 @@ try{
  cookies.set('profos-auth','base64-'+Buffer.from(JSON.stringify({...session(),access_token:jwt+'tampered'})).toString('base64url'));
  assert.equal((await(await call()).json()).user,null);
  console.log('PASS: configuration, CSRF, verification gate, remote identity, session cookies, register/login/logout, profile, email, password recovery, OAuth PKCE, safe redirects, tampered session.');
+ }
  console.log('Provider is mocked; Google/Apple login and delivery through Resend require separate live acceptance tests.');
 }finally{
  if(worker){worker.kill('SIGTERM');await Promise.race([new Promise(resolve=>worker.once('exit',resolve)),delay(3000)]);}
