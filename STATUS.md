@@ -1,10 +1,12 @@
 # Starea proiectului
 
-Ultima actualizare: 2026-10-03
-Versiune: 0.7.0
-Etapă: navigare simplificată, proiecte și istoric în bara laterală
+Ultima actualizare: 2026-10-04
+Versiune: 0.8.0
+Etapă: documente educaționale editabile și exportabile
 
 ## Finalizat
+
+- Documente generate de AI: deschidere automată în dialog, editare directă cu formatare, salvare și redeschidere din conversație, export PDF A4 și Word editabil.
 
 - Mutare în proiect din dialog cu listă lizibilă; ștergere conversații și proiecte cu confirmare. Conversațiile se păstrează la ștergerea proiectului; documentele se păstrează în bibliotecă la ștergerea chatului.
 
@@ -26,6 +28,8 @@ Etapă: navigare simplificată, proiecte și istoric în bara laterală
 - Căutare, filtre, selecție pentru RAG și linkuri la originale. Serverul verifică starea și accesul.
 
 ## Verificare
+
+0.8.0: TypeScript și build trecute; trei apeluri AI reale verifică document vs explicație, persistență/editare/izolare/validare. Exporturi verificate pentru diacritice, tabele, editări și PDF de 4 pagini, prima pagină inspectată vizual. Interfață locală: generare cu deschidere automată, deschidere, editare, salvare, previzualizare și meniu/export PDF verificate. Publicarea privată 0.8.0 confirmată de Sites.
 
 0.7.0: TypeScript, lint fișiere modificate și build trecute; ștergere testată local cu izolare, păstrarea conversațiilor/documentelor și respingerea salvărilor vechi. Publicare privată confirmată.
 

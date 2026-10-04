@@ -2,6 +2,13 @@
 
 ## Ne lansat încă
 
+## 0.8.0 — 2026-10-04
+
+- AI identifică documentele create și deschide automat editorul; card pentru redeschidere din conversație.
+- Editare directă a titlului/conținutului, formatare de bază, previzualizare și salvare persistentă în istoric.
+- Export PDF A4 cu paginare și diacritice, Word editabil cu tabele; sursele consultate incluse.
+- Protecție pentru modificările nesalvate și validarea documentelor pe server.
+
 ## 0.7.0 — 2026-10-03
 
 - Meniuri „···” pentru fiecare conversație și proiect; mutare prin listă de proiecte în dialog separat, fără înghesuirea titlului.

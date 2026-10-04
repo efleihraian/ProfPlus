@@ -1,3 +1,4 @@
+import {validGeneratedDocument} from '../../../lib/generated-document';
 import { json, sameOrigin, storage, userId, validChatId } from '../../../lib/document-store';
 export async function GET(request: Request) {
   const user = userId(request); if (!user) return json({error:'Autentificare necesară.'},401);
@@ -25,6 +26,7 @@ export async function PUT(request: Request) {
   try { const raw=await request.text(); if(raw.length>1000000) return json({error:'Conversația este prea mare.'},413);
     const b=JSON.parse(raw); if(!validChatId(b.id)||!Number.isInteger(b.revision)||!Array.isArray(b.messages)||b.messages.length>1000||b.messages.some((m: {role?:string;content?:string;sources?:unknown[];warnings?:unknown[]})=>!m||!['user','assistant'].includes(m.role||'')||typeof m.content!=='string'||m.content.length>20000|| (m.sources!==undefined&&!Array.isArray(m.sources)) || (m.warnings!==undefined&&!Array.isArray(m.warnings)))) return json({error:'Conversație invalidă.'},400);
     for (const message of b.messages) {
+      if(message.document!==undefined&&!validGeneratedDocument(message.document))return json({error:"Document generat invalid."},400);
       if (message.warnings?.some((w:unknown)=>typeof w!=='string') || message.sources?.some((source:{url?:unknown;id?:unknown;title?:unknown})=>!source||typeof source.url!=='string'||! /^(https?:\/\/|\/api\/documents\/)/.test(source.url)||typeof source.title!=='string'||typeof source.id!=='number')) return json({error:'Surse invalide.'},400);
     }
     if(b.selection!==null&&(!b.selection||!Array.isArray(b.selection.manualIds)||!Array.isArray(b.selection.documentIds)||b.selection.manualIds.length>50||b.selection.documentIds.length>10||[...b.selection.manualIds,...b.selection.documentIds].some((id:unknown)=>typeof id!=='string'||id.length>80))) return json({error:'Selecție invalidă.'},400);

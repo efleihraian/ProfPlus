@@ -45,4 +45,4 @@ export async function webEvidence(query: string, key: string, model: string, sig
   const summary = [...sources.values()].map(s => `[${s.id}] ${s.title}: ${s.url}`).join("\n") + "\n" + text;
   return [...sources.values()].slice(0, 6).map((source, index) => ({ source, text: index === 0 ? summary : "" }));
 }
-export const assessmentFormat = { type: "json_schema", name: "document_answer", strict: true, schema: { type: "object", additionalProperties: false, properties: { needsWeb: { type: "boolean" }, webQuery: { type: "string" }, reply: { type: "string" }, knowledgeUsed: { type: "boolean" } }, required: ["needsWeb", "webQuery", "reply", "knowledgeUsed"] } };
+export const assessmentFormat = { type: "json_schema", name: "document_answer", strict: true, schema: { type: "object", additionalProperties: false, properties: { needsWeb: { type: "boolean" }, webQuery: { type: "string" }, reply: { type: "string" }, knowledgeUsed: { type: "boolean" }, isDocument:{type:"boolean"}, documentTitle:{type:"string"} }, required: ["needsWeb", "webQuery", "reply", "knowledgeUsed", "isDocument", "documentTitle"] } };

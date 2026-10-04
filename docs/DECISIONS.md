@@ -73,3 +73,7 @@ Utilizatorul cere navigarea surselor încărcate și posibile, nu doar a documen
 ## DEC-010 — Ștergere cu limite explicite
 
 2026-10-03. Acceptată. Dialog separat pentru mutare și confirmare înainte de ștergere. Ștergerea proiectului păstrează conversațiile; ștergerea chatului elimină transcriptul, dar păstrează documentele disponibile în bibliotecă. Un marcaj minim împiedică reapariția chatului din documentele vechi; reviziile și verificarea deleted împiedică salvările concurente.
+
+## 2026-10-04 — Documente în transcript și export în browser
+
+Indicatorul documentului este inclus în evaluarea structurată AI existentă. Conținutul rămâne Markdown în transcript, pentru portabilitate și redeschidere fără stocare duplicată. Dialogul oferă editare vizuală simplă; DOCX/PDF se generează local în browser. Evităm transmiterea documentelor unui serviciu suplimentar de conversie. Extensii viitoare: formule, imagini, versiuni și editor mai avansat.

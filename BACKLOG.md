@@ -45,3 +45,7 @@ Organizația gratuită ProfOS-Edu creată; repository privat transferat și orig
 ## P-022 — Mutare lizibilă și ștergere — DONE
 
 Titlurile nu se deplasează la deschiderea opțiunilor. Mutare disponibilă pentru orice conversație; ștergere chat/proiect cu confirmare, verificarea proprietarului și păstrarea documentelor. Ștergerea proiectului păstrează conversațiile fără proiect. 0.7.0.
+
+## P-023 — Editor pentru documente generate — DONE
+
+Documentele efectiv create de AI deschid automat dialogul; editare directă, titlu, formatare, salvare în conversație și redeschidere, export PDF și DOCX. Versiune 0.8.0. Limite și verificări în docs/DOCUMENT_EDITOR.md.

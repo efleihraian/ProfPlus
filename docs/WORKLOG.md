@@ -97,3 +97,9 @@ Confirmată organizația gratuită ProfOS-Edu în contul utilizatorului. Reposit
 TypeScript, lint fișiere modificate și build trecute. Teste locale: autentificare/origine/proprietar, ștergere proiect păstrează mesajele, ștergere chat golește transcriptul, păstrează metadatele documentelor, împiedică reapariția la listări și salvările vechi. Date sintetice șterse. QA vizual în browser neexecutat. 0.7.0.
 
 Sites a confirmat publicarea privată 0.7.0, cu migrarea nouă inclusă. Arhiva și fișierele din repository verificate fără secrete.
+
+## 2026-10-04 — P-023: documente editabile și exportabile
+
+Documentul creat de AI are titlu și conținut persistat în mesaj; dialog automat și card de redeschidere. Editor direct cu formatare de bază, previzualizare, salvare cu revizie și protecție pentru modificări nesalvate. Export local PDF/DOCX cu surse, fonturi și licență incluse. Fără migrare SQL sau apel AI suplimentar pentru clasificare.
+
+Verificări și limite documentate în docs/DOCUMENT_EDITOR.md. Trei apeluri AI reale (inclusiv deschidere automată în UI), persistență/editare/izolare/validare trecute; exporturi binare și PDF vizual verificate; interfața locală verificată cu fixture sintetic. TypeScript și build trecute. Versiune 0.8.0; publicarea privată confirmată de Sites. Arhiva și repository-ul au trecut verificarea fără secrete. Serverele temporare oprite și fixture-urile locale șterse.
