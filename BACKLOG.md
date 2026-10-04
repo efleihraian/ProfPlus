@@ -77,3 +77,7 @@ Audit alt text, contrast, tastatură/focus și VoiceOver/TalkBack; fără dark p
 ## P-030 — Solicitări de ștergere a datelor — TODO
 
 Cale vizibilă și verificarea identității; eliminare date cont, conversații, fișiere originale și indexuri AI, cu retențiile/excepțiile explicate. Criteriu: flux complet testat și documentat, distinct de ștergerea unei conversații care păstrează documentele.
+
+## P-031 — Mod întunecat — DONE
+
+Activare din antet, preferință persistentă local și sistem implicit; suprafețe și text adaptate în toată aplicația. 0.8.3.

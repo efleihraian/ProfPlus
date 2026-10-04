@@ -1,10 +1,12 @@
 # Starea proiectului
 
 Ultima actualizare: 2026-10-04
-Versiune: 0.8.2
+Versiune: 0.8.3
 Etapă: documente educaționale editabile și exportabile
 
 ## Finalizat
+
+- Mod întunecat/luminos activabil din antet; alegerea se păstrează local, implicit tema sistemului.
 
 - Cerințele permanente pentru web/Android/iOS înregistrate și incluse în regulile de dezvoltare; implementarea integrală urmărită în P-027–P-030.
 
@@ -34,6 +36,8 @@ Etapă: documente educaționale editabile și exportabile
 - Căutare, filtre, selecție pentru RAG și linkuri la originale. Serverul verifică starea și accesul.
 
 ## Verificare
+
+0.8.3: build, comutare luminos/întunecat, persistență după reload, Enter și verificare vizuală desktop trecute. Contrastul perechilor principale depășește 4,5:1. Publicare privată confirmată.
 
 0.8.2: build și verificare vizuală desktop pentru paleta globală trecute; culorile calculate confirmă exact cele patru valori cerute. Publicare privată confirmată.
 

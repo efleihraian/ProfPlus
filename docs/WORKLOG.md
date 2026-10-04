@@ -115,3 +115,7 @@ Culorile vechi înlocuite cu variabile comune; roluri explicite pentru acțiuni,
 ## 2026-10-04 — P-026: cerințe permanente web și mobil
 
 Înregistrate toate cele 20 cerințe ale utilizatorului în PRODUCT_REQUIREMENTS.md, cu aplicare web/Android/iOS. AGENTS.md și CONTRIBUTING.md solicită respectarea lor în schimbările viitoare. P-027–P-030 urmăresc implementarea, fără a o prezenta drept finalizată. Verificare: lista completă și legăturile locale; schimbare exclusiv de documentație, fără republicare sau modificare a comportamentului site-ului. Versiunea aplicației rămâne 0.8.2.
+
+## 2026-10-04 — P-031: mod întunecat
+
+Provider next-themes deja instalat, preferință în localStorage profos-theme, sistem implicit și inițializare înainte de hidratare. Buton semantic în antet; variabile separate pentru acțiuni și linkuri ca să păstreze contrastul. Toate suprafețele, inclusiv editorul, adaptate; exporturile rămân pentru tipărire. Cerințe afectate: minimizarea datelor (preferință numai locală), contrast și navigare cu tastatura. 0.8.3: build trecut; activare, persistență după reload și comutare cu Enter verificate în browser local. Chat, bibliotecă și editor inspectate vizual în dark mode. Raport contrast calculat pentru text principal 17,06:1, text secundar 6,34:1, link 7,56:1, buton albastru 5,17:1, salvare emerald 7,04:1. Nu reprezintă audit complet de accesibilitate; mobilul și schimbarea automată a temei sistemului nu au fost testate. Arhivă fără secrete; publicare privată confirmată. Fixture-uri locale șterse și servere oprite.

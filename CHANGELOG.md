@@ -2,6 +2,12 @@
 
 ## Ne lansat încă
 
+## 0.8.3 — 2026-10-04
+
+- Mod întunecat/luminos cu buton accesibil în antet, pe desktop și mobil.
+- Preferință păstrată local; la prima utilizare respectă tema sistemului, fără transmiterea preferinței unui serviciu extern.
+- Culori adaptate pentru chat, navigare, bibliotecă, dialoguri și editor; exporturile păstrează culorile pentru tipărire.
+
 - Cerințe permanente pentru website, Android și iOS: politici, consimțăminte, date minime, audit terți, transparență, accesibilitate, licențe și solicitări de ștergere. Înregistrate în instrucțiuni și backlog; implementarea rămâne separată.
 
 ## 0.8.2 — 2026-10-04

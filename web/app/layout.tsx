@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import {ProfosThemeProvider} from "./theme-controls";
 
 export const metadata: Metadata = {
   title: "ProfOS — Conversație AI",
@@ -16,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ro">
-      <body className="antialiased">{children}</body>
+    <html lang="ro" suppressHydrationWarning>
+      <body className="antialiased"><ProfosThemeProvider>{children}</ProfosThemeProvider></body>
     </html>
   );
 }

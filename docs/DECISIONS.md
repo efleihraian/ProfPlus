@@ -89,3 +89,7 @@ Dialogul nativ are inset 0 și margin auto pentru a păstra centrarea chiar cân
 ## 2026-10-04 — Cerințe permanente multiplatformă
 
 Cerințele utilizatorului devin instrucțiuni de proiect pentru web, Android și iOS. Înregistrarea și implementarea sunt urmărite separat. Politicile viitoare se bazează pe date reale despre operator, destinatari și condiții comerciale; nu inventăm detalii sau declarații de conformitate.
+
+## 2026-10-04 — Preferință locală de temă
+
+Tema respectă sistemul până când utilizatorul alege explicit luminos/întunecat. Preferința rămâne în browser, fără date noi pe server. Aceeași separare între culorile de suprafață, text, acțiuni și progres va fi folosită pentru aplicațiile mobile. Linkuri albastre mai deschise în dark mode, butoane albastre cu text alb și salvare emerald cu text închis.
