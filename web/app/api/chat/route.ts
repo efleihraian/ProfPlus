@@ -1,5 +1,6 @@
 import { env } from "cloudflare:workers";
-import { retrieve } from "../../../lib/rag";
+import {allowGuestChat} from "../../../lib/guest-chat";
+import { collectionIds, retrieve } from "../../../lib/rag";
 import { assessmentFormat, citedSources, outputText, response, teacherEvidence, webEvidence } from "../../../lib/hybrid-rag";
 import { storage, userId, validChatId } from "../../../lib/document-store";
 import {accountIdentity,authConfig} from '../../../lib/account-auth';
@@ -21,7 +22,10 @@ export async function POST(request: Request) {
   if (!config.OPENAI_API_KEY) return json({ error: "Conexiunea AI nu este configurată încă." }, 503);
   const chat = body.chatId;
   const user = await userId(request);
-  if(!user)return json({error:"Autentificare necesară."},401);
+  if(!user){
+ if(body.chatId!=null||body.revision!==undefined||body.selection!==undefined)return json({error:"Conectare necesară pentru surse și conversații private."},401);
+ try{if(!await allowGuestChat(storage().db))return json({error:"Limita temporară pentru vizitatori a fost atinsă. Reîncearcă mai târziu."},429);}catch{return json({error:"Chatul pentru vizitatori este temporar indisponibil."},503);}
+ }
   if (chat !== undefined && (!validChatId(chat) || !user)) return json({ error: !user ? "Autentificare necesară pentru documentele conversației." : "Conversație invalidă." }, !user ? 401 : 400);
   let savedChat: {messages:string;revision:number} | null = null;
   if (body.revision !== undefined) {
@@ -33,9 +37,10 @@ export async function POST(request: Request) {
   }
   const selection = body.selection;
   if(selection!==undefined&&!validSelection(selection))return json({error:'Selecție invalidă.'},400);
-  const identity=await accountIdentity(request);if(authConfig().provider==='supabase'&&(!identity||identity.deleting))return json({error:'Autentificare necesară.'},401);
+  const identity=await accountIdentity(request);if(user&&authConfig().provider==='supabase'&&(!identity||identity.deleting))return json({error:'Autentificare necesară.'},401);
   const automatic=!selection||selection.mode==='automatic';let resolved;
-  if(automatic){try{const snapshot=await librarySnapshot(user,identity?.teaching||null,config.OPENAI_API_KEY,config.OPENAI_VECTOR_STORE_ID,typeof chat==='string'?chat:undefined);if(snapshot.warnings.length)return json({error:'Selecția automată nu a putut fi verificată complet. Reîncearcă.'},503);resolved=snapshot.selection;}catch{return json({error:'Biblioteca nu este disponibilă.'},503);}}
+  if(automatic&&!user){resolved={manualIds:collectionIds,documentIds:[]};}
+  if(automatic&&user){try{const snapshot=await librarySnapshot(user,identity?.teaching||null,config.OPENAI_API_KEY,config.OPENAI_VECTOR_STORE_ID,typeof chat==='string'?chat:undefined);if(snapshot.warnings.length)return json({error:'Selecția automată nu a putut fi verificată complet. Reîncearcă.'},503);resolved=snapshot.selection;}catch{return json({error:'Biblioteca nu este disponibilă.'},503);}}
   const manualIds=automatic?resolved!.manualIds:[...new Set(selection!.manualIds as string[])];
   const documentIds=automatic?resolved!.documentIds:[...new Set(selection!.documentIds as string[])];
   if (documentIds?.length && (!user || !chat)) return json({ error: "Autentificare necesară." }, 401);

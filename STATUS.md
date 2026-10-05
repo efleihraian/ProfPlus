@@ -104,3 +104,8 @@ P-037 implementat local: asocierea Google/Apple afișată din identitățile Sup
 ## Prioritate actualizată — 2026-10-05
 
 La cererea utilizatorului, coada a fost reluată din checkpoint cu OCR înaintea continuării textului. Procesul este activ în ocr_matematica. După OCR-ul cunoscut, fiecare grupă continuă text → OCR. Nu este raport de finalizare.
+
+
+## Chat vizitator — local
+
+P-050: conversație AI fără login, mesaje în memoria paginii, fără istoric sau documente private. Limite agregate server-side pentru pilot. Site-ul online nu a fost republicat.

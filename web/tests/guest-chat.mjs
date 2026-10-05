@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import ts from 'typescript';
+const uri=s=>'data:text/javascript;base64,'+Buffer.from(ts.transpileModule(s,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText).toString('base64');
+const budget=await import(uri(await readFile('lib/guest-chat.ts','utf8')));
+const counts=new Map();const db={prepare(sql){let args;return {bind(...a){args=a;return this;},async run(){},async first(){const count=counts.get(args[0])||0;if(count>=args[2])return null;counts.set(args[0],count+1);return {used:count+1};}};}};
+for(let n=0;n<5;n++)assert.equal(await budget.allowGuestChat(db,1000),true);
+assert.equal(await budget.allowGuestChat(db,1000),false);
+let route=await readFile('app/api/chat/route.ts','utf8');route=route.replace(/^import .*;\s*$/gm,'');
+const prefix=`const env={OPENAI_API_KEY:'fixture',OPENAI_VECTOR_STORE_ID:'fixture'};const collectionIds=['public'];const assessmentFormat={};const validSelection=()=>true;const userId=async()=>null;const accountIdentity=async()=>null;const authConfig=()=>({provider:'supabase'});const storage=()=>({db:{}});const allowGuestChat=async()=>true;const validChatId=()=>true;const teacherEvidence=()=>{throw Error('Private evidence accessed')};const librarySnapshot=()=>{throw Error('Private library accessed')};const retrieve=async(q,k,s,a,ids)=>{if(ids.join()!=='public')throw Error('Private selection');return [];};const response=async()=>({});const outputText=()=>JSON.stringify({reply:'Salut!',needsWeb:false,webQuery:'',knowledgeUsed:true,isDocument:false,documentTitle:''});const citedSources=(reply)=>({reply,sources:[]});`;
+const {POST}=await import(uri(prefix+route));
+const req=body=>new Request('http://localhost/api/chat',{method:'POST',headers:{origin:'http://localhost','content-type':'application/json'},body:JSON.stringify(body)});
+const messages=[{role:'user',content:'Salut'}];
+let r=await POST(req({messages}));assert.equal(r.status,200);assert.equal((await r.json()).reply,'Salut!');
+for(const extra of [{chatId:'private'},{revision:1},{selection:{manualIds:[],documentIds:['private']}}])assert.equal((await POST(req({messages,...extra}))).status,401);
+assert.equal((await POST(req({messages:[{role:'system',content:'bad'}]}))).status,400);
+const limited=await import(uri(prefix.replace('const allowGuestChat=async()=>true','const allowGuestChat=async()=>false')+route));assert.equal((await limited.POST(req({messages}))).status,429);
+console.log('Guest reply, private isolation, validation and aggregate budget passed.');

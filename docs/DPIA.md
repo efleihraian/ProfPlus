@@ -113,3 +113,8 @@ Cerințele extinse ale titularului privind securitatea sunt obligatorii în SECU
 Import autorizat din catalogul ministerului în indexul OpenAI comun existent; nu introduce furnizori AI noi, date de cont/elevi, roluri, trackere sau acces public. OCR se execută local cu modele oficiale Tesseract. Raportul versionat conține numai metadate ale manualelor publice, URL/hash și starea tehnică; exclude autori din raportul nou, text, credențiale și identificatori de furnizor. Originalele temporare sunt eliminate după prelucrare; textele/indexurile rămân pentru RAG. Drepturile de utilizare, retențiile/contractele furnizorilor și condițiile înainte de producție rămân deschise.
 
 Creșterea colecției schimbă volumul/costul și riscul de răspuns greșit: prag tehnic de acoperire, OCR separat, verificări de proveniență/pagină și intervenție umană pentru formule/figuri. Aceste probe nu reprezintă certificare pedagogică sau aprobare DPIA. Urmărirea locală folosește loguri de stare fără text sau secrete.
+
+
+## P-050 — Vizitatori fără cont
+
+Mesaje transmise furnizorului OpenAI existent, fără stocare a transcriptului vizitatorului în D1. Memorie pagină până la reload/închidere; retenția furnizorului se evaluează separat, nu se pretinde ștergere imediată la furnizor. Interfața explică transmiterea și solicită evitarea datelor elevilor. Buget agregat temporal, fără IP sau identificator/cookie suplimentar, eliminat după expirare la următoarea cerere. Operatorul, temeiurile, politica reală și contractele rămân condiții înainte de producție.

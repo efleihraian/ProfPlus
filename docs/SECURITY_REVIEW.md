@@ -43,3 +43,8 @@ Lansarea generală și folosirea extinsă a datelor elevilor rămân condiționa
 ## Import manuale 0.9.5 — 2026-10-05
 
 Procesare numai a manualelor publice din catalogul ministerului; HTTPS și verificare de host înaintea fiecărui redirect, limita PDF/spațiu, subprocess/timeout, raport fără text sau credențiale, cheia existentă numai pe server. Șapte teste offline pentru reluare/izolare/redirect/timeout/calitate și test bibliotecă paginată trecute. Scanare Git/client fără potriviri. Audit pip pentru șase pachete rezolvate din requirements-rag: zero vulnerabilități cunoscute raportate; audit npm neschimbat la 19. Aceste rezultate nu certifică toate PDF-urile, drepturile de utilizare sau producția.
+
+
+## P-050 — Chat vizitator local
+
+Guest fără chatId/revision/selection; respingere 401 a cererilor pentru date private. Fără apel librarySnapshot/teacherEvidence sau salvare conversație pentru guest. SQL parametrizat, contor UPSERT atomic în D1, buget global 5/minut și 30/oră, refuz 503 dacă stocarea limitei e indisponibilă. Limita globală poate fi consumată de un singur vizitator; nu este protecție CAPTCHA sau limită individuală. Endpointurile private păstrează autentificarea.

@@ -226,3 +226,10 @@ Cerințe afectate: acces server, minimizarea datelor, ștergere, transparența f
 ## 2026-10-05 — P-048, OCR prioritar la cererea utilizatorului
 
 Coada precedentă și copilul identificate prin PID/comandă, oprite pentru schimbarea explicit cerută, checkpoint păstrat. Noua coadă activă în ocr_matematica; fără import simultan. Șapte teste offline trecute, inclusiv retry și oprire la cotă; monitorizarea actualizată. Volumele completed sunt omise și referințele remote reconciliate la reluare. Fără schimbare de furnizor, date personale sau credențiale; aceeași procesare locală și index autorizat.
+
+
+## 2026-10-05 — P-050, mesaje fără login
+
+Implementat guest pe endpointul chat și interfață; surse exclusiv comune din pilot, fără persistarea mesajelor în istoric sau upload. Teste simulate: răspuns guest, ID privat/revision/selection refuzate, validare rol, 429 și contor agregat. TypeScript/build trecute. Fără modificarea cozii OCR, credențialelor sau publicare online.
+
+P-050: test real în browser fără sesiune, «Cât este 2 + 2?» → «2 + 2 este egal cu 4.», fără redirecționare. Captura locală ignorată .sites-runtime/evidence/guest-chat.png. Scanare surse/istoric/client: zero potriviri; nu reprezintă audit complet.

@@ -164,3 +164,8 @@ Dovezi și comenzi: docs/MANUAL_IMPORT.md. Pragul tehnic 90% nu garantează form
 
 
 P-048: prioritate actualizată la OCR pentru lipsurile cunoscute, apoi continuarea tuturor manualelor; rămâne IN PROGRESS.
+
+
+## P-050 — Mesaje fără conectare — DONE (local)
+
+Vizitatorul trimite mesaje către AI cu sursele comune ale pilotului, fără istoric persistent, cont anonim sau uploaduri. ID-urile private/selecțiile/reviziile sunt refuzate înainte de apel AI. Buget comun persistent: 5 cereri/minut și 30/oră pentru toți vizitatorii, nu per persoană. Protecția boți completă rămâne P-042.
