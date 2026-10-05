@@ -21,7 +21,8 @@ Fiecare om folosește propria clonă. Doi agenți simultan pe același Mac folos
 Exemplu, dintr-o clonă existentă după fetch:
 
 ```sh
-git worktree add ../profplus-P-XXX -b feature/P-XXX-scope origin/main
+mkdir -p ~/dev
+git worktree add ~/dev/profplus-P-XXX -b feature/P-XXX-scope origin/main
 ```
 
 Un worktree nou nu primește automat .env/.dev.vars, .venv, date private sau checkpointul importului. Fiecare dezvoltator configurează propriile credențiale de dezvoltare prin canal sigur, cu acces minim. Nu copia secrete în Git/chat și nu folosi date reale ale elevilor în teste.
@@ -36,7 +37,7 @@ Un worktree nou nu primește automat .env/.dev.vars, .venv, date private sau che
 - Execută verificările relevante și scannerul din CONTRIBUTING. Pentru documentație exclusivă, verifică linkuri/diff/secrete; nu pretinde build sau teste neexecutate.
 - Actualizează BACKLOG, STATUS, CHANGELOG și WORKLOG. Deciziile și schimbările de date cer documentele relevante. Versiunile/tag-urile se coordonează la lansare, nu individual în fiecare branch.
 - Push pe branch și Pull Request către main. Include responsabilul, ID, problema/comportamentul, dovezi, lipsuri, riscuri și dependențe de alte PR-uri.
-- Cere cel puțin un reviewer uman diferit de autor. Nu integra propriul PR automat. Merge numai după review și verificările cerute; nu ocoli controalele sau alertele CI.
+- Cere cel puțin un reviewer uman pe un cont GitHub diferit de contul autorului PR-ului. Codex și Claude care folosesc același cont GitHub nu reprezintă două aprobări independente. Review-ul unui agent este suplimentar și nu înlocuiește aprobarea omului de pe alt cont. Dacă reviewerul nu este disponibil, PR-ul așteaptă; nu integra propriul PR automat. Merge numai după review și verificările cerute; nu ocoli controalele sau alertele CI.
 - Înainte de integrare, actualizează branch-ul față de origin/main în checkout curat; rezolvă conflictele păstrând intențiile ambelor lucrări și repetă verificările afectate. Nu rezolva automat cu ours/theirs.
 - După merge, fiecare sincronizează main doar în checkout curat (`git pull --ff-only`); pentru branch-uri active integrează schimbările controlat. Agentul verifică remote-ul la începutul următoarei sarcini, fără să aștepte o reamintire.
 
@@ -50,6 +51,16 @@ Folderul operațional principal poate avea import/OCR activ. Nu îl muta, reseta
 
 ## Administrarea GitHub
 
-Reguli de repository recomandate: PR obligatoriu, minimum o aprobare independentă, invalidarea aprobărilor după schimbări relevante, verificările CI obligatorii și blocarea force-push/ștergerii main. Activarea depinde de planul GitHub și de administrator; acest document nu pretinde că sunt deja active. CI poate avea vulnerabilități cunoscute: remediați sau documentați blocajul, nu dezactivați controlul pentru merge.
+Reguli de repository recomandate: PR obligatoriu, minimum o aprobare independentă, invalidarea aprobărilor după schimbări relevante, verificările CI obligatorii și blocarea force-push/ștergerii main. Verificare la 2026-10-05: API-ul GitHub refuză protecția main cu HTTP 403 și cere upgrade sau repository public. Pe configurația privată actuală, acestea sunt convenții, nu controale impuse tehnic. Administratorul poate evalua un plan potrivit pentru organizație; nu face repository-ul public pentru a activa protecția. CI poate avea vulnerabilități cunoscute: remediați sau documentați blocajul, nu dezactivați controlul pentru merge.
 
 Deploy, migrații de producție, schimbări de acces și publicare sunt operații separate de merge și cer autorizare explicită. Respectă SECURITY_REQUIREMENTS și DPIA; nu declara conformitate doar fiindcă documentele există.
+
+## Migrarea folderului principal cu modificări necomise
+
+Integrarea unui PR pe GitHub nu autorizează automat pull în folderul operațional. Înainte de sincronizare: inventariază modificările, identifică autorul și sarcina fiecărei schimbări și cere coordonarea predării. P-049 și notele aferente se livrează separat după verificare; rapoartele importului sunt fotografii generate și se tratează separat la milestone. Nu include modificările altora într-un commit generic. Până la rezolvarea lor, dezvoltarea nouă folosește checkout-uri curate în ~/dev, iar folderul principal rămâne nemodificat. După salvarea/integrarea lucrărilor autorizate și verificarea proceselor active, reconciliază manual documentele în comun și abia apoi sincronizează fără pierderi. Un merge pe GitHub poate fi curat chiar dacă pull local este blocat.
+
+## Blocaj CI verificat
+
+Rularea 37361860684 eșuează în web/tests/account-integration.mjs:63 cu 200 !== 401. Așteptarea testului pentru biblioteca publică este depășită după P-051; este necesară actualizarea probei pozitive și păstrarea probelor negative pentru documente private. P-053 urmărește remedierea. Testele locale istorice nu dovedesc CI-ul actual trecut. Auditul npm este un control distinct și poate eșua după remedierea testului. Nu acorda excepții generale și nu dezactiva controale pentru merge.
+
+Branch-ul inițial docs/team-workflow (PR #1) precede convenția; rămâne excepție documentată pentru a păstra review-ul. Branch-urile viitoare includ ID-ul sarcinii.
