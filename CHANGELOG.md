@@ -168,3 +168,6 @@ Trimitere mesaje fără cont, context public pilot și buget comun server-side; 
 ### Nelansat — P-051
 
 Bibliotecă înainte de conversație nouă; catalog și selecție accesibile tuturor. Atașamente temporare fără cont, inline către model.
+
+
+Actualizare P-048 — 2026-10-05: la ultima cerere a utilizatorului, importul text pentru toate materiile precede OCR-ul. Coada reluată din checkpoint; confirmată activă în text_alte_materii, 243 indexate la verificare. Extracția OCR întreruptă este marcată needs_ocr, fără a declara succes. Șapte teste offline trecute; fără publicare online.

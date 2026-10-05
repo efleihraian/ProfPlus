@@ -114,3 +114,6 @@ P-050: conversație AI fără login, mesaje în memoria paginii, fără istoric 
 ## P-051 — Bibliotecă și atașamente pentru toți
 
 Local: catalog comun public și selecție surse indexate fără login. Vizitatori: trei fișiere temporare/10 MB total în memoria paginii; dispar la reload/conversație nouă, fără salvare în biblioteca contului.
+
+
+Actualizare P-048 — 2026-10-05: la ultima cerere a utilizatorului, importul text pentru toate materiile precede OCR-ul. Coada reluată din checkpoint; confirmată activă în text_alte_materii, 243 indexate la verificare. Extracția OCR întreruptă este marcată needs_ocr, fără a declara succes. Șapte teste offline trecute; fără publicare online.

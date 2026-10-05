@@ -238,3 +238,6 @@ P-050: test real în browser fără sesiune, «Cât este 2 + 2?» → «2 + 2 es
 ## 2026-10-05 — P-051
 
 Implementat catalog comun public, selecție manuală guest verificată pe server, atașamente guest fără obiecte persistente server/Files API. Limite trei fișiere/10 MB și request 15 MB citit limitat înainte de JSON. Validare MIME/extensie/base64/semnături. TypeScript/build și teste guest/izolare/fișiere trecute; nu sunt verificare pedagogică. Fără atingerea cozii OCR sau redeploy online.
+
+
+Actualizare P-048 — 2026-10-05: la ultima cerere a utilizatorului, importul text pentru toate materiile precede OCR-ul. Coada reluată din checkpoint; confirmată activă în text_alte_materii, 243 indexate la verificare. Extracția OCR întreruptă este marcată needs_ocr, fără a declara succes. Șapte teste offline trecute; fără publicare online.

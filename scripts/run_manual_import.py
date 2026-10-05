@@ -43,8 +43,8 @@ def run():
         status(pid=os.getpid(), state='running', phase='waiting_for_existing_import', started_at=time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()), error=None)
         wait_for_importer()
         groups = ['matematica', 'fizica', 'informatica_tic', 'alte_materii']
-        # User priority: resolve known scans first, then text and new scans per group.
-        phases = [(name, True) for name in groups] + [(name, ocr) for name in groups for ocr in (False, True)]
+        # User priority: finish text imports for every subject before OCR.
+        phases = [(name, False) for name in groups] + [(name, True) for name in groups]
         for name, ocr in phases:
             phase = ('ocr_' if ocr else 'text_') + name
             status(phase=phase)

@@ -174,3 +174,6 @@ Vizitatorul trimite mesaje către AI cu sursele comune ale pilotului, fără ist
 ## P-051 — Bibliotecă publică și fișiere temporare — DONE (local)
 
 Catalog vizibil și surse indexate selectabile fără cont; Bibliotecă înainte de Conversație nouă. Fișiere vizitatori în memoria paginii: trei/10 MB total, trimise inline modelului, fără D1/R2/Files API. Pe viitor selecțiile specifice cer abonament verificat pe server.
+
+
+Actualizare P-048 — 2026-10-05: la ultima cerere a utilizatorului, importul text pentru toate materiile precede OCR-ul. Coada reluată din checkpoint; confirmată activă în text_alte_materii, 243 indexate la verificare. Extracția OCR întreruptă este marcată needs_ocr, fără a declara succes. Șapte teste offline trecute; fără publicare online.
