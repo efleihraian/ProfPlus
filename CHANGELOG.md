@@ -1,5 +1,9 @@
 # Istoricul versiunilor
 
+## Nelansat — colaborare
+
+- P-052: ghid comun, templates issue/PR, review independent și checkout-uri separate; în review.
+
 ## Ne lansat încă
 
 - Găzduire independentă, retenții operaționale și revocare Apple automată rămân de finalizat; site-ul publicat este încă 0.9.2.
@@ -177,6 +181,3 @@ P-048 — 2026-10-05, ultima instrucțiune: import normal fără programare recu
 
 
 P-048 — ultima cerere 2026-10-05: import integral și OCR automat la final, fără scheduled task; înlocuiește oprirea înainte de OCR. Controller actualizat păstrând importul copil activ. Erori curente agregate: ConnectionError/API_NETWORK_ERROR/JSONDecodeError; reluările text limitate existente le vor reîncerca. Nu sunt volume finalizate și nu este promis succes pentru linkuri sau OCR indisponibile. Șapte teste offline trecute.
-
-
-P-052 — 2026-10-05: reguli comune de echipă în docs/TEAM_WORKFLOW.md, legate din README/AGENTS/CLAUDE/CONTRIBUTING, template issue și PR. Checkout separat, fără atingerea modificărilor locale sau importului. Politici documentate; protecțiile GitHub nu sunt declarate activate. Livrare prin PR, fără deploy.

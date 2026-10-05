@@ -185,4 +185,10 @@ P-048 — 2026-10-05, ultima instrucțiune: import normal fără programare recu
 P-048 — ultima cerere 2026-10-05: import integral și OCR automat la final, fără scheduled task; înlocuiește oprirea înainte de OCR. Controller actualizat păstrând importul copil activ. Erori curente agregate: ConnectionError/API_NETWORK_ERROR/JSONDecodeError; reluările text limitate existente le vor reîncerca. Nu sunt volume finalizate și nu este promis succes pentru linkuri sau OCR indisponibile. Șapte teste offline trecute.
 
 
-P-052 — 2026-10-05: reguli comune de echipă în docs/TEAM_WORKFLOW.md, legate din README/AGENTS/CLAUDE/CONTRIBUTING, template issue și PR. Checkout separat, fără atingerea modificărilor locale sau importului. Politici documentate; protecțiile GitHub nu sunt declarate activate. Livrare prin PR, fără deploy.
+## P-052 — Reguli comune de colaborare — IN REVIEW
+
+Ghid, instrucțiuni agenți și templates în PR #1; review pe alt cont, checkout-uri în ~/dev și migrare controlată a modificărilor locale. Protecția main refuzată de planul actual; reguli convenționale.
+
+## P-053 — Actualizarea testelor pentru biblioteca publică — TODO
+
+CI 37361860684: test account-integration.mjs:63 așteaptă 401, primește 200. Actualizează accesul public și păstrează probele de izolare; retestează înainte de merge. Audit npm distinct rămâne deschis.
