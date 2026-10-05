@@ -61,6 +61,6 @@ Integrarea unui PR pe GitHub nu autorizează automat pull în folderul operațio
 
 ## Blocaj CI verificat
 
-Rularea 37361860684 eșuează în web/tests/account-integration.mjs:63 cu 200 !== 401. Așteptarea testului pentru biblioteca publică este depășită după P-051; este necesară actualizarea probei pozitive și păstrarea probelor negative pentru documente private. P-053 urmărește remedierea. Testele locale istorice nu dovedesc CI-ul actual trecut. Auditul npm este un control distinct și poate eșua după remedierea testului. Nu acorda excepții generale și nu dezactiva controale pentru merge.
+Rularea 37361860684 a identificat așteptarea depășită 401 pentru biblioteca devenită publică. P-053, în PR #1, verifică accesul public exclusiv la manuale și refuzul accesului guest la date private. Fixture-ul fără Origin elimină efectiv antetul, în loc de a trimite o valoare goală. Build, TypeScript și suite locale au trecut; CI remote trebuie confirmat separat. Auditul npm rămâne un control distinct, cu alerte cunoscute; nu dezactiva controalele pentru merge.
 
 Branch-ul inițial docs/team-workflow (PR #1) precede convenția; rămâne excepție documentată pentru a păstra review-ul. Branch-urile viitoare includ ID-ul sarcinii.

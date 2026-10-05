@@ -3,6 +3,7 @@
 ## Nelansat — colaborare
 
 - P-052: ghid comun, templates issue/PR, review independent și checkout-uri separate; în review.
+- P-053: teste actualizate pentru biblioteca publică și cererile fără Origin; verificarea chatului guest inclusă în CI.
 
 ## Ne lansat încă
 

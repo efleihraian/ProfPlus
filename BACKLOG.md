@@ -189,6 +189,6 @@ P-048 — ultima cerere 2026-10-05: import integral și OCR automat la final, f�
 
 Ghid, instrucțiuni agenți și templates în PR #1; review pe alt cont, checkout-uri în ~/dev și migrare controlată a modificărilor locale. Protecția main refuzată de planul actual; reguli convenționale.
 
-## P-053 — Actualizarea testelor pentru biblioteca publică — TODO
+## P-053 — Actualizarea testelor pentru biblioteca publică — IN REVIEW
 
-CI 37361860684: test account-integration.mjs:63 așteaptă 401, primește 200. Actualizează accesul public și păstrează probele de izolare; retestează înainte de merge. Audit npm distinct rămâne deschis.
+Remediere în PR #1: acces public la manuale, probe negative pentru date private, antet Origin absent corect simulat și test guest inclus în CI. Build, TypeScript și suite locale trecute; verificările remote rămân de confirmat. Audit npm distinct rămâne deschis.
