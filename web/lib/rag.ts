@@ -1,11 +1,12 @@
 import catalog from "./manual-catalog.json";
+import extra from './educational-resources.json';
 import collection from "./active-collection.json";
 export const collectionIds = collection.uids;
 
 export type Source = { id: number; kind: "manual" | "document" | "web"; title: string; schoolClass?: string; subject?: string; publisher?: string; page?: number; url: string; uid?: string; documentId?: string };
 export type Evidence = { source: Source; text: string };
 type Hit = { score?: number; filename?: string; attributes?: { uid?: string }; content?: { type: string; text?: string }[] };
-const metadata = catalog as Record<string, { title: string; class: string; subject: string; publisher: string; url: string }>;
+const metadata = {...catalog,...extra} as Record<string, { title: string; class?: string;schoolClass?:string; subject: string; publisher: string; url: string }>;
 
 export async function retrieve(query: string, key: string, store: string, signal: AbortSignal, selected = collectionIds): Promise<Evidence[]> {
   if (!selected.length) return [];
@@ -35,7 +36,7 @@ export async function retrieve(query: string, key: string, store: string, signal
           if (!previous.text.includes(text)) previous.text = (previous.text + "\n" + text).slice(0, 4800);
           continue;
         }
-        evidence.push({ source: { id: evidence.length + 1, kind: "manual", uid, title: item.title, schoolClass: item.class, subject: item.subject, publisher: item.publisher, page, url: item.url + "#page=" + page }, text: text.slice(0, 4800) });
+        evidence.push({ source: { id: evidence.length + 1, kind: "manual", uid, title: item.title, schoolClass: item.class||item.schoolClass, subject: item.subject, publisher: item.publisher, page, url: item.url + "#page=" + page }, text: text.slice(0, 4800) });
         seen.set(key, evidence[evidence.length - 1]);
       }
     }

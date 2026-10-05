@@ -11,6 +11,7 @@ import SidebarContent from "./sidebar-content";
 import DocumentEditor from "./document-editor";
 import type {GeneratedDocument} from "../lib/generated-document";
 import collection from "../lib/active-collection.json";
+import {savedSelection} from '../lib/source-selection';
 import type {AccountIdentity} from '../lib/account-auth';
 type Message = { role: "user" | "assistant"; content: string; sources?: Source[]; warnings?: string[]; document?:GeneratedDocument };
 function Reply({ message }: { message: Message }) {
@@ -27,8 +28,8 @@ async function api(path: string, init?: RequestInit) {
 
 export default function Home() {
   const [account,setAccount]=useState<{provider:string;user:AccountIdentity|null}|null>(null);
-  const defaultSources=useRef<string[]>(collection.uids);
-  const [defaultManuals,setDefaultManuals]=useState<string[]>(collection.uids);
+  const [automatic,setAutomatic]=useState<Selection>({mode:'automatic',manualIds:[],documentIds:[]});
+  const refreshAutomatic=useCallback(async(id?:string)=>{const r=await fetch('/api/library'+(id?'?chatId='+id:''),{cache:'no-store'});if(!r.ok)throw new Error('Biblioteca nu a putut fi încărcată.');const data=await r.json() as {selection:Selection;warnings?:string[]};if(data.warnings?.length)throw new Error(data.warnings.join(' '));setAutomatic(data.selection);},[]);
   async function logout(){if(account?.provider==='sites'){window.location.assign('/signout-with-chatgpt?return_to=%2Faccount');return;}try{const response=await fetch('/api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'logout'})});if(!response.ok)throw new Error('Delogarea a eșuat.');for(const key of Object.keys(localStorage))if(key.startsWith('profos-')||key.startsWith('profplus-'))localStorage.removeItem(key);window.location.assign('/account?view=login');}catch(e){setSaveError(e instanceof Error?e.message:'Delogarea a eșuat.');}}
   const [editorIndex,setEditorIndex]=useState<number|null>(null);
   const [libraryOpen, setLibraryOpen] = useState(false);
@@ -75,26 +76,26 @@ export default function Home() {
   const refreshHistory = useCallback(async () => { const data = await api('/api/history'); setChats(data.chats); setProjects(data.projects); return data.chats as HistoryChat[]; }, []);
   async function openChat(id: string) {
     if (active.current || uploading || unsaved.current) { setSaveError("Salvează conversația curentă înainte să o schimbi."); return; }
-    try { const {chat} = await api('/api/history?id='+id); setChatId(id); setMessages(chat.messages); setSelection(chat.selection); setProjectId(chat.project_id); setChatTitle(chat.title); revision.current=chat.revision; setError(''); setSaveError(''); setDraft(''); setDocuments([]); lastAttempt.current=null; setSidebarOpen(false); localStorage.setItem('profos-chat-id',id); }
+    try { const {chat} = await api('/api/history?id='+id); setChatId(id); setMessages(chat.messages); setSelection(chat.selection); setProjectId(chat.project_id); setChatTitle(chat.title); revision.current=chat.revision; setError(''); setSaveError(''); setDraft(''); setDocuments([]); lastAttempt.current=null; setSidebarOpen(false); localStorage.setItem('profos-chat-id',id);await refreshAutomatic(id).catch(e=>setDocumentError(e.message)); }
     catch(e) { setSaveError(e instanceof Error?e.message:'Istoric indisponibil.'); }
   }
   async function newChat(project: string | null = projectId) {
     if (active.current || uploading || unsaved.current) {setSaveError("Salvează conversația curentă înainte să creezi alta.");return;}
-    try { const response=await fetch('/api/account',{cache:'no-store'});if(!response.ok)throw new Error('Contul nu a putut fi verificat.');const latest=await response.json() as {provider:string;user:AccountIdentity|null;defaultManualIds:string[]};if(latest.provider==='supabase'&&(!latest.user?.teaching||latest.user?.deleting)){window.location.assign('/account');return;}setAccount(latest);defaultSources.current=latest.defaultManualIds||collection.uids;setDefaultManuals(defaultSources.current); const {id}=await api('/api/history',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({projectId:project})}); await openChat(id); await refreshHistory(); }
+    try { const response=await fetch('/api/account',{cache:'no-store'});if(!response.ok)throw new Error('Contul nu a putut fi verificat.');const latest=await response.json() as {provider:string;user:AccountIdentity|null;defaultManualIds:string[]};if(latest.provider==='supabase'&&(!latest.user?.teaching||latest.user?.deleting)){window.location.assign('/account');return;}setAccount(latest);const {id}=await api('/api/history',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({projectId:project})}); await openChat(id); await refreshHistory(); }
     catch(e) { setSaveError(e instanceof Error?e.message:'Crearea a eșuat.'); }
   }
   const persist = useCallback((next: Message[], sources: Selection | null = selection, project: string | null = projectId, title = chatTitle) => {
     unsaved.current=true; setPendingSave(true);
     const serial=++saveSerial.current;
     const task=saveQueue.current.catch(()=>{}).then(async()=>{
-      const data=await api('/api/history',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:chatId,revision:revision.current,messages:next,selection:sources,projectId:project,title: title==='Conversație nouă'?'':title})});
+      const data=await api('/api/history',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:chatId,revision:revision.current,messages:next,selection:savedSelection(sources),projectId:project,title: title==='Conversație nouă'?'':title})});
       revision.current=data.revision; if(serial===saveSerial.current) {unsaved.current=false;setPendingSave(false);} setSaveError(''); void refreshHistory().catch(()=>{});
     });
     saveQueue.current=task;
     return task.catch(e=>{if(serial===saveSerial.current) unsaved.current=true;setSaveError(e.message);throw e;});
   }, [chatId, selection, projectId, chatTitle, refreshHistory]);
   useEffect(() => {
-    void (async()=>{try { const accountResponse=await fetch('/api/account',{cache:'no-store'}); if(!accountResponse.ok)throw new Error('Contul nu a putut fi verificat.'); const account=await accountResponse.json() as {provider:string;user:AccountIdentity|null;defaultManualIds:string[]}; if(account.provider==='supabase'&&!account.user){window.location.assign('/account?view=login');return;} if(account.provider==='supabase'&&account.user?.deleting){window.location.assign('/account');return;}if(account.provider==='supabase'&&account.user&&!account.user.teaching){window.location.assign('/account?view=teaching');return;}setAccount(account);defaultSources.current=account.defaultManualIds||collection.uids;setDefaultManuals(defaultSources.current); const list=await refreshHistory(); const saved=localStorage.getItem('profos-chat-id'); if(saved&&list.some(c=>c.id===saved)) await openChat(saved); else if(list.length) await openChat(list[0].id); else await newChat(null); } catch(e) {setSaveError(e instanceof Error?e.message:'Istoric indisponibil.');}})();
+    void (async()=>{try { const accountResponse=await fetch('/api/account',{cache:'no-store'}); if(!accountResponse.ok)throw new Error('Contul nu a putut fi verificat.'); const account=await accountResponse.json() as {provider:string;user:AccountIdentity|null;defaultManualIds:string[]}; if(account.provider==='supabase'&&!account.user){window.location.assign('/account?view=login');return;} if(account.provider==='supabase'&&account.user?.deleting){window.location.assign('/account');return;}if(account.provider==='supabase'&&account.user&&!account.user.teaching){window.location.assign('/account?view=profile');return;}setAccount(account);const list=await refreshHistory(); const saved=localStorage.getItem('profos-chat-id'); if(saved&&list.some(c=>c.id===saved)) await openChat(saved); else if(list.length) await openChat(list[0].id); else await newChat(null); } catch(e) {setSaveError(e instanceof Error?e.message:'Istoric indisponibil.');}})();
     // Bootstrap uses only initial state; rerunning would reopen chats during editing.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -104,14 +105,14 @@ export default function Home() {
     if(chatId) void persist(messages,value).catch(()=>{});
     try { localStorage.setItem("profos-selection-" + chatId, JSON.stringify(value)); } catch {}
   }
-  const effectiveSelection: Selection = selection || { manualIds: defaultManuals, documentIds: documents.filter(d => d.status === "ready").map(d => d.id) };
+  const effectiveSelection: Selection = !selection||selection.mode==='automatic'?automatic:selection;
   const refreshDocuments = useCallback(async (signal?: AbortSignal) => {
     if (!chatId) return;
     const response = await fetch(`/api/documents?chatId=${chatId}`, { signal });
     const data = await response.json() as { documents?: ChatDocument[]; error?: string };
     if (!response.ok) throw new Error(data.error || "Documentele nu sunt disponibile.");
-    setDocuments(data.documents || []);
-  }, [chatId]);
+    setDocuments(data.documents || []);await refreshAutomatic(chatId);
+  }, [chatId,refreshAutomatic]);
   useEffect(() => {
     if (!chatId) return;
     const abort = new AbortController();
@@ -129,7 +130,7 @@ export default function Home() {
     setUploading(true); setDocumentError("");
     const abort = new AbortController(); documentController.current = abort;
     try {
-      let currentSelection=selection;
+      let currentSelection=selection?.mode==='automatic'?null:selection;
       for (const file of Array.from(files)) {
         if (file.size > 10 * 1024 * 1024 || !file.size) throw new Error("Alege documente nevide de cel mult 10 MB fiecare.");
         const form = new FormData(); form.append("file", file); form.append("chatId", chatId);
@@ -150,7 +151,8 @@ export default function Home() {
       const data = await response.json() as { error?: string };
       if (!response.ok) throw new Error(data.error || "Ștergerea a eșuat.");
       setDocuments(previous => previous.filter(d => d.id !== id));
-      if (selection) chooseSources({ ...selection, documentIds: selection.documentIds.filter(v => v !== id) });
+      if (selection?.mode!=="automatic"&&selection) chooseSources({ ...selection, documentIds: selection.documentIds.filter(v => v !== id) });
+      await refreshAutomatic(chatId||undefined);
     } catch (e) { setDocumentError(e instanceof Error ? e.message : "Ștergerea a eșuat."); }
   }
   useEffect(() => {
@@ -167,7 +169,7 @@ export default function Home() {
     const abort = new AbortController(); controller.current = abort;
     try {
       await persist(next);
-      const response = await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ chatId, revision:revision.current, ...(selection ? { selection } : {}), messages: next.slice(-20).map(({ role, content }) => ({ role, content:content.slice(0,6000) })) }), signal: abort.signal });
+      const response = await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ chatId, revision:revision.current, ...(selection ? { selection:savedSelection(selection) } : {}), messages: next.slice(-20).map(({ role, content }) => ({ role, content:content.slice(0,6000) })) }), signal: abort.signal });
       const data = await response.json() as { error?: string; reply?: string; sources?: Source[]; warnings?: string[]; document?:GeneratedDocument; revision?: number };
       if (!response.ok) throw new Error(data.error || "Nu am putut primi răspunsul. Încearcă din nou.");
       if (typeof data.reply !== "string" || !data.reply.trim()) throw new Error("Răspunsul nu a putut fi citit. Încearcă din nou.");
@@ -217,6 +219,6 @@ export default function Home() {
         {!!documents.length && <><strong>Documentele tale</strong><div className="document-list">{documents.map(d => <div className="document-item" key={d.id}><FileText size={16} /><a href={`/api/documents/${d.id}`} target="_blank" rel="noopener noreferrer">{d.name}</a><span role="status">{d.status === "ready" ? "Gata" : d.status === "indexing" ? "Se pregătește…" : d.status === "uploading" ? "Se încarcă…" : d.status === "deleting" ? "Ștergere de reîncercat" : "Eroare de procesare"}</span><button type="button" onClick={() => void removeDocument(d.id)} disabled={busy || uploading || d.status === "uploading"} aria-label={`Șterge ${d.name}`}><X size={16} /></button></div>)}</div></>}
         {documentError && <div className="document-error" role="alert">{documentError}<button type="button" onClick={() => { setDocumentError(""); void refreshDocuments().catch(e => setDocumentError(e.message)); }}>Reîncearcă</button></div>}
         {uploading && <p role="status">Se încarcă documentele…</p>}
-      </div><div className="chat-selection"><button onClick={() => setLibraryOpen(true)}><BookOpen size={15} /> Alege sursele</button><span>{effectiveSelection.manualIds.length} manuale · {effectiveSelection.documentIds.length} documente pentru conversație</span></div><form className="composer" onSubmit={e => { e.preventDefault(); if (canSend) void send(draft); }}><label htmlFor="message" className="sr-only">Mesaj pentru ProfPlus</label><textarea id="message" ref={input} value={draft} onChange={e => setDraft(e.target.value)} maxLength={6000} placeholder="Întreabă despre o lecție sau despre documentele tale..." rows={2} onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing && window.matchMedia("(min-width: 768px)").matches) { e.preventDefault(); if (canSend) void send(draft); } }} /><div className="composer-bottom"><input ref={fileInput} type="file" accept=".pdf,.doc,.docx,.pptx,.txt,.md,.html" multiple className="sr-only" aria-label="Alege documentele tale" onChange={e => void uploadFiles(e.target.files)} /><button type="button" className="attach" disabled={busy || uploading || !chatId} onClick={() => fileInput.current?.click()} title="PDF, Word, PowerPoint sau text · max. 10 MB"><Paperclip size={17} /> Adaugă document</button><span>{draft.length > 5500 ? `${draft.length}/6000` : ""}</span>{busy ? <button type="button" className="send" onClick={() => controller.current?.abort()} aria-label="Oprește răspunsul"><Square size={16} fill="currentColor" /></button> : <button className="send" type="submit" disabled={!canSend} aria-label="Trimite mesaj"><Send size={19} /></button>}</div></form><p className="disclaimer">ProfPlus poate greși. Verifică răspunsurile și sursele.</p></footer>
-    </main>{editorIndex!==null&&messages[editorIndex]?.document&&<DocumentEditor document={messages[editorIndex].document!} sources={messages[editorIndex].sources||[]} onClose={()=>setEditorIndex(null)} onSave={async value=>{const next=messages.map((m,i)=>i===editorIndex?{...m,content:value.content,document:value}:m);await persist(next);setMessages(next);}}/>} {libraryOpen && <LibraryPanel profile={account?.user?.teaching||null} selection={effectiveSelection} onChange={chooseSources} onClose={() => setLibraryOpen(false)} sources={messages.flatMap(m => m.sources || [])} disabled={busy || uploading} onAsk={setDraft} />}</div>;
+      </div><div className="chat-selection"><button onClick={() => setLibraryOpen(true)}><BookOpen size={15} /> Alege sursele</button><span>{effectiveSelection.manualIds.length+effectiveSelection.documentIds.length} materiale · {effectiveSelection.mode==='automatic'?'selecție automată':'selecție personalizată'}</span></div><form className="composer" onSubmit={e => { e.preventDefault(); if (canSend) void send(draft); }}><label htmlFor="message" className="sr-only">Mesaj pentru ProfPlus</label><textarea id="message" ref={input} value={draft} onChange={e => setDraft(e.target.value)} maxLength={6000} placeholder="Întreabă despre o lecție sau despre documentele tale..." rows={2} onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing && window.matchMedia("(min-width: 768px)").matches) { e.preventDefault(); if (canSend) void send(draft); } }} /><div className="composer-bottom"><input ref={fileInput} type="file" accept=".pdf,.doc,.docx,.pptx,.txt,.md,.html" multiple className="sr-only" aria-label="Alege documentele tale" onChange={e => void uploadFiles(e.target.files)} /><button type="button" className="attach" disabled={busy || uploading || !chatId} onClick={() => fileInput.current?.click()} title="PDF, Word, PowerPoint sau text · max. 10 MB"><Paperclip size={17} /> Adaugă document</button><span>{draft.length > 5500 ? `${draft.length}/6000` : ""}</span>{busy ? <button type="button" className="send" onClick={() => controller.current?.abort()} aria-label="Oprește răspunsul"><Square size={16} fill="currentColor" /></button> : <button className="send" type="submit" disabled={!canSend} aria-label="Trimite mesaj"><Send size={19} /></button>}</div></form><p className="disclaimer">ProfPlus poate greși. Verifică răspunsurile și sursele.</p></footer>
+    </main>{editorIndex!==null&&messages[editorIndex]?.document&&<DocumentEditor document={messages[editorIndex].document!} sources={messages[editorIndex].sources||[]} onClose={()=>setEditorIndex(null)} onSave={async value=>{const next=messages.map((m,i)=>i===editorIndex?{...m,content:value.content,document:value}:m);await persist(next);setMessages(next);}}/>} {libraryOpen && <LibraryPanel chatId={chatId} profile={account?.user?.teaching||null} onAutomaticSelection={setAutomatic} selection={effectiveSelection} onChange={chooseSources} onClose={() => setLibraryOpen(false)} sources={messages.flatMap(m => m.sources || [])} disabled={busy || uploading} onAsk={setDraft} />}</div>;
 }

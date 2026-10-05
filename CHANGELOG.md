@@ -4,6 +4,16 @@
 
 - Găzduire independentă, retenții operaționale și revocare Apple automată rămân de finalizat; site-ul publicat este încă 0.9.2.
 
+## 0.9.4 — 2026-10-05 — pilot local
+
+- Profil și profil didactic reunite într-un singur formular, cu salvare comună și validare pe server; linkuri vechi compatibile.
+- Biblioteca selectează dinamic toate materialele indexate potrivite materiei/ciclurilor; selecțiile personalizate se păstrează. Documentele proprii din alte conversații rămân private.
+- Tipuri manual, culegere, olimpiadă, concurs și document, cu etichete editabile; ștergerea include metadatele noi.
+- Cerințe de securitate permanente, raport cu dovezi și lipsuri, scanner Git/client redactat și workflow CI săptămânal/la PR/push.
+- Origine obligatorie pentru mutații, ownership al conversației la upload, autentificare pentru bibliotecă, DTO istoric și headers/HTTPS la Worker.
+- Next 16.3.8 și React/React DOM/React Server DOM Webpack 19.3.0; auditul scade de la 28 la 19 alerte, fără critice. Cele 12 high și 7 moderate rămân blocaj de producție în P-046.
+- Sursele Worker/plugin excluse accidental de regula build/ sunt incluse în repository; outputul generat și secretele rămân ignorate.
+
 ## 0.9.3 — 2026-10-05 — pilot local
 
 - Delogare în bara laterală și în pagina contului; ștergere confirmată, cu identitate verificată și autentificare recentă.

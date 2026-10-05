@@ -1,10 +1,13 @@
 # Starea proiectului
 
 Ultima actualizare: 2026-10-05
-Versiune locală: 0.9.3; publicată privat: 0.9.2
+Versiune locală: 0.9.4; publicată privat: 0.9.2
 Etapă: pilot local cu Google/Apple, profil didactic și ștergere cont
 
 ## Finalizat
+
+- 0.9.4 local: profil unificat (nume, activitate didactică, o singură salvare) și selecție dinamică a tuturor materialelor indexate potrivite profilului, inclusiv documente proprii din alte conversații; categorii manual/culegere/olimpiadă/concurs/document, încadrare editabilă și selecție personalizată păstrată. Detalii în docs/LIBRARY.md.
+- Cerințe permanente de securitate în AGENTS și docs/SECURITY_REQUIREMENTS.md; verificare Git/client, CI periodic, remedieri de autorizare/CSRF/DTO/headers și actualizări Next/React. Raportul docs/SECURITY_REVIEW.md păstrează lipsurile și cele 19 alerte npm rămase (0 critice, 12 high, 7 moderate).
 
 - 0.9.3 local: delogare vizibilă, profil didactic la prima conectare și editabil ulterior, preselecție bibliotecă după disciplină/cicluri, ștergere confirmată a contului Supabase și datelor sale active. Fluxul poate fi reluat după erori de furnizor și blochează accesul cât timp ștergerea este incompletă. Autorizarea Apple se oprește separat, fără să condiționeze ștergerea datelor ProfPlus. Detalii și limite în docs/ACCOUNT_LIFECYCLE.md.
 
@@ -44,6 +47,8 @@ Etapă: pilot local cu Google/Apple, profil didactic și ștergere cont
 - Căutare, filtre, selecție pentru RAG și linkuri la originale. Serverul verifică starea și accesul.
 
 ## Verificare
+
+0.9.4 local: TypeScript/build și suitele de profil/Auth/API trecute cu furnizor simulat. UI profil comun și salvare/reload, alias vechi, formular de clasificare și filtru Concurs, 390px fără overflow. Toate categoriile, indexare nouă, filtre, mod automat/personalizat, etichete private, ownership, CSRF, ștergerea etichetelor, răspunsuri minime și security headers. Scanarea secretelor în cod/istoric Git accesibil/build client nu a găsit potriviri; limitele scannerului sunt documentate. Fără ștergere reală sau publicare online.
 
 0.9.3 local: TypeScript/build, teste de profil/preselecție și ambele suite Auth cu furnizor simulat trecute. Ștergere API cu cont fictiv, confirmare, autentificare recentă, eroare/reluare, invalidarea sesiunii, eliminarea D1/R2 și păstrarea datelor altui cont. Pipeline-ul de ștergere verifică ordinea și proprietarul prin adaptoare simulate; nu a fost șters contul real. Accesul administrativ Supabase existent verificat doar prin citire. UI local: învățător/profesor, validări, dialog anulabil, desktop și 390px fără depășire orizontală. Nicio publicare online.
 

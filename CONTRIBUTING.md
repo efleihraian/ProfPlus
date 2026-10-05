@@ -26,3 +26,7 @@ Nu încărca chei API, .env, documente private sau date ale utilizatorilor în G
 ## Website și aplicații mobile
 
 Aplică [cerințele permanente de produs](docs/PRODUCT_REQUIREMENTS.md) pe web, Android și iOS. În jurnal consemnează cerințele afectate și verificările executate; urmărește separat lucrările de implementare. Nu colecta date suplimentare, nu adăuga trackere sau SDK-uri fără evaluarea scopului și a datelor transmise. Folosește informațiile reale ale firmei și condițiile comerciale confirmate pentru politicile destinate utilizatorilor.
+
+## Verificare de securitate
+
+Respectă [regulile permanente](docs/SECURITY_REQUIREMENTS.md). Înainte de commit/livrare rulează `python3 scripts/security_scan.py --history --client` după build și auditul dependențelor. Scannerul nu afișează valori și nu înlocuiește auditul complet. Investighează alertele înainte de a publica; pentru secrete expuse aplică revocare/rotație. Pentru dependențe păstrează raportul și remediază/testează actualizările; nu ascunde alertele prin exceptări generale. CI verifică automat aceste controale; starea incompletă rămâne în SECURITY_REVIEW și backlog.

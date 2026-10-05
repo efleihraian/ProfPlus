@@ -1,6 +1,6 @@
 import {accountIdentity} from "./account-auth";
 import { env } from "cloudflare:workers";
-export type DocumentRow = { id: string; user_id: string; chat_id: string; name: string; mime: string; size: number; store_id: string | null; file_id: string | null; status: string; created_at: number };
+export type DocumentRow = { id: string; user_id: string; chat_id: string; name: string; mime: string; size: number; store_id: string | null; file_id: string | null; status: string; created_at: number; education?:string };
 export type ChatDocument = { id: string; name: string; size: number; status: string };
 type Bindings = { DB?: D1Database; DOCUMENTS?: R2Bucket; OPENAI_API_KEY?: string };
 export const json = (body: unknown, status = 200) => Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
@@ -11,7 +11,7 @@ export function storage() {
 }
 export async function userId(request: Request) { const identity=await accountIdentity(request);return identity&&!identity.deleting?identity.id:null; }
 export function validChatId(value: unknown): value is string { return typeof value === "string" && /^[0-9a-f]{8}-[0-9a-f-]{27}$/i.test(value); }
-export function sameOrigin(request: Request) { const origin = request.headers.get("origin"); return !origin || origin === new URL(request.url).origin; }
+export function sameOrigin(request: Request) { const origin = request.headers.get("origin"); return !!origin && origin === new URL(request.url).origin; }
 export function publicDocument(row: DocumentRow): ChatDocument { return { id: row.id, name: row.name, size: row.size, status: row.status }; }
 export async function openai(key: string, path: string, init: RequestInit = {}) {
   const response = await fetch("https://api.openai.com/v1" + path, { ...init, headers: { ...init.headers, Authorization: `Bearer ${key}` }, signal: init.signal || AbortSignal.timeout(30000) });

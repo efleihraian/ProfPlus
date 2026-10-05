@@ -1,6 +1,8 @@
+import {userId,json} from '../../../../lib/document-store';
 import { env } from "cloudflare:workers";
 import { collectionIds } from "../../../../lib/rag";
-export async function GET() {
+export async function GET(request:Request) {
+  if(!await userId(request))return json({error:"Autentificare necesară."},401);
   const config = env as unknown as { OPENAI_API_KEY?: string; OPENAI_VECTOR_STORE_ID?: string };
   if (!config.OPENAI_API_KEY || !config.OPENAI_VECTOR_STORE_ID) return Response.json({ available: false }, { status: 503 });
   try {

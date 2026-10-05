@@ -13,12 +13,15 @@ export function teachingProfile(value:unknown):TeachingProfile|null {
  return {role:'teacher',subject,stages:[...new Set(p.stages)]};
 }
 const roman:Record<string,number>={I:1,II:2,III:3,IV:4,V:5,VI:6,VII:7,VIII:8,IX:9,X:10,XI:11,XII:12};
-export function matchesTeaching(item:{subject?:string;schoolClass?:string},profile:TeachingProfile):boolean {
- if(!item.schoolClass||!item.subject)return false;
+export function matchesTeaching(item:{subject?:string;schoolClass?:string;stages?:Stage[]},profile:TeachingProfile):boolean {
+ if(!item.subject)return false;
+ const subjectMatches=profile.role==='primary'||item.subject==='*'||subjectKey(item.subject)===subjectKey(profile.subject)||subjectKey(item.subject).replace(/ in limba (materna )?.*$/,'')===subjectKey(profile.subject);
+ if(item.stages)return subjectMatches&&item.stages.some(s=>profile.stages.includes(s));
+ if(!item.schoolClass)return false;
  const grades=[...item.schoolClass.matchAll(/\b(XIII|XII|XI|IX|VIII|VII|VI|IV|III|II|X|V|I)\b/g)].map(m=>roman[m[1]]).filter(Boolean);
  if(/pregatitoare|clasa 0/i.test(subjectKey(item.schoolClass)))grades.push(0);
- return (profile.role==='primary'||subjectKey(item.subject)===subjectKey(profile.subject))&&grades.some(g=>profile.stages.includes(g<=4?'primary':g<=8?'middle':'high'));
+ return subjectMatches&&grades.some(g=>profile.stages.includes(g<=4?'primary':g<=8?'middle':'high'));
 }
 export function defaultManualIds(profile:TeachingProfile|null,eligibleIds:string[]):string[]{
- return eligibleIds.filter(id=>{const m=catalog[id as keyof typeof catalog];return m&&(!profile||matchesTeaching({schoolClass:m.class,subject:m.subject},profile));}).slice(0,50);
+ return eligibleIds.filter(id=>{const m=catalog[id as keyof typeof catalog];return m&&(!profile||matchesTeaching({schoolClass:m.class,subject:m.subject},profile));});
 }

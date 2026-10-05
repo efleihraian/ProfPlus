@@ -1,4 +1,6 @@
 import { json, openai, ownedDocument, sameOrigin, storage, userId } from "../../../../lib/document-store";
+import {resourceMetadata} from '../../../../lib/resource-metadata';
+import {labelsDb,saveDocumentLabels} from '../../../../lib/document-labels';
 type Context = { params: Promise<{ id: string }> };
 export async function GET(request: Request, context: Context) {
   const user = await userId(request); if (!user) return json({ error: "Autentificare necesară." }, 401);
@@ -22,7 +24,18 @@ export async function DELETE(request: Request, context: Context) {
       try { await openai(key, path, { method: "DELETE" }); } catch (e) { if (!(e instanceof Error) || e.message !== "PROVIDER_404") throw e; }
     }
     await bucket.delete(row.id);
+    await (await labelsDb()).prepare("DELETE FROM document_labels WHERE document_id=? AND user_id=?").bind(row.id,user).run();
     await db.prepare("DELETE FROM documents WHERE id = ? AND user_id = ?").bind(row.id, user).run();
     return json({ deleted: true });
   } catch { return json({ error: "Ștergerea nu a fost finalizată. Reîncearcă." }, 503); }
+}
+
+export async function PATCH(request:Request,context:Context){
+ if(!sameOrigin(request)||!request.headers.get('origin'))return json({error:'Origine nepermisă.'},403);
+ if(!request.headers.get('content-type')?.startsWith('application/json'))return json({error:'Format neacceptat.'},415);
+ const user=await userId(request);if(!user)return json({error:'Autentificare necesară.'},401);
+ try{const raw=await request.text();if(raw.length>2000)return json({error:'Cerere prea mare.'},413);const metadata=resourceMetadata(JSON.parse(raw));if(!metadata)return json({error:'Alege tipul, materia și clasele materialului.'},400);
+  if(!await saveDocumentLabels(user,(await context.params).id,metadata))return json({error:'Document indisponibil.'},404);
+  return json({saved:true});
+ }catch{return json({error:'Clasificarea nu a putut fi salvată.'},503);}
 }

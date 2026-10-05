@@ -55,7 +55,7 @@ export async function POST(request:Request){
   if(action==='teaching'){
    const profile=teachingProfile(b.teaching);if(!profile)return accountJson({error:'Alege rolul, disciplina și cel puțin un ciclu de clase.'},400);
    const {error}=await client.auth.updateUser({data:{teaching:profile}});if(error)return accountJson({error:'Profilul didactic nu a putut fi salvat.'},502);
-   return accountJson({message:'Profil didactic salvat. Biblioteca va fi preselectată pentru conversațiile noi.'});
+   return accountJson({message:'Profil didactic salvat. Biblioteca se actualizează în conversațiile cu selecție automată.'});
   }
   if(action==='delete'){
    if(b.confirmation!=='STERGE')return accountJson({error:'Confirmă ștergerea contului.'},400);
@@ -70,7 +70,8 @@ export async function POST(request:Request){
   }
   if(action==='profile'){
    if(typeof b.name!=='string'||b.name.trim().length>100)return accountJson({error:'Numele poate avea maximum 100 de caractere.'},400);
-   const {error}=await client.auth.updateUser({data:{full_name:b.name.trim()}});if(error)return accountJson({error:'Profilul nu a putut fi salvat.'},502);
+   const teaching=b.teaching===undefined?undefined:teachingProfile(b.teaching);if(teaching===null)return accountJson({error:'Alege rolul, disciplina și cel puțin un ciclu de clase.'},400);
+   const {error}=await client.auth.updateUser({data:{full_name:b.name.trim(),...(teaching?{teaching}: {})}});if(error)return accountJson({error:'Profilul nu a putut fi salvat.'},502);
    return accountJson({message:'Profil salvat.'});
   }
   if(action==='email'){

@@ -29,6 +29,13 @@
       "when": 1791146508654,
       "tag": "0003_remarkable_gateway",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1791149716696,
+      "tag": "0004_black_frightful_four",
+      "breakpoints": true
     }
   ]
 }

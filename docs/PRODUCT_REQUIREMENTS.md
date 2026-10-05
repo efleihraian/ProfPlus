@@ -40,3 +40,7 @@ Implementarea și evaluarea acestor cerințe sunt urmărite separat în BACKLOG.
 ## GDPR și DPIA — cerință permanentă explicită
 
 Confirmată de utilizator la 2026-10-04. Protecția datelor din proiectare și implicit se aplică tuturor platformelor și integrărilor. La schimbarea fluxurilor, actualizează inventarul și evaluarea [DPIA](DPIA.md), verifică scopul, temeiul, minimizarea, accesul, retenția, drepturile, furnizorii și transferurile. Păstrează separat dovezile tehnice, evaluarea riscurilor și aprobarea operatorului. Nu declara produsul „GDPR/DPIA compliant” pe baza unui checklist sau a unui SDK. Riscurile și condițiile de lansare neînchise se urmăresc în backlog.
+
+## Securitate — cerință permanentă explicită, 2026-10-05
+
+Lista obligatorie completă este în [SECURITY_REQUIREMENTS.md](SECURITY_REQUIREMENTS.md). Include secrete și Git, RLS/autorizare/izolare organizații, criptare, sesiuni și antiabuz, SQL/input/XSS/uploaduri, API minim, HTTPS/headers, dependențe, minimizare AI, audit log, export/ștergere/retenție și audit înainte de producție. Orice agent trebuie să păstreze distincția între cerință și măsură verificată. Starea concretă este în [SECURITY_REVIEW.md](SECURITY_REVIEW.md).

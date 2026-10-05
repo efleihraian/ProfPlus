@@ -27,7 +27,7 @@ Un utilizator încarcă documente text sau PDF cu text, pune o întrebare și pr
 
 ## Stare
 
-Versiune locală: **0.9.3**. Documentele profesorului și manualele au prioritate; internetul completează informațiile lipsă. Documente încărcate, indexate și șterse direct în chat. [Contractul API și limitele](docs/CHAT_API.md).
+Versiune locală: **0.9.4**. Documentele profesorului și manualele au prioritate; internetul completează informațiile lipsă. Documente încărcate, indexate și șterse direct în chat. [Contractul API și limitele](docs/CHAT_API.md).
 
 Organizație GitHub: [ProfPlus (identificator ProfOS-Edu)](https://github.com/ProfOS-Edu). Repository privat: [ProfPlus](https://github.com/ProfOS-Edu/ProfPlus).
 
@@ -54,7 +54,7 @@ Butonul „Adaugă document” acceptă PDF, DOC, DOCX, PPTX, TXT, MD și HTML (
 
 ## Biblioteca de surse
 
-Deschide „Bibliotecă de surse” pentru a vedea, căuta, filtra, selecta și deschide manualele și documentele disponibile pentru AI. Include catalogul comun și sursele web citate; starea diferențiază materialele indexate de cele doar inventariate. [Detalii](docs/LIBRARY.md).
+Deschide „Bibliotecă de surse” pentru a vedea, căuta, filtra, selecta și deschide manualele și documentele disponibile pentru AI. Selecția automată include toate materialele potrivite indexate, inclusiv culegeri/olimpiade/concursuri, pe măsură ce sunt încărcate și încadrate. Include catalogul comun și sursele web citate; starea diferențiază materialele indexate de cele doar inventariate. [Detalii](docs/LIBRARY.md).
 
 ## Proiecte și conversații
 
@@ -71,3 +71,5 @@ Secțiunea **Cont și setări** reunește profilul, profilul didactic, securitat
 Protecția datelor: [DPIA preliminară și condiții de lansare](docs/DPIA.md). Conformitatea completă se validează pe baza proceselor și dovezilor reale, nu a existenței documentului.
 
 [Rebranding și compatibilitate](docs/BRANDING.md) · [Verificarea configurației externe](docs/AUTH_CONFIGURATION_REVIEW.md).
+
+[Securitate: reguli permanente](docs/SECURITY_REQUIREMENTS.md) · [Stare verificată și lipsuri](docs/SECURITY_REVIEW.md). Obligatorii pentru orice contributor și pentru web, Android și iOS.

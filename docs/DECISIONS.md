@@ -113,3 +113,13 @@ Folosim callbackul HTTPS Supabase pentru Google și Apple, separat de callbackul
 ## 2026-10-05 — Profil minim și ștergere a datelor active
 
 Rolul, disciplina și ciclurile personalizează sursele, fără date suplimentare despre școală/elevi. Învățătorul acoperă toate materiile 0–4; profesorul poate alege mai multe cicluri. Selecția manualelor rămâne schimbabilă și nu inventează indexuri pentru discipline încă neimportate. La ștergere, identitatea este verificată de server; datele/documentele personale sunt eliminate înainte de identitatea Supabase, cu referințe și blocare pentru retry. Cheia administrativă existentă a fost aprobată numai pentru serverul local și rămâne exclusă din Git. Nu condiționăm ștergerea ProfPlus de revocarea manuală Apple; automatizarea Apple și monitorizarea operațională sunt urmărite separat. Nu asociem sau ștergem implicit vechile date Sites pe baza e-mailului.
+
+## 2026-10-05 — Surse automate dinamice, etichete private și securitate permanentă
+
+Modul automat se rezolvă pe server la fiecare mesaj din profilul verificat și sursele accesibile/indexate; nu persistă un instantaneu care exclude importurile viitoare. Categoriile educaționale sunt separate de tipul tehnic comun/privat. Profesorul poate corecta etichetele proprii; documentele vechi neclasificate nu sunt etichetate retrospectiv prin presupuneri. Selecția explicită îngheață opțiunile profesorului până la reactivarea modului automat.
+
+Datele aplicației rămân D1/R2 și indexuri private OpenAI, identitatea Supabase. RLS va fi obligatoriu pentru tabele Postgres expuse, fără a pretinde existența sa în D1. Rolul didactic din profil nu este autorizare. Reguli complete în SECURITY_REQUIREMENTS.md, dovezi și lipsuri în SECURITY_REVIEW.md. CI raportează alertele high rămase prin eșec, fără mascarea lor. CSP inițială păstrează inline necesar RSC, nonce/hash strict urmărit separat; HTTPS se aplică înainte de handler în afara loopback. Testele folosesc exclusiv date fictive pentru ștergere și clasificare.
+
+## 2026-10-05 — Profil unificat
+
+Numele și activitatea didactică sunt salvate împreună printr-o singură actualizare metadata, după validarea tuturor câmpurilor pe server. Linkul vechi view=teaching este alias către Profil; onboardingul nu introduce o pagină nouă sau date suplimentare. Profilul nu acordă roluri administrative.

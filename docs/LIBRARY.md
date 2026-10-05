@@ -1,28 +1,33 @@
-# Biblioteca de surse — 0.5.0
+# Biblioteca de surse — 0.9.4 local
 
-Profesorul deschide „Bibliotecă de surse” din bara laterală, antet sau „Alege sursele” deasupra casetei de mesaj.
+Profesorul deschide „Bibliotecă” din bara laterală sau „Alege sursele” deasupra mesajului. Biblioteca permite căutare, filtre, selecție, încadrarea documentelor proprii și deschiderea originalelor.
 
-## Materiale disponibile
+## Selecție automată
 
-- Manualele din catalogul comun al ministerului: 1.349 volume, cu titlu, clasă, disciplină, editură și link oficial PDF. Catalogul complet nu este indexat integral.
-- Manualele încărcate/indexate în colecția comună: starea este citită din indexul OpenAI, nu dedusă dintr-un contor sau din catalog. În verificarea acestei versiuni au fost 21 disponibile, inclusiv cele 9 din pilot.
-- Documentele încărcate de profesor în oricare dintre conversațiile sale, cu originalul protejat prin identitatea Sites. Documentele private ale altor utilizatori nu sunt expuse.
-- Sursele web citate în conversația curentă: linkuri și acțiunea „Întreabă despre sursă”. Nu devin documente indexate prin simpla afișare.
+Profilul didactic stabilește disciplina și ciclurile 0–4/5–8/9–12; învățătorul acoperă toate materiile 0–4. În modul automat sunt incluse **toate materialele accesibile și indexate care corespund profilului**, indiferent dacă sunt manuale, culegeri, olimpiade, concursuri sau alte documente. Serverul recalculează lista la fiecare mesaj folosind identitatea și profilul verificate, starea actuală a indexurilor și metadatele materialelor. Un material nou intră după finalizarea indexării, fără recrearea conversației.
 
-Căutarea ignoră diferențele de majuscule și diacritice și caută în titlu, clasă, disciplină și editură. Filtre: manual/document/web, clasă, materiale încărcate/tot catalogul/surse selectate. Rezultatele sunt afișate treptat, câte 40.
+Sunt eligibile sursele comune și documentele proprii din toate conversațiile; niciun document al altui profesor. Documentele vechi fără etichete nu sunt clasificate prin presupunerea conținutului: pot fi încadrate manual, selectate explicit, iar cele atașate conversației curente rămân în contextul implicit. Materia generală Matematica include variantele de manual în germană și maghiară; alegerea unei discipline explicit într-o anumită limbă rămâne specifică acelei variante.
 
-## Selectarea pentru AI
+O bifare/debifare sau golirea selecției activează **Selecție personalizată**, salvată cu conversația. Aceasta se păstrează inclusiv după schimbarea profilului. „Folosește toate materialele potrivite” reactivează modul automat. Persistarea modului automat nu îngheață ID-urile surselor; serverul ignoră orice listă de ID-uri trimisă împreună cu acest mod și rezolvă din nou accesul.
 
-Casetele selectează materialele folosite în căutarea RAG la următorul mesaj. Numai materialele indexate pot fi adăugate; manualele neindexate se pot deschide direct. Limite: 50 manuale și 10 documente. Selecția poate fi golită și este afișată lângă chat.
+Dacă verificarea indexurilor nu reușește, aplicația afișează eroarea; nu prezintă o selecție parțială drept completă. Sursele manuale sunt reverificate pe server înainte de RAG. Căutarea acoperă sursele selectate și trimite modelului numai pasajele relevante, nu toate documentele simultan.
 
-Selecția explicită este transmisă serverului în `selection.manualIds` și `selection.documentIds`. Serverul verifică starea actuală a manualelor și proprietarul/starea fiecărui document, apoi filtrează efectiv căutarea. Un document poate fi ales din altă conversație a aceluiași profesor. Un ID privat al altui utilizator este respins.
+## Încadrarea documentelor proprii
 
-Fără selecție explicită rămâne comportamentul anterior: cele 9 manuale din pilot și documentele conversației curente. Preferința selecției (numai ID-uri) se păstrează în browser. Internetul poate completa informațiile lipsă chiar și când selecția este goală.
+Documentele noi primesc inițial materia și ciclurile profilului, cu tipul „Alt document”. Acestea sunt etichete propuse din profil, nu rezultatul unei clasificări AI a conținutului. Profesorul verifică și modifică din „Încadrează materialul”: Manual / Culegere / Olimpiadă / Concurs / Alt document, materia și clasele. Documentul rămâne privat.
 
-Linkurile din bibliotecă deschid PDF-urile originale oficiale, documentele profesorului ori paginile web citate. PDF-urile profesorului sunt servite pentru vizualizare în browser; alte formate se descarcă. Tipul materialului și starea indexării sunt afișate separat.
+Metadatele sunt stocate în D1 `document_labels`, separat de original, și validate pe server. API PATCH verifică identitatea, originea, formatul JSON, valorile permise și proprietarul. Etichetele se șterg cu documentul sau contul; alte conturi sunt păstrate. Nu se adaugă nume de școală/elevi ori trackere.
 
-## Verificare
+## Sursele comune și limitele reale
 
-TypeScript și build trecute. API-ul bibliotecii a returnat toate cele 1.349 volume și stările reale. Alegerea numai a manualului Intuitext a produs citări numai din acel manual; un volum neindexat a fost respins cu 409. O fișă sintetică din altă conversație a aceluiași profesor a fost folosită cu citare. Un alt utilizator nu a primit fișa în bibliotecă și nu a putut-o selecta (409). Fișierele/indexurile de test au fost șterse.
+Catalogul ministerului este în `web/lib/manual-catalog.json`; apariția în catalog nu înseamnă indexare. Pilotul documentat are 9 manuale de matematică V. Starea reală citită din index decide ce poate participa; lista `active-collection.json` servește contorul pilotului, nu plafonează selecția automată.
 
-În prima probă modelul a omis citarea pentru fișă; am adăugat o revizuire a răspunsurilor documentare fără citări și am reverificat fluxul. QA vizuală în browser rămâne indisponibilă din cauza restricției întâlnite anterior. Pagini/fraze/documente întregi nu sunt indexate doar prin apariția în catalog; starea „În catalog · încă neindexat” exprimă această limită.
+Registrul pentru alte materiale comune este `web/lib/educational-resources.json`, momentan gol. Pentru fiecare material comun nou se adaugă UID, titlu, `subject`, `stages`, `category`, URL original și opțional clasă/editură, după verificarea drepturilor de utilizare. Același UID trebuie să fie în atributul fișierului indexat. Registrul singur nu importă/indexează fișiere; nu inventăm culegeri sau concursuri deja încărcate. Încărcarea privată și încadrarea sunt disponibile profesorului; nu există încă un panou de administrare pentru importuri comune.
+
+Limite actuale: 10 MB/fișier, 10 documente/conversație și 50/cont; selecția explicită permite până la 50 documente și 5.000 ID-uri de surse comune. Indexurile private sunt căutate cu maximum 4 cereri simultane. La creșterea colecției comune trebuie evaluată scalarea filtrării și costul; limita de validare nu constituie o probă de performanță pe mii de materiale.
+
+Sursele web citate se pot deschide și discuta, dar nu devin automat documente indexate. Linkurile private trec prin verificarea identității și proprietarului; nu există URL public permanent. PDF-ul poate fi vizualizat inline, celelalte formate se descarcă.
+
+## Verificări 0.9.4
+
+Teste pentru toate cele cinci categorii, surse nou indexate, excluderea disciplinei/ciclului greșit, învățător, variante de limbă, persistență dinamică/manuală, documente proprii din alte conversații, respingerea ID-ului altui cont, CSRF/format/validare, eliminarea etichetelor la ștergerea contului. D1/R2 și Auth de test sunt izolate; niciun cont real nu a fost șters. QA de interfață folosește un document fictiv, fără apeluri reale AI. Nu a fost repetată evaluarea pedagogică a răspunsurilor AI în această schimbare.

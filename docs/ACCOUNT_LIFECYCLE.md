@@ -1,10 +1,10 @@
-# Profil didactic și ștergere cont — ProfPlus 0.9.3 local
+# Profil unificat și ștergere cont — ProfPlus 0.9.4 local
 
 ## Utilizare
 
 După prima conectare prin Google/Apple, profesorul completează profilul didactic. Învățător: toate materiile, clasele 0–4. Profesor: o disciplină din catalog și unul sau mai multe cicluri 0–4, 5–8, 9–12. Alegerile se modifică ulterior din Cont și setări → Profil didactic. Se păstrează numai aceste alegeri în metadata Supabase, fără școală, adresă sau informații despre elevi.
 
-Conversațiile noi preselectează manualele potrivite din colecția activă. Pentru Matematica, 5–8 sunt 7 manuale în română; cele în germană/maghiară au discipline distincte în catalog. Învățătorii și celelalte discipline nu primesc automat manualele de matematică V. Colecția are încă numai cele 9 manuale V; un profil fără surse indexate începe fără manuale selectate. Catalogul se poate consulta în continuare, filtrele se pot dezactiva și sursele se pot selecta manual. Selecțiile explicite ale conversațiilor existente se păstrează. Documentele proprii rămân vizibile, fără clasificarea lor prin presupuneri.
+Conversațiile cu selecție automată includ toate sursele comune și documentele proprii indexate potrivite disciplinei/ciclurilor. Matematica generală include și variantele în germană/maghiară; disciplinele explicite într-o anumită limbă rămân specifice. Materialele noi intră după indexare. Selecțiile personalizate se păstrează. Documentele proprii pot fi încadrate după tip, materie și cicluri; etichetele inițiale ale încărcărilor noi provin din profil și pot fi corectate. Vezi [biblioteca 0.9.4](LIBRARY.md).
 
 Delogarea este disponibilă în bara laterală și în pagina contului. Încheie sesiunea browserului și curăță preferințele ProfPlus locale; nu șterge conținutul salvat pe server. Opțiunea pentru toate dispozitivele rămâne în Conectare și securitate.
 
@@ -36,3 +36,9 @@ Migrarea D1 0003 adaugă account_deletions. Inițializarea idempotentă susține
 - Probele nu demonstrează ștergerea copiilor de siguranță, logurilor sau tuturor stocărilor furnizorilor. Contractele, retențiile, drepturile, monitorizarea reluărilor, testele reale dedicate și evaluarea GDPR/DPIA completă rămân deschise.
 
 [Supabase deleteUser](https://supabase.com/docs/reference/javascript/auth-admin-deleteuser), [Supabase user data](https://supabase.com/docs/guides/auth/managing-user-data), [Apple account deletion](https://developer.apple.com/support/offering-account-deletion-in-your-app/), [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj). Aplicația folosește R2, nu Supabase Storage; înainte de introducerea acestuia trebuie tratate obiectele deținute de utilizator.
+
+## Profil unificat — 0.9.4
+
+Un singur element „Profil” în cont. Numele opțional, învățător/profesor, disciplina și ciclurile sunt într-un formular cu o singură salvare. Serverul validează ambele părți înainte de a modifica metadata prin updateUser; un profil didactic invalid nu produce o salvare parțială a numelui. Prima configurare continuă către conversații, iar linkurile vechi view=teaching deschid aceeași pagină Profil. Nu sunt colectate câmpuri noi.
+
+Ghidul Supabase Auth/SSR și changelogul au fost consultate pentru metadata și validarea identității; profilul didactic editabil rămâne preferință, fără privilegii. Referințe: [updateUser](https://supabase.com/docs/reference/javascript/auth-updateuser), [SSR](https://supabase.com/docs/guides/auth/server-side/creating-a-client?queryGroups=framework&framework=nextjs).

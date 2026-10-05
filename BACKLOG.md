@@ -121,3 +121,37 @@ Dovezi: docs/ACCOUNT_LIFECYCLE.md; TypeScript/build, teste de profil, API/D1/R2 
 ## P-039 — Finalizarea operațională a ștergerii și integrarea mobilă — TODO
 
 Revocare Apple prin API cu tokenuri protejate și notificări de furnizor, reluare administrativă automată pentru întreruperi inclusiv după eliminarea identității, retenție pentru marcaje/copie de siguranță/loguri și protecție pentru restaurări. Probe reale pe conturi dedicate, încărcări/ștergeri concurente și cereri deja pornite, identități Sites separate și implementare web/Android/iOS. Nu se declară conformitate sau ștergere instantanee a copiilor furnizorilor. Responsabili și termene de stabilit înainte de lansarea generală.
+
+## P-040 — Selecție automată a tuturor materialelor relevante — DONE (local)
+
+Manuale, culegeri, olimpiade, concursuri și documente indexate, potrivite disciplinei/ciclurilor și accesibile profesorului. Etichete editabile; materiale noi incluse automat, selecțiile manuale păstrate, izolare și ștergerea metadatelor verificate.
+
+## P-041 — Reguli de securitate permanente și verificare inițială — DONE
+
+Cerințele explicite din 2026-10-05 în SECURITY_REQUIREMENTS.md, legate din AGENTS și CONTRIBUTING; raport cu dovezi/lipsuri, scanare Git/client, ignore credențiale, CI periodic și remedieri imediate verificate. Nu echivalează cu auditul complet de producție.
+
+## P-042 — Antiabuz, sesiuni și limite de cost — TODO
+
+Rate limiting distribuit pe identitate/IP și endpoint, CAPTCHA/challenge după risc, limite login/signup/reset/AI/upload, MFA administratori, expirare/refresh/revocare și teste reale. Evită IP-uri în clar în loguri, definește retenția contoarelor și proxy-urile de încredere. Teste concurență și imposibilitatea ocolirii limitelor prin ID-uri/header-e falsificate.
+
+## P-043 — RLS, roluri și școli izolate — TODO (înainte de aceste funcții)
+
+Model server-side profesor/elev/părinte/admin, apartenențe și relații validate; tenant pe fiecare stocare, job, cache și index. RLS/politici Postgres sau rules Firebase înainte de expunerea datelor prin aceste servicii. D1 actual rămâne cu ownership verificat pe server. Criteriu: probe directe API/IDOR/escaladare și izolare cu două organizații; nu folosi user_metadata ca autoritate de privilegii.
+
+## P-044 — Uploaduri, pseudonimizare și întărirea CSP — TODO
+
+Verificare completă MIME/structură, ZIP bombs, scanare malware/quarantină, plafonarea requesturilor înainte de buffering; CSP strictă nonce/hash verificată pentru RSC și aplicațiile găzduite. Pseudonimizare înainte de indexare/LLM, filtre și probe de prompt injection/exfiltrare. Actualul control de semnătură nu este scanare malware.
+
+## P-045 — Export date, audit și retenție — TODO
+
+Export complet date proprii cu ownership, fără secrete, originale incluse controlat; loguri minime pentru acces/modificări, integritate și acces restricționat. Perioade clare și ștergere automată pentru date/loguri/backups/markere, restaurare fără reintroducerea datelor șterse. Legat de P-030/P-034/P-039.
+
+## P-046 — Audit de producție și vulnerabilități rămase — TODO
+
+Actualizarea/testarea toolchainului cu alerte npm rămase; audit final auth bypass, IDOR, SQLi, XSS, upload, escaladare privilegii, prompt injection și data leakage. Verificare criptare/stocare/HTTPS/proxy real, RLS/rules când aplicabile, administratori și furnizori. Criteriu: raport pe versiunea livrată, remediere/retest și aprobarea riscurilor; niciun audit simulat declarat audit complet.
+
+## P-047 — Profil și profil didactic într-o singură pagină — DONE (local)
+
+Un singur element Profil, nume și activitate didactică în același formular/salvare, compatibilitate cu linkul vechi view=teaching și onboarding păstrat. Validarea pe server împiedică salvarea parțială a numelui când activitatea didactică este invalidă; fără date noi colectate.
+
+Dovezi P-040/P-041/P-047: TypeScript/build, suite profil/Auth/API etichete și ștergere pe fixtures, UI profil comun cu salvare/reload și alias vechi, dialog/filtru Concurs, 390px fără overflow. Scanare surse/istoric accesibil/build client fără potriviri; audit npm rămas 19 alerte, documentat în SECURITY_REVIEW. CI înregistrat, execuția remote nu este declarată trecută. Nu s-a făcut publicare online sau audit complet de producție.

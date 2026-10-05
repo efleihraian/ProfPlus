@@ -1,10 +1,11 @@
+import {validSelection,savedSelection} from '../../../lib/source-selection';
 import {validGeneratedDocument} from '../../../lib/generated-document';
 import { json, sameOrigin, storage, userId, validChatId } from '../../../lib/document-store';
 export async function GET(request: Request) {
   const user = await userId(request); if (!user) return json({error:'Autentificare necesară.'},401);
   try {
     const db = storage().db, id = new URL(request.url).searchParams.get('id');
-    if (id) { const chat = await db.prepare('SELECT * FROM conversations WHERE id=? AND user_id=? AND deleted=0').bind(id,user).first(); if (!chat) return json({error:'Conversație indisponibilă.'},404); return json({chat:{...chat,messages:JSON.parse(String(chat.messages)),selection:JSON.parse(String(chat.selection))}}); }
+    if (id) { const chat = await db.prepare('SELECT id,title,project_id,messages,selection,revision,created_at,updated_at FROM conversations WHERE id=? AND user_id=? AND deleted=0').bind(id,user).first(); if (!chat) return json({error:'Conversație indisponibilă.'},404); return json({chat:{...chat,messages:JSON.parse(String(chat.messages)),selection:JSON.parse(String(chat.selection))}}); }
     // Adopt previous document-only conversations without inventing missing messages.
     await db.prepare("INSERT OR IGNORE INTO conversations (id,user_id,title,messages,selection,revision,created_at,updated_at) SELECT chat_id,user_id,'Documente anterioare','[]','null',0,MIN(created_at),MAX(created_at) FROM documents WHERE user_id=? AND NOT EXISTS (SELECT 1 FROM account_deletions WHERE user_id=?) GROUP BY chat_id,user_id").bind(user,user).run();
     const [projects,chats] = await Promise.all([db.prepare('SELECT id,name FROM projects WHERE user_id=? ORDER BY created_at DESC').bind(user).all(),db.prepare('SELECT id,title,project_id,revision,updated_at FROM conversations WHERE user_id=? AND deleted=0 ORDER BY updated_at DESC').bind(user).all()]);
@@ -29,11 +30,11 @@ export async function PUT(request: Request) {
       if(message.document!==undefined&&!validGeneratedDocument(message.document))return json({error:"Document generat invalid."},400);
       if (message.warnings?.some((w:unknown)=>typeof w!=='string') || message.sources?.some((source:{url?:unknown;id?:unknown;title?:unknown})=>!source||typeof source.url!=='string'||! /^(https?:\/\/|\/api\/documents\/)/.test(source.url)||typeof source.title!=='string'||typeof source.id!=='number')) return json({error:'Surse invalide.'},400);
     }
-    if(b.selection!==null&&(!b.selection||!Array.isArray(b.selection.manualIds)||!Array.isArray(b.selection.documentIds)||b.selection.manualIds.length>50||b.selection.documentIds.length>10||[...b.selection.manualIds,...b.selection.documentIds].some((id:unknown)=>typeof id!=='string'||id.length>80))) return json({error:'Selecție invalidă.'},400);
+    if(b.selection!==null&&!validSelection(b.selection))return json({error:'Selecție invalidă.'},400);
     const db=storage().db;
     if(b.projectId && !await db.prepare('SELECT id FROM projects WHERE id=? AND user_id=?').bind(b.projectId,user).first()) return json({error:'Proiect indisponibil.'},404);
     const title=typeof b.title==='string'&&b.title.trim()?b.title.trim().slice(0,100):String(b.messages.find((m:{role:string})=>m.role==='user')?.content||'Conversație nouă').slice(0,80);
-    const result=await db.prepare('UPDATE conversations SET title=?,project_id=?,messages=?,selection=?,revision=revision+1,updated_at=? WHERE id=? AND user_id=? AND revision=? AND deleted=0').bind(title,b.projectId||null,JSON.stringify(b.messages),JSON.stringify(b.selection),Date.now(),b.id,user,b.revision).run();
+    const result=await db.prepare('UPDATE conversations SET title=?,project_id=?,messages=?,selection=?,revision=revision+1,updated_at=? WHERE id=? AND user_id=? AND revision=? AND deleted=0').bind(title,b.projectId||null,JSON.stringify(b.messages),JSON.stringify(savedSelection(b.selection)),Date.now(),b.id,user,b.revision).run();
     if(!result.meta.changes) return json({error:'Conversația a fost modificată în altă fereastră. Redeschide-o din istoric.'},409);
     return json({revision:b.revision+1});
   } catch { return json({error:'Salvarea a eșuat. Reîncearcă înainte să schimbi conversația.'},503); }

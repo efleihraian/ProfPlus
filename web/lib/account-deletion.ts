@@ -1,4 +1,5 @@
 import {env} from 'cloudflare:workers';
+import {labelsDb} from './document-labels';
 import {accountStateDb} from './account-state';
 import {storage,type DocumentRow} from './document-store';
 import {eraseAccount} from './account-erasure';
@@ -12,7 +13,7 @@ async function eraseOpenAI(key:string,path:string){
 export async function deleteOwnAccount(user:string,supabaseUrl:string){
  if(!deletionEnabled())throw new DeletionError(503,'La ștergerea contului lipsește configurația serverului. Datele nu au fost modificate.');
  if(!/^supabase:[0-9a-f-]{36}$/i.test(user))throw new DeletionError(400,'Cont invalid.');
- const db=await accountStateDb(),{bucket,key}=storage();
+ const db=await accountStateDb(),{bucket,key}=storage();await labelsDb();
  if(await db.prepare("SELECT id FROM documents WHERE user_id=? AND status='uploading' AND created_at>?").bind(user,Date.now()-120000).first())throw new DeletionError(409,'O încărcare este în curs. Așteaptă finalizarea și reîncearcă.');
  const secret=(env as unknown as {SUPABASE_SECRET_KEY:string}).SUPABASE_SECRET_KEY;
  await eraseAccount(user,{
@@ -27,7 +28,7 @@ export async function deleteOwnAccount(user:string,supabaseUrl:string){
   eraseFile:id=>eraseOpenAI(key,'/files/'+encodeURIComponent(id)),
   eraseOriginal:async id=>{await bucket.delete(id);},
   eraseRow:async(owner,id)=>{await db.prepare('DELETE FROM documents WHERE id=? AND user_id=?').bind(id,owner).run();},
-  eraseAppData:async owner=>{await db.batch([db.prepare('DELETE FROM conversations WHERE user_id=?').bind(owner),db.prepare('DELETE FROM projects WHERE user_id=?').bind(owner)]);},
+  eraseAppData:async owner=>{await db.batch([db.prepare('DELETE FROM document_labels WHERE user_id=?').bind(owner),db.prepare('DELETE FROM conversations WHERE user_id=?').bind(owner),db.prepare('DELETE FROM projects WHERE user_id=?').bind(owner)]);},
   eraseIdentity:async owner=>{
    const response=await fetch(supabaseUrl+'/auth/v1/admin/users/'+encodeURIComponent(owner.slice(9)),{method:'DELETE',headers:{apikey:secret,Authorization:`Bearer ${secret}`,'Content-Type':'application/json'},body:JSON.stringify({should_soft_delete:false}),signal:AbortSignal.timeout(20000)});
    if(!response.ok&&response.status!==404)throw new Error('AUTH_ERASURE_UNAVAILABLE');

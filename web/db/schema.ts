@@ -15,3 +15,7 @@ export const conversations = sqliteTable('conversations', {
 export const accountDeletions = sqliteTable('account_deletions', {
  userId: text('user_id').primaryKey(), startedAt: integer('started_at').notNull(),
 });
+
+export const documentLabels = sqliteTable('document_labels', {
+ documentId:text('document_id').primaryKey(),userId:text('user_id').notNull(),metadata:text('metadata').notNull(),
+});

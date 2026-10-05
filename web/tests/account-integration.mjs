@@ -38,8 +38,8 @@ const server=createServer(async(req,res)=>{
 });
 const cookies=new Map();
 function applyCookies(response){for(const c of response.headers.getSetCookie()){const pair=c.split(';')[0],at=pair.indexOf('=');cookies.set(pair.slice(0,at),pair.slice(at+1));}}
-async function call(path='/api/account',body,extra={}){
- const response=await fetch(origin+path,{method:body?'POST':'GET',redirect:'manual',headers:{Origin:origin,'Content-Type':'application/json',Cookie:[...cookies].map(([k,v])=>k+'='+v).join('; '),...extra},...(body?{body:JSON.stringify(body)}:{})});
+async function call(path='/api/account',body,extra={},method=body?'POST':'GET'){
+ const response=await fetch(origin+path,{method,redirect:'manual',headers:{Origin:origin,'Content-Type':'application/json',Cookie:[...cookies].map(([k,v])=>k+'='+v).join('; '),...extra},...(body?{body:JSON.stringify(body)}:{})});
  applyCookies(response);return response;
 }
 async function action(body,status){const r=await call('/api/account',body);assert.equal(r.status,status,JSON.stringify(body.action));return r;}
@@ -59,7 +59,8 @@ try{
  worker.stdout.on('data',b=>output+=b);worker.stderr.on('data',b=>output+=b);
  let ready=false;for(let i=0;i<80;i++){try{const r=await call();if(r.ok){ready=true;break;}}catch{}await delay(250);}
  assert.ok(ready,'Local Worker did not become ready');
- let r=await call();assert.equal((await r.json()).user,null);assert.match(r.headers.get('Cache-Control'),/no-store/);
+ let r=await call();assert.equal((await r.json()).user,null);assert.match(r.headers.get('Cache-Control'),/no-store/);assert.equal(r.headers.get('X-Content-Type-Options'),'nosniff');assert.equal(r.headers.get('X-Frame-Options'),'DENY');assert.match(r.headers.get('Content-Security-Policy'),/object-src 'none'/);
+ assert.equal((await call('/api/library')).status,401);assert.equal((await call('/api/library/status')).status,401);
  r=await call('/api/account',undefined,{'oai-authenticated-user-id':'spoofed'});assert.equal((await r.json()).user,null,'No fallback to Sites identity in Supabase mode');
  r=await call('/api/account',{action:'login',email:'fixture@example.test',password:'valid-test-password'},{Origin:'https://untrusted.example'});assert.equal(r.status,403);
  if(socialOnly){
@@ -86,7 +87,44 @@ try{
  await action({action:'teaching',teaching:{role:'primary',subject:'irrelevant',stages:['high']}},200);
  let configured=await(await call()).json();assert.deepEqual(configured.user.teaching,{role:'primary',subject:'*',stages:['primary']});assert.deepEqual(configured.defaultManualIds,[]);
  await action({action:'teaching',teaching:{role:'teacher',subject:'Matematică',stages:['middle']}},200);
- configured=await(await call()).json();assert.equal(configured.defaultManualIds.length,7);
+ configured=await(await call()).json();assert.equal(configured.defaultManualIds.length,9);
+ await action({action:'profile',name:'Nume care nu se salvează',teaching:{role:'teacher',subject:'invalid',stages:['middle']}},400);
+ assert.equal((await(await call()).json()).user.name,'Profesor test');
+ await action({action:'profile',name:'Profil unificat',teaching:{role:'teacher',subject:'Matematică',stages:['middle']}},200);
+ configured=await(await call()).json();assert.equal(configured.user.name,'Profil unificat');assert.equal(configured.user.teaching.subject,'Matematica');
+ console.log('PASS: unified profile saves name/teaching together; invalid teaching prevents partial name update.');
+
+ const label={category:'collection',subject:'Matematică',stages:['middle']};
+ const patch=(id,data,headers={})=>call('/api/documents/'+id,data,headers,'PATCH');
+ assert.equal((await patch('own-doc',label)).status,200);
+ assert.equal((await patch('other-doc',label)).status,404);
+ assert.equal((await patch('own-doc',{...label,category:'invalid'})).status,400);
+ assert.equal((await patch('own-doc',label,{Origin:'https://untrusted.example'})).status,403);assert.equal((await patch('own-doc',label,{Origin:''})).status,403);
+ assert.equal((await patch('own-doc',label,{'Content-Type':'text/plain'})).status,415);
+ let library=await(await call('/api/library')).json();
+ assert.ok(library.items.some(i=>i.id==='own-doc'&&i.category==='collection'&&i.subject==='Matematica'));
+ assert.ok(!library.items.some(i=>i.id==='other-doc'));
+ assert.deepEqual(library.selection.documentIds,['own-doc'],'Matching owned materials from any conversation are selected');
+ assert.equal((await patch('own-doc',{...label,stages:['high']})).status,200);
+ library=await(await call('/api/library')).json();assert.deepEqual(library.selection.documentIds,[]);
+ for(const category of ['manual','collection','olympiad','competition','document']){
+  assert.equal((await patch('own-doc',{...label,category})).status,200);
+  library=await(await call('/api/library')).json();assert.deepEqual(library.selection.documentIds,['own-doc']);
+ }
+ sql(`INSERT INTO document_labels(document_id,user_id,metadata) VALUES('other-doc','supabase:55555555-5555-4555-8555-555555555555','{"category":"competition","subject":"Matematica","stages":["middle"]}')`);
+ const newChat=await(await call('/api/history',{projectId:null})).json();
+ const edit={id:newChat.id,revision:0,messages:[],projectId:null,selection:{mode:'automatic',manualIds:['stale'],documentIds:['other-doc']}};
+ assert.equal((await call('/api/history',edit,{},'PUT')).status,200);
+ let stored=await(await call('/api/history?id='+newChat.id)).json();assert.ok(!('user_id' in stored.chat));assert.deepEqual(stored.chat.selection,{mode:'automatic',manualIds:[],documentIds:[]});
+ edit.revision=1;edit.selection={mode:'manual',manualIds:[],documentIds:['own-doc']};
+ assert.equal((await call('/api/history',edit,{},'PUT')).status,200);
+ stored=await(await call('/api/history?id='+newChat.id)).json();assert.deepEqual(stored.chat.selection,edit.selection);
+ console.log('PASS: all resource categories, classification ownership/CSRF/validation, subject/cycle matching, automatic cross-chat selection, compact automatic persistence and preserved manual selection.');
+ if(process.argv.includes('--preview')){
+  await patch('own-doc',{...label,category:'collection'});
+  console.log('UI preview ready at '+origin+'; synthetic fixture@example.test / valid-test-password. Stop with SIGINT.');
+  await new Promise(resolve=>process.once('SIGINT',resolve));throw new Error('PREVIEW_FINISHED');
+ }
  await action({action:'delete',confirmation:'wrong'},400);
 
 
@@ -114,12 +152,12 @@ try{
  failAdmin=false;r=await action({action:'delete',confirmation:'STERGE',userId:'someone-else'},200);const erased=await r.json();assert.equal(erased.clearLocalData,true);assert.match(erased.redirect,/apple=1/);
  assert.deepEqual(deletedIds,[uid,uid],'Deletion target is always the authenticated UID');assert.equal((await(await call()).json()).user,null);
  const projects=sql('SELECT id FROM projects')[0].results,chats=sql('SELECT id FROM conversations')[0].results,documents=sql('SELECT id FROM documents')[0].results,markers=sql('SELECT * FROM account_deletions')[0].results;
- assert.deepEqual(projects,[{id:'other-project'}]);assert.deepEqual(chats,[{id:'other-chat'}]);assert.deepEqual(documents,[{id:'other-doc'}]);assert.deepEqual(markers,[]);assert.notEqual(r2('get','own-doc').status,0,'Private R2 original is erased');
+ assert.deepEqual(projects,[{id:'other-project'}]);assert.deepEqual(chats,[{id:'other-chat'}]);assert.deepEqual(documents,[{id:'other-doc'}]);assert.deepEqual(markers,[]);assert.deepEqual(sql('SELECT document_id FROM document_labels')[0].results,[{document_id:'other-doc'}]);assert.notEqual(r2('get','own-doc').status,0,'Private R2 original is erased');
  console.log('PASS: erasure reauthentication, provider outage, inaccessible pending account, retry, authenticated target, complete own D1 cleanup (including deleted chats), other-user isolation and session invalidation.');
  console.log('PASS: configuration, CSRF, verification gate, remote identity, session cookies, register/login/logout, profile, email, password recovery, OAuth PKCE, safe redirects, tampered session.');
  }
  console.log('Provider is mocked; Google/Apple login and delivery through Resend require separate live acceptance tests.');
-}finally{
+}catch(error){if(error.message!=='PREVIEW_FINISHED')throw error;}finally{
  if(worker){worker.kill('SIGTERM');await Promise.race([new Promise(resolve=>worker.once('exit',resolve)),delay(3000)]);}
  await new Promise(resolve=>server.close(resolve));
  if(original)await writeFile(configPath,original,{mode:0o600});else await rm(configPath,{force:true});

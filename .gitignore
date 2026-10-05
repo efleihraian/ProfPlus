@@ -13,3 +13,19 @@ uploads/
 *.log
 .sites-runtime/
 *.tsbuildinfo
+
+# Authentication material is never versioned, at any directory depth.
+.dev.vars*
+*.p8
+*.pem
+*.p12
+*.pfx
+*.key
+client_secret*.json
+credentials*.json
+service-account*.json
+firebase-adminsdk*.json
+
+# This directory contains Worker/plugin source, not generated build output.
+!web/build/
+!web/build/**

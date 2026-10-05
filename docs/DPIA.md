@@ -1,6 +1,6 @@
 # ProfPlus — evaluare preliminară DPIA și registru de riscuri
 
-Data: 2026-10-05 · versiune analizată: 0.9.3 local · **DRAFT — neaprobat pentru lansare generală**.
+Data: 2026-10-05 · versiune analizată: 0.9.4 local · **DRAFT — neaprobat pentru lansare generală**.
 
 Document de lucru bazat pe cod și verificările disponibile. Nu este o certificare GDPR, o politică publică sau o evaluare juridică finalizată. Responsabilul operatorului și persoana care aprobă evaluarea nu sunt încă identificați. Cerința utilizatorului: protecția datelor se aplică website-ului, backendului și aplicațiilor Android/iOS.
 
@@ -99,3 +99,11 @@ Dovezi: teste cu Auth simulat, D1/R2 izolate, identitate recentă, eroare/reluar
 Riscuri deschise: retențiile/logurile/copii de siguranță și restaurarea fără reintroducerea datelor șterse; reluare operațională dacă identitatea a fost eliminată înainte de curățarea marcajului; întreruperi/încărcări concurente; probe reale complete cu conturi dedicate. În pilot, autorizarea Apple se oprește manual din contul Apple; nu condiționează dreptul de ștergere a datelor ProfPlus. Revocarea automată Apple și declarațiile App Store/Google Play sunt de finalizat înainte de mobil (P-039). Datele vechi Sites nu se asociază și nu se elimină prin potrivirea e-mailului; necesită un flux separat cu dovada identității.
 
 Această implementare reduce R1/R3/R5, dar nu închide P-030/P-034 și nu aprobă DPIA. Referință pentru minimizare, ștergere și protecție din proiectare: [GDPR, articolele 5, 17 și 25](https://eur-lex.europa.eu/eli/reg/2016/679/oj). Cerințele Apple pentru ștergere/revocare: [Account deletion](https://developer.apple.com/support/offering-account-deletion-in-your-app/).
+
+## Revizie 0.9.4 — bibliotecă dinamică și reguli de securitate
+
+Metadate noi pentru documente: tip educațional, materie, cicluri, ID document/proprietar în D1. Scop exclusiv selecția surselor, fără date noi de elev/școală sau marketing. Etichetele inițiale provin din profil, sunt editabile și nu pretind o clasificare AI a conținutului. Documentele private potrivite pot fi consultate automat din alte conversații ale aceluiași cont; interfața explică acest scop și permite selecție manuală. Nu devin comune sau accesibile altor profesori. Originalele/fragmentele rămân pe fluxurile R2/OpenAI existente; nu este implementată pseudonimizarea completă înaintea indexării.
+
+Etichetele sunt eliminate la ștergerea documentului/contului; probele cu date fictive verifică ownership, CSRF, valori permise, selecția după materie/cicluri și păstrarea altui cont la ștergere. Selecția automată stochează modul, nu o copie de ID-uri care ar deveni învechită. Interogările private către indexuri sunt limitate la 4 simultan, fără ca aceasta să constituie rate limiting sau plafon total de cost.
+
+Cerințele extinse ale titularului privind securitatea sunt obligatorii în SECURITY_REQUIREMENTS.md. SECURITY_REVIEW.md separă scanarea secrete/dependențe, remedierea și testele efectuate de lipsurile reale. RLS nu se confundă cu verificarea D1 pe server; viitoarele școli/roluri necesită model nou și probe. Rate limiting, protecție boți, malware, pseudonimizare, audit log, export complet și retenție automată rămân P-042–P-046. Lipsurile și alertele npm rămase nu sunt acceptate automat. Nu există aprobare de producție sau certificare GDPR/DPIA prin această revizie.
