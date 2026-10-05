@@ -1,19 +1,19 @@
 {
   "total": 1349,
   "counts": {
-    "downloading": 3,
-    "indexed": 187,
-    "needs_ocr": 30,
-    "pending": 1129
+    "indexed": 214,
+    "indexing": 3,
+    "needs_ocr": 37,
+    "pending": 1095
   },
   "groups": {
     "alte_materii": {
       "total": 1148,
       "counts": {
-        "indexed": 12,
-        "needs_ocr": 4,
-        "downloading": 3,
-        "pending": 1129
+        "indexed": 39,
+        "needs_ocr": 11,
+        "indexing": 3,
+        "pending": 1095
       }
     },
     "matematica": {
@@ -38,7 +38,7 @@
       }
     }
   },
-  "updated_at": "2026-10-05T14:51:48Z",
+  "updated_at": "2026-10-05T14:58:04Z",
   "manuals": [
     {
       "uid": "100-1",
@@ -355,12 +355,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "S.C. EDITURA PARALELA 45 S.R.L",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20IV-a/Limba%20si%20literatura%20romana/Uy5DLiBFRElUVVJBIFBB/A1098.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 164,
+      "readable_pages": 161,
+      "sha256": "019b8ec981530fe9766182874d9f67fdb692d21236184d4347d7e3bd4a40d5e6",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:54:26"
     },
     {
       "uid": "1032-1",
@@ -369,12 +369,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "S.C. ARS LIBRI PROF S.R.L",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20IV-a/Limba%20si%20literatura%20romana/Uy5DLiBBUlMgTElCUkkg/A1099.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 164,
+      "readable_pages": 160,
+      "sha256": "e9b7a1b86003aaeaecfc28c14fddd8f6ba1eea0603dae4a06ffa3607eea96306",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:54:36"
     },
     {
       "uid": "1033-1",
@@ -383,12 +383,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "S.C. INTUITEXT S.R.L",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20IV-a/Limba%20si%20literatura%20romana/Uy5DLiBJTlRVSVRFWFQg/A1100.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "needs_ocr",
+      "pages": 164,
+      "readable_pages": 1,
+      "sha256": "0644308e1514b942899aefc3271af7436e330703b89fb83e155e8c95fe247164",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:54:33"
     },
     {
       "uid": "1034-1",
@@ -397,12 +397,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "S.C. GRUP EDITORIAL LITERA S.R.L",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20IV-a/Limba%20si%20literatura%20romana/Uy5DLiBHUlVQIEVESVRP/A1101.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 148,
+      "readable_pages": 146,
+      "sha256": "a97a3814afc3f2d233cd522bd2d949a15bf4fc31dd840a833a1f6e7f7b6ca052",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:55:02"
     },
     {
       "uid": "1035-1",
@@ -411,12 +411,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "S.C. ART KLETT S.R.L",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20IV-a/Limba%20si%20literatura%20romana/Uy5DLiBBUlQgS0xFVFQg/A1102.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 164,
+      "readable_pages": 160,
+      "sha256": "d334388760fc632564ca981e30ad325db47db910a22ec817ac0ae84a62268656",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:54:55"
     },
     {
       "uid": "1036-1",
@@ -425,12 +425,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "S.C. CD PRESS S.R.L",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20IV-a/Limba%20si%20literatura%20romana/Uy5DLiBDRCBQUkVTUyBT/A1103.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 164,
+      "readable_pages": 162,
+      "sha256": "9f43d0aeb067a14ea8017955246f92830957dd4a43af32e5663b615f2e0580c1",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:55:09"
     },
     {
       "uid": "1038-1",
@@ -733,12 +733,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "S.C. PARALELA 45 S.R.L.",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20III-a/Limba%20si%20literatura%20romana/Uy5DLiBQQVJBTEVMQSA0/A1126.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 164,
+      "readable_pages": 161,
+      "sha256": "41cdbd4807239e8a923f94745cf2fac4ad6be4e13ba3f5e83c23b7e0738e90f6",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:53:09"
     },
     {
       "uid": "106-1",
@@ -761,12 +761,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "S.C. INTUITEXT S.R.L.",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20III-a/Limba%20si%20literatura%20romana/Uy5DLiBJTlRVSVRFWFQg/A1127.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "needs_ocr",
+      "pages": 164,
+      "readable_pages": 0,
+      "sha256": "af4044de542677bf431c138e84aae2cef26bafce32be01fdb4e77a4f478b21bc",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:53:00"
     },
     {
       "uid": "1061-1",
@@ -775,12 +775,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "S.C. ARS LIBRI PROF S.R.L.",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20III-a/Limba%20si%20literatura%20romana/Uy5DLiBBUlMgTElCUkkg/A1128.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 164,
+      "readable_pages": 160,
+      "sha256": "50d4197165c2e7a55d6b95863d556467f9b54949e4ede693d6fda2eb189b1191",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:53:42"
     },
     {
       "uid": "1062-1",
@@ -789,12 +789,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "S.C. ARAMIS PRINT S.R.L.",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20III-a/Limba%20si%20literatura%20romana/Uy5DLiBBUkFNSVMgUFJJ/A1129.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 160,
+      "readable_pages": 160,
+      "sha256": "52b974361a72b10d7a772ea74efa0613da582c5c19a3fa3d71deae9cc95f3213",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:53:30"
     },
     {
       "uid": "1063-1",
@@ -803,12 +803,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "S.C. GRUP EDITORIAL LITERA S.R.L.",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20III-a/Limba%20si%20literatura%20romana/Uy5DLiBHUlVQIEVESVRP/A1130.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 148,
+      "readable_pages": 146,
+      "sha256": "c21f99002d1a38b8e64bfdfa997f4a27cda047ece08eb49dfda60c4732abdd38",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:53:37"
     },
     {
       "uid": "1064-1",
@@ -817,12 +817,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "S.C. CD PRESS S.R.L.",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20III-a/Limba%20si%20literatura%20romana/Uy5DLiBDRCBQUkVTUyBT/A1131.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 156,
+      "readable_pages": 154,
+      "sha256": "cedc941dcba006b08791061860b7bff1c908e61b5b0b6a7221ffc12f874cb782",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:54:08"
     },
     {
       "uid": "1065-1",
@@ -831,12 +831,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "S.C. ART KLETT S.R.L.",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20III-a/Limba%20si%20literatura%20romana/Uy5DLiBBUlQgS0xFVFQg/A1132.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 164,
+      "readable_pages": 160,
+      "sha256": "15bf6ac0500265c3f29bda4a46c53e0468183f7c5e55adae685fcfba200835f8",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:53:59"
     },
     {
       "uid": "1066-1",
@@ -845,12 +845,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "S.C. CORINT LOGISTIC S.R.L.",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20III-a/Limba%20si%20literatura%20romana/Uy5DLiBDT1JJTlQgTE9H/A1133.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 140,
+      "readable_pages": 140,
+      "sha256": "58d58464064adf384d141767f331f7b5e160b29106024c4c6f1d6ddeb068d6d5",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:54:04"
     },
     {
       "uid": "1067-1",
@@ -859,12 +859,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "S.C. BOOKLET S.R.L.",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20III-a/Limba%20si%20literatura%20romana/Uy5DLiBCT09LTEVUIFMu/A1134.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 124,
+      "readable_pages": 122,
+      "sha256": "0b4b1f422dd473ce16409ae4457d9f10885a08fd6509e1204621ab5011c22d5f",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:54:17"
     },
     {
       "uid": "1068-1",
@@ -2385,12 +2385,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "BOOKLET",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20V-a/Limba%20si%20literatura%20romana/Qk9PS0xFVA/A1246.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 163,
+      "readable_pages": 162,
+      "sha256": "58d38de308474f48f3d75117e3c031d3cb5d89520e87667ea82f63f64587293b",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:55:20"
     },
     {
       "uid": "1181-1",
@@ -2399,12 +2399,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "ART KLETT",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20V-a/Limba%20si%20literatura%20romana/QVJUIEtMRVRU/A1247.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 196,
+      "readable_pages": 192,
+      "sha256": "0c8c50cf389b9ea1d1576883f71a898d8eab52315990dcaca8319913821e288b",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:55:33"
     },
     {
       "uid": "1182-1",
@@ -2413,12 +2413,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "CORINT LOGISTIC",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20V-a/Limba%20si%20literatura%20romana/Q09SSU5UIExPR0lTVElD/A1248.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 164,
+      "readable_pages": 164,
+      "sha256": "bee80d114af64c55cc8cb13feaa38d9da9dd8f3baeeb98b5d6c7b793474c175e",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:55:38"
     },
     {
       "uid": "1183-1",
@@ -2427,12 +2427,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "GRUP EDITORIAL LITERA",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20V-a/Limba%20si%20literatura%20romana/R1JVUCBFRElUT1JJQUwg/A1249.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 148,
+      "readable_pages": 147,
+      "sha256": "676bdeb13833aa45c9f148ea8ed9ac75ed4a366a15b08b32983fa13d7551d5ba",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:55:38"
     },
     {
       "uid": "1184-1",
@@ -2441,12 +2441,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "INTUITEXT",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20V-a/Limba%20si%20literatura%20romana/SU5UVUlURVhU/A1250.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "needs_ocr",
+      "pages": 196,
+      "readable_pages": 1,
+      "sha256": "ef84714d8a36a5ee34e533f8a7dc366928f094b4524d8f98d66e3f8c5a8e4545",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:55:40"
     },
     {
       "uid": "1185-1",
@@ -2455,12 +2455,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "CD PRESS",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20V-a/Limba%20si%20literatura%20romana/Q0QgUFJFU1M/A1251.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 148,
+      "readable_pages": 146,
+      "sha256": "ae9b3d9d3aaa679b17c247d80af79fa84268e8625efcb7fd434c1d51dda00f2a",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:56:17"
     },
     {
       "uid": "1186-1",
@@ -5563,12 +5563,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "EDITURA DIDACTICĂ ȘI PEDAGOGICĂ",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20VI-a/Limba%20si%20literatura%20romana/RURJVFVSQSBESURBQ1RJ/A1468.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 212,
+      "readable_pages": 210,
+      "sha256": "341f7535ea468645a403877eee6f67b23066f2b89e1b757d2fe506681df045be",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:56:31"
     },
     {
       "uid": "1409-1",
@@ -5577,12 +5577,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "ART KLETT S.R.L",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20VI-a/Limba%20si%20literatura%20romana/QVJUIEtMRVRUIFMuUi5M/A1469.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 196,
+      "readable_pages": 192,
+      "sha256": "6f79f0e2e8efede8f3bb4b6579ce4d59b7ed5c4a4222e30b85a1a50cdbf9a529",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:56:36"
     },
     {
       "uid": "141-1",
@@ -5605,12 +5605,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "GRUP EDITORIAL LITERA",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20VI-a/Limba%20si%20literatura%20romana/R1JVUCBFRElUT1JJQUwg/A1470.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 196,
+      "readable_pages": 195,
+      "sha256": "25468855e5d172bd1b5cde632bc7dd93151ec04542e7893b3088deefa0f94edb",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:56:55"
     },
     {
       "uid": "1411-1",
@@ -5619,12 +5619,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "CD PRESS",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20VI-a/Limba%20si%20literatura%20romana/Q0QgUFJFU1M/A1471.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 196,
+      "readable_pages": 188,
+      "sha256": "afa99d36832e17e2897cebbee9ca36806ad4c7afc432cd91d2aa14f0915bac11",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:56:50"
     },
     {
       "uid": "1412-1",
@@ -5633,12 +5633,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "BOOKLET",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20VI-a/Limba%20si%20literatura%20romana/Qk9PS0xFVA/A1472.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 228,
+      "readable_pages": 227,
+      "sha256": "b49bf0e1165989de5aa82dc96d21587a70712796099864f7257cd985365fe5c3",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:56:58"
     },
     {
       "uid": "1413-1",
@@ -5647,12 +5647,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "CORINT LOGISTIC",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20VI-a/Limba%20si%20literatura%20romana/Q09SSU5UIExPR0lTVElD/A1473.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexing",
+      "pages": 228,
+      "readable_pages": 227,
+      "sha256": "ae3aca8a347ed60f24ffb34310253937778fc198bc94270f8e92dbe17856ed5f",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:57:53"
     },
     {
       "uid": "1414-1",
@@ -5661,12 +5661,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "EDITURA PARALELA 45",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20VI-a/Limba%20si%20literatura%20romana/RURJVFVSQSBQQVJBTEVM/A1474.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 220,
+      "readable_pages": 216,
+      "sha256": "5c53d57045d4a61fa831abcf18527b6e5b86bbacb5e3494e0d636107c78ec11a",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:57:36"
     },
     {
       "uid": "1415-1",
@@ -5675,12 +5675,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "INTUITEXT",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20VI-a/Limba%20si%20literatura%20romana/SU5UVUlURVhU/A1475.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexing",
+      "pages": 228,
+      "readable_pages": 224,
+      "sha256": "303ddb58720f614de5293b64dcced4a11ec86690a64a96d1c8b6011bb4324440",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:57:57"
     },
     {
       "uid": "1416-1",
@@ -5913,12 +5913,12 @@
       "subject": "Comunicare in limba romana",
       "publisher": "Ars Libri Prof",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20II-a/Comunicare%20in%20limba%20romana/QXJzIExpYnJpIFByb2Y/A1490.pdf",
-      "status": "downloading",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 140,
+      "readable_pages": 139,
+      "sha256": "8ad599b610b1e69dea1bce1a751d3e4ad046397a8bed977465b42f450787f73e",
       "error": null,
-      "updated_at": "2026-10-05 14:51:45"
+      "updated_at": "2026-10-05 14:52:19"
     },
     {
       "uid": "1431-1",
@@ -5927,12 +5927,12 @@
       "subject": "Comunicare in limba romana",
       "publisher": "Editura Paralela 45",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20II-a/Comunicare%20in%20limba%20romana/RWRpdHVyYSBQYXJhbGVs/A1491.pdf",
-      "status": "downloading",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "needs_ocr",
+      "pages": 164,
+      "readable_pages": 1,
+      "sha256": "5cc4d0305e09d71a00bf15e4b4b0ea31f3746a3edaeeecda76cd144373c25c09",
       "error": null,
-      "updated_at": "2026-10-05 14:51:45"
+      "updated_at": "2026-10-05 14:52:08"
     },
     {
       "uid": "1432-1",
@@ -5941,12 +5941,12 @@
       "subject": "Comunicare in limba romana",
       "publisher": "Edu Soft Marketing",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20II-a/Comunicare%20in%20limba%20romana/RWR1IFNvZnQgTWFya2V0/A1492.pdf",
-      "status": "downloading",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "needs_ocr",
+      "pages": 152,
+      "readable_pages": 0,
+      "sha256": "f5d5771a95231200b79543f788513b6c25f2bf266ad6bceb59afe25958a650be",
       "error": null,
-      "updated_at": "2026-10-05 14:51:45"
+      "updated_at": "2026-10-05 14:52:04"
     },
     {
       "uid": "1433-1",
@@ -5955,12 +5955,12 @@
       "subject": "Comunicare in limba romana",
       "publisher": "Intuitext",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20II-a/Comunicare%20in%20limba%20romana/SW50dWl0ZXh0/A1493.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "needs_ocr",
+      "pages": 148,
+      "readable_pages": 0,
+      "sha256": "b8b5604d084691a108a5ffce4e6f92d4155200014602e8aaf58d6efe6408ec3d",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:52:40"
     },
     {
       "uid": "1434-1",
@@ -5969,12 +5969,12 @@
       "subject": "Comunicare in limba romana",
       "publisher": "Aramis Print",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20II-a/Comunicare%20in%20limba%20romana/QXJhbWlzIFByaW50/A1494.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "needs_ocr",
+      "pages": 148,
+      "readable_pages": 5,
+      "sha256": "e94ecdc40d4f05d6ab557098980ddf77c24ce6a76cd0366456487e9a694663a6",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:52:42"
     },
     {
       "uid": "1435-1",
@@ -5983,12 +5983,12 @@
       "subject": "Comunicare in limba romana",
       "publisher": "Grup Editorial Litera",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20II-a/Comunicare%20in%20limba%20romana/R3J1cCBFZGl0b3JpYWwg/A1495.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 148,
+      "readable_pages": 147,
+      "sha256": "203752b965dfd99a464d83171bc6100c360e831d5706c28eba8832d0f0124e21",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:52:55"
     },
     {
       "uid": "1436-1",
@@ -5997,12 +5997,12 @@
       "subject": "Comunicare in limba romana",
       "publisher": "CD Press",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20II-a/Comunicare%20in%20limba%20romana/Q0QgUHJlc3M/A1496.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexed",
+      "pages": 148,
+      "readable_pages": 146,
+      "sha256": "9023292568b68ab36318f68b9e7b7a49d098ecbb021a25a5031f9fd9c78b8cf6",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:53:03"
     },
     {
       "uid": "1437-1",
@@ -9189,12 +9189,12 @@
       "subject": "Limba si literatura romana",
       "publisher": "ART KLETT",
       "pdf_url": "https://manuale.edu.ro/manuale/Clasa%20a%20VII-a/Limba%20si%20literatura%20romana/QVJUIEtMRVRU/A1729.pdf",
-      "status": "pending",
-      "pages": null,
-      "readable_pages": null,
-      "sha256": null,
+      "status": "indexing",
+      "pages": 204,
+      "readable_pages": 202,
+      "sha256": "3d004bf354a9cef00af65c1ea18684015a0add5786139d7d1dae0be4f8161a98",
       "error": null,
-      "updated_at": "2026-10-03 10:10:48"
+      "updated_at": "2026-10-05 14:57:55"
     },
     {
       "uid": "1671-1",

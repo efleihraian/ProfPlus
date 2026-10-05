@@ -216,3 +216,8 @@ Cerințe afectate: acces server, minimizarea datelor, ștergere, transparența f
 - O reconciliere globală a eșuat temporar cu API_NETWORK_ERROR și a oprit coada; finalizările confirmate s-au păstrat. Adăugată reluare limitată a erorilor globale de rețea în etapa de text, fără retry pentru acces/cotă/spațiu; mesajele și checkpointul de eroare sunt redactate. Coada a fost repornită din starea existentă.
 
 - Milestone 2026-10-05T14:51:48Z: prima trecere prioritară terminată, matematică 89 indexate/24 OCR, fizică 35/1, informatică/TIC 51/1; erorile celor două volume informatice au fost reluate cu succes. Coada a intrat efectiv în text_alte_materii. Raportul public rămâne datat, importul și OCR în curs. Verificarea cu pragul aplicației 0,25 și rewrite_query a trecut pentru toate cele trei grupe.
+
+
+## 2026-10-05T14:58:04Z — P-048, urmărire import
+
+214 volume indexate (+27), 37 necesită OCR, 3 în indexare, 1.095 pending. Procesul principal și copilul sunt active, fără import duplicat sau întrerupere. Raport din checkpoint, nu reconciliere remote finală. Scanare Git/client fără potriviri și diff verificat; niciun cod modificat în acest milestone. Importul continuă la celelalte materii.
