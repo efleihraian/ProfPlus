@@ -9,7 +9,7 @@ import { openai, storage, type DocumentRow } from "./document-store";
 export type LibraryItem = { id: string; kind: "manual" | "document"; title: string; schoolClass?: string; subject?: string; publisher?: string; category?:ResourceCategory;stages?:Stage[];chatId?:string; url: string; status: string };
 export async function manualStates(key: string, store: string) {
   const states: Record<string, string> = {}; let after = "";
-  const signal = AbortSignal.timeout(15000);
+  const signal = AbortSignal.timeout(30000);
   do {
     const params = new URLSearchParams({ limit: "100" }); if (after) params.set("after", after);
     const data = await (await openai(key, `/vector_stores/${store}/files?${params}`, { signal })).json() as { data: { attributes?: { uid?: string }; status: string }[]; has_more: boolean; last_id: string };

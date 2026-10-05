@@ -1,4 +1,4 @@
-# RAG — matematica pentru clasa a V-a
+# RAG — manuale comune și pilotul inițial
 
 Colecția activă este definită în `catalog/matematica-clasa-5.json`, cu 9 volume din catalogul manuale.edu.ro. Include 7 manuale în română și traduceri în maghiară și germană. Nu presupunem că acest catalog cuprinde orice ediție istorică aprobată.
 
@@ -18,9 +18,9 @@ python3 -m venv .venv
 .venv/bin/python scripts/import_manuals.py --school-class 'Clasa a V-a' --subject-prefix Matematica --ocr --workers 2
 ```
 
-Necesită cheia din `.env`, Tesseract și modelele de limbă ron/eng în `data/rag/tessdata/`. Fără `--ocr`, volumele cu mai puțin de jumătate din pagini lizibile sunt marcate pentru OCR. SQLite `data/rag/import.sqlite` salvează starea, metadatele, hash-ul PDF și ID-urile încărcate; fișierele indexate sunt omise la reluare. Descărcările au reîncercări și verificare PDF; o blocare locală împiedică două importuri simultane. PDF-urile se șterg după extragere pentru a limita spațiul ocupat.
+Necesită cheia din `.env`, Tesseract și modelele de limbă ron/eng în `data/rag/tessdata/`. Pentru importurile noi 0.9.5, pragul implicit este 90% pagini cu cel puțin 60 caractere; sub prag se marchează pentru OCR. SQLite `data/rag/import.sqlite` salvează starea, metadatele, hash-ul PDF și ID-urile încărcate; fișierele indexate sunt omise la reluare. Descărcările au reîncercări și verificare PDF; o blocare locală împiedică două importuri simultane. PDF-urile se șterg după extragere pentru a limita spațiul ocupat.
 
-Manualele importate anterior din alte clase rămân în index, dar filtrul serverului exclude aceste ID-uri din căutare și din numărul afișat în interfață. Importul general a fost oprit la cererea de restrângere a colecției.
+Aceasta descria restrângerea pilotului inițial. În 0.9.4 selecția automată a devenit dinamică după profil; în 0.9.5 importul general a fost reluat. Toate manualele potrivite indexate pot participa; selecțiile personalizate rămân restrânse explicit. Contorul acoperă întregul catalog. Vezi [importul curent](MANUAL_IMPORT.md).
 
 ## Limite
 

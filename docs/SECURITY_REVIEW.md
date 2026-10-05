@@ -39,3 +39,7 @@ Workflowul `.github/workflows/security.yml` verifică secretele, buildul client,
 | Pentest și prompt injection | Au fost testate scenarii de ownership/CSRF/sesiuni și ștergere; nu s-a executat un audit complet auth bypass/IDOR/SQLi/XSS/upload/escaladare/prompt injection/multi-tenant; P-046 |
 
 Lansarea generală și folosirea extinsă a datelor elevilor rămân condiționate de remediere, dovezi pe mediul final și aprobarea DPIA/operatorului.
+
+## Import manuale 0.9.5 — 2026-10-05
+
+Procesare numai a manualelor publice din catalogul ministerului; HTTPS și verificare de host înaintea fiecărui redirect, limita PDF/spațiu, subprocess/timeout, raport fără text sau credențiale, cheia existentă numai pe server. Șapte teste offline pentru reluare/izolare/redirect/timeout/calitate și test bibliotecă paginată trecute. Scanare Git/client fără potriviri. Audit pip pentru șase pachete rezolvate din requirements-rag: zero vulnerabilități cunoscute raportate; audit npm neschimbat la 19. Aceste rezultate nu certifică toate PDF-urile, drepturile de utilizare sau producția.

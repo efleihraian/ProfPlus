@@ -1,6 +1,6 @@
 """Resumable textbook ingestion. Secrets and document text never enter logs."""
 import argparse
-import collections
+import contextlib
 import concurrent.futures
 import csv
 import hashlib
@@ -12,8 +12,9 @@ import shutil
 import subprocess
 import threading
 import time
+import unicodedata
+from urllib.parse import urlparse, urljoin
 
-import pymupdf
 import requests
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,24 +22,95 @@ DATA = ROOT / 'data' / 'rag'
 LOCK = threading.Lock()
 STOP = threading.Event()
 OCR = False
+MIN_COVERAGE = .90
+KEY = None
+
+
+def normalized(value):
+    return ''.join(c for c in unicodedata.normalize('NFD', value.casefold()) if unicodedata.category(c) != 'Mn')
+
+
+def group(subject):
+    name = normalized(subject)
+    if name.startswith('matematica'):
+        return 'matematica'
+    if name.startswith('fizica'):
+        return 'fizica'
+    if name.startswith('informatica') or name.startswith('tehnologia informatiei'):
+        return 'informatica_tic'
+    return 'alte_materii'
+
+
+def official_url(value):
+    try:
+        parsed = urlparse(value)
+        return parsed.scheme == 'https' and parsed.hostname in ('manuale.edu.ro', 'www.manuale.edu.ro') and not parsed.username and not parsed.password and parsed.port in (None, 443)
+    except ValueError:
+        return False
+
+
+def download_response(url):
+    for _ in range(6):
+        if not official_url(url):
+            raise RuntimeError('SOURCE_URL_REJECTED')
+        response = requests.get(url, stream=True, allow_redirects=False, timeout=(30, 120), headers={'User-Agent': 'ProfPlus textbook research import/0.9.5'})
+        if response.status_code not in (301, 302, 303, 307, 308):
+            return response
+        location = response.headers.get('Location', '')
+        response.close()
+        if not location:
+            raise RuntimeError('SOURCE_REDIRECT_REJECTED')
+        url = urljoin(url, location)
+    raise RuntimeError('SOURCE_REDIRECT_LIMIT')
+
+
+def ocr_languages(row):
+    name = normalized(row['subject'])
+    models = [('maghiar', 'hun'), ('german', 'deu'), ('francez', 'fra'), ('englez', 'eng'),
+              ('italian', 'ita'), ('spaniol', 'spa'), ('croat', 'hrv'), ('rusa', 'rus'),
+              ('rusi', 'rus'), ('sarb', 'srp'), ('slovac', 'slk'), ('turc', 'tur'), ('ucraine', 'ukr'), ('latina', 'lat')]
+    requested = ['ron', 'eng']
+    for fragment, model in models:
+        if fragment in name and model not in requested:
+            requested.append(model)
+    if 'rrom' in name:
+        # No verified Romani model: do not pretend Romanian OCR covers it.
+        raise RuntimeError('OCR_LANGUAGE_UNSUPPORTED')
+    if not all((DATA / 'tessdata' / (model + '.traineddata')).exists() for model in requested):
+        raise RuntimeError('OCR_LANGUAGE_MODEL_MISSING')
+    return '+'.join(requested)
 
 
 def config():
+    global KEY
+    if KEY is not None:
+        return KEY
     values = {}
-    for line in (ROOT / '.env').read_text().splitlines():
-        if '=' in line and not line.startswith('#'):
-            k, v = line.split('=', 1)
-            values[k] = v.strip()
-    return os.environ.get('OPENAI_API_KEY', values.get('OPENAI_API_KEY', ''))
+    for target in (ROOT / '.env', ROOT / 'web/.dev.vars'):
+        if target.exists():
+            for line in target.read_text().splitlines():
+                if '=' in line and not line.startswith('#'):
+                    k, v = line.split('=', 1)
+                    values[k] = v.strip().strip('"').strip("'")
+    KEY = os.environ.get('OPENAI_API_KEY', values.get('OPENAI_API_KEY', ''))
+    if not KEY:
+        raise RuntimeError('API_KEY_MISSING')
+    return KEY
 
 
 def api(method, path, **kwargs):
     for attempt in range(4):
         for value in kwargs.get('files', {}).values():
             value[1].seek(0)
-        response = requests.request(method, 'https://api.openai.com/v1' + path,
-                                    headers={'Authorization': 'Bearer ' + config()},
-                                    timeout=(15, 120), **kwargs)
+        try:
+            response = requests.request(method, 'https://api.openai.com/v1' + path,
+                                        headers={'Authorization': 'Bearer ' + config()},
+                                        timeout=(10, 60), **kwargs)
+        except requests.RequestException:
+            if attempt == 3:
+                raise RuntimeError('API_NETWORK_ERROR') from None
+            time.sleep(2 ** attempt)
+            continue
         if response.ok:
             return response.json()
         if response.status_code in (401, 403):
@@ -58,10 +130,15 @@ def api(method, path, **kwargs):
     raise RuntimeError('API_TEMPORARY_FAILURE')
 
 
+@contextlib.contextmanager
 def db():
     conn = sqlite3.connect(DATA / 'import.sqlite', timeout=30)
     conn.row_factory = sqlite3.Row
-    return conn
+    try:
+        with conn:
+            yield conn
+    finally:
+        conn.close()
 
 
 def save(uid, **values):
@@ -72,13 +149,59 @@ def save(uid, **values):
 
 def report(conn):
     counts = dict(conn.execute('SELECT status,count(*) FROM documents GROUP BY status').fetchall())
-    state = json.loads((DATA / 'store.json').read_text()) if (DATA / 'store.json').exists() else {}
+    groups = {}
+    for item in conn.execute('SELECT metadata,status FROM documents'):
+        bucket = groups.setdefault(group(json.loads(item['metadata'])['subject']), {'total': 0, 'counts': {}})
+        bucket['total'] += 1
+        bucket['counts'][item['status']] = bucket['counts'].get(item['status'], 0) + 1
     payload = {'total': conn.execute('SELECT count(*) FROM documents').fetchone()[0], 'counts': counts,
-               'vector_store_id': state.get('vector_store_id'), 'updated_at': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}
+               'groups': groups, 'updated_at': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}
     target = DATA / 'progress.json'
-    temp = target.with_suffix('.tmp')
+    temp = target.with_suffix(f'.{os.getpid()}.{threading.get_ident()}.tmp')
     temp.write_text(json.dumps(payload, indent=2))
     temp.replace(target)
+
+
+def reconcile():
+    """Confirm provider state before resuming; never trust a stale local success."""
+    store = json.loads((DATA / 'store.json').read_text())['vector_store_id']
+    after = ''
+    remote = {}
+    while True:
+        result = api('GET', f'/vector_stores/{store}/files', params={'limit': 100, **({'after': after} if after else {})})
+        for item in result['data']:
+            uid = item.get('attributes', {}).get('uid')
+            if uid:
+                remote[uid] = item
+        if not result.get('has_more'):
+            break
+        after = result['last_id']
+    with LOCK, db() as conn:
+        for row in conn.execute('SELECT uid,status,file_id FROM documents').fetchall():
+            item = remote.get(row['uid'])
+            if item:
+                status = {'completed': 'indexed', 'in_progress': 'indexing', 'failed': 'failed', 'cancelled': 'failed'}.get(item['status'], 'indexing')
+                conn.execute('UPDATE documents SET status=?,file_id=?,attached=1,error=?,updated_at=CURRENT_TIMESTAMP WHERE uid=?',
+                             (status, item['id'], None if status != 'failed' else 'REMOTE_INDEX_FAILED', row['uid']))
+            elif row['status'] in ('indexed', 'indexing'):
+                conn.execute('UPDATE documents SET status="extracted",attached=0,error="REMOTE_ATTACHMENT_MISSING" WHERE uid=?', (row['uid'],))
+        conn.commit()
+        report(conn)
+    print('Index verificat: ' + str(sum(x['status'] == 'completed' for x in remote.values())) + ' volume disponibile', flush=True)
+
+
+def export_report():
+    with db() as conn:
+        report(conn)
+        progress = json.loads((DATA / 'progress.json').read_text())
+        items = []
+        for row in conn.execute('SELECT * FROM documents ORDER BY uid'):
+            metadata = json.loads(row['metadata'])
+            items.append({k: metadata.get(k) for k in ('uid', 'title', 'class', 'subject', 'publisher', 'pdf_url')} | {
+                k: row[k] for k in ('status', 'pages', 'readable_pages', 'sha256', 'error', 'updated_at')})
+        progress['manuals'] = items
+    target = ROOT / 'catalog/manual-import-status.json'
+    target.write_text(json.dumps(progress, ensure_ascii=False, indent=2) + '\n')
 
 
 def process(row):
@@ -88,16 +211,22 @@ def process(row):
     pdf = DATA / 'pdf' / (uid + '.pdf')
     text_path = DATA / 'text' / (uid + '.txt')
     try:
-        existing = dict(db().execute('SELECT * FROM documents WHERE uid=?', (uid,)).fetchone())
+        with db() as conn:
+            existing = dict(conn.execute('SELECT * FROM documents WHERE uid=?', (uid,)).fetchone())
         if existing['status'] == 'indexed':
             return
-        if not text_path.exists():
+        if not text_path.exists() or (OCR and existing['status'] == 'needs_ocr'):
             save(uid, status='downloading', error=None)
             if not pdf.exists():
                 temp = pdf.with_suffix('.part')
                 for attempt in range(3):
                     try:
-                        with requests.get(row['pdf_url'], stream=True, timeout=(30, 120), headers={'User-Agent': 'ProfPlus textbook research import/0.3'}) as response:
+                        if not official_url(row['pdf_url']):
+                            raise RuntimeError('SOURCE_URL_REJECTED')
+                        if shutil.disk_usage(DATA).free < 1024 ** 3:
+                            STOP.set()
+                            raise RuntimeError('DISK_SPACE_LOW')
+                        with download_response(row['pdf_url']) as response:
                             if response.status_code != 200:
                                 raise RuntimeError('DOWNLOAD_HTTP_' + str(response.status_code))
                             total = 0
@@ -118,34 +247,29 @@ def process(row):
                 temp.replace(pdf)
             save(uid, status='extracting')
             digest = hashlib.sha256(pdf.read_bytes()).hexdigest()
-            sections, readable = [], 0
-            with pymupdf.open(pdf) as document:
-                pages = len(document)
-                for page_no, page in enumerate(document, 1):
-                    text = page.get_text(sort=True).strip()
-                    if len(text) < 60 and OCR:
-                        image = page.get_pixmap(dpi=160).tobytes('png')
-                        result = subprocess.run([shutil.which('tesseract') or '/opt/homebrew/bin/tesseract', 'stdin', 'stdout', '--tessdata-dir', str(DATA / 'tessdata'), '-l', 'ron+eng'], input=image, capture_output=True, timeout=90)
-                        if result.returncode:
-                            raise RuntimeError('OCR_FAILED')
-                        text = result.stdout.decode('utf8').strip()
-                    if len(text) < 60:
-                        continue
-                    readable += 1
-                    words, block, length = text.split(), [], 0
-                    for word in words:
-                        block.append(word); length += len(word) + 1
-                        if length >= 900:
-                            sections.append(f'[[PAGE:{page_no}]]\n' + ' '.join(block))
-                            block, length = [], 0
-                    if block:
-                        sections.append(f'[[PAGE:{page_no}]]\n' + ' '.join(block))
-            if readable < max(1, pages * .5):
+            options = {'row': row, 'pdf': str(pdf), 'output': str(text_path), 'ocr': OCR,
+                       'force_ocr': existing['error'] == 'TEXT_EXTRACTION_TIMEOUT',
+                       'tessdata': str(DATA / 'tessdata'), 'languages': ocr_languages(row) if OCR else '',
+                       'min_coverage': MIN_COVERAGE}
+            try:
+                result = subprocess.run([os.sys.executable, str(ROOT / 'scripts/extract_manual_text.py')],
+                                        input=json.dumps(options).encode(), capture_output=True,
+                                        timeout=7200 if OCR else 180,
+                                        env={k: v for k, v in os.environ.items() if not any(name in k.upper() for name in ('KEY', 'TOKEN', 'SECRET', 'PASSWORD', 'CREDENTIAL'))})
+            except subprocess.TimeoutExpired:
+                save(uid, status='needs_ocr', sha256=digest, error='TEXT_EXTRACTION_TIMEOUT' if not OCR else 'OCR_TIMEOUT')
+                pdf.unlink(missing_ok=True)
+                print(uid + ': needs_ocr (extraction timeout)', flush=True)
+                return
+            if result.returncode:
+                raise RuntimeError('EXTRACTION_PROCESS_FAILED')
+            extraction = json.loads(result.stdout)
+            pages, readable = extraction['pages'], extraction['readable_pages']
+            if readable < max(1, pages * MIN_COVERAGE):
                 save(uid, status='needs_ocr', pages=pages, readable_pages=readable, sha256=digest)
                 pdf.unlink(missing_ok=True)
+                print(uid + ': needs_ocr (' + str(readable) + '/' + str(pages) + ' pagini)', flush=True)
                 return
-            title = row['title']
-            text_path.write_text(f'Manual: {title}\nClasă: {row["class"]}\nDisciplina: {row["subject"]}\nEditura: {row["publisher"]}\nSursa: {row["pdf_url"]}\nPagini indicate: poziția în fișierul PDF, nu numerotarea tipărită.\n\n' + '\n\n'.join(sections))
             save(uid, status='extracted', pages=pages, readable_pages=readable, sha256=digest)
             pdf.unlink(missing_ok=True)
         with db() as conn:
@@ -175,6 +299,7 @@ def process(row):
                 raise RuntimeError('INDEX_' + item['status'].upper())
             time.sleep(3)
         save(uid, status='indexing', error='POLL_TIMEOUT')
+        print(uid + ': indexing (verificare la reluare)', flush=True)
     except Exception as error:
         # Never emit raw request exceptions: credentials/text might be embedded.
         code = str(error) if isinstance(error, RuntimeError) else type(error).__name__
@@ -193,8 +318,18 @@ def main():
     parser.add_argument('--ocr', action='store_true')
     parser.add_argument('--school-class')
     parser.add_argument('--subject-prefix')
+    parser.add_argument('--subject-group', choices=('matematica', 'fizica', 'informatica_tic', 'alte_materii'))
+    parser.add_argument('--priority-all', action='store_true', help='Matematică, fizică, informatică/TIC, apoi restul')
+    parser.add_argument('--only-ocr', action='store_true')
+    parser.add_argument('--reconcile', action='store_true')
+    parser.add_argument('--export-report', action='store_true')
+    parser.add_argument('--min-coverage', type=float, default=.90)
     args = parser.parse_args()
+    global MIN_COVERAGE
     OCR = args.ocr
+    if not .5 <= args.min_coverage <= 1:
+        parser.error('Acoperirea trebuie să fie între 0.5 și 1.')
+    MIN_COVERAGE = args.min_coverage
     if OCR and not ((shutil.which('tesseract') or Path('/opt/homebrew/bin/tesseract').exists()) and all((DATA / 'tessdata' / (name + '.traineddata')).exists() for name in ('ron', 'eng'))):
         raise SystemExit('OCR indisponibil: instalează Tesseract și modelele ron/eng în data/rag/tessdata.')
     DATA.mkdir(parents=True, exist_ok=True)
@@ -209,8 +344,11 @@ def main():
             row['uid'] = uid
             conn.execute('INSERT OR IGNORE INTO documents(uid, metadata) VALUES (?,?)', (uid, json.dumps(row, ensure_ascii=False)))
         conn.commit()
-        if args.status:
-            report(conn); print((DATA / 'progress.json').read_text()); return
+        if args.status and not args.reconcile:
+            report(conn)
+            if args.export_report:
+                export_report()
+            print((DATA / 'progress.json').read_text()); return
     # Prevent two importers from creating/uploading the same file concurrently.
     import fcntl
     with (DATA / 'import.lock').open('w') as handle:
@@ -221,10 +359,24 @@ def main():
         if not (DATA / 'store.json').exists():
             store = api('POST', '/vector_stores', json={'name': 'ProfPlus — manuale.edu.ro'})
             (DATA / 'store.json').write_text(json.dumps({'vector_store_id': store['id']}))
+        reconcile()
+        if args.status:
+            if args.export_report:
+                export_report()
+            print((DATA / 'progress.json').read_text()); return
         with db() as conn:
             excluded = ('indexed',) if OCR else ('indexed', 'needs_ocr')
             todo = [json.loads(r['metadata']) for r in conn.execute('SELECT metadata FROM documents WHERE status NOT IN (' + ','.join('?' for _ in excluded) + ')', excluded)]
-        todo = [r for r in todo if (not args.school_class or r['class'] == args.school_class) and (not args.subject_prefix or r['subject'].casefold().startswith(args.subject_prefix.casefold()))]
+        todo = [r for r in todo if (not args.school_class or r['class'] == args.school_class) and (not args.subject_prefix or normalized(r['subject']).startswith(normalized(args.subject_prefix)))]
+        if args.subject_group:
+            todo = [r for r in todo if group(r['subject']) == args.subject_group]
+        if args.only_ocr:
+            with db() as conn:
+                ocr_ids = {r['uid'] for r in conn.execute('SELECT uid FROM documents WHERE status="needs_ocr"')}
+            todo = [r for r in todo if r['uid'] in ocr_ids]
+        if args.priority_all:
+            order = {'matematica': 0, 'fizica': 1, 'informatica_tic': 2, 'alte_materii': 3}
+            todo.sort(key=lambda r: order[group(r['subject'])])
         if args.limit:
             todo = todo[:args.limit]
         print('Import: ' + str(len(todo)) + ' volume', flush=True)
@@ -234,7 +386,18 @@ def main():
         with db() as conn:
             report(conn)
         print((DATA / 'progress.json').read_text(), flush=True)
+        if args.export_report:
+            export_report()
+        if STOP.is_set():
+            raise SystemExit(2)
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception as error:
+        code = str(error) if isinstance(error, RuntimeError) and str(error).startswith(('API_', 'OCR_', 'SOURCE_', 'DISK_')) else type(error).__name__
+        DATA.mkdir(parents=True, exist_ok=True)
+        (DATA / 'last-error.json').write_text(json.dumps({'code': code, 'updated_at': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}))
+        print('Import error: ' + code, flush=True)
+        raise SystemExit(2 if STOP.is_set() else 1)

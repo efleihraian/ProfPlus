@@ -1,4 +1,4 @@
-# Biblioteca de surse — 0.9.4 local
+# Biblioteca de surse — 0.9.5 local
 
 Profesorul deschide „Bibliotecă” din bara laterală sau „Alege sursele” deasupra mesajului. Biblioteca permite căutare, filtre, selecție, încadrarea documentelor proprii și deschiderea originalelor.
 
@@ -31,3 +31,7 @@ Sursele web citate se pot deschide și discuta, dar nu devin automat documente i
 ## Verificări 0.9.4
 
 Teste pentru toate cele cinci categorii, surse nou indexate, excluderea disciplinei/ciclului greșit, învățător, variante de limbă, persistență dinamică/manuală, documente proprii din alte conversații, respingerea ID-ului altui cont, CSRF/format/validare, eliminarea etichetelor la ștergerea contului. D1/R2 și Auth de test sunt izolate; niciun cont real nu a fost șters. QA de interfață folosește un document fictiv, fără apeluri reale AI. Nu a fost repetată evaluarea pedagogică a răspunsurilor AI în această schimbare.
+
+## Import extins 0.9.5
+
+Importul întregului catalog a fost reluat în ordinea matematică, fizică, informatică/TIC și restul. Contorul principal acoperă acum toate UID-urile de manuale confirmate, nu doar pilotul. Disponibilitatea din index și selecția după profil rămân decisive; simpla inventariere sau descărcare nu activează AI-ul. Raportul, OCR și limitele sunt în [MANUAL_IMPORT.md](MANUAL_IMPORT.md). Nu s-au inventat culegeri sau concursuri suplimentare.

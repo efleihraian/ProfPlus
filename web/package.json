@@ -1,6 +1,6 @@
 {
   "name": "profplus-web",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "private": true,
   "engines": {
     "node": ">=22.13.0"
@@ -12,7 +12,8 @@
     "start": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --persist-to .wrangler/state --ip 127.0.0.1 --inspector-port 0",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate",
-    "test:account": "node tests/account-lifecycle.mjs && node tests/account-integration.mjs && node tests/account-integration.mjs --social-only"
+    "test:account": "node tests/account-lifecycle.mjs && node tests/account-integration.mjs && node tests/account-integration.mjs --social-only",
+    "test:manual-library": "node tests/manual-library.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

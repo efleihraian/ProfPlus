@@ -27,7 +27,7 @@ Un utilizator încarcă documente text sau PDF cu text, pune o întrebare și pr
 
 ## Stare
 
-Versiune locală: **0.9.4**. Documentele profesorului și manualele au prioritate; internetul completează informațiile lipsă. Documente încărcate, indexate și șterse direct în chat. [Contractul API și limitele](docs/CHAT_API.md).
+Versiune locală: **0.9.5**. Documentele profesorului și manualele au prioritate; internetul completează informațiile lipsă. Documente încărcate, indexate și șterse direct în chat. [Contractul API și limitele](docs/CHAT_API.md).
 
 Organizație GitHub: [ProfPlus (identificator ProfOS-Edu)](https://github.com/ProfOS-Edu). Repository privat: [ProfPlus](https://github.com/ProfOS-Edu/ProfPlus).
 
@@ -46,7 +46,7 @@ Configurarea locală folosește web/.dev.vars cu OPENAI_API_KEY și OPENAI_MODEL
 
 ## Biblioteca RAG
 
-Colecția activă include cele 9 manuale de matematică de clasa a V-a din catalogul ministerului: 7 în română, unul în maghiară și unul în germană. [Inventar și verificări](docs/RAG.md). Textele și starea importului sunt excluse din GitHub; sunt indexate în colecția OpenAI, cu cheia folosită exclusiv pe server.
+Importul extins este în curs: matematică, fizică, informatică/TIC și apoi celelalte materii, din cele 1.349 de volume inventariate. Pilotul inițial de nouă manuale este păstrat. [Flux și limite](docs/MANUAL_IMPORT.md), [raport datat pe manual](catalog/manual-import-status.json). PDF-urile, textele și starea internă rămân excluse din GitHub; cheia OpenAI este folosită numai pe server.
 
 ## Documentele profesorului și completarea web
 

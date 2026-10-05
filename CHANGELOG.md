@@ -4,6 +4,13 @@
 
 - Găzduire independentă, retenții operaționale și revocare Apple automată rămân de finalizat; site-ul publicat este încă 0.9.2.
 
+## 0.9.5 — 2026-10-05 — import extins în curs, local
+
+- Coada reluabilă matematică → fizică → informatică/TIC → celelalte materii, text apoi OCR, în indexul comun existent. Raport pe fiecare volum fără secrete/texte; urmărire periodică în chat.
+- Reconciliere remote, retry limitat, PDF în subprocess cu timeout, minimum 90% pagini cu text pentru volume noi, modele OCR pentru disciplinele relevante și restricționarea surselor/redirecturilor HTTPS.
+- Contorul și disponibilitatea acoperă toate manualele indexate; bibliotecă paginată verificată pentru materii în afara pilotului. Importul întregului catalog și evaluarea pedagogică nu sunt declarate finalizate.
+- TypeScript/build, suite Auth/API, șapte teste import offline și test bibliotecă paginată trecute; căutare reală într-un manual nou cu UID și pagini verificate. Fără publicare online.
+
 ## 0.9.4 — 2026-10-05 — pilot local
 
 - Profil și profil didactic reunite într-un singur formular, cu salvare comună și validare pe server; linkuri vechi compatibile.

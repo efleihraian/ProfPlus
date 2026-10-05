@@ -9,7 +9,7 @@ Stări: TODO, IN PROGRESS, BLOCKED, DONE. ID-urile rămân stabile.
 | P-003 | P0 | IN PROGRESS | Alegerea tehnologiilor | Decizie cu costuri, găzduire, model, embeddings și stocare |
 | P-004 | P0 | DONE | Schelet aplicație | Interfață și backend pornesc local; configurare documentată |
 | P-005 | P0 | DONE | AI wrapper pentru primul chat privat | Apel server-side, chei protejate, timeout și erori tratate |
-| P-006 | P0 | IN PROGRESS | Ingestie documente; pilot clasa V matematică 9/9 indexat, restul oprit | Text extras, împărțit în fragmente, indexat cu document și pagină/secțiune |
+| P-006 | P0 | IN PROGRESS | Ingestie documente; pilot clasa V 9/9 și import general reluat în ordinea cerută | Text extras, împărțit în fragmente, indexat cu document și pagină/secțiune |
 | P-007 | P0 | IN PROGRESS | Căutare RAG | Fragmente relevante returnate pentru setul de evaluare |
 | P-008 | P0 | IN PROGRESS | Răspuns cu surse | Răspuns legat de fragmente și comportament verificat când lipsesc dovezi |
 | P-009 | P0 | TODO | Protecția datelor | Acces limitat la documentele utilizatorului; ștergere document și index verificată |
@@ -155,3 +155,9 @@ Actualizarea/testarea toolchainului cu alerte npm rămase; audit final auth bypa
 Un singur element Profil, nume și activitate didactică în același formular/salvare, compatibilitate cu linkul vechi view=teaching și onboarding păstrat. Validarea pe server împiedică salvarea parțială a numelui când activitatea didactică este invalidă; fără date noi colectate.
 
 Dovezi P-040/P-041/P-047: TypeScript/build, suite profil/Auth/API etichete și ștergere pe fixtures, UI profil comun cu salvare/reload și alias vechi, dialog/filtru Concurs, 390px fără overflow. Scanare surse/istoric accesibil/build client fără potriviri; audit npm rămas 19 alerte, documentat în SECURITY_REVIEW. CI înregistrat, execuția remote nu este declarată trecută. Nu s-a făcut publicare online sau audit complet de producție.
+
+## P-048 — Import general manuale și urmărire — IN PROGRESS
+
+Catalog sursă reverificat: 1.349 volume; matematică 113, fizică 36, informatică/TIC 52, rest 1.148. Coada locală pornește în ordinea cerută, text apoi OCR, fără reîncărcarea normală a UID-urilor confirmate. Raport public fără secrete, retry/timeout, bibliotecă cu contor integral și actualizări în chat. Criteriu de finalizare: raport remote final pe fiecare volum, lipsuri/erori explicate și probe de căutare cu UID/pagini pentru fiecare materie; nu este DONE doar pentru că procesul rulează. Manualele indisponibile și limbile OCR neacoperite necesită rezolvare/raport distinct.
+
+Dovezi și comenzi: docs/MANUAL_IMPORT.md. Pragul tehnic 90% nu garantează formule/figuri corecte; P-015 rămâne deschis. Verificarea drepturilor pentru utilizarea extinsă/comercială, deduplicarea între UID-uri și inventarul fișierelor orfane după erori de transport rămân de finalizat.

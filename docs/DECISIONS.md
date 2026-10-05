@@ -123,3 +123,7 @@ Datele aplicației rămân D1/R2 și indexuri private OpenAI, identitatea Supaba
 ## 2026-10-05 — Profil unificat
 
 Numele și activitatea didactică sunt salvate împreună printr-o singură actualizare metadata, după validarea tuturor câmpurilor pe server. Linkul vechi view=teaching este alias către Profil; onboardingul nu introduce o pagină nouă sau date suplimentare. Profilul nu acordă roluri administrative.
+
+## 2026-10-05 — importul general reluat
+
+Reutilizăm indexul comun și UID-urile existente; verificăm starea remote înainte de reluare. Prioritate matematică, fizică, informatică/TIC, apoi rest; text mai întâi pentru disponibilitate rapidă, OCR separat. PDF-urile sunt procesate în subprocess deoarece un volum complex a blocat extracția într-un fir; timeoutul nu oprește restul. Prag 90% pagini text pentru volume noi, fără promisiuni privind formulele. Coada locală și urmărirea în chat păstrează publicarea online separată.

@@ -1,8 +1,15 @@
 # Starea proiectului
 
 Ultima actualizare: 2026-10-05
-Versiune locală: 0.9.4; publicată privat: 0.9.2
+Versiune locală: 0.9.5; publicată privat: 0.9.2
 Etapă: pilot local cu Google/Apple, profil didactic și ștergere cont
+
+## Import manuale în curs — 0.9.5
+
+- Importul general a fost reluat la cererea utilizatorului: matematică → fizică → informatică/TIC → celelalte materii; text mai întâi, apoi OCR. Coada rulează local, cu raport pe manual și verificări periodice în chat. Cele 1.349 volume sunt inventarul, nu numărul indexat. [Flux](docs/MANUAL_IMPORT.md), [stare datată](catalog/manual-import-status.json).
+- Fotografie 2026-10-05T14:51:48Z: matematică 89/113 indexate (24 OCR), fizică 35/36 (1 OCR), informatică/TIC 51/52 (1 OCR); celelalte materii au intrat în procesare. Nu este raport final al întregului catalog.
+- Import reluabil în indexul existent, minimum 90% pagini cu text pentru volume noi, PDF-uri procesate separat cu timeout, retry limitat, oprire la acces/cotă/spațiu, fără documente ori secrete în Git.
+- Contorul bibliotecii acoperă toate manualele indexate, nu doar pilotul clasa V. TypeScript/build, teste Auth/API, șapte teste import offline și test bibliotecă paginată trecute. Căutare reală matematică clasa VIII verificată pentru UID și pagini; formulele și calitatea pedagogică nu sunt certificate.
 
 ## Finalizat
 
@@ -87,7 +94,7 @@ TypeScript și build trecute. Teste reale: TXT/PDF/DOCX, răspuns din document, 
 - Evaluare pedagogică și calitatea căutării, inclusiv cazul istoric despre triunghiuri.
 - Verificarea anonimizării interogărilor web, formulelor și scanărilor; DOC/PPTX/HTML nu au încă probe reale.
 - Consum controlat și aplicații mobile.
-- Importul general al manualelor este oprit; colecția activă rămâne matematica de clasa V.
+- Importul general este în curs; OCR, erorile individuale și verificarea calității rămân distincte de indexarea reușită. Starea curentă în docs/MANUAL_IMPORT.md și raport.
 
 Documentele sunt păstrate până la ștergere; „Conversație nouă” creează un chat separat; mesajele și documentele vechi rămân accesibile în istoric. Fișierele și metadatele sunt stocate pe server, identificatorul conversației în browser. Site-ul rămâne privat: https://profos-chat.cosminsoames.chatgpt.site.
 

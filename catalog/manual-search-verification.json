@@ -1,0 +1,57 @@
+{
+  "updated_at": "2026-10-05T14:51:42Z",
+  "checks": [
+    {
+      "group": "matematica",
+      "uid": "1437-1",
+      "title": "Matematică",
+      "class": "Clasa a VI-a",
+      "source_url": "https://manuale.edu.ro/manuale/Clasa%20a%20VI-a/Matematica/Qm9va2xldA/A1497.pdf",
+      "hits": 5,
+      "pages": [
+        5,
+        6,
+        91,
+        131
+      ],
+      "status": "passed"
+    },
+    {
+      "group": "fizica",
+      "uid": "1375-1",
+      "title": "Fizică - clasa a VI-a - nov2023",
+      "class": "Clasa a VI-a",
+      "source_url": "https://manuale.edu.ro/manuale/Clasa%20a%20VI-a/Fizica/RURJVFVSQSBESURBQ1RJ/A1435.pdf",
+      "hits": 5,
+      "pages": [
+        14,
+        15,
+        37,
+        61,
+        62,
+        67,
+        68
+      ],
+      "status": "passed"
+    },
+    {
+      "group": "informatica_tic",
+      "uid": "1389-1",
+      "title": "Informatică și TIC - clasa a VI-a",
+      "class": "Clasa a VI-a",
+      "source_url": "https://manuale.edu.ro/manuale/Clasa%20a%20VI-a/Informatica%20si%20TIC/QVJUIEtMRVRUIFMuUi5M/A1449.pdf",
+      "hits": 5,
+      "pages": [
+        63,
+        64,
+        67,
+        68,
+        69,
+        70,
+        98
+      ],
+      "status": "passed"
+    }
+  ],
+  "scope": "Provenance and page markers; not pedagogical or formula validation."
+}
