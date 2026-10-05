@@ -7,7 +7,7 @@ Etapă: pilot local cu Google/Apple, profil didactic și ștergere cont
 ## Import manuale în curs — 0.9.5
 
 - Importul general a fost reluat la cererea utilizatorului: matematică → fizică → informatică/TIC → celelalte materii; text mai întâi, apoi OCR. Coada rulează local, cu raport pe manual și verificări periodice în chat. Cele 1.349 volume sunt inventarul, nu numărul indexat. [Flux](docs/MANUAL_IMPORT.md), [stare datată](catalog/manual-import-status.json).
-- Fotografie 2026-10-05T14:51:48Z: matematică 89/113 indexate (24 OCR), fizică 35/36 (1 OCR), informatică/TIC 51/52 (1 OCR); celelalte materii au intrat în procesare. Nu este raport final al întregului catalog.
+- Fotografie 2026-10-05T14:58:04Z: 214/1.349 volume indexate; matematică 89/113 (24 OCR), fizică 35/36 (1 OCR), informatică/TIC 51/52 (1 OCR), celelalte materii 39/1.148 (11 OCR). Alte 3 volume sunt în indexare și 1.095 așteaptă. Nu este raport final; OCR nu a început.
 - Import reluabil în indexul existent, minimum 90% pagini cu text pentru volume noi, PDF-uri procesate separat cu timeout, retry limitat, oprire la acces/cotă/spațiu, fără documente ori secrete în Git.
 - Contorul bibliotecii acoperă toate manualele indexate, nu doar pilotul clasa V. TypeScript/build, teste Auth/API, șapte teste import offline și test bibliotecă paginată trecute. Căutare reală matematică clasa VIII verificată pentru UID și pagini; formulele și calitatea pedagogică nu sunt certificate.
 
