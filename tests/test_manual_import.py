@@ -123,10 +123,10 @@ class ImportTests(unittest.TestCase):
         try:
             (importer.DATA / 'last-error.json').write_text(json.dumps({'code': 'API_NETWORK_ERROR'}))
             child = MagicMock(pid=123)
-            child.wait.side_effect = [1] + [0] * 8
+            child.wait.side_effect = [0] * 4 + [1] + [0] * 8
             with patch.object(queue.subprocess, 'Popen', return_value=child) as spawn, patch.object(queue.subprocess, 'run', return_value=SimpleNamespace(returncode=0)), patch.object(queue.time, 'sleep') as sleep, patch.dict(sys.modules, {'import_manuals': importer}):
                 queue.run()
-            self.assertEqual(spawn.call_count, 9)
+            self.assertEqual(spawn.call_count, 13)
             sleep.assert_called_once_with(30)
             self.assertEqual(json.loads(queue.STATE.read_text())['state'], 'finished_with_report')
             (importer.DATA / 'last-error.json').write_text(json.dumps({'code': 'API_QUOTA'}))

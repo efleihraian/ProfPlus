@@ -153,3 +153,8 @@
 Această versiune conține doar documentație.
 
 P-033, verificare 2026-10-04: loginurile reale Google/Apple efectuate de titular confirmate pe același cont Supabase; profil autentificat și sesiune persistentă după reload. Logout/refresh la expirare/izolare cu două conturi rămân deschise.
+
+
+### Actualizare coadă import — nelansat
+
+OCR cunoscut înainte de continuarea importului text; apoi text/OCR pentru fiecare grupă. Fără publicare online.

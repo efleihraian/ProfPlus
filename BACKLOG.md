@@ -161,3 +161,6 @@ Dovezi P-040/P-041/P-047: TypeScript/build, suite profil/Auth/API etichete și �
 Catalog sursă reverificat: 1.349 volume; matematică 113, fizică 36, informatică/TIC 52, rest 1.148. Coada locală pornește în ordinea cerută, text apoi OCR, fără reîncărcarea normală a UID-urilor confirmate. Raport public fără secrete, retry/timeout, bibliotecă cu contor integral și actualizări în chat. Criteriu de finalizare: raport remote final pe fiecare volum, lipsuri/erori explicate și probe de căutare cu UID/pagini pentru fiecare materie; nu este DONE doar pentru că procesul rulează. Manualele indisponibile și limbile OCR neacoperite necesită rezolvare/raport distinct.
 
 Dovezi și comenzi: docs/MANUAL_IMPORT.md. Pragul tehnic 90% nu garantează formule/figuri corecte; P-015 rămâne deschis. Verificarea drepturilor pentru utilizarea extinsă/comercială, deduplicarea între UID-uri și inventarul fișierelor orfane după erori de transport rămân de finalizat.
+
+
+P-048: prioritate actualizată la OCR pentru lipsurile cunoscute, apoi continuarea tuturor manualelor; rămâne IN PROGRESS.

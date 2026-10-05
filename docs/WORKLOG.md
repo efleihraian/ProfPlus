@@ -221,3 +221,8 @@ Cerințe afectate: acces server, minimizarea datelor, ștergere, transparența f
 ## 2026-10-05T14:58:04Z — P-048, urmărire import
 
 214 volume indexate (+27), 37 necesită OCR, 3 în indexare, 1.095 pending. Procesul principal și copilul sunt active, fără import duplicat sau întrerupere. Raport din checkpoint, nu reconciliere remote finală. Scanare Git/client fără potriviri și diff verificat; niciun cod modificat în acest milestone. Importul continuă la celelalte materii.
+
+
+## 2026-10-05 — P-048, OCR prioritar la cererea utilizatorului
+
+Coada precedentă și copilul identificate prin PID/comandă, oprite pentru schimbarea explicit cerută, checkpoint păstrat. Noua coadă activă în ocr_matematica; fără import simultan. Șapte teste offline trecute, inclusiv retry și oprire la cotă; monitorizarea actualizată. Volumele completed sunt omise și referințele remote reconciliate la reluare. Fără schimbare de furnizor, date personale sau credențiale; aceeași procesare locală și index autorizat.
