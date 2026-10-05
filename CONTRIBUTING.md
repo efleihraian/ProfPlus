@@ -1,5 +1,7 @@
 # Reguli de lucru
 
+Reguli comune pentru toți oamenii și agenții: [docs/TEAM_WORKFLOW.md](docs/TEAM_WORKFLOW.md). Verifică remote-ul înainte de sarcină, lucrează izolat și livrează prin PR.
+
 ## La fiecare sarcină
 
 1. Alege sau adaugă un ID în BACKLOG.md și marchează starea.
