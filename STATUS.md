@@ -127,4 +127,4 @@ P-048 — ultima cerere 2026-10-05: import integral și OCR automat la final, f�
 
 ## Colaborarea echipei
 
-P-052 în review, PR #1; regulile nu sunt încă integrate. Protecția main indisponibilă pe configurația actuală. CI curent blocat de așteptarea veche a testului bibliotecii publice (P-053). Modificările locale și importul sunt păstrate; actualizarea folderului principal necesită predare controlată.
+P-052 în review, PR #1; regulile nu sunt încă integrate. Protecția main indisponibilă pe configurația actuală. P-053 corectează testele bibliotecii publice și ale antetului Origin absent; verificările locale trecute, CI remote de confirmat. Modificările locale și importul sunt păstrate; actualizarea folderului principal necesită predare controlată.

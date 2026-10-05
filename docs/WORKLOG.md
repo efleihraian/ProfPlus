@@ -252,3 +252,7 @@ P-048 — ultima cerere 2026-10-05: import integral și OCR automat la final, f�
 ## 2026-10-05 — P-052, review Claude
 
 Corectate amplasarea worktree-urilor, review pe alt cont și sincronizarea checkout-ului cu modificări existente. Protecția GitHub verificată: 403, indisponibilă în configurația actuală. CI verificat: 37361860684, account-integration.mjs:63, 200 != 401 după publicarea bibliotecii; P-053 separat. Branch docs/team-workflow a fost creat înaintea convenției și este excepția inițială păstrată pentru PR #1; viitoarele branch-uri includ ID. Fără merge, modificări în checkout principal, import sau teste de produs.
+
+## 2026-10-05 — P-053, corectarea verificărilor CI
+
+În checkout separat, actualizat testul bibliotecii publice cu probe de izolare pentru documente/istoric și Cache-Control no-store. Fixture-ul CSRF elimină antetul Origin pentru a testa absența reală. Inclus guest-chat în CI. Build, TypeScript, guest-chat, manual-library și test:account (inclusiv social-only) trecute. Furnizorii OAuth sunt simulați; nu reprezintă acceptanță live Google/Apple. Instalarea curată npm a fost indisponibilă; verificările locale au folosit o copie izolată a dependențelor existente. Auditul npm a răspuns HTTP 400, fără raport nou; cele 19 alerte anterior documentate rămân deschise. Fără merge, deploy, modificări în checkout principal sau import și fără ștergerea conturilor reale.

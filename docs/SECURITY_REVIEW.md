@@ -48,3 +48,7 @@ Procesare numai a manualelor publice din catalogul ministerului; HTTPS și verif
 ## P-050 — Chat vizitator local
 
 Guest fără chatId/revision/selection; respingere 401 a cererilor pentru date private. Fără apel librarySnapshot/teacherEvidence sau salvare conversație pentru guest. SQL parametrizat, contor UPSERT atomic în D1, buget global 5/minut și 30/oră, refuz 503 dacă stocarea limitei e indisponibilă. Limita globală poate fi consumată de un singur vizitator; nu este protecție CAPTCHA sau limită individuală. Endpointurile private păstrează autentificarea.
+
+## 2026-10-05 — Verificări P-053
+
+Teste pozitive pentru biblioteca publică și negative pentru accesul guest la date private; test CSRF cu Origin efectiv absent. Suite locale trecute pe fixtures, fără apel OAuth real. Încercarea auditului npm a răspuns HTTP 400 și nu a produs un raport actualizat: cele 19 alerte cunoscute nu sunt declarate remediate. CI remote și instalarea curată trebuie confirmate separat.
