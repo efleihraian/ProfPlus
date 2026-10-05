@@ -44,7 +44,7 @@ def run():
         wait_for_importer()
         groups = ['matematica', 'fizica', 'informatica_tic', 'alte_materii']
         # User priority: finish text imports for every subject before OCR.
-        phases = [(name, False) for name in groups]
+        phases = [(name, False) for name in groups] + [(name, True) for name in groups]
         for name, ocr in phases:
             phase = ('ocr_' if ocr else 'text_') + name
             status(phase=phase)
@@ -78,7 +78,7 @@ def run():
                 verification = subprocess.run([sys.executable, str(ROOT / 'scripts/verify_manual_search.py'), '--group', name], cwd=ROOT)
                 status(last_search_group=name, last_search_exit=verification.returncode)
         result = subprocess.run([sys.executable, str(ROOT / 'scripts/import_manuals.py'), '--status', '--reconcile', '--export-report'], cwd=ROOT)
-        status(state='awaiting_ocr' if result.returncode == 0 else 'blocked', phase='verification', error=None if not result.returncode else 'VERIFY_EXIT_' + str(result.returncode))
+        status(state='finished_with_report' if result.returncode == 0 else 'blocked', phase='verification', error=None if not result.returncode else 'VERIFY_EXIT_' + str(result.returncode))
 
 
 def main():

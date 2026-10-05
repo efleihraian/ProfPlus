@@ -49,3 +49,6 @@ Urmărire în acest chat la 15 minute, cu update la milestone, minimum 20 volume
 
 
 Ultima instrucțiune: fără scheduled task sau update-uri intermediare. Coada execută numai text și verificare, apoi se oprește în awaiting_ocr. OCR este etapă separată, pornită ulterior. Nu există mecanism de notificare automată în chat după încheierea turei fără o automatizare activă.
+
+
+Ultima instrucțiune (înlocuiește oprirea awaiting_ocr): coada execută import normal pentru toate materiile, reluările limitate și apoi OCR pentru toate volumele needs_ocr, fără scheduled task. Raport final cu lipsuri explicite și verificare remote; finished_with_report nu garantează toate volumele reușite.
