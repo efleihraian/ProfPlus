@@ -14,7 +14,7 @@ export default function LibraryPanel({ chatId,profile, selection, onAutomaticSel
   const [items, setItems] = useState<LibraryItem[]>([]), [loading, setLoading] = useState(true), [error, setError] = useState("");
   const [classification,setClassification]=useState<LibraryItem|null>(null),[auto,setAuto]=useState<Selection>({mode:'automatic',manualIds:[],documentIds:[]}),[category,setCategory]=useState('all');
   const [forTeaching,setForTeaching]=useState(!!profile);
-  const [query, setQuery] = useState(""), [kind, setKind] = useState("all"), [schoolClass, setSchoolClass] = useState(""), [availability, setAvailability] = useState("available"), [limit, setLimit] = useState(40);
+  const [query, setQuery] = useState(""), [kind, setKind] = useState("all"), [schoolClass, setSchoolClass] = useState(""), [availability, setAvailability] = useState("all"), [limit, setLimit] = useState(40);
   async function load(signal?: AbortSignal) {
     setLoading(true); setError("");
     try { const response = await fetch("/api/library"+(chatId?"?chatId="+encodeURIComponent(chatId):""), { signal }); const data = await response.json() as { items?: LibraryItem[]; warnings?: string[];selection:Selection }; if (!response.ok) throw new Error("Biblioteca nu este disponibilă."); setItems(data.items || []);if(!data.warnings?.length){setAuto(data.selection);onAutomaticSelection(data.selection);} setError((data.warnings || []).join(" ")); }

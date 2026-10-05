@@ -233,3 +233,8 @@ Coada precedentă și copilul identificate prin PID/comandă, oprite pentru schi
 Implementat guest pe endpointul chat și interfață; surse exclusiv comune din pilot, fără persistarea mesajelor în istoric sau upload. Teste simulate: răspuns guest, ID privat/revision/selection refuzate, validare rol, 429 și contor agregat. TypeScript/build trecute. Fără modificarea cozii OCR, credențialelor sau publicare online.
 
 P-050: test real în browser fără sesiune, «Cât este 2 + 2?» → «2 + 2 este egal cu 4.», fără redirecționare. Captura locală ignorată .sites-runtime/evidence/guest-chat.png. Scanare surse/istoric/client: zero potriviri; nu reprezintă audit complet.
+
+
+## 2026-10-05 — P-051
+
+Implementat catalog comun public, selecție manuală guest verificată pe server, atașamente guest fără obiecte persistente server/Files API. Limite trei fișiere/10 MB și request 15 MB citit limitat înainte de JSON. Validare MIME/extensie/base64/semnături. TypeScript/build și teste guest/izolare/fișiere trecute; nu sunt verificare pedagogică. Fără atingerea cozii OCR sau redeploy online.

@@ -35,3 +35,8 @@ Teste pentru toate cele cinci categorii, surse nou indexate, excluderea discipli
 ## Import extins 0.9.5
 
 Importul întregului catalog a fost reluat în ordinea matematică, fizică, informatică/TIC și restul. Contorul principal acoperă acum toate UID-urile de manuale confirmate, nu doar pilotul. Disponibilitatea din index și selecția după profil rămân decisive; simpla inventariere sau descărcare nu activează AI-ul. Raportul, OCR și limitele sunt în [MANUAL_IMPORT.md](MANUAL_IMPORT.md). Nu s-au inventat culegeri sau concursuri suplimentare.
+
+
+## Acces actual — P-051
+
+Catalog comun vizibil tuturor, inclusiv vizitatori; numai sursele indexate sunt selectabile pentru AI. Documentele conturilor nu sunt publice. Viitor: abonament verificat pe server pentru selecții specifice, vizibilitate catalog păstrată.

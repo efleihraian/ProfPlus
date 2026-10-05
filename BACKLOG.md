@@ -169,3 +169,8 @@ P-048: prioritate actualizată la OCR pentru lipsurile cunoscute, apoi continuar
 ## P-050 — Mesaje fără conectare — DONE (local)
 
 Vizitatorul trimite mesaje către AI cu sursele comune ale pilotului, fără istoric persistent, cont anonim sau uploaduri. ID-urile private/selecțiile/reviziile sunt refuzate înainte de apel AI. Buget comun persistent: 5 cereri/minut și 30/oră pentru toți vizitatorii, nu per persoană. Protecția boți completă rămâne P-042.
+
+
+## P-051 — Bibliotecă publică și fișiere temporare — DONE (local)
+
+Catalog vizibil și surse indexate selectabile fără cont; Bibliotecă înainte de Conversație nouă. Fișiere vizitatori în memoria paginii: trei/10 MB total, trimise inline modelului, fără D1/R2/Files API. Pe viitor selecțiile specifice cer abonament verificat pe server.

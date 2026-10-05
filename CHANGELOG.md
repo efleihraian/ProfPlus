@@ -163,3 +163,8 @@ OCR cunoscut înainte de continuarea importului text; apoi text/OCR pentru fieca
 ### Nelansat — P-050
 
 Trimitere mesaje fără cont, context public pilot și buget comun server-side; păstrate protecțiile pentru date private.
+
+
+### Nelansat — P-051
+
+Bibliotecă înainte de conversație nouă; catalog și selecție accesibile tuturor. Atașamente temporare fără cont, inline către model.

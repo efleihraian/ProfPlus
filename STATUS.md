@@ -109,3 +109,8 @@ La cererea utilizatorului, coada a fost reluată din checkpoint cu OCR înaintea
 ## Chat vizitator — local
 
 P-050: conversație AI fără login, mesaje în memoria paginii, fără istoric sau documente private. Limite agregate server-side pentru pilot. Site-ul online nu a fost republicat.
+
+
+## P-051 — Bibliotecă și atașamente pentru toți
+
+Local: catalog comun public și selecție surse indexate fără login. Vizitatori: trei fișiere temporare/10 MB total în memoria paginii; dispar la reload/conversație nouă, fără salvare în biblioteca contului.

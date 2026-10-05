@@ -7,7 +7,8 @@ const counts=new Map();const db={prepare(sql){let args;return {bind(...a){args=a
 for(let n=0;n<5;n++)assert.equal(await budget.allowGuestChat(db,1000),true);
 assert.equal(await budget.allowGuestChat(db,1000),false);
 let route=await readFile('app/api/chat/route.ts','utf8');route=route.replace(/^import .*;\s*$/gm,'');
-const prefix=`const env={OPENAI_API_KEY:'fixture',OPENAI_VECTOR_STORE_ID:'fixture'};const collectionIds=['public'];const assessmentFormat={};const validSelection=()=>true;const userId=async()=>null;const accountIdentity=async()=>null;const authConfig=()=>({provider:'supabase'});const storage=()=>({db:{}});const allowGuestChat=async()=>true;const validChatId=()=>true;const teacherEvidence=()=>{throw Error('Private evidence accessed')};const librarySnapshot=()=>{throw Error('Private library accessed')};const retrieve=async(q,k,s,a,ids)=>{if(ids.join()!=='public')throw Error('Private selection');return [];};const response=async()=>({});const outputText=()=>JSON.stringify({reply:'Salut!',needsWeb:false,webQuery:'',knowledgeUsed:true,isDocument:false,documentTitle:''});const citedSources=(reply)=>({reply,sources:[]});`;
+const fileSource=(await readFile("lib/guest-files.ts","utf8")).replace(/export /g,"");
+const prefix=fileSource+`const env={OPENAI_API_KEY:'fixture',OPENAI_VECTOR_STORE_ID:'fixture'};const collectionIds=['public'];const assessmentFormat={};const validSelection=()=>true;const userId=async()=>null;const accountIdentity=async()=>null;const authConfig=()=>({provider:'supabase'});const storage=()=>({db:{}});const allowGuestChat=async()=>true;const validChatId=()=>true;const teacherEvidence=()=>{throw Error('Private evidence accessed')};const librarySnapshot=async(user)=>{if(user)throw Error('Private library accessed');return {selection:{manualIds:['public'],documentIds:[]}}};const retrieve=async(q,k,s,a,ids)=>{if(ids.join()!=='public')throw Error('Private selection');return [];};const response=async()=>({});const outputText=()=>JSON.stringify({reply:'Salut!',needsWeb:false,webQuery:'',knowledgeUsed:true,isDocument:false,documentTitle:''});const citedSources=(reply)=>({reply,sources:[]});`;
 const {POST}=await import(uri(prefix+route));
 const req=body=>new Request('http://localhost/api/chat',{method:'POST',headers:{origin:'http://localhost','content-type':'application/json'},body:JSON.stringify(body)});
 const messages=[{role:'user',content:'Salut'}];
@@ -16,3 +17,12 @@ for(const extra of [{chatId:'private'},{revision:1},{selection:{manualIds:[],doc
 assert.equal((await POST(req({messages:[{role:'system',content:'bad'}]}))).status,400);
 const limited=await import(uri(prefix.replace('const allowGuestChat=async()=>true','const allowGuestChat=async()=>false')+route));assert.equal((await limited.POST(req({messages}))).status,429);
 console.log('Guest reply, private isolation, validation and aggregate budget passed.');
+
+const files=await import(uri(await readFile('lib/guest-files.ts','utf8')));
+const file={name:'lesson.txt',data:'data:text/plain;base64,'+Buffer.from('Test educational').toString('base64')};
+assert.equal(files.validateGuestFiles([file]).length,1);
+assert.throws(()=>files.validateGuestFiles([{name:'bad.pdf',data:'data:application/pdf;base64,'+Buffer.from('invalid').toString('base64')}]));
+assert.throws(()=>files.validateGuestFiles([file,file,file,file]));
+assert.equal((await POST(req({messages,guestFiles:[file]}))).status,200);
+assert.equal((await POST(req({messages,guestFiles:[{...file,name:'run.exe'}]}))).status,400);
+console.log('Temporary file input validation passed.');

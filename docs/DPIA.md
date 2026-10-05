@@ -118,3 +118,8 @@ Creșterea colecției schimbă volumul/costul și riscul de răspuns greșit: pr
 ## P-050 — Vizitatori fără cont
 
 Mesaje transmise furnizorului OpenAI existent, fără stocare a transcriptului vizitatorului în D1. Memorie pagină până la reload/închidere; retenția furnizorului se evaluează separat, nu se pretinde ștergere imediată la furnizor. Interfața explică transmiterea și solicită evitarea datelor elevilor. Buget agregat temporal, fără IP sau identificator/cookie suplimentar, eliminat după expirare la următoarea cerere. Operatorul, temeiurile, politica reală și contractele rămân condiții înainte de producție.
+
+
+## P-051 — Fișiere vizitatori
+
+Fără identitate nouă, cookie sau stocare original/index pentru vizitatori. Fișier în memoria paginii; request inline la OpenAI cu store:false. Retenția/logurile furnizorului nu sunt echivalente cu ștergerea din browser și trebuie validate contractual. Nu se pretinde conformitate completă. Documente conturi izolate ca înainte. Fișiere neexecutate; semnături/format/mărime validate, scanare malware și validare structurală completă rămân P-044.
