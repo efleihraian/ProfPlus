@@ -192,3 +192,7 @@ Ghid, instrucțiuni agenți și templates în PR #1; review pe alt cont, checkou
 ## P-053 — Actualizarea testelor pentru biblioteca publică — IN REVIEW
 
 Remediere în PR #1: acces public la manuale, probe negative pentru date private, antet Origin absent corect simulat și test guest inclus în CI. Build, TypeScript și suite locale trecute; verificările remote rămân de confirmat. Audit npm distinct rămâne deschis.
+
+## P-054 — Proveniență pentru exercițiile generate — IN REVIEW
+
+Instrucțiuni server pentru fiecare exercițiu în teste/fișe, inclusiv vizitatori. Metadate bibliografice disponibile în context; fără an/pagină inventate. Necesită evaluare cu generări reale pentru acuratețea preluării/adaptării; nu este verificator automat de egalitate textuală.
