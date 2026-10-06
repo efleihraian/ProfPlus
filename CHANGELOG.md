@@ -1,5 +1,12 @@
 # Istoricul versiunilor
 
+## Nelansat — colaborare
+
+- P-052: ghid comun, templates issue/PR, review independent și checkout-uri separate; în review.
+- P-054: proveniență per exercițiu în teste și fișe, cu surse și pagini confirmate; etichete preluat/adaptat/original AI.
+- P-046: actualizări toolchain și corecții tranzitive; audit 2026-10-06 redus de la 21 la 8 alerte high, toate provenite din braces fără versiune reparată. Verificări remote în așteptare.
+- P-053: teste actualizate pentru biblioteca publică și cererile fără Origin; verificarea chatului guest inclusă în CI.
+
 ## Ne lansat încă
 
 - Găzduire independentă, retenții operaționale și revocare Apple automată rămân de finalizat; site-ul publicat este încă 0.9.2.

@@ -146,7 +146,7 @@ Verificare completă MIME/structură, ZIP bombs, scanare malware/quarantină, pl
 
 Export complet date proprii cu ownership, fără secrete, originale incluse controlat; loguri minime pentru acces/modificări, integritate și acces restricționat. Perioade clare și ștergere automată pentru date/loguri/backups/markere, restaurare fără reintroducerea datelor șterse. Legat de P-030/P-034/P-039.
 
-## P-046 — Audit de producție și vulnerabilități rămase — TODO
+## P-046 — Audit de producție și vulnerabilități rămase — IN PROGRESS
 
 Actualizarea/testarea toolchainului cu alerte npm rămase; audit final auth bypass, IDOR, SQLi, XSS, upload, escaladare privilegii, prompt injection și data leakage. Verificare criptare/stocare/HTTPS/proxy real, RLS/rules când aplicabile, administratori și furnizori. Criteriu: raport pe versiunea livrată, remediere/retest și aprobarea riscurilor; niciun audit simulat declarat audit complet.
 
@@ -183,3 +183,16 @@ P-048 — 2026-10-05, ultima instrucțiune: import normal fără programare recu
 
 
 P-048 — ultima cerere 2026-10-05: import integral și OCR automat la final, fără scheduled task; înlocuiește oprirea înainte de OCR. Controller actualizat păstrând importul copil activ. Erori curente agregate: ConnectionError/API_NETWORK_ERROR/JSONDecodeError; reluările text limitate existente le vor reîncerca. Nu sunt volume finalizate și nu este promis succes pentru linkuri sau OCR indisponibile. Șapte teste offline trecute.
+
+
+## P-052 — Reguli comune de colaborare — IN REVIEW
+
+Ghid, instrucțiuni agenți și templates în PR #1; review pe alt cont, checkout-uri în ~/dev și migrare controlată a modificărilor locale. Protecția main refuzată de planul actual; reguli convenționale.
+
+## P-053 — Actualizarea testelor pentru biblioteca publică — IN REVIEW
+
+Remediere în PR #1: acces public la manuale, probe negative pentru date private, antet Origin absent corect simulat și test guest inclus în CI. Build, TypeScript și suite locale trecute; verificările remote rămân de confirmat. Audit npm distinct rămâne deschis.
+
+## P-054 — Proveniență pentru exercițiile generate — IN REVIEW
+
+Instrucțiuni server pentru fiecare exercițiu în teste/fișe, inclusiv vizitatori. Metadate bibliografice disponibile în context; fără an/pagină inventate. Necesită evaluare cu generări reale pentru acuratețea preluării/adaptării; nu este verificator automat de egalitate textuală.

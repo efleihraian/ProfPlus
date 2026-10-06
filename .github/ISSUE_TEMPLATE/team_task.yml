@@ -1,0 +1,25 @@
+name: Sarcină de echipă
+description: Responsabil, scop și criterii pentru oameni și agenți
+title: "[P-XXX] "
+body:
+  - type: input
+    id: owner
+    attributes:
+      label: Responsabil uman
+      description: Asignați și issue-ul persoanei; indicați agentul dacă este folosit.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scop și criterii de acceptare
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Componente, contracte comune și dependențe
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verificări necesare și predare

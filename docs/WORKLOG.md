@@ -247,3 +247,26 @@ P-048 — 2026-10-05, ultima instrucțiune: import normal fără programare recu
 
 
 P-048 — ultima cerere 2026-10-05: import integral și OCR automat la final, fără scheduled task; înlocuiește oprirea înainte de OCR. Controller actualizat păstrând importul copil activ. Erori curente agregate: ConnectionError/API_NETWORK_ERROR/JSONDecodeError; reluările text limitate existente le vor reîncerca. Nu sunt volume finalizate și nu este promis succes pentru linkuri sau OCR indisponibile. Șapte teste offline trecute.
+
+
+## 2026-10-05 — P-052, review Claude
+
+Corectate amplasarea worktree-urilor, review pe alt cont și sincronizarea checkout-ului cu modificări existente. Protecția GitHub verificată: 403, indisponibilă în configurația actuală. CI verificat: 37361860684, account-integration.mjs:63, 200 != 401 după publicarea bibliotecii; P-053 separat. Branch docs/team-workflow a fost creat înaintea convenției și este excepția inițială păstrată pentru PR #1; viitoarele branch-uri includ ID. Fără merge, modificări în checkout principal, import sau teste de produs.
+
+## 2026-10-05 — P-053, corectarea verificărilor CI
+
+În checkout separat, actualizat testul bibliotecii publice cu probe de izolare pentru documente/istoric și Cache-Control no-store. Fixture-ul CSRF elimină antetul Origin pentru a testa absența reală. Inclus guest-chat în CI. Build, TypeScript, guest-chat, manual-library și test:account (inclusiv social-only) trecute. Furnizorii OAuth sunt simulați; nu reprezintă acceptanță live Google/Apple. Instalarea curată npm a fost indisponibilă; verificările locale au folosit o copie izolată a dependențelor existente. Auditul npm a răspuns HTTP 400, fără raport nou; cele 19 alerte anterior documentate rămân deschise. Fără merge, deploy, modificări în checkout principal sau import și fără ștergerea conturilor reale.
+
+## 2026-10-06 — Verificări GitHub anulate
+
+Rularea 37366667755: ambele joburi anulate după 15 minute, fără pași executați și fără runner alocat. Adnotare GitHub: jobul nu a fost preluat de un runner hosted după mai multe încercări. Relansată aceeași rulare; nu este dovadă de teste sau audit trecute. Scanarea locală Git/client fără potriviri; limitele scannerului se păstrează.
+
+## 2026-10-06 — P-046, dependențe de securitate
+
+Actualizări toolchain și tranzitive în branch fix/P-046-security-dependencies, pornit din branch PR #1. Audit redus 21 → 8 alerte high, fără moderate/critical. Restul este braces fără versiune reparată și lanțurile sale. Suite locale trecute; verificarea Linux pentru eroarea 503/415 este încă necesară. Fără merge/deploy sau modificarea importului/serverului principal.
+
+Confirmare remote 2026-10-06, Actions 37486031167 (commit 4d6d084): instalare curată, TypeScript, build, scanări secrete/client, test:account, guest-chat și manual-library trecute pe Linux. Eroarea 503/415 nu se mai reproduce după actualizarea toolchain-ului. Singurul pas eșuat: audit npm, cele 8 high din braces fără patch upstream. Nu există rezultat general CI verde.
+
+## 2026-10-06 — P-054
+
+Adăugată cerința de proveniență per exercițiu în instrucțiunile comune de generare și revizuire, inclusiv fluxul web/guest. Contextul RAG include editura și clasa deja existente. An, număr, pagină tipărită doar când confirmate; lipsuri explicite și original AI când nu există exercițiu-sursă. Proveniența se păstrează în Markdown, editor și exporturi existente. Fără date noi stocate sau publicare. Nu este verificator automat al copierii; evaluarea pedagogică live rămâne necesară.

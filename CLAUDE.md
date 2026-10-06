@@ -1,5 +1,7 @@
 # CLAUDE.md — ProfPlus
 
+Reguli comune pentru toți oamenii și agenții: [docs/TEAM_WORKFLOW.md](docs/TEAM_WORKFLOW.md). Verifică remote-ul înainte de sarcină, lucrează izolat și livrează prin PR.
+
 Acest fișier doar trimite la regulile existente; nu le înlocuiește. Sursa de adevăr este [AGENTS.md](AGENTS.md), comună pentru Claude și Codex.
 
 ## Înainte de orice sarcină
