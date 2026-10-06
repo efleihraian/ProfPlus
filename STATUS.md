@@ -128,3 +128,9 @@ P-048 — ultima cerere 2026-10-05: import integral și OCR automat la final, f�
 ## Colaborarea echipei
 
 P-052 în review, PR #1; regulile nu sunt încă integrate. Protecția main indisponibilă pe configurația actuală. P-053 corectează testele bibliotecii publice și ale antetului Origin absent; verificările locale trecute, CI remote de confirmat. Modificările locale și importul sunt păstrate; actualizarea folderului principal necesită predare controlată.
+
+## 2026-10-06 — Remediere dependențe P-046
+
+Checkout separat, fără modificarea serverului principal sau a OCR-ului. Cloudflare/Vite/Vinext/Wrangler și plugin RSC actualizate cu peer dependencies compatibile; override-uri pentru sharp, image-size, undici, ws, source-map-js, esbuild și fflate. Audit nou: 8 high, 0 moderate/critical; toate cele opt sunt aceeași vulnerabilitate braces și lanțurile dependente. Nu există versiune upstream reparată. TypeScript/build și suite locale de cont/guest/bibliotecă trecute; CI Linux 37486031167: toate verificările trecute, cu excepția auditului npm (8 high din braces). Auditul high rămâne blocant; P-046 nu este finalizat.
+
+P-054 în review: proveniență per exercițiu în instrucțiunile AI; metadate disponibile, lipsuri explicite. Nu certifică automat egalitatea textuală sau respectarea drepturilor pentru fiecare răspuns; necesită evaluare reală.

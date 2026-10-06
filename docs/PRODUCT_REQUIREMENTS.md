@@ -44,3 +44,7 @@ Confirmată de utilizator la 2026-10-04. Protecția datelor din proiectare și i
 ## Securitate — cerință permanentă explicită, 2026-10-05
 
 Lista obligatorie completă este în [SECURITY_REQUIREMENTS.md](SECURITY_REQUIREMENTS.md). Include secrete și Git, RLS/autorizare/izolare organizații, criptare, sesiuni și antiabuz, SQL/input/XSS/uploaduri, API minim, HTTPS/headers, dependențe, minimizare AI, audit log, export/ștergere/retenție și audit înainte de producție. Orice agent trebuie să păstreze distincția între cerință și măsură verificată. Starea concretă este în [SECURITY_REVIEW.md](SECURITY_REVIEW.md).
+
+## Proveniența exercițiilor — P-054
+
+Teste/fișe: fiecare exercițiu indică preluare integrală verificată, adaptare cu exercițiu-sursă verificat sau original AI. Titlu, categorie, editură, clasă, an/ediție/etapă, număr și pagină numai când sunt disponibile. Distinge pagina PDF de cea tipărită; lipsurile sunt explicite. Citarea rămâne în conținutul editabil/exportat. Nu inventa surse și nu prezenta asemănarea tematică drept preluare. Respectă drepturile de autor.
