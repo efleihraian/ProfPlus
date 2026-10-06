@@ -39,7 +39,8 @@ const server=createServer(async(req,res)=>{
 const cookies=new Map();
 function applyCookies(response){for(const c of response.headers.getSetCookie()){const pair=c.split(';')[0],at=pair.indexOf('=');cookies.set(pair.slice(0,at),pair.slice(at+1));}}
 async function call(path='/api/account',body,extra={},method=body?'POST':'GET'){
- const response=await fetch(origin+path,{method,redirect:'manual',headers:{Origin:origin,'Content-Type':'application/json',Cookie:[...cookies].map(([k,v])=>k+'='+v).join('; '),...extra},...(body?{body:JSON.stringify(body)}:{})});
+ const headers={Origin:origin,'Content-Type':'application/json',Cookie:[...cookies].map(([k,v])=>k+'='+v).join('; '),...extra};for(const key of Object.keys(headers))if(headers[key]===null)delete headers[key];
+ const response=await fetch(origin+path,{method,redirect:'manual',headers,...(body?{body:JSON.stringify(body)}:{})});
  applyCookies(response);return response;
 }
 async function action(body,status){const r=await call('/api/account',body);assert.equal(r.status,status,JSON.stringify(body.action));return r;}
@@ -60,7 +61,7 @@ try{
  let ready=false;for(let i=0;i<80;i++){try{const r=await call();if(r.ok){ready=true;break;}}catch{}await delay(250);}
  assert.ok(ready,'Local Worker did not become ready');
  let r=await call();assert.equal((await r.json()).user,null);assert.match(r.headers.get('Cache-Control'),/no-store/);assert.equal(r.headers.get('X-Content-Type-Options'),'nosniff');assert.equal(r.headers.get('X-Frame-Options'),'DENY');assert.match(r.headers.get('Content-Security-Policy'),/object-src 'none'/);
- assert.equal((await call('/api/library')).status,401);assert.equal((await call('/api/library/status')).status,401);
+ r=await call('/api/library');assert.equal(r.status,200);const publicLibrary=await r.json();assert.ok(publicLibrary.items.length>0);assert.ok(publicLibrary.items.every(item=>item.kind==='manual'),'Guest must never see private documents');assert.match(r.headers.get('Cache-Control'),/no-store/);assert.equal((await call('/api/library?chatId=own-chat')).status,401);assert.equal((await call('/api/documents?chatId=own-chat')).status,401);assert.equal((await call('/api/history')).status,401);assert.equal((await call('/api/library/status')).status,401);
  r=await call('/api/account',undefined,{'oai-authenticated-user-id':'spoofed'});assert.equal((await r.json()).user,null,'No fallback to Sites identity in Supabase mode');
  r=await call('/api/account',{action:'login',email:'fixture@example.test',password:'valid-test-password'},{Origin:'https://untrusted.example'});assert.equal(r.status,403);
  if(socialOnly){
@@ -99,7 +100,7 @@ try{
  assert.equal((await patch('own-doc',label)).status,200);
  assert.equal((await patch('other-doc',label)).status,404);
  assert.equal((await patch('own-doc',{...label,category:'invalid'})).status,400);
- assert.equal((await patch('own-doc',label,{Origin:'https://untrusted.example'})).status,403);assert.equal((await patch('own-doc',label,{Origin:''})).status,403);
+ assert.equal((await patch('own-doc',label,{Origin:'https://untrusted.example'})).status,403);assert.equal((await patch('own-doc',label,{Origin:null})).status,403);
  assert.equal((await patch('own-doc',label,{'Content-Type':'text/plain'})).status,415);
  let library=await(await call('/api/library')).json();
  assert.ok(library.items.some(i=>i.id==='own-doc'&&i.category==='collection'&&i.subject==='Matematica'));

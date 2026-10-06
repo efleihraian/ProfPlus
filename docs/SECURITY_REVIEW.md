@@ -48,3 +48,17 @@ Procesare numai a manualelor publice din catalogul ministerului; HTTPS și verif
 ## P-050 — Chat vizitator local
 
 Guest fără chatId/revision/selection; respingere 401 a cererilor pentru date private. Fără apel librarySnapshot/teacherEvidence sau salvare conversație pentru guest. SQL parametrizat, contor UPSERT atomic în D1, buget global 5/minut și 30/oră, refuz 503 dacă stocarea limitei e indisponibilă. Limita globală poate fi consumată de un singur vizitator; nu este protecție CAPTCHA sau limită individuală. Endpointurile private păstrează autentificarea.
+
+## 2026-10-05 — Verificări P-053
+
+Teste pozitive pentru biblioteca publică și negative pentru accesul guest la date private; test CSRF cu Origin efectiv absent. Suite locale trecute pe fixtures, fără apel OAuth real. Încercarea auditului npm a răspuns HTTP 400 și nu a produs un raport actualizat: cele 19 alerte cunoscute nu sunt declarate remediate. CI remote și instalarea curată trebuie confirmate separat.
+
+## 2026-10-06 — Remediere P-046
+
+Audit nou înaintea schimbării: 21 alerte (17 high, 4 moderate). După actualizări compatibile și override-uri: 8 high, 0 moderate, 0 critical. Actualizat Cloudflare Vite plugin 1.62.5, Wrangler 4.147.0, workers-types 5.20261006.1, Vite 8.3.3, Vinext 1.0.1, plugin-rsc 0.5.35, eslint-config-next 16.3.8 și drizzle-kit 0.31.11. Fixate tranzitive sharp 0.35.5, image-size 2.0.4, undici >=7.29.1, ws >=8.22.0, source-map-js 1.2.2, esbuild-kit esbuild 0.25.12 și fflate 0.7.5. Nu s-a folosit force/legacy-peer-deps.
+
+Restul: braces, micromatch, fast-glob, @next/eslint-plugin-next, eslint-config-next, vite-plugin-dynamic-import, vite-plugin-commonjs și vinext, din GHSA-vfj7-8cjw-p6xm. [Advisory oficial](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm): <=3.0.3 afectate, fără versiune reparată. Nu este rezolvat prin ascunderea alertei sau downgrade fără patch. Auditul la prag high rămâne blocant.
+
+TypeScript, build, test:account (ambele moduri OAuth simulat), guest-chat și manual-library trecute local. Instalarea noilor versiuni a reușit din registry; execuția completă în Linux/GitHub trebuie confirmată înainte de merge. Nu este audit complet de producție.
+
+Confirmare remote 2026-10-06, Actions 37486031167 (commit 4d6d084): instalare curată, TypeScript, build, scanări secrete/client, test:account, guest-chat și manual-library trecute pe Linux. Eroarea 503/415 nu se mai reproduce după actualizarea toolchain-ului. Singurul pas eșuat: audit npm, cele 8 high din braces fără patch upstream. Nu există rezultat general CI verde.

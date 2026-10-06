@@ -1,5 +1,7 @@
 # ProfPlus
 
+Reguli comune pentru toți oamenii și agenții: [docs/TEAM_WORKFLOW.md](docs/TEAM_WORKFLOW.md). Verifică remote-ul înainte de sarcină, lucrează izolat și livrează prin PR.
+
 ProfPlus este un asistent educațional AI pentru profesori, cu conversații, manuale și documente proprii. Website-ul funcționează în pilot privat; aplicațiile Android și iOS sunt planificate.
 
 ## Scop
