@@ -256,3 +256,7 @@ Corectate amplasarea worktree-urilor, review pe alt cont și sincronizarea check
 ## 2026-10-05 — P-053, corectarea verificărilor CI
 
 În checkout separat, actualizat testul bibliotecii publice cu probe de izolare pentru documente/istoric și Cache-Control no-store. Fixture-ul CSRF elimină antetul Origin pentru a testa absența reală. Inclus guest-chat în CI. Build, TypeScript, guest-chat, manual-library și test:account (inclusiv social-only) trecute. Furnizorii OAuth sunt simulați; nu reprezintă acceptanță live Google/Apple. Instalarea curată npm a fost indisponibilă; verificările locale au folosit o copie izolată a dependențelor existente. Auditul npm a răspuns HTTP 400, fără raport nou; cele 19 alerte anterior documentate rămân deschise. Fără merge, deploy, modificări în checkout principal sau import și fără ștergerea conturilor reale.
+
+## 2026-10-06 — Verificări GitHub anulate
+
+Rularea 37366667755: ambele joburi anulate după 15 minute, fără pași executați și fără runner alocat. Adnotare GitHub: jobul nu a fost preluat de un runner hosted după mai multe încercări. Relansată aceeași rulare; nu este dovadă de teste sau audit trecute. Scanarea locală Git/client fără potriviri; limitele scannerului se păstrează.
