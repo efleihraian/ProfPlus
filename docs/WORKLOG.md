@@ -264,3 +264,5 @@ Rularea 37366667755: ambele joburi anulate după 15 minute, fără pași executa
 ## 2026-10-06 — P-046, dependențe de securitate
 
 Actualizări toolchain și tranzitive în branch fix/P-046-security-dependencies, pornit din branch PR #1. Audit redus 21 → 8 alerte high, fără moderate/critical. Restul este braces fără versiune reparată și lanțurile sale. Suite locale trecute; verificarea Linux pentru eroarea 503/415 este încă necesară. Fără merge/deploy sau modificarea importului/serverului principal.
+
+Confirmare remote 2026-10-06, Actions 37486031167 (commit 4d6d084): instalare curată, TypeScript, build, scanări secrete/client, test:account, guest-chat și manual-library trecute pe Linux. Eroarea 503/415 nu se mai reproduce după actualizarea toolchain-ului. Singurul pas eșuat: audit npm, cele 8 high din braces fără patch upstream. Nu există rezultat general CI verde.

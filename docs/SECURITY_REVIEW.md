@@ -60,3 +60,5 @@ Audit nou înaintea schimbării: 21 alerte (17 high, 4 moderate). După actualiz
 Restul: braces, micromatch, fast-glob, @next/eslint-plugin-next, eslint-config-next, vite-plugin-dynamic-import, vite-plugin-commonjs și vinext, din GHSA-vfj7-8cjw-p6xm. [Advisory oficial](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm): <=3.0.3 afectate, fără versiune reparată. Nu este rezolvat prin ascunderea alertei sau downgrade fără patch. Auditul la prag high rămâne blocant.
 
 TypeScript, build, test:account (ambele moduri OAuth simulat), guest-chat și manual-library trecute local. Instalarea noilor versiuni a reușit din registry; execuția completă în Linux/GitHub trebuie confirmată înainte de merge. Nu este audit complet de producție.
+
+Confirmare remote 2026-10-06, Actions 37486031167 (commit 4d6d084): instalare curată, TypeScript, build, scanări secrete/client, test:account, guest-chat și manual-library trecute pe Linux. Eroarea 503/415 nu se mai reproduce după actualizarea toolchain-ului. Singurul pas eșuat: audit npm, cele 8 high din braces fără patch upstream. Nu există rezultat general CI verde.
