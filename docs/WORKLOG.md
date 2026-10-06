@@ -260,3 +260,7 @@ Corectate amplasarea worktree-urilor, review pe alt cont și sincronizarea check
 ## 2026-10-06 — Verificări GitHub anulate
 
 Rularea 37366667755: ambele joburi anulate după 15 minute, fără pași executați și fără runner alocat. Adnotare GitHub: jobul nu a fost preluat de un runner hosted după mai multe încercări. Relansată aceeași rulare; nu este dovadă de teste sau audit trecute. Scanarea locală Git/client fără potriviri; limitele scannerului se păstrează.
+
+## 2026-10-06 — P-046, dependențe de securitate
+
+Actualizări toolchain și tranzitive în branch fix/P-046-security-dependencies, pornit din branch PR #1. Audit redus 22 → 8 alerte high, fără moderate/critical. Restul este braces fără versiune reparată și lanțurile sale. Suite locale trecute; verificarea Linux pentru eroarea 503/415 este încă necesară. Fără merge/deploy sau modificarea importului/serverului principal.
