@@ -55,7 +55,7 @@ Teste pozitive pentru biblioteca publică și negative pentru accesul guest la d
 
 ## 2026-10-06 — Remediere P-046
 
-Audit nou înaintea schimbării: 22 alerte (17 high, 5 moderate). După actualizări compatibile și override-uri: 8 high, 0 moderate, 0 critical. Actualizat Cloudflare Vite plugin 1.62.5, Wrangler 4.147.0, workers-types 5.20261006.1, Vite 8.3.3, Vinext 1.0.1, plugin-rsc 0.5.35, eslint-config-next 16.3.8 și drizzle-kit 0.31.11. Fixate tranzitive sharp 0.35.5, image-size 2.0.4, undici >=7.29.1, ws >=8.22.0, source-map-js 1.2.2, esbuild-kit esbuild 0.25.12 și fflate 0.7.5. Nu s-a folosit force/legacy-peer-deps.
+Audit nou înaintea schimbării: 21 alerte (17 high, 4 moderate). După actualizări compatibile și override-uri: 8 high, 0 moderate, 0 critical. Actualizat Cloudflare Vite plugin 1.62.5, Wrangler 4.147.0, workers-types 5.20261006.1, Vite 8.3.3, Vinext 1.0.1, plugin-rsc 0.5.35, eslint-config-next 16.3.8 și drizzle-kit 0.31.11. Fixate tranzitive sharp 0.35.5, image-size 2.0.4, undici >=7.29.1, ws >=8.22.0, source-map-js 1.2.2, esbuild-kit esbuild 0.25.12 și fflate 0.7.5. Nu s-a folosit force/legacy-peer-deps.
 
 Restul: braces, micromatch, fast-glob, @next/eslint-plugin-next, eslint-config-next, vite-plugin-dynamic-import, vite-plugin-commonjs și vinext, din GHSA-vfj7-8cjw-p6xm. [Advisory oficial](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm): <=3.0.3 afectate, fără versiune reparată. Nu este rezolvat prin ascunderea alertei sau downgrade fără patch. Auditul la prag high rămâne blocant.
 

@@ -263,4 +263,4 @@ Rularea 37366667755: ambele joburi anulate după 15 minute, fără pași executa
 
 ## 2026-10-06 — P-046, dependențe de securitate
 
-Actualizări toolchain și tranzitive în branch fix/P-046-security-dependencies, pornit din branch PR #1. Audit redus 22 → 8 alerte high, fără moderate/critical. Restul este braces fără versiune reparată și lanțurile sale. Suite locale trecute; verificarea Linux pentru eroarea 503/415 este încă necesară. Fără merge/deploy sau modificarea importului/serverului principal.
+Actualizări toolchain și tranzitive în branch fix/P-046-security-dependencies, pornit din branch PR #1. Audit redus 21 → 8 alerte high, fără moderate/critical. Restul este braces fără versiune reparată și lanțurile sale. Suite locale trecute; verificarea Linux pentru eroarea 503/415 este încă necesară. Fără merge/deploy sau modificarea importului/serverului principal.
