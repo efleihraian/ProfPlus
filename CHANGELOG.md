@@ -2,6 +2,8 @@
 
 ## Ne lansat încă
 
+- P-052/P-053: proveniență pentru fiecare exercițiu, referințe în document și opțiune PDF/Word cu doar sursa.
+
 - Găzduire independentă, retenții operaționale și revocare Apple automată rămân de finalizat; site-ul publicat este încă 0.9.2.
 
 ## 0.9.5 — 2026-10-05 — import extins în curs, local

@@ -135,3 +135,7 @@ input:focus-visible,select:focus-visible,summary:focus-visible,[contenteditable]
 .resource-classification form,.resource-classification form>label{grid-template-columns:minmax(0,1fr);min-width:0}.resource-classification select,.resource-classification fieldset{min-width:0;width:100%;box-sizing:border-box}.resource-classification .delete-buttons{flex-wrap:wrap}.library-auto-mode{padding:12px 24px}.resource-classification .delete-buttons button:last-child{background:var(--action);border-color:var(--action);color:var(--on-action)}
 @media(max-width:600px){.library-auto-mode{padding:12px 14px}.resource-classification{padding:16px}}
 .teaching-form,.teaching-form>label{min-width:0;grid-template-columns:minmax(0,1fr)}.teaching-form fieldset,.teaching-form select{min-width:0;box-sizing:border-box}.teaching-form h3{margin:4px 0 0}
+
+.document-export-menu>div:has(.export-source-option){width:240px;max-width:calc(100vw - 32px)}
+.export-source-option{display:flex;align-items:flex-start;gap:8px;padding:8px;font-size:13px;line-height:1.4;color:var(--text);border-bottom:1px solid var(--border);margin-bottom:4px;cursor:pointer}
+.export-source-option input{flex:none;margin-top:2px;accent-color:var(--primary)}
