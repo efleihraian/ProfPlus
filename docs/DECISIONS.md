@@ -127,3 +127,8 @@ Numele și activitatea didactică sunt salvate împreună printr-o singură actu
 ## 2026-10-05 — importul general reluat
 
 Reutilizăm indexul comun și UID-urile existente; verificăm starea remote înainte de reluare. Prioritate matematică, fizică, informatică/TIC, apoi rest; text mai întâi pentru disponibilitate rapidă, OCR separat. PDF-urile sunt procesate în subprocess deoarece un volum complex a blocat extracția într-un fir; timeoutul nu oprește restul. Prag 90% pagini text pentru volume noi, fără promisiuni privind formulele. Coada locală și urmărirea în chat păstrează publicarea online separată.
+
+
+### P-056 — Metadate comune dinamice, 2026-10-08
+
+Materialele de olimpiade/concursuri sunt importate în indexul comun existent, cu UID competition-<SHA256>, category, title, subject, source_url, publisher, stages, class și page_locator. DTO explicit, fără ID intern de fișier/index; bibliotecă/RAG consumă aceste câmpuri, păstrând starea reală a indexării. Se evită publicarea unui manifest nou pentru fiecare document. Doar câmpurile educaționale publice ajung în client; ownership-ul documentelor profesorului rămâne separat. Snapshotul raportului este datat, nu dovada că toate arhivele sunt finalizate.

@@ -123,3 +123,8 @@ Mesaje transmise furnizorului OpenAI existent, fără stocare a transcriptului v
 ## P-051 — Fișiere vizitatori
 
 Fără identitate nouă, cookie sau stocare original/index pentru vizitatori. Fișier în memoria paginii; request inline la OpenAI cu store:false. Retenția/logurile furnizorului nu sunt echivalente cu ștergerea din browser și trebuie validate contractual. Nu se pretinde conformitate completă. Documente conturi izolate ca înainte. Fișiere neexecutate; semnături/format/mărime validate, scanare malware și validare structurală completă rămân P-044.
+
+
+### P-056 — 2026-10-08
+
+Extinderea indexului comun existent la materiale publice de olimpiade/concursuri din arhivele furnizate de utilizator. Aceiași furnizori și cheie autorizată pentru manuale. Filtre pe nume de link/text pentru rezultate și participanți, fără transmiterea deliberată a listelor elevilor. Nu există anonimizare garantată pentru orice document public; operatorul verifică eventualele date incidentale și drepturile înainte de utilizarea extinsă. PDF/OCR/DOCX/HTML și metadate publice de origine sunt trimise la OpenAI; sursele/fragmentele respectă aceeași retenție existentă. Raportul omite textele și ID-urile interne. Nu se certifică DPIA/GDPR pe baza importului.
