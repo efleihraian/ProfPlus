@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import ts from 'typescript';
+const code=ts.transpileModule(await readFile('lib/export-provenance.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext}}).outputText;
+const {sourceOnlyProvenance}=await import('data:text/javascript;base64,'+Buffer.from(code).toString('base64'));
+const original='# Test\n1. Calculați 100% din 20.\n**Proveniență:** Preluat integral din Manual, pagina PDF 12, exercițiul 3, anul neprecizat în sursa disponibilă [1].\n2. Explicați termenul original.\nProveniență: Adaptat / inspirat din Olimpiadă, 2024 [2].\n3. Calculați 2+2.\nProveniență: Exercițiu original generat de ProfPlus\n## Referințe pentru exerciții\n[1] Manual; Editură; pagina PDF 12.';
+const result=sourceOnlyProvenance(original);
+assert.match(result,/Sursă: Manual, pagina PDF 12, exercițiul 3 \[1\]/);
+assert.match(result,/Sursă: Olimpiadă, 2024 \[2\]/);
+assert.doesNotMatch(result,/Preluat integral|Adaptat|inspirat|generat de ProfPlus|neprecizat/);
+assert.match(result,/Calculați 100% din 20/);
+assert.match(result,/Explicați termenul original/);
+assert.match(result,/\[1\] Manual; Editură; pagina PDF 12/);
+assert.equal(sourceOnlyProvenance(result),result);
+assert.match(original,/Preluat integral/);
+console.log('Source-only export: attribution removed, exercises/references preserved, original unchanged.');

@@ -13,3 +13,7 @@ Respectă cerința permanentă GDPR și DPIA. Pentru schimbări de date, identit
 ## Securitate obligatorie pentru orice agent
 
 Citește și aplică [docs/SECURITY_REQUIREMENTS.md](docs/SECURITY_REQUIREMENTS.md) și verifică [docs/SECURITY_REVIEW.md](docs/SECURITY_REVIEW.md) înainte de modificări. Cerințele utilizatorului din 2026-10-05 se aplică web/Android/iOS: secrete exclusiv server, scanare Git/build, autorizare server și pe înregistrare, RLS unde se aplică, izolare tenant, validare/input/uploaduri, sesiuni/antiabuz, criptare, audit, export/ștergere/retenție, minimizarea datelor AI și control uman. Nu folosi profilul didactic sau user_metadata ca privilegii. Nu publica secrete în output. O cheie expusă trebuie revocată/înlocuită; ștergerea fișierului nu este remediere suficientă. Testează cazurile negative și actualizează dovezile, fără a declara conformitate sau audit complet neexecutat.
+
+## Publicare permanentă — instrucțiunea utilizatorului din 2026-10-08
+
+Publică modificările finalizate și verificate în repository și pe site-ul existent, în fiecare sarcină, păstrând audiența și controalele de acces. Nu lăsa implicit doar local. Respectă cererile ulterioare explicite de lucru local și verificările/limitările reale; nu declara publicare fără confirmare. Platformele mobile se publică atunci când există aplicații și fluxuri de distribuție configurate.

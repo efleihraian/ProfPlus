@@ -270,3 +270,21 @@ Confirmare remote 2026-10-06, Actions 37486031167 (commit 4d6d084): instalare cu
 ## 2026-10-06 — P-054
 
 Adăugată cerința de proveniență per exercițiu în instrucțiunile comune de generare și revizuire, inclusiv fluxul web/guest. Contextul RAG include editura și clasa deja existente. An, număr, pagină tipărită doar când confirmate; lipsuri explicite și original AI când nu există exercițiu-sursă. Proveniența se păstrează în Markdown, editor și exporturi existente. Fără date noi stocate sau publicare. Nu este verificator automat al copierii; evaluarea pedagogică live rămâne necesară.
+
+## P-052 — Proveniența exercițiilor — 2026-10-08
+
+Implementat local: instrucțiune comună tuturor etapelor AI pentru fiecare exercițiu din teste/fișe: preluat integral numai cu enunț complet identic, adaptat/inspirat cu exercițiu-sursă identificabil, altfel original ProfPlus. Titlu/tip/editură/organizator/pagină PDF vs tipărită/număr/an/ediție/etapă numai din dovezi; lipsurile explicit neprecizate. Editura și clasa sunt transmise în context; referințele citate sunt incluse de server în conținutul documentului pentru salvare/export, fără URL privat permanent.
+
+Verificări: test API cu AI simulat pentru instrucțiuni, context și referințe în document; regresie guest/fișiere temporare; TypeScript și build trecute. Nu s-a evaluat un răspuns AI real, fidelitatea 100% nu este certificată automat; etichetele per exercițiu depind de respectarea instrucțiunilor de către model. Fără publicare online sau modificarea documentelor existente.
+
+
+## P-053 — Export cu sursa simplificată — DONE (local), 2026-10-08
+
+Meniul Export oferă opțiunea „Doar sursa, fără detalii de proveniență”, implicit dezactivată, comună PDF/Word. În copia exportată liniile de proveniență devin „Sursă: …”; etichetele preluat integral/adaptat/inspirat, original ProfPlus și metadatele explicit neprecizate sunt eliminate. Sursele bibliografice disponibile, referințele și enunțurile rămân; editorul/salvarea nu sunt modificate. Transformarea se aplică liniilor etichetate, nu textului arbitrar al exercițiilor; formatele nestandard editate manual pot necesita verificare. Test de transformare pentru diacritice/Markdown, originale, conservare enunțuri/referințe și idempotență trecut; TypeScript/build verificate separat. Fără publicare sau schimbări de date/furnizori.
+
+
+## P-055 — Publicare surse exerciții și export — 2026-10-08
+
+Responsabil: Marcos/Cosmin, la cererea explicită de publicare. Sites a confirmat publicarea privată reușită a surselor per exercițiu, referințelor în document și opțiunii PDF/Word „Doar sursa”. Site: https://profos-chat.cosminsoames.chatgpt.site ; source commit 062b8e0912107ee56627ff94463e859aa3908ac7 ; deployment appgdep_6ac77ef7640c8191b3325c7ff8a18298. Aplicat pe sursa online 0.9.2 pentru a păstra funcțiile/autentificarea existente, fără a publica celelalte funcții locale. Next/React/RSC actualizate la versiunile deja verificate local; build, TypeScript, transformare export și două suite Auth cu provider simulat trecute. Audit online: 28 alerte (0 critice, 20 high, 7 moderate, 1 low), fără certificare de producție. Nu s-a publicat Android/iOS: aplicațiile sunt planificate.
+
+GitHub: branch feature/P-055-source-only-export pornește din main actualizat și păstrează implementarea P-054 deja integrată, completând-o cu exportul și referințele. Verificări izolate: proveniență API cu AI simulat, transformare export, regresie guest, TypeScript/build. Integrarea în main așteaptă review uman independent și controalele cerute în docs/TEAM_WORKFLOW.md. Regula permanentă de publicare este în AGENTS.md; nu înlocuiește review-ul sau controalele CI.
