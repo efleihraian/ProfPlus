@@ -9,6 +9,8 @@
 
 ## Ne lansat încă
 
+- P-052/P-053: proveniență pentru fiecare exercițiu, referințe în document și opțiune PDF/Word cu doar sursa.
+
 - Găzduire independentă, retenții operaționale și revocare Apple automată rămân de finalizat; site-ul publicat este încă 0.9.2.
 
 ## 0.9.5 — 2026-10-05 — import extins în curs, local
@@ -184,3 +186,8 @@ P-048 — 2026-10-05, ultima instrucțiune: import normal fără programare recu
 
 
 P-048 — ultima cerere 2026-10-05: import integral și OCR automat la final, fără scheduled task; înlocuiește oprirea înainte de OCR. Controller actualizat păstrând importul copil activ. Erori curente agregate: ConnectionError/API_NETWORK_ERROR/JSONDecodeError; reluările text limitate existente le vor reîncerca. Nu sunt volume finalizate și nu este promis succes pentru linkuri sau OCR indisponibile. Șapte teste offline trecute.
+
+
+## Publicare privată — 2026-10-08
+
+Proveniență per exercițiu, referințe în document și export PDF/Word simplificat, confirmate pe site. Repository: P-055 prin PR, review independent necesar.

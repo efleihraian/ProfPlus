@@ -48,3 +48,8 @@ Lista obligatorie completă este în [SECURITY_REQUIREMENTS.md](SECURITY_REQUIRE
 ## Proveniența exercițiilor — P-054
 
 Teste/fișe: fiecare exercițiu indică preluare integrală verificată, adaptare cu exercițiu-sursă verificat sau original AI. Titlu, categorie, editură, clasă, an/ediție/etapă, număr și pagină numai când sunt disponibile. Distinge pagina PDF de cea tipărită; lipsurile sunt explicite. Citarea rămâne în conținutul editabil/exportat. Nu inventa surse și nu prezenta asemănarea tematică drept preluare. Respectă drepturile de autor.
+
+
+## Proveniența exercițiilor — 2026-10-08
+
+La generarea testelor și fișelor se menționează pentru fiecare exercițiu sursa preluării integrale sau exercițiul din care este adaptat/inspirat, cu tipul materialului, titlul, pagina, anul și numărul când sunt disponibile. Nu se inventează metadate; exercițiile originale sunt marcate explicit. Proveniența rămâne în document și export. Implementare locală P-052; clasificarea AI necesită verificarea profesorului.
