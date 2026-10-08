@@ -186,3 +186,8 @@ P-048 — 2026-10-05, ultima instrucțiune: import normal fără programare recu
 
 
 P-048 — ultima cerere 2026-10-05: import integral și OCR automat la final, fără scheduled task; înlocuiește oprirea înainte de OCR. Controller actualizat păstrând importul copil activ. Erori curente agregate: ConnectionError/API_NETWORK_ERROR/JSONDecodeError; reluările text limitate existente le vor reîncerca. Nu sunt volume finalizate și nu este promis succes pentru linkuri sau OCR indisponibile. Șapte teste offline trecute.
+
+
+## Publicare privată — 2026-10-08
+
+Proveniență per exercițiu, referințe în document și export PDF/Word simplificat, confirmate pe site. Repository: P-055 prin PR, review independent necesar.
