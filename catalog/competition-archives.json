@@ -1,0 +1,92 @@
+[
+  {
+    "id": "archive-01",
+    "title": "Ministerul Educației – Olimpiade 2026",
+    "url": "https://subiecte.edu.ro/2026/olimpiade/index.html",
+    "category": "olympiad"
+  },
+  {
+    "id": "archive-02",
+    "title": "Arhiva oficială de subiecte (2023–2025)",
+    "url": "https://subiecte.edu.ro/2026/arhiva/",
+    "category": "olympiad"
+  },
+  {
+    "id": "archive-03",
+    "title": "Ministerul Educației – Olimpiade și concursuri (2019–2025)",
+    "url": "https://www.edu.ro/arhiva_olimpiade_concursuri",
+    "category": "olympiad"
+  },
+  {
+    "id": "archive-04",
+    "title": "Matematică – Societatea de Științe Matematice (SSMR)",
+    "url": "https://ssmr.ro/olimpiada",
+    "category": "olympiad"
+  },
+  {
+    "id": "archive-05",
+    "title": "Matematică – MateInfo",
+    "url": "https://www.mateinfo.ro/subiecte-olimpiada-matematica",
+    "category": "olympiad"
+  },
+  {
+    "id": "archive-06",
+    "title": "Fizică – arhivă istorică",
+    "url": "https://www.fizica.computersciencewhy.net/olimpiade/intern.htm",
+    "category": "olympiad"
+  },
+  {
+    "id": "archive-07",
+    "title": "Informatică – Infoarena",
+    "url": "https://infoarena.ro/downloads",
+    "category": "olympiad"
+  },
+  {
+    "id": "archive-08",
+    "title": "Informatică – arhiva Olimpiadei Naționale (ONI)",
+    "url": "https://arhiva.olimpiada.info.ro/",
+    "category": "olympiad"
+  },
+  {
+    "id": "archive-09",
+    "title": "Limba română – olimpiade și concursuri",
+    "url": "https://limbaromanadb.wixsite.com/profesori/concursuri-%C8%99i-olimpiade",
+    "category": "olympiad"
+  },
+  {
+    "id": "archive-10",
+    "title": "Fizică, chimie și biologie – ISJ Arad",
+    "url": "https://fizchimarad.ro/index.php?p=1a",
+    "category": "olympiad"
+  },
+  {
+    "id": "archive-11",
+    "title": "Istorie, geografie și științe socio-umane – ISJ Dâmbovița",
+    "url": "https://www.isj-db.ro/curriculum/istorie-geografie-stiinte-socio-umane",
+    "category": "olympiad"
+  },
+  {
+    "id": "archive-12",
+    "title": "Limbi străine – ISJ Maramureș",
+    "url": "https://www.isjmm.ro/curriculum.htm",
+    "category": "olympiad"
+  },
+  {
+    "id": "archive-13",
+    "title": "COMPER – arhivă extinsă (blog Profesor Jitaru)",
+    "url": "https://profesorjitaruionel.com/2019/11/04/modele-etapa-i-comper-2026-2027-clasele-1-4-clasa-pregatitoare-invatamant-primar-arhiva-subiecte-si-bareme-din-toti-anii-anteriori-romana-si-matematica-comper-an-scolar-2026-2027-etapa-1-update/",
+    "category": "competition"
+  },
+  {
+    "id": "archive-14",
+    "title": "COMPER – arhiva organizatorului",
+    "url": "https://www.concursurilecomper.ro/arhiva-subiecte/",
+    "category": "competition"
+  },
+  {
+    "id": "archive-15",
+    "title": "Profu de mate – olimpiade locale din județe",
+    "url": "https://www.profudemate.ro/Stiri/813/subiectele-olm-2026-2025-2024-2023-2020-2019-2018-2017-2016-2015-2014-2013-din-toate-judetele.html",
+    "category": "competition"
+  }
+]

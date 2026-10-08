@@ -62,3 +62,8 @@ Restul: braces, micromatch, fast-glob, @next/eslint-plugin-next, eslint-config-n
 TypeScript, build, test:account (ambele moduri OAuth simulat), guest-chat și manual-library trecute local. Instalarea noilor versiuni a reușit din registry; execuția completă în Linux/GitHub trebuie confirmată înainte de merge. Nu este audit complet de producție.
 
 Confirmare remote 2026-10-06, Actions 37486031167 (commit 4d6d084): instalare curată, TypeScript, build, scanări secrete/client, test:account, guest-chat și manual-library trecute pe Linux. Eroarea 503/415 nu se mai reproduce după actualizarea toolchain-ului. Singurul pas eșuat: audit npm, cele 8 high din braces fără patch upstream. Nu există rezultat general CI verde.
+
+
+### P-056 — import arhive, 2026-10-08
+
+Izolare de importul manualelor, SQL parametrizat, HTTPS/adrese publice/redirecturi, dimensiuni și expansiune arhive, membri citiți ca bytes fără extracție pe disc, cheie numai în proces/server. DTO comun explicit, URL HTTPS fără credentiale și UID/categorii validate; fără date de ownership/index/private în DTO. Șapte teste offline și test DTO trecut; nu este scanare malware, audit DNS rebinding sau garanție de pseudonimizare. Formulele/OCR și documentele cu date incidentale necesită verificare. Nu se schimbă autentificarea ori sharing-ul Sites.
