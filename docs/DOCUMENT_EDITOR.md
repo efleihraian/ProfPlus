@@ -19,3 +19,8 @@ Date: obiect `{title, content}` în mesajul asistentului din transcriptul D1, f�
 ## Limite
 
 Editorul oferă formatare de bază, nu toate funcțiile Word. Formula matematică nu are încă editor specializat; imagini/diagrame nu se exportă. PDF simplifică formatarea inline; titlurile sunt aldine. Nu există istoric separat de versiuni ale documentului. Previzualizarea se derulează continuu; paginarea efectivă se face la export PDF. Detectarea documentului este o decizie AI și trebuie evaluată pe mai multe cereri pedagogice. Responsive-ul este implementat, dar nu a fost testat pe dispozitive fizice.
+
+
+### Export cu sursa simplificată
+
+Bifează în meniul Export „Doar sursa, fără detalii de proveniență” pentru PDF sau Word. Copia exportată păstrează sursele disponibile, fără clasificarea preluat/adaptat/original și fără datele marcate neprecizate. Documentul din editor păstrează proveniența completă. Opțiunea este implicit dezactivată.

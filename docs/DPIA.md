@@ -123,3 +123,8 @@ Mesaje transmise furnizorului OpenAI existent, fără stocare a transcriptului v
 ## P-051 — Fișiere vizitatori
 
 Fără identitate nouă, cookie sau stocare original/index pentru vizitatori. Fișier în memoria paginii; request inline la OpenAI cu store:false. Retenția/logurile furnizorului nu sunt echivalente cu ștergerea din browser și trebuie validate contractual. Nu se pretinde conformitate completă. Documente conturi izolate ca înainte. Fișiere neexecutate; semnături/format/mărime validate, scanare malware și validare structurală completă rămân P-044.
+
+
+### P-052 — 2026-10-08
+
+Proveniența folosește metadatele și fragmentele deja accesibile în fluxul RAG, fără furnizori sau categorii noi de date. Numele surselor citate apar acum și în document/export; profesorul verifică înainte de distribuire dacă titlurile documentelor proprii conțin date personale. Fără schimbări de acces/retenție sau evaluare automată oficială.

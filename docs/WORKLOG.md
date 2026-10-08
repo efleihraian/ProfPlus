@@ -270,3 +270,14 @@ Confirmare remote 2026-10-06, Actions 37486031167 (commit 4d6d084): instalare cu
 ## 2026-10-06 — P-054
 
 Adăugată cerința de proveniență per exercițiu în instrucțiunile comune de generare și revizuire, inclusiv fluxul web/guest. Contextul RAG include editura și clasa deja existente. An, număr, pagină tipărită doar când confirmate; lipsuri explicite și original AI când nu există exercițiu-sursă. Proveniența se păstrează în Markdown, editor și exporturi existente. Fără date noi stocate sau publicare. Nu este verificator automat al copierii; evaluarea pedagogică live rămâne necesară.
+
+## P-052 — Proveniența exercițiilor — 2026-10-08
+
+Implementat local: instrucțiune comună tuturor etapelor AI pentru fiecare exercițiu din teste/fișe: preluat integral numai cu enunț complet identic, adaptat/inspirat cu exercițiu-sursă identificabil, altfel original ProfPlus. Titlu/tip/editură/organizator/pagină PDF vs tipărită/număr/an/ediție/etapă numai din dovezi; lipsurile explicit neprecizate. Editura și clasa sunt transmise în context; referințele citate sunt incluse de server în conținutul documentului pentru salvare/export, fără URL privat permanent.
+
+Verificări: test API cu AI simulat pentru instrucțiuni, context și referințe în document; regresie guest/fișiere temporare; TypeScript și build trecute. Nu s-a evaluat un răspuns AI real, fidelitatea 100% nu este certificată automat; etichetele per exercițiu depind de respectarea instrucțiunilor de către model. Fără publicare online sau modificarea documentelor existente.
+
+
+## P-053 — Export cu sursa simplificată — DONE (local), 2026-10-08
+
+Meniul Export oferă opțiunea „Doar sursa, fără detalii de proveniență”, implicit dezactivată, comună PDF/Word. În copia exportată liniile de proveniență devin „Sursă: …”; etichetele preluat integral/adaptat/inspirat, original ProfPlus și metadatele explicit neprecizate sunt eliminate. Sursele bibliografice disponibile, referințele și enunțurile rămân; editorul/salvarea nu sunt modificate. Transformarea se aplică liniilor etichetate, nu textului arbitrar al exercițiilor; formatele nestandard editate manual pot necesita verificare. Test de transformare pentru diacritice/Markdown, originale, conservare enunțuri/referințe și idempotență trecut; TypeScript/build verificate separat. Fără publicare sau schimbări de date/furnizori.
