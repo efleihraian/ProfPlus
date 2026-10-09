@@ -51,4 +51,15 @@ class CloudTests(unittest.TestCase):
   with patch.object(c,'request',return_value=Mock(ok=True,headers={'Location':'https://untrusted.example/storage/v1/upload/resumable/fixture'})) as call:
    with self.assertRaisesRegex(RuntimeError,'UNSAFE_RESUMABLE_LOCATION'):c.resumable_put('profplus-library','book',b'book','application/pdf')
    self.assertEqual(call.call_count,1)
+ def test_restart_gateway_error_is_retried_without_revealing_credentials(self):
+  c=self.client();session=Mock();session.request.side_effect=[Mock(status_code=544),Mock(status_code=200)]
+  c.connections.session=session
+  with patch('cloud_library.time.sleep') as sleep:
+   self.assertEqual(c.request('GET','/rest/v1/library_materials').status_code,200)
+  self.assertEqual(session.request.call_count,2);sleep.assert_called_once()
+ def test_file_limit_error_is_not_retried(self):
+  c=self.client();session=Mock();session.request.return_value=Mock(status_code=413);c.connections.session=session
+  with patch('cloud_library.time.sleep') as sleep:
+   self.assertEqual(c.request('POST','/storage/v1/upload/resumable').status_code,413)
+  self.assertEqual(session.request.call_count,1);sleep.assert_not_called()
 if __name__=='__main__':unittest.main()

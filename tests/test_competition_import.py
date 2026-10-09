@@ -5,6 +5,8 @@ import sys
 sys.path.insert(0,str(Path(__file__).parents[1]/'scripts'))
 spec=importlib.util.spec_from_file_location('importer',Path(__file__).parents[1]/'scripts/import_competitions.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 class ImportTests(unittest.TestCase):
+ def setUp(self):
+  cloud=patch.object(m,'cloud_active',return_value=False);cloud.start();self.addCleanup(cloud.stop)
  def test_external_private_rejected(self):
   self.assertFalse(m.public_url('https://127.0.0.1/doc.pdf'));self.assertFalse(m.public_url('file:///tmp/file'));self.assertFalse(m.public_url('https://u:p@example.org/file'))
  def test_results_excluded(self):

@@ -63,6 +63,24 @@ class ImportTests(unittest.TestCase):
         for url in ('http://manuale.edu.ro/a', 'https://manuale.edu.ro.evil.test/a', 'https://127.0.0.1/a', 'https://secret@manuale.edu.ro/a', 'https://manuale.edu.ro:444/a'):
             self.assertFalse(importer.official_url(url))
 
+    def test_announced_file_over_operator_limit_is_not_downloaded_or_indexed(self):
+        row=self.fixture('large', [True])
+        (importer.DATA/'pdf/large.pdf').unlink()
+        response=MagicMock();response.status_code=200;response.headers={'Content-Length':'21'}
+        response.__enter__.return_value=response
+        with patch.object(importer,'MAX_PDF_BYTES',20),patch.object(importer,'download_response',return_value=response),patch.object(importer,'api') as api:
+            importer.process(row)
+        self.assertEqual(self.state('large')['error'],'PDF_TOO_LARGE')
+        response.iter_content.assert_not_called();api.assert_not_called()
+        self.assertFalse((importer.DATA/'pdf/large.part').exists())
+
+    def test_existing_oversize_original_is_preserved_without_upload(self):
+        row=self.fixture('existing-large',[True]);path=importer.DATA/'pdf/existing-large.pdf';original=path.read_bytes()
+        with patch.object(importer,'MAX_PDF_BYTES',20),patch.object(importer,'api') as api,patch.object(importer,'CloudLibrary') as cloud:
+            importer.process(row)
+        self.assertEqual(self.state('existing-large')['error'],'PDF_TOO_LARGE')
+        self.assertEqual(path.read_bytes(),original);api.assert_not_called();cloud.assert_not_called()
+
     def test_unreadable_pdf_never_uploaded(self):
         row = self.fixture('sparse', [True, False, False])
         with patch.object(importer, 'api') as api, contextlib.redirect_stdout(io.StringIO()):
