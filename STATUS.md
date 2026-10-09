@@ -168,3 +168,7 @@ GitHub P-057: commit 8b0e602, branch publicat, PR #6 https://github.com/ProfOS-E
 ## 2026-10-09 — Consolidarea copiei locale
 
 Codul complet cloud și importul olimpiadelor sunt reunite în checkout-ul operațional. Starea importului a fost transferată fără pierderi și checkpointul verificat în Supabase; importul a fost reluat din copia principală. Copiile suplimentare publicate și dependențele temporare sunt eliminate, iar configurația necesară este păstrată protejat. Vezi docs/LOCAL_WORKSPACE.md.
+
+## 2026-10-09 — P-059: starea bibliotecii
+
+Manualele clasa I din captura utilizatorului sunt indexate; citirea stării se întrerupea și toate cele 1.349 intrări apăreau catalog. Remediere: deadline 120 secunde, cache 5 minute/deduplicare și unknown după eșec. Local real: șase exemple ready, fără warnings, apel cache 0,03 secunde. 1.303/1.349 manuale indexate; 46 lipsesc din index (18 OCR, 28 eșecuri, fotografie de import 2026-10-06), separat de concursurile încă în curs.

@@ -230,3 +230,7 @@ GitHub P-057: commit 8b0e602, branch publicat, PR #6 https://github.com/ProfOS-E
 ## P-058 — O singură copie locală necesară — DONE, 2026-10-09
 
 Consolidare la cererea titularului: cod/documentație, runtime/configurație și import activ în copia principală; transfer verificat al stării, checkpoint Supabase și reluare. Copii suplimentare și artefacte regenerabile eliminate; originale logo în Supabase, credențiale protejate. Evidență: docs/LOCAL_WORKSPACE.md și raport operațional privat.
+
+## P-059 — Starea bibliotecii mari — IN REVIEW, 2026-10-09
+
+La sesizarea titularului: manuale indexate apăreau neindexate la eșecul paginării cu deadline 30 secunde. Deadline total 120 secunde, cache server comun 5 minute, cereri simultane reunite; unknown pentru verificare eșuată. Regresie pentru paginare lentă/cache/eșec/retry/cursori; review independent necesar.
