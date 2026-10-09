@@ -189,3 +189,5 @@ P-048 — ultima cerere 2026-10-05: import integral și OCR automat la final, f�
 ## Nelansat — P-056
 
 Import reluabil al arhivelor de olimpiade/concursuri, categorii și metadate publice dinamice în bibliotecă/RAG; importul este în curs, fără declarație de catalog complet.
+
+P-056: păstrarea paginii sursei în fragmentele indexate ale arhivelor, cu migrare reluabilă și eliminarea copiilor precedente doar după confirmarea înlocuirii.

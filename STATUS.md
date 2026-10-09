@@ -151,3 +151,7 @@ P-056 — Publicare privată confirmată 2026-10-08: source c5b7d9a4cb613cf2bb82
 
 
 P-056 — Fotografie 2026-10-08T12:02:15Z: 286 documente confirmate indexed, 52 extrase în așteptare, 4 documente cu lipsuri; 4174 URL-uri încă de verificat. Nu este raport final. Scanner Git/client fără detecții; DTO/RAG/availa­bility/guest, TypeScript/build și teste import trecute. Auditul dependențelor din main rămâne separat în raportul P-046; controalele CI nu sunt ocolite.
+
+P-056, 2026-10-09: 578 documente confirmate indexed la verificarea 05:24 UTC; raport intermediar, arhivele continuă să fie parcurse. Remediere a păstrării paginilor în fragmente: blocuri cu marcaje repetate, înlocuire confirmată înainte de curățarea fișierului precedent, reluare sigură a curățării. 11 teste import și suitele DTO/RAG/bibliotecă au trecut. Procesul durabil rămâne activ în checkout-ul P-056; copia operațională a manualelor nu este sincronizată forțat.
+
+Acces local, 2026-10-09: localhost:3000 nu avea server activ. Repornit procesul local din copia operațională, PID 90253, log exclus din Git în web/.sites-runtime/local-server.log. GET / confirmat HTTP 200, pagina ProfPlus verificată în browser. Nu s-a schimbat codul pentru repornire.
