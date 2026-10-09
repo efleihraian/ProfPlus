@@ -1,5 +1,10 @@
 # Lucrări rămase
 
+## P-062 — 2026-10-09
+
+Implementată omiterea originalelor peste 50 MB cu sursa păstrată; reluat importul concursurilor și continuat transferul manualelor. Codul, testele, curățarea verificată și publicarea sunt documentate în [IMPORT_CONTINUATION.md](docs/IMPORT_CONTINUATION.md). Transferul întregii biblioteci rămâne **IN PROGRESS**, separat de livrarea codului; nu sunt declarate toate originalele în cloud.
+
+
 Stări: TODO, IN PROGRESS, BLOCKED, DONE. ID-urile rămân stabile.
 
 | ID | Prioritate | Stare | Sarcină | Criteriu de finalizare |
