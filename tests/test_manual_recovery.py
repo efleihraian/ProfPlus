@@ -5,7 +5,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from recover_manual_originals import fair_order, download
+from recover_manual_originals import fair_order, download, recover_download
 
 class Response:
     status_code = 200
@@ -35,6 +35,22 @@ class RecoveryTests(unittest.TestCase):
     def test_chunked_unannounced_oversize_removes_only_partial_file(self):
         result,present,temporary = self.attempt(Response([b'%PDF-',b'123456']),10)
         self.assertEqual(result['status'],'over_file_limit');self.assertEqual(result['size_at_least'],11);self.assertFalse(present or temporary)
+    def test_retained_original_cannot_bypass_the_limit(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'manual.pdf';path.write_bytes(b'%PDF-too-large')
+            with patch('recover_manual_originals.download') as source:
+                result=recover_download(self.row,path,10)
+            self.assertEqual(result['status'],'over_file_limit');source.assert_not_called()
+            self.assertEqual(path.read_bytes(),b'%PDF-too-large')
+    def test_resume_skips_known_oversize_only_for_unchanged_source(self):
+        previous={'status':'over_file_limit','size':11,'source_url':self.row['pdf_url']}
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'manual.pdf'
+            with patch('recover_manual_originals.download',return_value={'status':'downloaded','size':8}) as source:
+                self.assertEqual(recover_download(self.row,path,10,previous),previous)
+                source.assert_not_called()
+                self.assertEqual(recover_download({'pdf_url':'https://manuale.edu.ro/new.pdf'},path,10,previous)['status'],'downloaded')
+                source.assert_called_once()
     def test_html_is_not_stored_as_pdf(self):
         with self.assertRaisesRegex(RuntimeError,'NOT_PDF'):self.attempt(Response([b'<html>error</html>']),100)
     def test_failed_download_preserves_existing_original(self):

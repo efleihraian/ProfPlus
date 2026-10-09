@@ -1,7 +1,7 @@
 """Recover official originals independently of AI indexing; verify before local deletion."""
 import argparse, collections, concurrent.futures, csv, fcntl, hashlib, json, os
 from pathlib import Path
-import threading, time
+import threading, time, signal
 import requests
 from cloud_library import CloudLibrary, BUCKET, STATE_BUCKET
 from import_manuals import download_response, normalized
@@ -46,15 +46,28 @@ def download(row, path, limit):
             if not transient or attempt==2: raise
             time.sleep(2**attempt)
 
+def recover_download(row, path, limit, previous=None):
+    previous = previous or {}
+    if previous.get('status') == 'over_file_limit' and previous.get('source_url') == row['pdf_url']:
+        return previous
+    if path.exists():
+        size = path.stat().st_size
+        if size > limit: return {'status':'over_file_limit','size':size}
+        with path.open('rb') as handle:
+            if handle.read(5) != b'%PDF-': raise RuntimeError('NOT_PDF')
+        return {'status':'downloaded','size':size}
+    return download(row,path,limit)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--operational-root', type=Path, required=True)
     parser.add_argument('--file-limit-mb', type=int, default=50)
     parser.add_argument('--library-budget-gb', type=int, default=75)
-    parser.add_argument('--workers', type=int, default=3)
+    parser.add_argument('--workers', type=int, default=6)
     parser.add_argument('--limit', type=int, default=0)
     args = parser.parse_args()
-    if not 1 <= args.file_limit_mb <= 250 or not 1 <= args.library_budget_gb <= 75:
+    if not 1 <= args.file_limit_mb <= 250 or not 1 <= args.library_budget_gb <= 75 or not 1 <= args.workers <= 6:
         parser.error('Limits must preserve room for private documents and remain within the importer bounds.')
     root = args.operational_root.resolve()
     os.environ['PROFPLUS_OPERATIONAL_ROOT'] = str(root)
@@ -75,6 +88,8 @@ def main():
         report_path = data / 'progress.txt'
         results = json.loads(report_path.read_text()).get('manuals', {}) if report_path.exists() else {}
         guard = threading.Lock(); stop = threading.Event()
+        signal.signal(signal.SIGTERM, lambda *_: stop.set())
+        signal.signal(signal.SIGINT, lambda *_: stop.set())
         def report(state='running'):
             summary = {'state':state, 'updated_at':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()), 'file_limit_bytes':args.file_limit_mb * 1024**2, 'library_budget_bytes':args.library_budget_gb * 1000**3, 'catalog_bytes':used, 'counts':dict(collections.Counter(i['status'] for i in results.values())), 'manuals':results}
             temp = report_path.with_suffix('.tmp'); temp.write_text(json.dumps(summary, ensure_ascii=False, indent=2)); temp.replace(report_path)
@@ -88,7 +103,7 @@ def main():
                 if ('manuals', uid, 'original') in existing:
                     result = {'status':'already_stored', 'size':existing[('manuals',uid,'original')]}
                 else:
-                    result = {'status':'downloaded','size':path.stat().st_size} if path.exists() else download(row,path,args.file_limit_mb*1024**2)
+                    result = recover_download(row,path,args.file_limit_mb*1024**2,results.get(uid))
                     if result['status'] == 'downloaded':
                         with guard:
                             if used + result['size'] > args.library_budget_gb * 1000**3:
@@ -99,6 +114,7 @@ def main():
                             with guard: used -= result['size']
                             raise
                         result = {'status':'stored_verified','size':value['size'],'sha256':value['sha256']}
+                result['source_url'] = row['pdf_url']
                 with guard: results[uid] = result; report()
                 print(uid + ': ' + result['status'], flush=True)
             except Exception as error:
@@ -109,7 +125,7 @@ def main():
         ordered = fair_order(rows)
         if args.limit: ordered = ordered[:args.limit]
         report()
-        with concurrent.futures.ThreadPoolExecutor(max_workers=max(1,min(3,args.workers))) as pool:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as pool:
             list(pool.map(process,ordered))
         report('stopped' if stop.is_set() else 'finished_with_report')
         remaining = data / 'remaining.csv'
