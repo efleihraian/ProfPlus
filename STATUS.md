@@ -172,3 +172,5 @@ Codul complet cloud și importul olimpiadelor sunt reunite în checkout-ul opera
 ## 2026-10-09 — P-059: starea bibliotecii
 
 Manualele clasa I din captura utilizatorului sunt indexate; citirea stării se întrerupea și toate cele 1.349 intrări apăreau catalog. Remediere: deadline 120 secunde, cache 5 minute/deduplicare și unknown după eșec. Local real: șase exemple ready, fără warnings, apel cache 0,03 secunde. 1.303/1.349 manuale indexate; 46 lipsesc din index (18 OCR, 28 eșecuri, fotografie de import 2026-10-06), separat de concursurile încă în curs.
+
+Publicare P-059 confirmată: Sites versiunea 18, sursă 9ac255bf57128faa03c697b23228a659a18d1e04, deployment appgdep_6ac8bea0f46881919c77c77f5542af83 reușit, audiență privată păstrată. API online după publicare: HTTP 200 în 42,92 secunde, warnings goale, cele șase exemple ready; 46 catalog, restul ready include concursurile în curs. Scanner Git/client: 1.141 fișiere/bloburi, fără detecții. PR https://github.com/ProfOS-Edu/ProfPlus/pull/7, review bogdan-25 solicitat, dependent de PR #6; fără merge automat.
