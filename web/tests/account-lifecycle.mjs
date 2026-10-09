@@ -24,6 +24,20 @@ assert.equal(validSelection({...manual,mode:'bogus'}),false);assert.equal(validS
 assert.equal(matchesTeaching({subject:'Matematica in limba maghiara',stages:['middle']},teacher),true);
 assert.deepEqual(defaultManualIds(teachingProfile({role:'teacher',subject:'Matematica in limba maghiara',stages:['middle']}),uids),['1291-1']);
 assert.deepEqual(automaticSources([{id:'primary',kind:'document',subject:'Istorie',stages:['primary'],status:'ready'}],primary).documentIds,['primary']);
+const computing=teachingProfile({role:'teacher',subject:'Informatica si TIC',stages:['high']});
+const commonCompetitions=[
+ {id:'oni',category:'olympiad',kind:'manual',subject:'Informatică',stages:['high'],status:'ready'},
+ {id:'infoarena',category:'competition',kind:'manual',subject:'Informatica',schoolClass:'Clasa 10',stages:[],status:'ready'},
+ {id:'collection',category:'collection',kind:'document',subject:'Tehnologia informatiei si a comunicatiilor',schoolClass:'Clasele 9–12',status:'ready'},
+ {id:'middle',category:'olympiad',kind:'manual',subject:'Informatică',stages:['middle'],status:'ready'},
+ {id:'math',category:'competition',kind:'manual',subject:'Matematică',stages:['high'],status:'ready'},
+ {id:'unfinished',category:'competition',kind:'manual',subject:'Informatică',stages:['high'],status:'catalog'}
+];
+assert.deepEqual(automaticSources(commonCompetitions,computing),{mode:'automatic',manualIds:['oni','infoarena'],documentIds:['collection']});
+assert.equal(matchesTeaching({subject:'Limba franceză',stages:['high']},teachingProfile({role:'teacher',subject:'Limba moderna franceza',stages:['high']})),true);
+assert.equal(matchesTeaching({subject:'Limba și literatura română',stages:['middle']},teachingProfile({role:'teacher',subject:'Limba si literatura romana',stages:['middle']})),true);
+assert.equal(matchesTeaching({subject:'Informatică',schoolClass:'Clasele 0–12'},computing),true);
+assert.equal(matchesTeaching({subject:'Informatică',schoolClass:'Clasa 13'},computing),false);
 console.log('PASS: all indexed categories, newly completed index, discipline/cycle exclusions, multilingual mathematics, primary resources and manual override.');
 const {eraseAccount}=await moduleAt('lib/account-erasure.ts');
 let owned=[{id:'doc-a',user_id:'owner',store_id:'vs-a',file_id:'file-a'},{id:'doc-b',user_id:'owner',store_id:null,file_id:null}];let events=[],locked=false,fail=true;

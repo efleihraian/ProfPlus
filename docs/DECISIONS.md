@@ -133,3 +133,7 @@ P-057, 2026-10-09: Supabase Storage devine destinația materialelor disponibile;
 ### 2026-10-09 — P-058: un checkout operațional
 
 Se păstrează local numai codul/runtime/configurația și starea necesară importului activ. Copiile de lucru publicate se recreează din GitHub/Sites, materialele se restaurează verificat din Supabase. Nu se elimină modificări unice ori configurații necesare; sources/ sincronizat este read-only.
+
+## P-060 — 2026-10-09: limită 50 MB și separarea originalelor/indexului
+
+Titularul păstrează plafonul de cheltuieli Pro și cere toate originalele care încap în 50 MB, apoi evaluarea celor rămase. Recuperarea originalelor nu reîncarcă inutil textele deja indexate; se ordonează circular pe disciplină/clasă, păstrează proveniența și verifică bytes/metadata înaintea eliminării locale. Prag bibliotecă 75 GB pentru spațiu destinat documentelor private; nu este cotă garantată de furnizor. Backupurile DB nu acoperă Storage. OAuth branding se finalizează după domeniu și verificare reală; numele dintr-un câmp de configurare nu dovedește ce afișează Google.

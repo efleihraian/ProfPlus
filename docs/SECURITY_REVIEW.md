@@ -78,3 +78,9 @@ Verificare P-058: TypeScript și build au trecut în copia consolidată; 26 test
 ### 2026-10-09 — P-059
 
 Cache server: numai metadate publice ale bibliotecii comune, maximum 4 configurații, TTL 5 minute, chei exclusiv server, invalidare la schimbare credențiale. Datele private nu intră în cache; ownership verificat pe fiecare cerere. Eșecul nu conferă ready/selecție AI, ci unknown. Deadline 120 secunde și refuz cursor repetat. Regresii trecute; nu este audit complet.
+
+## P-060 — Protecții Pro verificate 2026-10-09
+
+Pro activ; HIBP/secure password change/current password activ. Email/anon/phone rămân dezactivate, Google/Apple existente păstrate. Sesiune unică, time-box 168h și inactivitate 24h; aplicarea Supabase este la refresh, cu JWT 3600s, nu revocare instantanee a oricărui token. Refresh reuse detection activ/10s. SSL enforcement activ; toate IP-urile externe refuzate pentru conexiuni directe/pooler. REST/Storage/Auth și SQL prin control plane continuă să funcționeze, verificate. Pentru viitoare CLI/pg_dump/direct DB trebuie permise doar IP-urile administrative necesare; nu folosi allow-all ca depanare implicită. Connection/disconnection logging activ, fără log_statement. Advisors: zero WARN pentru parole compromise, patru INFO RLS-no-policy deliberate pe tabele server-only.
+
+Backupurile zilnice PostgreSQL sunt disponibile pe Pro (7 zile), nu cuprind obiectele Storage. PITR este add-on separat și nu a fost cumpărat. Backup separat și probă de restaurare a documentelor private rămân condiții de producție; nu se declară că toate precauțiile proiectului sunt finalizate. Captcha/MFA UI/scanarea malware și auditurile cu conturi/tenant distincte nu sunt rezolvate de simplul upgrade. Spend cap și 50 MB păstrate; importer 50 MB și prag bibliotecă 75 GB. Materialele se șterg local numai după verificare completă și metadata cloud.
