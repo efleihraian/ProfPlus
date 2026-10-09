@@ -75,3 +75,7 @@ Protecția datelor: [DPIA preliminară și condiții de lansare](docs/DPIA.md). 
 [Rebranding și compatibilitate](docs/BRANDING.md) · [Verificarea configurației externe](docs/AUTH_CONFIGURATION_REVIEW.md).
 
 [Securitate: reguli permanente](docs/SECURITY_REQUIREMENTS.md) · [Stare verificată și lipsuri](docs/SECURITY_REVIEW.md). Obligatorii pentru orice contributor și pentru web, Android și iOS.
+
+## Stocare cloud a bibliotecii
+
+Supabase Storage/PostgreSQL este activ pentru materialele bibliotecii, originale private, metadate, documente generate și istoric. Materialele locale disponibile au fost transferate și verificate. Copiile locale sunt eliminate numai după transfer și verificare completă; configurațiile și fișierele necesare proceselor sunt păstrate. [Structură, activare, reluare și limite](docs/CLOUD_STORAGE.md). Migrarea a fost verificată separat pe site și local; indexul de căutare existent rămâne la OpenAI.

@@ -191,3 +191,7 @@ P-048 — ultima cerere 2026-10-05: import integral și OCR automat la final, f�
 ## Publicare privată — 2026-10-08
 
 Proveniență per exercițiu, referințe în document și export PDF/Word simplificat, confirmate pe site. Repository: P-055 prin PR, review independent necesar.
+
+## Nelansat — P-057
+
+Stocare privată Supabase, transfer verificat înainte de ștergerea copiei locale, restaurare după hash și adaptoare pentru documente/istoric. Schema PostgreSQL și cutoverul sunt pregătite, fără activare înainte de migrare și probe reale.

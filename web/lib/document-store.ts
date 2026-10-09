@@ -1,11 +1,14 @@
+import {cloudEnabled,cloudReady,cloudDatabase,cloudBucket,type CloudConfig} from './supabase-storage';
 import {accountIdentity} from "./account-auth";
 import { env } from "cloudflare:workers";
 export type DocumentRow = { id: string; user_id: string; chat_id: string; name: string; mime: string; size: number; store_id: string | null; file_id: string | null; status: string; created_at: number; education?:string };
 export type ChatDocument = { id: string; name: string; size: number; status: string };
-type Bindings = { DB?: D1Database; DOCUMENTS?: R2Bucket; OPENAI_API_KEY?: string };
+type Bindings = CloudConfig & { DB?: D1Database; DOCUMENTS?: R2Bucket; OPENAI_API_KEY?: string;DATA_MIGRATION_LOCK?:string };
 export const json = (body: unknown, status = 200) => Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
 export function storage() {
   const config = env as unknown as Bindings;
+  if(config.DATA_MIGRATION_LOCK==='true')throw new Error('STORAGE_MAINTENANCE');
+  if(cloudEnabled(config)){if(!cloudReady(config)||!config.OPENAI_API_KEY)throw new Error('STORAGE_UNAVAILABLE');return {db:cloudDatabase(config),bucket:cloudBucket(config),key:config.OPENAI_API_KEY};}
   if (!config.DB || !config.DOCUMENTS || !config.OPENAI_API_KEY) throw new Error("STORAGE_UNAVAILABLE");
   return { db: config.DB, bucket: config.DOCUMENTS, key: config.OPENAI_API_KEY };
 }

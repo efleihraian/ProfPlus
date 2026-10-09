@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import ts from 'typescript';
+const source=await readFile('lib/common-resource.ts','utf8');
+const code=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext}}).outputText;
+const {commonResource}=await import('data:text/javascript;base64,'+Buffer.from(code).toString('base64'));
+const attrs={uid:'competition-'+('a'.repeat(24)),category:'olympiad',title:'Olimpiada, subiect',subject:'Matematică',source_url:'https://example.org/subiect.pdf',publisher:'Organizator',stages:'middle,high',class:'Clasa 8',page_locator:'pdf',internal_secret:'fixture-not-exposed'};
+const r=commonResource(attrs);assert.equal(r.resource.category,'olympiad');assert.deepEqual(r.resource.stages,['middle','high']);assert.equal(r.resource.schoolClass,'Clasa 8');assert.equal(r.resource.internal_secret,undefined);
+for(const change of [{source_url:'javascript:alert(1)'},{source_url:'https://user:pass@example.org/file'},{category:'admin'},{uid:'private-document'}])assert.equal(commonResource({...attrs,...change}),null);
+assert.equal(commonResource({...attrs,page_locator:'fragment'}).resource.pageLocator,'fragment');
+console.log('Common resource DTO: category, class, stage, safe source URL, fragment locator and no private metadata passed.');

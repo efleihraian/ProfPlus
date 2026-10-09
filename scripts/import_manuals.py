@@ -1,3 +1,7 @@
+if __package__:
+ from .cloud_library import CloudLibrary,cloud_active,cloud_snapshot
+else:
+ from cloud_library import CloudLibrary,cloud_active,cloud_snapshot
 """Resumable textbook ingestion. Secrets and document text never enter logs."""
 import argparse
 import contextlib
@@ -215,6 +219,8 @@ def process(row):
             existing = dict(conn.execute('SELECT * FROM documents WHERE uid=?', (uid,)).fetchone())
         if existing['status'] == 'indexed':
             return
+        if cloud_active() and not text_path.exists():CloudLibrary().restore(text_path,'manuals',uid,'text')
+        if cloud_active() and not pdf.exists() and not text_path.exists():CloudLibrary().restore(pdf,'manuals',uid,'original')
         if not text_path.exists() or (OCR and existing['status'] == 'needs_ocr'):
             save(uid, status='downloading', error=None)
             if not pdf.exists():
@@ -245,6 +251,7 @@ def process(row):
                 if not temp.open('rb').read(5).startswith(b'%PDF-'):
                     raise RuntimeError('NOT_PDF')
                 temp.replace(pdf)
+            if cloud_active():CloudLibrary().archive(pdf,'manuals',uid,'original',row,delete=False)
             save(uid, status='extracting')
             digest = hashlib.sha256(pdf.read_bytes()).hexdigest()
             options = {'row': row, 'pdf': str(pdf), 'output': str(text_path), 'ocr': OCR,
@@ -293,6 +300,7 @@ def process(row):
             item = api('GET', f'/vector_stores/{store}/files/{current["file_id"]}')
             if item['status'] == 'completed':
                 save(uid, status='indexed', error=None)
+                if cloud_active():CloudLibrary().archive(text_path,'manuals',uid,'text',row,delete=True)
                 print(uid + ': indexed', flush=True)
                 return
             if item['status'] in ('failed', 'cancelled'):
@@ -388,6 +396,7 @@ def main():
         print((DATA / 'progress.json').read_text(), flush=True)
         if args.export_report:
             export_report()
+        if cloud_active():cloud_snapshot(DATA/'import.sqlite','manuals')
         if STOP.is_set():
             raise SystemExit(2)
 
