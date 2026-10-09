@@ -1,4 +1,8 @@
 # Istoricul versiunilor
+## P-063 — renunțare la materialele cu erori, 2026-10-10
+
+Titularul a autorizat omiterea materialelor cu erori: referință verificată în Supabase înainte de eliminarea cache-ului local, fără redescărcare automată. Cele 10 PDF-uri rămase după erori (394.205.365 bytes) au fost eliminate. Importul valid al concursurilor continuă; companionul păstrează și linkurile pentru erorile lui. [Flux, dovezi și limite](docs/FAILED_MATERIALS.md).
+
 
 ## P-062 — 2026-10-09
 

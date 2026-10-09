@@ -48,6 +48,7 @@ def download(row, path, limit):
 
 def recover_download(row, path, limit, previous=None):
     previous = previous or {}
+    if previous.get('status') == 'omitted_failed': return previous
     if previous.get('status') == 'over_file_limit' and previous.get('source_url') == row['pdf_url']:
         return previous
     if path.exists():
@@ -93,6 +94,7 @@ def main():
         def report(state='running'):
             summary = {'state':state, 'updated_at':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()), 'file_limit_bytes':args.file_limit_mb * 1024**2, 'library_budget_bytes':args.library_budget_gb * 1000**3, 'catalog_bytes':used, 'counts':dict(collections.Counter(i['status'] for i in results.values())), 'manuals':results}
             temp = report_path.with_suffix('.tmp'); temp.write_text(json.dumps(summary, ensure_ascii=False, indent=2)); temp.replace(report_path)
+        omitted = client.omitted_uids('manuals')
         rows = list(csv.DictReader((root / 'catalog/manuale-edu.csv').open()))
         for row in rows: row['uid'] = row['source_id'] + '-' + row['part']
         def process(row):
@@ -100,7 +102,9 @@ def main():
             uid = row['uid']; path = data / (uid + '.pdf')
             if stop.is_set(): return
             try:
-                if ('manuals', uid, 'original') in existing:
+                if results.get(uid,{}).get('status') == 'omitted_failed' or (uid in omitted and ('manuals',uid,'original') not in existing):
+                    result = {**results.get(uid,{}),'status':'omitted_failed'}
+                elif ('manuals', uid, 'original') in existing:
                     result = {'status':'already_stored', 'size':existing[('manuals',uid,'original')]}
                 else:
                     result = recover_download(row,path,args.file_limit_mb*1024**2,results.get(uid))

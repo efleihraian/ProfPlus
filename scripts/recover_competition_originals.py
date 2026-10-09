@@ -17,9 +17,9 @@ def main():
  with (folder/'recovery.lock').open('a') as lock:
   fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);client=CloudLibrary();known=set();offset=0
   while True:
-   r=client.request('GET','/rest/v1/library_materials',params={'select':'uid','family':'eq.competitions','kind':'eq.original','order':'uid.asc','limit':1000,'offset':offset})
+   r=client.request('GET','/rest/v1/library_materials',params={'select':'uid,kind,metadata','family':'eq.competitions','kind':'in.(original,reference)','order':'uid.asc,kind.asc','limit':1000,'offset':offset})
    if not r.ok:raise RuntimeError('CLOUD_CATALOG_READ_'+str(r.status_code))
-   rows=r.json();known.update(row['uid'] for row in rows)
+   rows=r.json();known.update(row['uid'] for row in rows if row['kind']=='original' or row.get('metadata',{}).get('sourceOnly') is True)
    if len(rows)<1000:break
    offset+=len(rows)
   connection=sqlite3.connect(f'file:{root}/data/competitions/import.sqlite?mode=ro',uri=True);connection.row_factory=sqlite3.Row
@@ -62,6 +62,6 @@ def main():
   if not target.exists():target.write_text(json.dumps({'documents':{},'counts':{}}))
   summary=json.loads(target.read_text());summary['state']='stopped' if stop.is_set() else 'finished_with_report';target.write_text(json.dumps(summary,ensure_ascii=False,indent=2))
   client.archive(target,'checkpoints','competition-original-recovery','text',delete=False)
-  print(json.dumps({'state':summary['state'],'counts':summary['counts'],'pending_groups':len(groups),'known_originals_at_start':len(known)}),flush=True)
+  print(json.dumps({'state':summary['state'],'counts':summary['counts'],'pending_groups':len(groups),'known_originals_or_omitted_at_start':len(known)}),flush=True)
   return 2 if stop.is_set() else 0
 if __name__=='__main__':raise SystemExit(main())

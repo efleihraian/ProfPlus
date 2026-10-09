@@ -62,6 +62,16 @@ class CloudTests(unittest.TestCase):
   with patch('cloud_library.time.sleep') as sleep:
    self.assertEqual(c.request('POST','/storage/v1/upload/resumable').status_code,413)
   self.assertEqual(session.request.call_count,1);sleep.assert_not_called()
+ def test_cloud_omission_catalog_is_used_after_fresh_checkout(self):
+  c=self.client()
+  with patch.object(c,'request',return_value=Mock(ok=True,json=lambda:[{'uid':'omitted-book'}])) as request:
+   self.assertEqual(c.omitted_uids('manuals'),{'omitted-book'})
+  self.assertEqual(request.call_args.kwargs['params']['metadata->>omissionReason'],'eq.IMPORT_FAILED')
+ def test_import_failure_reference_is_not_labelled_oversized(self):
+  c=self.client()
+  with patch.object(c,'verified_put'),patch.object(c,'record'):
+   item=c.source_link('manuals','book',{'pdf_url':'https://manuale.edu.ro/book.pdf','importError':'NOT_PDF'},reason='IMPORT_FAILED')
+  self.assertEqual(item['metadata']['omissionReason'],'IMPORT_FAILED');self.assertNotIn('fileLimitBytes',item['metadata']);self.assertEqual(item['kind'],'reference')
  def test_capacity_failure_stops_before_upload(self):
   c=self.client()
   with patch.object(c,'request',return_value=Mock(ok=True,json=lambda:[{'size':74*1000**3}])):

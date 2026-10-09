@@ -72,4 +72,12 @@ class RecoveryTests(unittest.TestCase):
                 with tempfile.TemporaryDirectory() as folder:download(self.row,Path(folder)/'manual.pdf',100)
             self.assertEqual(source.call_count,1)
 
+class OmissionTests(unittest.TestCase):
+ def test_explicit_omission_does_not_redownload_even_if_source_changes(self):
+  from unittest.mock import patch
+  import recover_manual_originals as recovery
+  previous={'status':'omitted_failed','error':'NOT_PDF','source_url':'https://manuale.edu.ro/old.pdf'}
+  with patch.object(recovery,'download') as download:
+   self.assertEqual(recovery.recover_download({'pdf_url':'https://manuale.edu.ro/new.pdf'},Path('/unneeded'),50*1024**2,previous),previous)
+  download.assert_not_called()
 if __name__ == '__main__':unittest.main()
