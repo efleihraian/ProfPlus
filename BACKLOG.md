@@ -234,3 +234,7 @@ Consolidare la cererea titularului: cod/documentație, runtime/configurație și
 ## P-059 — Starea bibliotecii mari — IN REVIEW, 2026-10-09
 
 La sesizarea titularului: manuale indexate apăreau neindexate la eșecul paginării cu deadline 30 secunde. Deadline total 120 secunde, cache server comun 5 minute, cereri simultane reunite; unknown pentru verificare eșuată. Regresie pentru paginare lentă/cache/eșec/retry/cursori; review independent necesar.
+
+## P-060 — IN PROGRESS: Pro și recuperare manuale
+
+Responsabil Marcos/Cosmin. Transferă toate originalele oficiale care se încadrează în 50 MB; nu modifica plafonul de cheltuieli. Acceptare: original verificat/catatlogat înainte de ștergere locală; raport final cu cele prea mari, indisponibile și eșuate; păstrează spațiu pentru datele profesorilor. scripts/run_manual_recovery.py așteaptă pasul activ și execută o continuare finită cu retry, fără scheduler. Indexarea/OCR are raport separat și prag de acoperire 90%; nu promite toate linkurile reușite. Implementarea și protecțiile sunt livrate, importul lung rămâne activ. Google branding blocat până la domeniu/verificare; backup separat Storage și auditurile de producție rămân necesare înaintea documentelor reale ale elevilor.

@@ -17,6 +17,7 @@ Un utilizator încarcă documente text sau PDF cu text, pune o întrebare și pr
 ## Documentație
 
 - [Starea actuală](STATUS.md) — unde am ajuns; se actualizează la fiecare versiune.
+- [Recuperarea originalelor manualelor](docs/MANUAL_RECOVERY.md) — transferul limitat la 50 MB, starea originalelor versus index și protecțiile Pro.
 - [Istoricul versiunilor](CHANGELOG.md) — ce s-a schimbat.
 - [Lucrări rămase](BACKLOG.md) — sarcini și criterii de finalizare.
 - [Planul de dezvoltare](ROADMAP.md) — etapele proiectului.
