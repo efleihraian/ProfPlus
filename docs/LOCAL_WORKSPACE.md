@@ -28,6 +28,10 @@ Resturile de fișiere ale importului nereușit au fost păstrate separat ca `ref
 
 Copiile de publicare/GitHub au fost verificate fără modificări necomise și cu commit exact disponibil pe branch-ul remote. Copia sursei Sites corespunde versiunii salvate 17 și arhivei sursă persistate. Copia importului a fost oprită între loturi: fișierele/starea SQLite au fost copiate și verificate, căile documentelor mutate în checkout-ul principal, integritatea și numărul rândurilor confirmate, apoi checkpointul verificat în Supabase și procesul reluat din directorul principal.
 
-Au fost eliminate copiile suplimentare, dependențele temporare și artefactele de build/publicare/test regenerabile. Fișierele sincronizate `sources/` ale proiectului ChatGPT sunt read-only și nu au fost modificate. Raportul operațional local este `data/cleanup/local-consolidation.json`, fără conținutul documentelor ori secrete. PR #6 păstrează implementarea cloud și această documentație; integrarea în main necesită review independent. Site-ul privat existent păstrează funcțiile și audiența publicate.
+Au fost eliminate copiile suplimentare, dependențele temporare și artefactele de build/publicare/test regenerabile. Fișierele sincronizate `sources/` ale proiectului ChatGPT sunt read-only și nu au fost modificate. Raportul operațional local este `data/cleanup/local-consolidation.json`, fără conținutul documentelor ori secrete. Implementarea cloud și această documentație sunt integrate în main prin PR #9; regula normală de review pentru sarcini viitoare rămâne. Site-ul privat existent păstrează funcțiile și audiența publicate.
 
 Capturile de verificare și rapoartele istorice de test/migrare sunt păstrate într-o arhivă privată verificată în profplus-import-state; manifest checkpoint local-operational-evidence/text. Copiile locale de dovezi și vechiul publish intern (Sites versiunea 14, sursă/arhivă confirmate) au fost eliminate. Restaurarea dovezilor folosește scriptul cloud cu family checkpoints, uid local-operational-evidence, kind text și un output ZIP nou.
+
+## P-062
+
+Cache-ul originalelor peste 50 MB poate fi eliminat după verificarea referinței, conform cererii explicite a titularului. Celelalte originale se elimină numai după transferul verificat. Detalii și rapoarte: [IMPORT_CONTINUATION.md](IMPORT_CONTINUATION.md).

@@ -14,6 +14,7 @@ DATA=ROOT/'data/competitions'
 OPERATIONAL=Path(os.environ.get('PROFPLUS_OPERATIONAL_ROOT',str(ROOT)))
 MAX_DOWNLOAD=250*1024*1024
 MAX_MEMBER=100*1024*1024
+MAX_DOCUMENT=50*1024*1024
 MAX_EXPANDED=1024*1024*1024
 STOP=False
 KEY=None
@@ -172,6 +173,7 @@ def text_document(data,name):
 
 def unpack(data,name,depth=0):
  if depth>3:raise RuntimeError('NESTED_ARCHIVE_LIMIT')
+ if Path(name.replace('\\','/')).name.startswith('~$'):return
  if name.lower().endswith('.docx') or data.startswith(b'%PDF-') or name.lower().endswith('.doc'):
   yield name,data;return
  if zipfile.is_zipfile(io.BytesIO(data)):
@@ -179,7 +181,7 @@ def unpack(data,name,depth=0):
    total=0
    for i in z.infolist():
     if i.is_dir():continue
-    if PRIVATE.search(norm(i.filename)):continue
+    if Path(i.filename.replace('\\','/')).name.startswith('~$') or PRIVATE.search(norm(i.filename)):continue
     if not re.search(r'\.(pdf|docx?|zip|rar)$',i.filename,re.I):continue
     total+=i.file_size
     if i.file_size>MAX_MEMBER or total>MAX_EXPANDED or i.file_size/max(1,i.compress_size)>300:raise RuntimeError('ARCHIVE_SIZE_REJECTED')
@@ -187,19 +189,21 @@ def unpack(data,name,depth=0):
   return
  if data.startswith(b'Rar!') or re.search(r'\.(tar|gz|tgz)$',name,re.I):
   target=DATA/('archive-'+hashlib.sha256(data).hexdigest()[:16]+'.bin');target.write_bytes(data)
-  listing=subprocess.run(['/usr/bin/bsdtar','-tf',str(target)],capture_output=True,timeout=30)
-  if listing.returncode:raise RuntimeError('ARCHIVE_FORMAT_UNSUPPORTED')
-  total=0
-  for member in listing.stdout.decode('utf8',errors='replace').splitlines():
-   if PRIVATE.search(norm(member)) or not re.search(r'\.(pdf|docx?|zip|rar)$',member,re.I):continue
-   with subprocess.Popen(['/usr/bin/bsdtar','-xOf',str(target),'--',member],stdout=subprocess.PIPE,stderr=subprocess.DEVNULL) as p:
-    value=p.stdout.read(MAX_MEMBER+1)
-    if len(value)>MAX_MEMBER:p.kill();raise RuntimeError('ARCHIVE_SIZE_REJECTED')
-    if p.wait(timeout=30):raise RuntimeError('ARCHIVE_READ_FAILED')
-   total+=len(value)
-   if total>MAX_EXPANDED:raise RuntimeError('ARCHIVE_SIZE_REJECTED')
-   yield from unpack(value,name+' / '+member,depth+1)
-  target.unlink(missing_ok=True);return
+  try:
+   listing=subprocess.run(['/usr/bin/bsdtar','-tf',str(target)],capture_output=True,timeout=30)
+   if listing.returncode:raise RuntimeError('ARCHIVE_FORMAT_UNSUPPORTED')
+   total=0
+   for member in listing.stdout.decode('utf8',errors='replace').splitlines():
+    if Path(member.replace('\\','/')).name.startswith('~$') or PRIVATE.search(norm(member)) or not re.search(r'\.(pdf|docx?|zip|rar)$',member,re.I):continue
+    with subprocess.Popen(['/usr/bin/bsdtar','-xOf',str(target),'--',member],stdout=subprocess.PIPE,stderr=subprocess.DEVNULL) as p:
+     value=p.stdout.read(MAX_MEMBER+1)
+     if len(value)>MAX_MEMBER:p.kill();raise RuntimeError('ARCHIVE_SIZE_REJECTED')
+     if p.wait(timeout=30):raise RuntimeError('ARCHIVE_READ_FAILED')
+    total+=len(value)
+    if total>MAX_EXPANDED:raise RuntimeError('ARCHIVE_SIZE_REJECTED')
+    yield from unpack(value,name+' / '+member,depth+1)
+  finally:target.unlink(missing_ok=True)
+  return
  raise RuntimeError('UNSUPPORTED_ARCHIVE')
 
 def marked_chunks(value):
@@ -241,14 +245,19 @@ def add_document(c,data,name,seed,url):
  uid='competition-'+sha[:24]
  try:
   original=None
-  if cloud_active():
-   original=DATA/(uid+Path(name).suffix.lower());original.write_bytes(data)
+  if len(data)>MAX_DOCUMENT:
+   m=metadata(name,'',seed,url);m.update(sourceOnly=True,omissionReason='FILE_TOO_LARGE',sourceSize=len(data),fileLimitBytes=MAX_DOCUMENT)
+   if cloud_active():CloudLibrary().source_link('competitions',uid,m)
+   c.execute('INSERT INTO docs(uid,metadata,sha,status,error) VALUES(?,?,?,"skipped","DOCUMENT_TOO_LARGE")',(uid,json.dumps(m,ensure_ascii=False),sha));c.commit();return
   text,pages,readable=text_document(data,name)
   if re.search(r'rezultate (?:finale|initiale|olimpiadei)|lista (?:candidat|participant|elev)',norm(text[:12000])):
    if original:original.unlink(missing_ok=True)
    raise RuntimeError('PERSONAL_RESULTS_EXCLUDED')
   m=metadata(name,text,seed,url);m.update(textChunkVersion=3,pages=pages,readablePages=readable,pageLocator='pdf' if pages else 'fragment')
-  if original:CloudLibrary().archive(original,'competitions',uid,'original',m,delete=True)
+  if cloud_active():
+   client=CloudLibrary();client.assert_library_capacity(len(data))
+   original=DATA/(uid+Path(name).suffix.lower());original.write_bytes(data)
+   client.archive(original,'competitions',uid,'original',m,delete=True)
   path=DATA/'text'/f'{uid}.txt';path.parent.mkdir(exist_ok=True)
   path.write_text('Material educațional: '+m['title']+'\nTip: '+m['category']+'\nDisciplina: '+m['subject']+'\nOriginal: '+url+'\nMembru în arhivă: '+name+'\nPaginile sunt poziții PDF; pentru DOC/DOCX PAGE:1 indică fragment, nu pagina fizică.\n\n'+marked_chunks(text))
   c.execute('INSERT INTO docs(uid,metadata,sha,path) VALUES(?,?,?,?)',(uid,json.dumps(m,ensure_ascii=False),sha,str(path)))

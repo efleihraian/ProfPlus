@@ -62,4 +62,20 @@ class CloudTests(unittest.TestCase):
   with patch('cloud_library.time.sleep') as sleep:
    self.assertEqual(c.request('POST','/storage/v1/upload/resumable').status_code,413)
   self.assertEqual(session.request.call_count,1);sleep.assert_not_called()
+ def test_capacity_failure_stops_before_upload(self):
+  c=self.client()
+  with patch.object(c,'request',return_value=Mock(ok=True,json=lambda:[{'size':74*1000**3}])):
+   with self.assertRaisesRegex(RuntimeError,'CLOUD_LIBRARY_BUDGET_REACHED'):c.assert_library_capacity(1)
+ def test_source_reference_is_not_an_original(self):
+  c=self.client()
+  with patch.object(c,'verified_put') as upload,patch.object(c,'record') as record:
+   value=c.source_link('manuals','642-1',{'pdf_url':'https://manuale.edu.ro/book.pdf','source_size':203324862})
+  self.assertEqual(value['kind'],'reference');self.assertTrue(value['metadata']['sourceOnly']);self.assertLess(value['size'],1000)
+  self.assertEqual(record.call_args.args[2],'reference');self.assertIn('/reference/',upload.call_args.args[1])
+ def test_reference_rejects_credentials_and_unsafe_identity_before_upload(self):
+  c=self.client()
+  with patch.object(c,'verified_put') as upload:
+   for uid,url in [('ok','file:///tmp/book'),('ok','https://user:password@example.org/book'),('../bad','https://manuale.edu.ro/book')]:
+    with self.assertRaises(RuntimeError):c.source_link('manuals',uid,{'pdf_url':url})
+  upload.assert_not_called()
 if __name__=='__main__':unittest.main()

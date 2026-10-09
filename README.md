@@ -8,6 +8,8 @@ ProfPlus este un asistent educațional AI pentru profesori, cu conversații, man
 
 Întregul cod operațional este în `main`: aplicația web, biblioteca/RAG, importerele, stocarea Supabase, schemele, testele, cataloagele și documentația. Pornește din [ghidul pentru colaboratori](docs/DEVELOPMENT_SETUP.md) și atribuie lucrul prin [regulile echipei](docs/TEAM_WORKFLOW.md). Cheile și accesul la serviciile externe se acordă separat. Recuperarea originalelor manualelor de maximum 50 MB continuă; publicarea codului nu reprezintă finalizarea transferului.
 
+[Importul curent și politica de omitere fișierelor peste 50 MB](docs/IMPORT_CONTINUATION.md) documentează reluarea, rapoartele, curățarea și limitele. Fișierele mari rămân accesibile prin sursa oficială.
+
 ## Scop
 
 Construim un AI wrapper: o aplicație proprie care gestionează conversația și apelurile către un model AI. Componenta RAG caută informații relevante în documente și le oferă modelului pentru răspunsuri cu surse verificabile.
