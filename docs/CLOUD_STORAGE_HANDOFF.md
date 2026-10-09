@@ -1,0 +1,7 @@
+# Copia operațională ProfPlus — 2026-10-09
+
+Codul complet al aplicației, importerele și documentația sunt reunite în acest repository. Vezi [CLOUD_STORAGE.md](CLOUD_STORAGE.md). Originalele și textele deja transferate sunt în Supabase, cu verificare SHA-256 înaintea ștergerii locale; recuperarea tuturor PDF-urilor originale este încă în curs ([MANUAL_RECOVERY.md](MANUAL_RECOVERY.md)); datele profesorilor sunt în PostgreSQL/Storage privat. Site-ul păstrează audiența privată și autentificarea existente.
+
+Copia locală păstrează modificările necomise existente. Nu executa pull/reset/clean peste ele. Importul olimpiadelor folosește scripts/run_competition_import.py și data/competitions în acest checkout; configurația protejată web/.dev.vars, runtime-urile și modelele OCR rămân necesare. sources/ sincronizat rămâne read-only. Codul cloud este salvat în branch feature/P-057-supabase-storage, PR https://github.com/ProfOS-Edu/ProfPlus/pull/6, în așteptarea review-ului independent.
+
+P-060: recuperare originale limitată la 50 MB și continuare finită din scripts/run_manual_recovery.py, cu locks și rapoarte data/rag/original-recovery. Indexare/OCR separate în data/rag, prag 90%, fără duplicarea indexului existent. Procesul concursurilor este oprit la originalul de 58 MB refuzat; nu îl raporta activ. Supabase Pro, spend cap activ; măsurile/setările și limitele sunt în MANUAL_RECOVERY.md și SECURITY_REVIEW.md. Nu șterge originale neconfirmate, checkpointuri/runtime/configurări necesare; nu modifica sources/ sincronizat.
