@@ -190,7 +190,7 @@ P-060, verificare 2026-10-09T13:26Z: OCR suplimentar încheiat, 1.318 manuale in
 P-060, continuare 13:29Z: procesele proprii de recuperare au fost repornite controlat cu șase lucrători, fără oprirea altor importuri și fără ștergerea originalelor păstrate. Transferurile cloud deja finalizate sunt recunoscute din catalog; o reluare verifică limita și pentru PDF-uri locale și evită redescărcarea celor prea mari la aceeași sursă. Viitoarele opriri SIGTERM/SIGINT încheie transferurile începute înainte de raport. Cele 39 teste offline de recuperare/cloud/manuale/concursuri au trecut; sursele temporar inaccesibile au retry limitat.
 
 
-## Historique P-056 intégré — état daté, remplacé par les notes ultérieures
+## Istoric P-056 integrat — fotografii datate, înlocuite de notele ulterioare
 
 
 ## P-056 — Import olimpiade și concursuri — IN PROGRESS, 2026-10-08
@@ -215,3 +215,18 @@ Acces local, 2026-10-09: localhost:3000 nu avea server activ. Repornit procesul 
 
 P-056, 2026-10-09: importul s-a oprit controlat la 578 fișiere confirmate din cauza DISK_SPACE_LOW. Eliminarea exclusivă a dependențelor regenerabile din cele două checkout-uri create pentru această sarcină a eliberat aproximativ 2 GB; originalele, checkpointurile, configurația și copia operațională au fost păstrate. Reluat cu controller PID 90588 și protecție de somn inactiv. La reluare sunt rezolvate întâi indexările/migrarea paginilor, apoi descoperirea. Raportul DISK_SPACE_LOW este istoric; starea curentă se citește din run.json.
 
+## Note operaționale locale păstrate la consolidarea P-061
+
+## Acces vizitator — corecție locală din 2026-10-05
+
+Pagina chat `/` nu mai redirecționează automat spre login sau profil didactic. Invitație explicită la conectare pentru acțiunile protejate; fără schimbarea securității API-urilor sau creare automată de conturi anonime. TypeScript/build, browser fără sesiune (încărcare, reload, trimitere fără redirecționare) și refuzul API 401 verificate. Accesul după abonament va fi definit ulterior. P-049; fără publicare online.
+
+## 2026-10-09 — Verificare inventar cloud și izolarea testelor
+
+Verificare live: originalele nu sunt încă complete; 7 originale manuale și 828 originale concursuri/olimpiade, texte pentru 1.303 manuale indexate și 1.391 documente de concurs indexate. Un artifact sintetic de 7 bytes a fost identificat prin archiveId=test, example.org și SHA-256 exact al fixture-ului, apoi eliminat din Storage și catalog. Testele de concurs dezactivează explicit cloud_active, la fel ca testele de manuale, fără a depinde de configurația checkout-ului. Niciun material real eliminat. Importul concursurilor s-a oprit la un PDF de 57.946.349 bytes, SUPABASE_RESUMABLE_CREATE_413; originalul este păstrat local. Nu se declară transferul complet sau import activ după acest blocaj.
+
+## P-061 — Consolidarea pentru colaborare — IN PROGRESS, 2026-10-09
+
+Responsabil Marcos/Cosmin, cerere explicită a titularului: întregul cod în main. Reunite istoricul P-056 și ramura P-057/P-059/P-060; conflictele păstrează marcajele paginilor, retenția/restaurarea cloud, izolarea fixture-urilor și cache-ul/starea corectă a bibliotecii. Include modificarea locală de stil pentru linkurile navigației, note operaționale și rapoarte datate. Ghid de pornire și exemple fără chei pentru colaboratori. Importul originalelor rămâne activ și nu este confundat cu publicarea codului. Verificările și publicarea finală se confirmă ulterior.
+
+P-061, verificare 2026-10-09: instalare curată Node 22.20.0 cu lockfile, TypeScript/build și suite cont (ambele moduri), guest, bibliotecă/cache, DTO/RAG comun, adaptor cloud, proveniență/export trecute. Cele 39 teste offline Python au trecut. Scanner Git/client: 1.210 fișiere/bloburi fără detecții; linkurile ghidului verificate. Audit npm complet: 8 high existente în braces/toolchain; fără alerte noi, controlul păstrat, fără afirmație CI integral verde. Nu există diferențe de cod operațional neincluse; singurele schimbări suplimentare de configurare sunt exemplele goale și excluderile Git. Importul manualelor continuă din copia operațională, fără mutare/reset/sincronizare forțată.

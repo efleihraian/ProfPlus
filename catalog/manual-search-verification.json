@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-05T14:51:42Z",
+  "updated_at": "2026-10-05T20:22:56Z",
   "checks": [
     {
       "group": "matematica",
@@ -36,19 +36,39 @@
     },
     {
       "group": "informatica_tic",
-      "uid": "1389-1",
+      "uid": "1388-1",
       "title": "Informatică și TIC - clasa a VI-a",
       "class": "Clasa a VI-a",
-      "source_url": "https://manuale.edu.ro/manuale/Clasa%20a%20VI-a/Informatica%20si%20TIC/QVJUIEtMRVRUIFMuUi5M/A1449.pdf",
+      "source_url": "https://manuale.edu.ro/manuale/Clasa%20a%20VI-a/Informatica%20si%20TIC/R1JVUCBFRElUT1JJQUwg/A1448.pdf",
       "hits": 5,
       "pages": [
+        23,
+        24,
+        61,
+        62,
+        79,
+        83,
+        84,
+        85
+      ],
+      "status": "passed"
+    },
+    {
+      "group": "alte_materii",
+      "uid": "1408-1",
+      "title": "Limba și literatura română - clasa a VI-a",
+      "class": "Clasa a VI-a",
+      "source_url": "https://manuale.edu.ro/manuale/Clasa%20a%20VI-a/Limba%20si%20literatura%20romana/RURJVFVSQSBESURBQ1RJ/A1468.pdf",
+      "hits": 5,
+      "pages": [
+        1,
+        2,
+        3,
+        4,
+        9,
+        41,
         63,
-        64,
-        67,
-        68,
-        69,
-        70,
-        98
+        64
       ],
       "status": "passed"
     }

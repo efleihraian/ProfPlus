@@ -1,0 +1,16 @@
+# Copy to .dev.vars for local development. Fill secrets only in the ignored copy.
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-4.1-mini
+OPENAI_VECTOR_STORE_ID=
+AUTH_PROVIDER=supabase
+SUPABASE_URL=
+SUPABASE_PUBLISHABLE_KEY=
+SUPABASE_SECRET_KEY=
+APP_ORIGIN=http://localhost:3000
+AUTH_GOOGLE_ENABLED=true
+AUTH_APPLE_ENABLED=true
+AUTH_EMAIL_ENABLED=false
+AUTH_REGISTRATION_ENABLED=false
+# Leave empty for isolated local storage. Use supabase only with approved config.
+DATA_BACKEND=
+PROFPLUS_CLOUD_LIBRARY=

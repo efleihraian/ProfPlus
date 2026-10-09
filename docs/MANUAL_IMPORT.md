@@ -52,3 +52,7 @@ Ultima instrucțiune: fără scheduled task sau update-uri intermediare. Coada e
 
 
 Ultima instrucțiune (înlocuiește oprirea awaiting_ocr): coada execută import normal pentru toate materiile, reluările limitate și apoi OCR pentru toate volumele needs_ocr, fără scheduled task. Raport final cu lipsuri explicite și verificare remote; finished_with_report nu garantează toate volumele reușite.
+
+## Instrucțiune actualizată — 2026-10-06
+
+Continuă importul și OCR-ul activ fără coadă duplicată. La final, volumele cu erori persistente sunt omise la cererea utilizatorului și nu se reîncearcă în noi importuri fără o cerere nouă. Păstrează raportul lipsurilor și nu prezenta volumele omise ca indexate. Erorile globale de acces/cotă/spațiu continuă să oprească procesul.

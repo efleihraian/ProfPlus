@@ -240,7 +240,7 @@ La sesizarea titularului: manuale indexate apăreau neindexate la eșecul pagin�
 Responsabil Marcos/Cosmin. Transferă toate originalele oficiale care se încadrează în 50 MB; nu modifica plafonul de cheltuieli. Acceptare: original verificat/catatlogat înainte de ștergere locală; raport final cu cele prea mari, indisponibile și eșuate; păstrează spațiu pentru datele profesorilor. scripts/run_manual_recovery.py așteaptă pasul activ și execută o continuare finită cu retry, fără scheduler. Indexarea/OCR are raport separat și prag de acoperire 90%; nu promite toate linkurile reușite. Implementarea și protecțiile sunt livrate, importul lung rămâne activ. Google branding blocat până la domeniu/verificare; backup separat Storage și auditurile de producție rămân necesare înaintea documentelor reale ale elevilor.
 
 
-## Historique P-056 intégré — état daté, remplacé par les notes ultérieures
+## Istoric P-056 integrat — fotografii datate, înlocuite de notele ulterioare
 
 
 ## P-056 — Import olimpiade și concursuri — IN PROGRESS, 2026-10-08
@@ -262,3 +262,16 @@ Acces local, 2026-10-09: localhost:3000 nu avea server activ. Repornit procesul 
 
 P-056, 2026-10-09: importul s-a oprit controlat la 578 fișiere confirmate din cauza DISK_SPACE_LOW. Eliminarea exclusivă a dependențelor regenerabile din cele două checkout-uri create pentru această sarcină a eliberat aproximativ 2 GB; originalele, checkpointurile, configurația și copia operațională au fost păstrate. Reluat cu controller PID 90588 și protecție de somn inactiv. La reluare sunt rezolvate întâi indexările/migrarea paginilor, apoi descoperirea. Raportul DISK_SPACE_LOW este istoric; starea curentă se citește din run.json.
 
+## Note operaționale locale păstrate la consolidarea P-061
+
+## P-049 — Pagina chat fără conectare obligatorie — DONE (local)
+
+Pagina `/` rămâne accesibilă fără cont, inclusiv după reîncărcare. Vizitatorul poate scrie un mesaj și folosi sugestiile; trimiterea către AI, istoricul, proiectele și documentele private cer încă o identitate verificată pe server. Nu se creează conturi anonime sau apeluri AI pentru vizitatori. Restricțiile după abonament vor fi definite și implementate ulterior pe server, fără încredere în indicatoare din client. Verificări: browser fără sesiune, trimitere fără redirecționare și cu mesaj păstrat, TypeScript/build și API-uri private 401. Fără publicare sau commit în această conversație laterală.
+
+## 2026-10-09 — Verificare inventar cloud și izolarea testelor
+
+Verificare live: originalele nu sunt încă complete; 7 originale manuale și 828 originale concursuri/olimpiade, texte pentru 1.303 manuale indexate și 1.391 documente de concurs indexate. Un artifact sintetic de 7 bytes a fost identificat prin archiveId=test, example.org și SHA-256 exact al fixture-ului, apoi eliminat din Storage și catalog. Testele de concurs dezactivează explicit cloud_active, la fel ca testele de manuale, fără a depinde de configurația checkout-ului. Niciun material real eliminat. Importul concursurilor s-a oprit la un PDF de 57.946.349 bytes, SUPABASE_RESUMABLE_CREATE_413; originalul este păstrat local. Nu se declară transferul complet sau import activ după acest blocaj.
+
+## P-061 — Consolidarea pentru colaborare — IN PROGRESS, 2026-10-09
+
+Responsabil Marcos/Cosmin, cerere explicită a titularului: întregul cod în main. Reunite istoricul P-056 și ramura P-057/P-059/P-060; conflictele păstrează marcajele paginilor, retenția/restaurarea cloud, izolarea fixture-urilor și cache-ul/starea corectă a bibliotecii. Include modificarea locală de stil pentru linkurile navigației, note operaționale și rapoarte datate. Ghid de pornire și exemple fără chei pentru colaboratori. Importul originalelor rămâne activ și nu este confundat cu publicarea codului. Verificările și publicarea finală se confirmă ulterior.
