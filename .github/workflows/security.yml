@@ -35,4 +35,5 @@ jobs:
       - run: npm run test:account
       - run: node tests/guest-chat.mjs
       - run: npm run test:manual-library
+      - run: node tests/library-availability.mjs
       - run: npm audit --audit-level=high
