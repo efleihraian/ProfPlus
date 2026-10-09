@@ -183,6 +183,7 @@ def reconcile():
         after = result['last_id']
     with LOCK, db() as conn:
         for row in conn.execute('SELECT uid,status,file_id FROM documents').fetchall():
+            if row['status']=='omitted':continue
             item = remote.get(row['uid'])
             if item:
                 status = {'completed': 'indexed', 'in_progress': 'indexing', 'failed': 'failed', 'cancelled': 'failed'}.get(item['status'], 'indexing')
@@ -383,8 +384,11 @@ def main():
                 export_report()
             print((DATA / 'progress.json').read_text()); return
         with db() as conn:
-            excluded = ('indexed',) if OCR else ('indexed', 'needs_ocr')
+            excluded = ('indexed', 'omitted') if OCR else ('indexed', 'needs_ocr', 'omitted')
             todo = [json.loads(r['metadata']) for r in conn.execute('SELECT metadata FROM documents WHERE status NOT IN (' + ','.join('?' for _ in excluded) + ')', excluded)]
+        if cloud_active():
+            omitted=CloudLibrary().omitted_uids('manuals')
+            todo=[r for r in todo if r['source_id']+'-'+r['part'] not in omitted]
         todo = [r for r in todo if (not args.school_class or r['class'] == args.school_class) and (not args.subject_prefix or normalized(r['subject']).startswith(normalized(args.subject_prefix)))]
         if args.subject_group:
             todo = [r for r in todo if group(r['subject']) == args.subject_group]
