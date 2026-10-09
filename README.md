@@ -4,6 +4,10 @@ Reguli comune pentru toți oamenii și agenții: [docs/TEAM_WORKFLOW.md](docs/TE
 
 ProfPlus este un asistent educațional AI pentru profesori, cu conversații, manuale și documente proprii. Website-ul funcționează în pilot privat; aplicațiile Android și iOS sunt planificate.
 
+## Colaborare — cod consolidat în main
+
+Întregul cod operațional este în `main`: aplicația web, biblioteca/RAG, importerele, stocarea Supabase, schemele, testele, cataloagele și documentația. Pornește din [ghidul pentru colaboratori](docs/DEVELOPMENT_SETUP.md) și atribuie lucrul prin [regulile echipei](docs/TEAM_WORKFLOW.md). Cheile și accesul la serviciile externe se acordă separat. Recuperarea originalelor manualelor de maximum 50 MB continuă; publicarea codului nu reprezintă finalizarea transferului.
+
 ## Scop
 
 Construim un AI wrapper: o aplicație proprie care gestionează conversația și apelurile către un model AI. Componenta RAG caută informații relevante în documente și le oferă modelului pentru răspunsuri cu surse verificabile.
