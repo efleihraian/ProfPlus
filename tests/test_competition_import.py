@@ -63,7 +63,7 @@ class ImportTests(unittest.TestCase):
   with zipfile.ZipFile(b,'w') as z:z.writestr('folder/~$subiect.docx',b'invalid');z.writestr('__MACOSX/._subiect.docx',b'junk');z.writestr('subiect.pdf',b'%PDF-fixture')
   self.assertEqual(len(list(m.unpack(b.getvalue(),'archive.zip'))),1)
  def test_index_failure_becomes_terminal_and_is_not_retried(self):
-  with tempfile.TemporaryDirectory() as directory,patch.object(m,'DATA',Path(directory)/'competitions'),patch.object(m,'OPERATIONAL',Path(directory)):
+  with tempfile.TemporaryDirectory() as directory,patch.object(m,'DATA',Path(directory)/'competitions'),patch.object(m,'OPERATIONAL',Path(directory)),patch.object(m,'export',return_value={'counts':{}}):
    store=Path(directory)/'data/rag';store.mkdir(parents=True);(store/'store.json').write_text(json.dumps({'vector_store_id':'fixture'}));c=m.db();text=Path(directory)/'text.txt';text.write_text('fixture')
    c.execute('INSERT INTO docs(uid,metadata,sha,path) VALUES(?,?,?,?)',('test',json.dumps({'url':'https://example.org/subiect.pdf'}),'test',str(text)));c.commit()
    with patch.object(m,'api',side_effect=RuntimeError('API_TEMPORARY_FAILURE')):m.index(c,'test')
