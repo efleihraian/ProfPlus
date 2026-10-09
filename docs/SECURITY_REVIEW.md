@@ -74,3 +74,7 @@ Verificare suplimentară finală: cheia publică/anon nu poate descărca origina
 Eliminare numai pe inventarul explicit de copii și artefacte ProfPlus, după verificarea commitului publicat/stării transferate. Credențiale originale păstrate în data/provider-credentials ignorat, director 0700 și fișiere 0600; fără valori în raport. Starea SQLite a trecut verificările de integritate și rânduri înaintea reluării. Nu este audit complet sau schimbare de acces în producție.
 
 Verificare P-058: TypeScript și build au trecut în copia consolidată; 26 teste Python și șase suite Node (bibliotecă/RAG/cloud/proveniență/export) au trecut. Scannerul Git/build client a verificat 1.116 fișiere/bloburi fără detecții. localhost:3000 răspunde 200; importul continuă din copia principală (1.106 documente indexate la fotografia 2026-10-09T09:55:39Z, nu raport final). Testele offline de manuale blochează explicit configurația cloud: patru artefacte sintetice create la prima verificare au fost identificate prin UID/metadate de fixture și eliminate din Storage/PostgreSQL. Nu s-au șters materiale reale sau conturi.
+
+### 2026-10-09 — P-059
+
+Cache server: numai metadate publice ale bibliotecii comune, maximum 4 configurații, TTL 5 minute, chei exclusiv server, invalidare la schimbare credențiale. Datele private nu intră în cache; ownership verificat pe fiecare cerere. Eșecul nu conferă ready/selecție AI, ci unknown. Deadline 120 secunde și refuz cursor repetat. Regresii trecute; nu este audit complet.
