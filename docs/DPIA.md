@@ -152,3 +152,7 @@ Extinderea indexului comun existent la materiale publice de olimpiade/concursuri
 ### 2026-10-05 — Consultarea paginii fără cont (P-049)
 
 Pagina poate fi consultată fără crearea unei identități. Mesajul scris de vizitator rămâne în memoria paginii; nu se trimite la AI și nu se înregistrează în istoric. Nu se adaugă furnizori, trackere sau date noi; preferințele de temă și prelucrările tehnice existente rămân de inventariat. API-urile private refuză accesul neautentificat. Corecția nu reprezintă validare juridică sau aprobarea lansării generale.
+
+## P-062 — 2026-10-09
+
+Omiterea originalelor peste 50 MB este autorizată explicit de titular; referința este păstrată privat în Supabase și catalogul manualelor păstrează URL-ul oficial. Indexul existent, furnizorii, conturile, RLS și audiența pilotului nu se schimbă. Fișierele Word de blocare nu sunt materiale educaționale. Datele Storage nu sunt incluse în backupul DB. Transferul bibliotecii continuă, fără declarație de audit complet sau finalizare a tuturor importurilor. [Dovezi, teste și limite](IMPORT_CONTINUATION.md).

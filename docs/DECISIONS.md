@@ -149,3 +149,7 @@ Materialele de olimpiade/concursuri sunt importate în indexul comun existent, c
 ## P-061 — Bază comună pentru echipă, 2026-10-09
 
 Integrare explicit cerută în main, fără rescrierea istoricului sau resetarea checkout-ului operațional activ. Cheile și datele private nu sunt cod distribuibil și rămân în canalele protejate; accesul la indexul comun se acordă separat. Regula PR/review pentru lucrări noi rămâne.
+
+## P-062 — 2026-10-09
+
+Omiterea originalelor peste 50 MB este autorizată explicit de titular; referința este păstrată privat în Supabase și catalogul manualelor păstrează URL-ul oficial. Indexul existent, furnizorii, conturile, RLS și audiența pilotului nu se schimbă. Fișierele Word de blocare nu sunt materiale educaționale. Datele Storage nu sunt incluse în backupul DB. Transferul bibliotecii continuă, fără declarație de audit complet sau finalizare a tuturor importurilor. [Dovezi, teste și limite](IMPORT_CONTINUATION.md).

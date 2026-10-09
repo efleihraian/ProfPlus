@@ -52,4 +52,18 @@ class ImportTests(unittest.TestCase):
   b=io.BytesIO()
   with zipfile.ZipFile(b,'w') as z:z.writestr('word/document.xml','<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:p><w:r><w:t>'+('exercițiu '*12)+'</w:t></w:r></w:p></w:document>')
   text,pages,readable=m.text_document(b.getvalue(),'subiect.docx');self.assertEqual(pages,0);self.assertTrue(text.startswith('[[PAGE:1]]'))
+ def test_oversize_is_skipped_before_extraction_and_original_upload(self):
+  with tempfile.TemporaryDirectory() as directory,patch.object(m,'DATA',Path(directory)),patch.object(m,'MAX_DOCUMENT',4),patch.object(m,'cloud_active',return_value=True),patch.object(m,'CloudLibrary') as cloud,patch.object(m,'text_document') as extract:
+   c=m.db();seed={'id':'test','title':'Olimpiada','category':'olympiad'}
+   m.add_document(c,b'%PDF-large','subiect.pdf',seed,'https://example.org/subiect.pdf')
+   row=c.execute('SELECT * FROM docs').fetchone();self.assertEqual(row['status'],'skipped');self.assertEqual(row['error'],'DOCUMENT_TOO_LARGE');self.assertIsNone(row['path'])
+   extract.assert_not_called();cloud.return_value.archive.assert_not_called();cloud.return_value.source_link.assert_called_once();c.close()
+ def test_office_lock_members_are_ignored(self):
+  b=io.BytesIO()
+  with zipfile.ZipFile(b,'w') as z:z.writestr('folder/~$subiect.docx',b'invalid');z.writestr('subiect.pdf',b'%PDF-fixture')
+  self.assertEqual(len(list(m.unpack(b.getvalue(),'archive.zip'))),1)
+ def test_failed_extraction_does_not_leave_original_cache(self):
+  with tempfile.TemporaryDirectory() as directory,patch.object(m,'DATA',Path(directory)),patch.object(m,'cloud_active',return_value=True),patch.object(m,'text_document',side_effect=RuntimeError('INVALID_DOCUMENT')):
+   c=m.db();m.add_document(c,b'invalid','subiect.docx',{'id':'test','title':'Olimpiada','category':'olympiad'},'https://example.org/subiect.docx')
+   self.assertEqual(list(Path(directory).glob('*.docx')),[]);c.close()
 if __name__=='__main__':unittest.main()
