@@ -1,8 +1,9 @@
+import {cloudEnabled,cloudDatabase,type CloudConfig} from './supabase-storage';
 import {env} from 'cloudflare:workers';
 import type {ResourceMetadata} from './resource-metadata';
 let initialized:Promise<unknown>|undefined;
 export async function labelsDb(){
- const db=(env as unknown as {DB:D1Database}).DB;
+ const config=env as unknown as CloudConfig & {DB:D1Database};const db=cloudEnabled(config)?cloudDatabase(config):config.DB;
  initialized??=db.prepare('CREATE TABLE IF NOT EXISTS document_labels (document_id TEXT PRIMARY KEY NOT NULL,user_id TEXT NOT NULL,metadata TEXT NOT NULL)').run().catch(e=>{initialized=undefined;throw e;});
  await initialized;return db;
 }

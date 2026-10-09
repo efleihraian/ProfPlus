@@ -1,10 +1,11 @@
+import {cloudReady,type CloudConfig} from './supabase-storage';
 import {env} from 'cloudflare:workers';
 import {labelsDb} from './document-labels';
 import {accountStateDb} from './account-state';
 import {storage,type DocumentRow} from './document-store';
 import {eraseAccount} from './account-erasure';
 export class DeletionError extends Error {constructor(public status:number,message:string){super(message);}}
-export function deletionEnabled(){const c=env as unknown as {SUPABASE_SECRET_KEY?:string;AUTH_PROVIDER?:string;DB?:D1Database;DOCUMENTS?:R2Bucket;OPENAI_API_KEY?:string};return c.AUTH_PROVIDER==='supabase'&&!!c.SUPABASE_SECRET_KEY&&!!c.DB&&!!c.DOCUMENTS&&!!c.OPENAI_API_KEY;}
+export function deletionEnabled(){const c=env as unknown as CloudConfig & {AUTH_PROVIDER?:string;DB?:D1Database;DOCUMENTS?:R2Bucket;OPENAI_API_KEY?:string};return c.AUTH_PROVIDER==='supabase'&&!!c.SUPABASE_SECRET_KEY&&(cloudReady(c)||(!!c.DB&&!!c.DOCUMENTS))&&!!c.OPENAI_API_KEY;}
 async function eraseOpenAI(key:string,path:string){
  const response=await fetch('https://api.openai.com/v1'+path,{method:'DELETE',headers:{Authorization:`Bearer ${key}`},signal:AbortSignal.timeout(20000)});
  if(!response.ok&&response.status!==404)throw new Error('ERASURE_PROVIDER_UNAVAILABLE');
