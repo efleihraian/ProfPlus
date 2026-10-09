@@ -62,3 +62,47 @@ Restul: braces, micromatch, fast-glob, @next/eslint-plugin-next, eslint-config-n
 TypeScript, build, test:account (ambele moduri OAuth simulat), guest-chat și manual-library trecute local. Instalarea noilor versiuni a reușit din registry; execuția completă în Linux/GitHub trebuie confirmată înainte de merge. Nu este audit complet de producție.
 
 Confirmare remote 2026-10-06, Actions 37486031167 (commit 4d6d084): instalare curată, TypeScript, build, scanări secrete/client, test:account, guest-chat și manual-library trecute pe Linux. Eroarea 503/415 nu se mai reproduce după actualizarea toolchain-ului. Singurul pas eșuat: audit npm, cele 8 high din braces fără patch upstream. Nu există rezultat general CI verde.
+
+P-057, 2026-10-09: Storage privat verificat prin API; transferul testează SHA-256 și dimensiunea înainte de eliminarea locală, păstrează originalul la eroare/modificare și verifică evidența remote. Adaptorul server nu transmite cheia în corp/client și nu admite SQL arbitrar, batch mixt sau fallback de scriere; schemele/ID-urile sunt validate. Schema are RLS și revocă accesul direct anon/authenticated și executarea RPC; serviciul server păstrează verificările ownership. Probe WASM pe PostgreSQL și teste simulate trecute; proiectul real/advisors și concurența reală nu sunt încă verificate. Migrarea serverului este temporară, restrânsă la operația fixă de copiere, expiră și cere blocarea scrierilor și secret dedicat. Cheia/endpointul nu se activează până la infrastructură verificată.
+
+P-057: verificarea pe proiectul Supabase real a confirmat RPC server-only, refuz direct anon/autentificat, ownership pe identități sintetice distincte, parametrizare SQL și rollback atomic (`tests/live_supabase.sql`; fixture-urile au fost rollbackate). Migrarea SQL a fost aplicată. Advisors: funcția internă rls_auto_enable a avut privilegiile API revocate; tabelele pentru evidența bibliotecii și bugetul guest au RLS fără politici publice intenționat și privilegii revocate. Avertizarea protecției parolelor compromise rămâne o configurație Auth distinctă. Buildul final cu lockfile 0.9.5, TypeScript și testele locale de cont au trecut. Audit npm: producție 0, complet 8 high pe unelte de dezvoltare, prin braces <=3.0.3 (GHSA-vfj7-8cjw-p6xm, fără versiune remediată publicată la verificare). Nu se ocolește auditul CI și nu se declară audit complet curat; inputurile de build rămân surse controlate ; auditul de producție fără alerte nu dovedește absența întregului cod vulnerabil din toate fluxurile de build/preview.
+
+Verificare suplimentară finală: cheia publică/anon nu poate descărca originalul privat și nu poate executa RPC-ul aplicației. Reconcilierea finală verifică și existența fiecărei evidențe de material Storage în PostgreSQL. Importul reluat a continuat indexarea fără reținerea originalelor ca arhivă locală permanentă.
+
+### 2026-10-09 — P-058: consolidare locală
+
+Eliminare numai pe inventarul explicit de copii și artefacte ProfPlus, după verificarea commitului publicat/stării transferate. Credențiale originale păstrate în data/provider-credentials ignorat, director 0700 și fișiere 0600; fără valori în raport. Starea SQLite a trecut verificările de integritate și rânduri înaintea reluării. Nu este audit complet sau schimbare de acces în producție.
+
+Verificare P-058: TypeScript și build au trecut în copia consolidată; 26 teste Python și șase suite Node (bibliotecă/RAG/cloud/proveniență/export) au trecut. Scannerul Git/build client a verificat 1.116 fișiere/bloburi fără detecții. localhost:3000 răspunde 200; importul continuă din copia principală (1.106 documente indexate la fotografia 2026-10-09T09:55:39Z, nu raport final). Testele offline de manuale blochează explicit configurația cloud: patru artefacte sintetice create la prima verificare au fost identificate prin UID/metadate de fixture și eliminate din Storage/PostgreSQL. Nu s-au șters materiale reale sau conturi.
+
+### 2026-10-09 — P-059
+
+Cache server: numai metadate publice ale bibliotecii comune, maximum 4 configurații, TTL 5 minute, chei exclusiv server, invalidare la schimbare credențiale. Datele private nu intră în cache; ownership verificat pe fiecare cerere. Eșecul nu conferă ready/selecție AI, ci unknown. Deadline 120 secunde și refuz cursor repetat. Regresii trecute; nu este audit complet.
+
+## P-060 — Protecții Pro verificate 2026-10-09
+
+Pro activ; HIBP/secure password change/current password activ. Email/anon/phone rămân dezactivate, Google/Apple existente păstrate. Sesiune unică, time-box 168h și inactivitate 24h; aplicarea Supabase este la refresh, cu JWT 3600s, nu revocare instantanee a oricărui token. Refresh reuse detection activ/10s. SSL enforcement activ; toate IP-urile externe refuzate pentru conexiuni directe/pooler. REST/Storage/Auth și SQL prin control plane continuă să funcționeze, verificate. Pentru viitoare CLI/pg_dump/direct DB trebuie permise doar IP-urile administrative necesare; nu folosi allow-all ca depanare implicită. Connection/disconnection logging activ, fără log_statement. Advisors: zero WARN pentru parole compromise, patru INFO RLS-no-policy deliberate pe tabele server-only.
+
+Backupurile zilnice PostgreSQL sunt disponibile pe Pro (7 zile), nu cuprind obiectele Storage. PITR este add-on separat și nu a fost cumpărat. Backup separat și probă de restaurare a documentelor private rămân condiții de producție; nu se declară că toate precauțiile proiectului sunt finalizate. Captcha/MFA UI/scanarea malware și auditurile cu conturi/tenant distincte nu sunt rezolvate de simplul upgrade. Spend cap și 50 MB păstrate; importer 50 MB și prag bibliotecă 75 GB. Materialele se șterg local numai după verificare completă și metadata cloud.
+
+P-060 GitHub: PR #8 https://github.com/ProfOS-Edu/ProfPlus/pull/8, review bogdan-25 solicitat, dependent de PR #6. CI run 37935131688: contractele de import și secrets trecute; build/TypeScript/suite cont/bibliotecă trecute în job, controlul npm audit a eșuat pe cele 8 high existente din braces și dependențele de dezvoltare. Controlul nu a fost dezactivat și PR-ul nu este auto-merged. Local: 37 teste Python trecute. Transferul originalelor și OCR pentru candidații noi rămân procese active, nu milestone complet.
+
+
+## Istoric P-056 integrat — fotografii datate, înlocuite de notele ulterioare
+
+
+### P-056 — import arhive, 2026-10-08
+
+Izolare de importul manualelor, SQL parametrizat, HTTPS/adrese publice/redirecturi, dimensiuni și expansiune arhive, membri citiți ca bytes fără extracție pe disc, cheie numai în proces/server. DTO comun explicit, URL HTTPS fără credentiale și UID/categorii validate; fără date de ownership/index/private în DTO. Șapte teste offline și test DTO trecut; nu este scanare malware, audit DNS rebinding sau garanție de pseudonimizare. Formulele/OCR și documentele cu date incidentale necesită verificare. Nu se schimbă autentificarea ori sharing-ul Sites.
+
+## Note operaționale locale păstrate la consolidarea P-061
+
+### 2026-10-05 — Pagina pentru vizitatori (P-049)
+
+Pagina locală este accesibilă fără reducerea autorizării API-urilor: GET istoric/bibliotecă/statut/documente și POST chat refuză cererile fără sesiune (401). Navigare/reload/scriere/trimitere ca vizitator verificate în browser; fără apel AI pentru vizitatori. TypeScript/build trecute; scanare Git/client fără detecții, audit npm neschimbat la 19. Fără schimbări Supabase, date sau privilegii; fără certificare GDPR sau audit complet.
+
+## 2026-10-09 — Verificare inventar cloud și izolarea testelor
+
+Verificare live: originalele nu sunt încă complete; 7 originale manuale și 828 originale concursuri/olimpiade, texte pentru 1.303 manuale indexate și 1.391 documente de concurs indexate. Un artifact sintetic de 7 bytes a fost identificat prin archiveId=test, example.org și SHA-256 exact al fixture-ului, apoi eliminat din Storage și catalog. Testele de concurs dezactivează explicit cloud_active, la fel ca testele de manuale, fără a depinde de configurația checkout-ului. Niciun material real eliminat. Importul concursurilor s-a oprit la un PDF de 57.946.349 bytes, SUPABASE_RESUMABLE_CREATE_413; originalul este păstrat local. Nu se declară transferul complet sau import activ după acest blocaj.
+
+P-061, verificare 2026-10-09: instalare curată Node 22.20.0 cu lockfile, TypeScript/build și suite cont (ambele moduri), guest, bibliotecă/cache, DTO/RAG comun, adaptor cloud, proveniență/export trecute. Cele 39 teste offline Python au trecut. Scanner Git/client: 1.210 fișiere/bloburi fără detecții; linkurile ghidului verificate. Audit npm complet: 8 high existente în braces/toolchain; fără alerte noi, controlul păstrat, fără afirmație CI integral verde. Nu există diferențe de cod operațional neincluse; singurele schimbări suplimentare de configurare sunt exemplele goale și excluderile Git. Importul manualelor continuă din copia operațională, fără mutare/reset/sincronizare forțată.

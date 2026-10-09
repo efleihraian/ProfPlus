@@ -1,0 +1,174 @@
+{
+  "CREATE TABLE IF NOT EXISTS account_deletions (user_id TEXT PRIMARY KEY NOT NULL, started_at INTEGER NOT NULL)": {
+    "op": "97eec64a68494a9c28785c64",
+    "count": 0
+  },
+  "CREATE TABLE IF NOT EXISTS document_labels (document_id TEXT PRIMARY KEY NOT NULL,user_id TEXT NOT NULL,metadata TEXT NOT NULL)": {
+    "op": "c8f7267a5d68e8bbce531881",
+    "count": 0
+  },
+  "CREATE TABLE IF NOT EXISTS guest_chat_budget (bucket TEXT PRIMARY KEY, used INTEGER NOT NULL, expires INTEGER NOT NULL)": {
+    "op": "0c5bc303798ee465c467477c",
+    "count": 0
+  },
+  "DELETE FROM account_deletions WHERE user_id=?": {
+    "op": "61ed8e2010ca75c5765ddf7b",
+    "count": 1
+  },
+  "DELETE FROM conversations WHERE user_id=?": {
+    "op": "8573a0ce16a33eb12f353fe4",
+    "count": 1
+  },
+  "DELETE FROM document_labels WHERE document_id=? AND user_id=?": {
+    "op": "ed262c8a1b2e7a9d527faf07",
+    "count": 2
+  },
+  "DELETE FROM document_labels WHERE user_id=?": {
+    "op": "2077be6bdf62c2c9c363d232",
+    "count": 1
+  },
+  "DELETE FROM documents WHERE id = ? AND user_id = ?": {
+    "op": "e100bb9e1b546d96e422f8ae",
+    "count": 2
+  },
+  "DELETE FROM documents WHERE id=? AND user_id=?": {
+    "op": "e923feddfe21f9a7a9141f33",
+    "count": 2
+  },
+  "DELETE FROM guest_chat_budget WHERE expires < ?": {
+    "op": "3cb3d2bbf62591d265dbd578",
+    "count": 1
+  },
+  "DELETE FROM projects WHERE id=? AND user_id=?": {
+    "op": "f5d9e44c071b375999fafcc0",
+    "count": 2
+  },
+  "DELETE FROM projects WHERE user_id=?": {
+    "op": "aa230202447410ce6840e018",
+    "count": 1
+  },
+  "INSERT INTO conversations(id,user_id,title,project_id,messages,selection,revision,created_at,updated_at) SELECT ?,?,'Conversație nouă',?,'[]','null',0,?,? WHERE NOT EXISTS (SELECT 1 FROM account_deletions WHERE user_id=?)": {
+    "op": "0e8edd44c8fb335b9e3166cd",
+    "count": 6
+  },
+  "INSERT INTO document_labels(document_id,user_id,metadata) SELECT id,user_id,? FROM documents WHERE id=? AND user_id=? AND status!='deleting' AND NOT EXISTS (SELECT 1 FROM account_deletions WHERE user_id=?) ON CONFLICT(document_id) DO UPDATE SET metadata=excluded.metadata WHERE document_labels.user_id=excluded.user_id": {
+    "op": "3c78a77e412de33b55567a98",
+    "count": 4
+  },
+  "INSERT INTO documents (id,user_id,chat_id,name,mime,size,status,created_at) SELECT ?,?,?,?,?,?,'uploading',? WHERE (SELECT COUNT(*) FROM documents WHERE user_id = ? AND chat_id = ?) < 10 AND (SELECT COUNT(*) FROM documents WHERE user_id = ?) < 50 AND NOT EXISTS (SELECT 1 FROM account_deletions WHERE user_id = ?)": {
+    "op": "a592f498351c4564b23752ca",
+    "count": 11
+  },
+  "INSERT INTO guest_chat_budget(bucket,used,expires) VALUES (?,1,?) ON CONFLICT(bucket) DO UPDATE SET used=used+1 WHERE used < ? RETURNING used": {
+    "op": "3e2a041e3bf776cabd2512a6",
+    "count": 3
+  },
+  "INSERT INTO projects(id,user_id,name,created_at) SELECT ?,?,?,? WHERE NOT EXISTS (SELECT 1 FROM account_deletions WHERE user_id=?)": {
+    "op": "db57adc1b978b9660739b9ee",
+    "count": 5
+  },
+  "INSERT OR IGNORE INTO account_deletions (user_id,started_at) SELECT ?,? WHERE NOT EXISTS (SELECT 1 FROM documents WHERE user_id=? AND status='uploading' AND created_at>?)": {
+    "op": "eae7771cb331921f65df57c2",
+    "count": 4
+  },
+  "INSERT OR IGNORE INTO conversations (id,user_id,title,messages,selection,revision,created_at,updated_at) SELECT chat_id,user_id,'Documente anterioare','[]','null',0,MIN(created_at),MAX(created_at) FROM documents WHERE user_id=? AND NOT EXISTS (SELECT 1 FROM account_deletions WHERE user_id=?) GROUP BY chat_id,user_id": {
+    "op": "b0cf883c092cf8c2576e3f58",
+    "count": 2
+  },
+  "SELECT * FROM documents WHERE id = ? AND user_id = ?": {
+    "op": "9f4b940c82b2826289813a0b",
+    "count": 2
+  },
+  "SELECT * FROM documents WHERE user_id = ? AND chat_id = ? ORDER BY created_at": {
+    "op": "a0bae600239867854083503a",
+    "count": 2
+  },
+  "SELECT * FROM documents WHERE user_id=?": {
+    "op": "1d0dc1e05dbfaeed7bc7ec69",
+    "count": 1
+  },
+  "SELECT d.*,l.metadata AS education FROM documents d LEFT JOIN document_labels l ON d.id=l.document_id AND d.user_id=l.user_id WHERE d.user_id = ? ORDER BY d.created_at DESC": {
+    "op": "d87398cfb49806f35a2c90f1",
+    "count": 1
+  },
+  "SELECT id FROM conversations WHERE id=? AND user_id=? AND deleted=0": {
+    "op": "63ad161aeb858317d3090585",
+    "count": 2
+  },
+  "SELECT id FROM documents WHERE user_id=? AND status='uploading' AND created_at>?": {
+    "op": "821c896501ce51d3682a2429",
+    "count": 2
+  },
+  "SELECT id FROM projects WHERE id=? AND user_id=?": {
+    "op": "ec488261c419dc49e7b11767",
+    "count": 2
+  },
+  "SELECT id,name FROM projects WHERE user_id=? ORDER BY created_at DESC": {
+    "op": "75d4abdabfb76ab32b7e11ee",
+    "count": 1
+  },
+  "SELECT id,title,project_id,messages,selection,revision,created_at,updated_at FROM conversations WHERE id=? AND user_id=? AND deleted=0": {
+    "op": "bac49989262ac4d5aed4a6ff",
+    "count": 2
+  },
+  "SELECT id,title,project_id,revision,updated_at FROM conversations WHERE user_id=? AND deleted=0 ORDER BY updated_at DESC": {
+    "op": "a07d01d55782892d6d9dcd5f",
+    "count": 1
+  },
+  "SELECT messages,revision FROM conversations WHERE id=? AND user_id=? AND deleted=0": {
+    "op": "ba59cee7f5817974c0e1c53e",
+    "count": 2
+  },
+  "SELECT user_id FROM account_deletions WHERE user_id=?": {
+    "op": "ef42f1c1881db7c27937cf59",
+    "count": 1
+  },
+  "UPDATE conversations SET deleted=1,messages='[]',selection='null',title='Conversație ștearsă',revision=revision+1,updated_at=? WHERE id=? AND user_id=? AND deleted=0": {
+    "op": "99f06cba587cd6285544e3a3",
+    "count": 3
+  },
+  "UPDATE conversations SET messages=?,revision=revision+1,updated_at=? WHERE id=? AND user_id=? AND revision=? AND deleted=0": {
+    "op": "c512efeff724626d06b3b4c7",
+    "count": 5
+  },
+  "UPDATE conversations SET project_id=NULL,revision=revision+1 WHERE project_id=? AND user_id=?": {
+    "op": "2edbd051e48cc3a284ef954a",
+    "count": 2
+  },
+  "UPDATE conversations SET title=?,project_id=?,messages=?,selection=?,revision=revision+1,updated_at=? WHERE id=? AND user_id=? AND revision=? AND deleted=0": {
+    "op": "191a4aeb8839090049483797",
+    "count": 8
+  },
+  "UPDATE documents SET file_id = ? WHERE id = ? AND user_id = ?": {
+    "op": "2de7222b77b3c367d9ae8283",
+    "count": 3
+  },
+  "UPDATE documents SET status = 'deleting' WHERE id = ? AND user_id = ?": {
+    "op": "8dcde126d56d9c52e2f706a2",
+    "count": 2
+  },
+  "UPDATE documents SET status = 'failed' WHERE id = ? AND user_id = ?": {
+    "op": "e74f955aef7045c95179e066",
+    "count": 2
+  },
+  "UPDATE documents SET status = 'failed' WHERE id = ? AND user_id = ? AND status = 'uploading'": {
+    "op": "2fdd5ef663d1c9a72683e5c7",
+    "count": 2
+  },
+  "UPDATE documents SET status = 'indexing' WHERE id = ? AND user_id = ?": {
+    "op": "73e78587628719053ff54333",
+    "count": 2
+  },
+  "UPDATE documents SET status = ? WHERE id = ? AND user_id = ?": {
+    "op": "6e0b280f3a320bcf7ec80f1e",
+    "count": 3
+  },
+  "UPDATE documents SET status='deleting' WHERE id=? AND user_id=?": {
+    "op": "649efc94d7f09615344d4553",
+    "count": 2
+  },
+  "UPDATE documents SET store_id = ? WHERE id = ? AND user_id = ?": {
+    "op": "f384eeb3add187a4b273ba42",
+    "count": 3
+  }
+}

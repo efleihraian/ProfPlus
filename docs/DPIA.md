@@ -128,3 +128,27 @@ Fără identitate nouă, cookie sau stocare original/index pentru vizitatori. Fi
 ### P-052 — 2026-10-08
 
 Proveniența folosește metadatele și fragmentele deja accesibile în fluxul RAG, fără furnizori sau categorii noi de date. Numele surselor citate apar acum și în document/export; profesorul verifică înainte de distribuire dacă titlurile documentelor proprii conțin date personale. Fără schimbări de acces/retenție sau evaluare automată oficială.
+
+P-057, 2026-10-09: transfer autorizat explicit către proiectul Supabase existent al bibliotecii, inventarelor și datelor asociate documentelor. Originalele/textele și checkpointurile au containere private, fără expunere publică. Metadatele/istoricul/documentele generate vor trece din D1 în PostgreSQL numai după probe și verificarea transferului fidel; schema și cutoverul nu sunt încă confirmate. Fișierele/indexul AI OpenAI existent rămân o copie la furnizor pentru căutare. Ștergerea copiei locale confirmate nu echivalează cu ștergerea din toate backupurile/furnizorii. Identitățile existente sunt păstrate separat. Contractele, regiunea reală, retenția, restaurarea și drepturile arhivei complete rămân de verificat; nu se declară conformitate.
+
+### 2026-10-09 — P-058: minimizarea copiilor locale
+
+Copiile redundante sunt eliminate după verificarea sursei remote sau a transferului fidel; starea importului activ are checkpoint privat. Credențialele providerilor rămân local protejat și nu intră în biblioteca Supabase ori Git. Originalele de branding au backup privat verificat. Nu se modifică audiența Sites, identitățile, retenția furnizorilor sau condițiile de lansare generală.
+
+## P-060 — 2026-10-09
+
+Pro păstrează regiunea eu-west-1 și furnizorii existenți; nu schimbă automat contractele sau aprobarea DPIA. HIBP prin Supabase pentru parole, sesiuni limitate, SSL și restricții directe/jurnalizare activate și documentate; Email rămâne oprit. Jurnalele de conexiune sunt date operaționale cu acces administrativ, nu includ conținutul chat/documentelor prin această schimbare. Backup DB 7 zile; Storage nu este inclus, politica de backup/restaurare a documentelor private rămâne de verificat înainte de producție. PDF-urile oficiale se recuperează cu amprentă și metadate în Storage privat, fără date de elevi; raportul originalelor și indexul AI sunt distincte. Nu se publică OAuth către public, nu se cumpără domeniu/add-onuri și nu se declară branding verificat în lipsa domeniului titularului.
+
+
+## Istoric P-056 integrat — fotografii datate, înlocuite de notele ulterioare
+
+
+### P-056 — 2026-10-08
+
+Extinderea indexului comun existent la materiale publice de olimpiade/concursuri din arhivele furnizate de utilizator. Aceiași furnizori și cheie autorizată pentru manuale. Filtre pe nume de link/text pentru rezultate și participanți, fără transmiterea deliberată a listelor elevilor. Nu există anonimizare garantată pentru orice document public; operatorul verifică eventualele date incidentale și drepturile înainte de utilizarea extinsă. PDF/OCR/DOCX/HTML și metadate publice de origine sunt trimise la OpenAI; sursele/fragmentele respectă aceeași retenție existentă. Raportul omite textele și ID-urile interne. Nu se certifică DPIA/GDPR pe baza importului.
+
+## Note operaționale locale păstrate la consolidarea P-061
+
+### 2026-10-05 — Consultarea paginii fără cont (P-049)
+
+Pagina poate fi consultată fără crearea unei identități. Mesajul scris de vizitator rămâne în memoria paginii; nu se trimite la AI și nu se înregistrează în istoric. Nu se adaugă furnizori, trackere sau date noi; preferințele de temă și prelucrările tehnice existente rămân de inventariat. API-urile private refuză accesul neautentificat. Corecția nu reprezintă validare juridică sau aprobarea lansării generale.

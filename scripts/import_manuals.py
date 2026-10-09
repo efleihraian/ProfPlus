@@ -1,3 +1,7 @@
+if __package__:
+ from .cloud_library import CloudLibrary,cloud_active,cloud_snapshot
+else:
+ from cloud_library import CloudLibrary,cloud_active,cloud_snapshot
 """Resumable textbook ingestion. Secrets and document text never enter logs."""
 import argparse
 import contextlib
@@ -23,6 +27,7 @@ LOCK = threading.Lock()
 STOP = threading.Event()
 OCR = False
 MIN_COVERAGE = .90
+MAX_PDF_BYTES = 250 * 1024 * 1024
 KEY = None
 
 
@@ -215,6 +220,8 @@ def process(row):
             existing = dict(conn.execute('SELECT * FROM documents WHERE uid=?', (uid,)).fetchone())
         if existing['status'] == 'indexed':
             return
+        if cloud_active() and not text_path.exists():CloudLibrary().restore(text_path,'manuals',uid,'text')
+        if cloud_active() and not pdf.exists() and not text_path.exists():CloudLibrary().restore(pdf,'manuals',uid,'original')
         if not text_path.exists() or (OCR and existing['status'] == 'needs_ocr'):
             save(uid, status='downloading', error=None)
             if not pdf.exists():
@@ -229,11 +236,13 @@ def process(row):
                         with download_response(row['pdf_url']) as response:
                             if response.status_code != 200:
                                 raise RuntimeError('DOWNLOAD_HTTP_' + str(response.status_code))
+                            if int(response.headers.get('Content-Length', '0')) > MAX_PDF_BYTES:
+                                raise RuntimeError('PDF_TOO_LARGE')
                             total = 0
                             with temp.open('wb') as handle:
                                 for chunk in response.iter_content(262144):
                                     total += len(chunk)
-                                    if total > 250 * 1024 * 1024:
+                                    if total > MAX_PDF_BYTES:
                                         raise RuntimeError('PDF_TOO_LARGE')
                                     handle.write(chunk)
                         break
@@ -245,6 +254,9 @@ def process(row):
                 if not temp.open('rb').read(5).startswith(b'%PDF-'):
                     raise RuntimeError('NOT_PDF')
                 temp.replace(pdf)
+            if pdf.stat().st_size > MAX_PDF_BYTES:
+                raise RuntimeError('PDF_TOO_LARGE')
+            if cloud_active():CloudLibrary().archive(pdf,'manuals',uid,'original',row,delete=False)
             save(uid, status='extracting')
             digest = hashlib.sha256(pdf.read_bytes()).hexdigest()
             options = {'row': row, 'pdf': str(pdf), 'output': str(text_path), 'ocr': OCR,
@@ -293,6 +305,7 @@ def process(row):
             item = api('GET', f'/vector_stores/{store}/files/{current["file_id"]}')
             if item['status'] == 'completed':
                 save(uid, status='indexed', error=None)
+                if cloud_active():CloudLibrary().archive(text_path,'manuals',uid,'text',row,delete=True)
                 print(uid + ': indexed', flush=True)
                 return
             if item['status'] in ('failed', 'cancelled'):
@@ -324,12 +337,17 @@ def main():
     parser.add_argument('--reconcile', action='store_true')
     parser.add_argument('--export-report', action='store_true')
     parser.add_argument('--min-coverage', type=float, default=.90)
+    parser.add_argument('--max-pdf-mb', type=int, default=250, help='Maximum original PDF size; use 50 with the storage spend cap')
     args = parser.parse_args()
     global MIN_COVERAGE
     OCR = args.ocr
     if not .5 <= args.min_coverage <= 1:
         parser.error('Acoperirea trebuie să fie între 0.5 și 1.')
     MIN_COVERAGE = args.min_coverage
+    global MAX_PDF_BYTES
+    if not 1 <= args.max_pdf_mb <= 250:
+        parser.error('PDF limit must be between 1 and 250 MB.')
+    MAX_PDF_BYTES = args.max_pdf_mb * 1024 * 1024
     if OCR and not ((shutil.which('tesseract') or Path('/opt/homebrew/bin/tesseract').exists()) and all((DATA / 'tessdata' / (name + '.traineddata')).exists() for name in ('ron', 'eng'))):
         raise SystemExit('OCR indisponibil: instalează Tesseract și modelele ron/eng în data/rag/tessdata.')
     DATA.mkdir(parents=True, exist_ok=True)
@@ -388,6 +406,7 @@ def main():
         print((DATA / 'progress.json').read_text(), flush=True)
         if args.export_report:
             export_report()
+        if cloud_active():cloud_snapshot(DATA/'import.sqlite','manuals')
         if STOP.is_set():
             raise SystemExit(2)
 

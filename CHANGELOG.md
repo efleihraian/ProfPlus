@@ -191,3 +191,41 @@ P-048 — ultima cerere 2026-10-05: import integral și OCR automat la final, f�
 ## Publicare privată — 2026-10-08
 
 Proveniență per exercițiu, referințe în document și export PDF/Word simplificat, confirmate pe site. Repository: P-055 prin PR, review independent necesar.
+
+## Nelansat — P-057
+
+Stocare privată Supabase, transfer verificat înainte de ștergerea copiei locale, restaurare după hash și adaptoare pentru documente/istoric. Schema PostgreSQL și cutoverul sunt pregătite, fără activare înainte de migrare și probe reale.
+
+## 2026-10-09 — Curățarea locală P-058
+
+- Un singur checkout operațional pentru aplicație/import, fără pierderea modificărilor locale. Copiile publicate și dependențele temporare eliminate după verificare; logo-uri în cloud, configurație necesară păstrată protejat.
+
+## 2026-10-09 — P-059
+
+- Verificarea bibliotecii mari are deadline 120 secunde și cache server 5 minute. Erorile nu mai afișează materialele ca neindexate; stare neverificată distinctă.
+
+### P-060 — 2026-10-09
+
+Recuperare reluabilă a originalelor manualelor în Storage privat, plafon pe fișier și prag de capacitate; listă a originalelor rămase separată de starea indexului. Retry pentru răspunsuri temporare Storage 5xx și limită PDF explicită în importer. Potrivire disciplină/clasă pentru selecția tuturor categoriilor comune și private. Protecțiile Pro și SSL/restricții/jurnalizare verificate live; branding Google rămâne condiționat de domeniu. Publicare privată Sites versiunea 19 confirmată.
+
+P-060: recuperarea originalelor poate relua până la șase transferuri simultane, cu plafon verificat și pentru PDF local, fără reîncărcarea surselor deja identificate ca prea mari.
+
+
+## Istoric P-056 integrat — fotografii datate, înlocuite de notele ulterioare
+
+
+## Nelansat — P-056
+
+Import reluabil al arhivelor de olimpiade/concursuri, categorii și metadate publice dinamice în bibliotecă/RAG; importul este în curs, fără declarație de catalog complet.
+
+P-056: păstrarea paginii sursei în fragmentele indexate ale arhivelor, cu migrare reluabilă și eliminarea copiilor precedente doar după confirmarea înlocuirii.
+
+## Note operaționale locale păstrate la consolidarea P-061
+
+## 2026-10-09 — Verificare inventar cloud și izolarea testelor
+
+Verificare live: originalele nu sunt încă complete; 7 originale manuale și 828 originale concursuri/olimpiade, texte pentru 1.303 manuale indexate și 1.391 documente de concurs indexate. Un artifact sintetic de 7 bytes a fost identificat prin archiveId=test, example.org și SHA-256 exact al fixture-ului, apoi eliminat din Storage și catalog. Testele de concurs dezactivează explicit cloud_active, la fel ca testele de manuale, fără a depinde de configurația checkout-ului. Niciun material real eliminat. Importul concursurilor s-a oprit la un PDF de 57.946.349 bytes, SUPABASE_RESUMABLE_CREATE_413; originalul este păstrat local. Nu se declară transferul complet sau import activ după acest blocaj.
+
+## P-061 — 2026-10-09
+
+Consolidarea codului pentru main și colaborare: aplicație, cloud/importere, scheme, teste, catalog și documentație; ghid de instalare și configurații exemplu fără secrete.

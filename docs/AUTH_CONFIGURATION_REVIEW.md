@@ -66,3 +66,7 @@ Verificare browser local: pagina cont afișează numai Google/Apple; butonul App
 ## Verificare OAuth real — 2026-10-04
 
 După loginurile efectuate de titular prin Google și Apple, Supabase afișează ambele identități Apple, Google pe aceeași înregistrare de utilizator. Nu s-a făcut asociere manuală în ProfPlus și nu se copiază datele personale/UID-ul în Git. În aplicația locală profilul este autentificat, e-mail verificat; sesiunea rămâne validă după reîncărcarea paginii. Asocierea celor două metode și callbackul real sunt confirmate pentru contul testat. Logout, reînnoirea la expirare, Apple Hide My Email și izolarea între conturi distincte rămân netestate. Aceasta nu validează site-ul online sau conformitatea GDPR/DPIA.
+
+## Pro și branding Google — 2026-10-09
+
+Organizația ProfPlus este Pro. HIBP, secure password/current password activate (Email rămâne Disabled), sesiune unică/maxim 168h/inactivitate 24h; JWT 3600s și refresh replay protection/10s păstrate. App name este deja ProfPlus în Google Auth Platform, pe contul deținător; Testing, home/privacy/terms necompletate, verification center spune că nu cere verificare cât timp este Testing. Titularul confirmă că nu are domeniu propriu. Afișarea numelui în locul URL-ului Supabase nu este declarată rezolvată; se pregătește după domeniu/pagini publice/verificare. Nu s-a extins audiența OAuth sau Sites, nu s-a cumpărat custom domain.

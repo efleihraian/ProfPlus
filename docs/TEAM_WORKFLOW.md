@@ -64,3 +64,7 @@ Integrarea unui PR pe GitHub nu autorizează automat pull în folderul operațio
 Rularea 37361860684 a identificat așteptarea depășită 401 pentru biblioteca devenită publică. P-053, în PR #1, verifică accesul public exclusiv la manuale și refuzul accesului guest la date private. Fixture-ul fără Origin elimină efectiv antetul, în loc de a trimite o valoare goală. Build, TypeScript și suite locale au trecut; CI remote trebuie confirmat separat. Auditul npm rămâne un control distinct, cu alerte cunoscute; nu dezactiva controalele pentru merge.
 
 Branch-ul inițial docs/team-workflow (PR #1) precede convenția; rămâne excepție documentată pentru a păstra review-ul. Branch-urile viitoare includ ID-ul sarcinii.
+
+## Consolidarea cerută explicit — P-061, 2026-10-09
+
+Titularul a cerut explicit integrarea întregului cod pe main pentru începerea colaborării. Această integrare se verifică și se înregistrează separat; nu este auto-merge pentru sarcinile viitoare. Codul, schema, testele și documentația sunt versionate; cheile, materialele private, runtime-urile și checkpointurile operaționale nu sunt distribuite prin Git. Ghid: [DEVELOPMENT_SETUP.md](DEVELOPMENT_SETUP.md).
