@@ -88,10 +88,21 @@ Backupurile zilnice PostgreSQL sunt disponibile pe Pro (7 zile), nu cuprind obie
 P-060 GitHub: PR #8 https://github.com/ProfOS-Edu/ProfPlus/pull/8, review bogdan-25 solicitat, dependent de PR #6. CI run 37935131688: contractele de import și secrets trecute; build/TypeScript/suite cont/bibliotecă trecute în job, controlul npm audit a eșuat pe cele 8 high existente din braces și dependențele de dezvoltare. Controlul nu a fost dezactivat și PR-ul nu este auto-merged. Local: 37 teste Python trecute. Transferul originalelor și OCR pentru candidații noi rămân procese active, nu milestone complet.
 
 
-## Historique P-056 intégré — état daté, remplacé par les notes ultérieures
+## Istoric P-056 integrat — fotografii datate, înlocuite de notele ulterioare
 
 
 ### P-056 — import arhive, 2026-10-08
 
 Izolare de importul manualelor, SQL parametrizat, HTTPS/adrese publice/redirecturi, dimensiuni și expansiune arhive, membri citiți ca bytes fără extracție pe disc, cheie numai în proces/server. DTO comun explicit, URL HTTPS fără credentiale și UID/categorii validate; fără date de ownership/index/private în DTO. Șapte teste offline și test DTO trecut; nu este scanare malware, audit DNS rebinding sau garanție de pseudonimizare. Formulele/OCR și documentele cu date incidentale necesită verificare. Nu se schimbă autentificarea ori sharing-ul Sites.
 
+## Note operaționale locale păstrate la consolidarea P-061
+
+### 2026-10-05 — Pagina pentru vizitatori (P-049)
+
+Pagina locală este accesibilă fără reducerea autorizării API-urilor: GET istoric/bibliotecă/statut/documente și POST chat refuză cererile fără sesiune (401). Navigare/reload/scriere/trimitere ca vizitator verificate în browser; fără apel AI pentru vizitatori. TypeScript/build trecute; scanare Git/client fără detecții, audit npm neschimbat la 19. Fără schimbări Supabase, date sau privilegii; fără certificare GDPR sau audit complet.
+
+## 2026-10-09 — Verificare inventar cloud și izolarea testelor
+
+Verificare live: originalele nu sunt încă complete; 7 originale manuale și 828 originale concursuri/olimpiade, texte pentru 1.303 manuale indexate și 1.391 documente de concurs indexate. Un artifact sintetic de 7 bytes a fost identificat prin archiveId=test, example.org și SHA-256 exact al fixture-ului, apoi eliminat din Storage și catalog. Testele de concurs dezactivează explicit cloud_active, la fel ca testele de manuale, fără a depinde de configurația checkout-ului. Niciun material real eliminat. Importul concursurilor s-a oprit la un PDF de 57.946.349 bytes, SUPABASE_RESUMABLE_CREATE_413; originalul este păstrat local. Nu se declară transferul complet sau import activ după acest blocaj.
+
+P-061, verificare 2026-10-09: instalare curată Node 22.20.0 cu lockfile, TypeScript/build și suite cont (ambele moduri), guest, bibliotecă/cache, DTO/RAG comun, adaptor cloud, proveniență/export trecute. Cele 39 teste offline Python au trecut. Scanner Git/client: 1.210 fișiere/bloburi fără detecții; linkurile ghidului verificate. Audit npm complet: 8 high existente în braces/toolchain; fără alerte noi, controlul păstrat, fără afirmație CI integral verde. Nu există diferențe de cod operațional neincluse; singurele schimbări suplimentare de configurare sunt exemplele goale și excluderile Git. Importul manualelor continuă din copia operațională, fără mutare/reset/sincronizare forțată.

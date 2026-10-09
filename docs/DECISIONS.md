@@ -139,10 +139,13 @@ Se păstrează local numai codul/runtime/configurația și starea necesară impo
 Titularul păstrează plafonul de cheltuieli Pro și cere toate originalele care încap în 50 MB, apoi evaluarea celor rămase. Recuperarea originalelor nu reîncarcă inutil textele deja indexate; se ordonează circular pe disciplină/clasă, păstrează proveniența și verifică bytes/metadata înaintea eliminării locale. Prag bibliotecă 75 GB pentru spațiu destinat documentelor private; nu este cotă garantată de furnizor. Backupurile DB nu acoperă Storage. OAuth branding se finalizează după domeniu și verificare reală; numele dintr-un câmp de configurare nu dovedește ce afișează Google.
 
 
-## Historique P-056 intégré — état daté, remplacé par les notes ultérieures
+## Istoric P-056 integrat — fotografii datate, înlocuite de notele ulterioare
 
 
 ### P-056 — Metadate comune dinamice, 2026-10-08
 
 Materialele de olimpiade/concursuri sunt importate în indexul comun existent, cu UID competition-<SHA256>, category, title, subject, source_url, publisher, stages, class și page_locator. DTO explicit, fără ID intern de fișier/index; bibliotecă/RAG consumă aceste câmpuri, păstrând starea reală a indexării. Se evită publicarea unui manifest nou pentru fiecare document. Doar câmpurile educaționale publice ajung în client; ownership-ul documentelor profesorului rămâne separat. Snapshotul raportului este datat, nu dovada că toate arhivele sunt finalizate.
 
+## P-061 — Bază comună pentru echipă, 2026-10-09
+
+Integrare explicit cerută în main, fără rescrierea istoricului sau resetarea checkout-ului operațional activ. Cheile și datele private nu sunt cod distribuibil și rămân în canalele protejate; accesul la indexul comun se acordă separat. Regula PR/review pentru lucrări noi rămâne.

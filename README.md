@@ -38,14 +38,17 @@ Site privat: [ProfPlus](https://profos-chat.cosminsoames.chatgpt.site).
 
 ## Pornirea site-ului local
 
+Pentru o clonă nouă și împărțirea lucrului: [ghidul colaboratorilor](docs/DEVELOPMENT_SETUP.md).
+
 Necesită Node.js 22.13 sau mai nou. Din directorul web:
 
 ```bash
-npm ci
+npm run install:ci
+cp .dev.vars.example .dev.vars
 npm run dev -- --host 127.0.0.1 --port 3000
 ```
 
-Configurarea locală folosește web/.dev.vars cu OPENAI_API_KEY și OPENAI_MODEL. Fișierul este exclus din GitHub. Deschide URL-ul afișat de server. Conversațiile sunt salvate în D1 pentru identitatea autentificată. Configurația locală folosește acum Supabase; site-ul privat publicat păstrează identitatea Sites.
+Configurarea locală folosește web/.dev.vars cu OPENAI_API_KEY și OPENAI_MODEL. Fișierul este exclus din GitHub. Deschide URL-ul afișat de server. Stocarea poate folosi D1/R2 local sau adaptoarele Supabase configurate pe server. Copia operațională și site-ul privat folosesc Supabase pentru date, iar site-ul păstrează identitatea Sites.
 
 ## Biblioteca RAG
 
@@ -83,4 +86,4 @@ Supabase Storage/PostgreSQL este activ pentru materialele bibliotecii, originale
 
 ## Copia operațională și curățarea locală
 
-Aplicația și importul rulează dintr-un singur checkout. Originalele bibliotecii sunt în Supabase; configurația, runtime-urile și starea importului activ rămân local. [Structură, restaurare și reguli de curățare](docs/LOCAL_WORKSPACE.md).
+Aplicația și importul rulează dintr-un singur checkout. Originalele verificate ale bibliotecii sunt în Supabase; recuperarea celorlalte manuale continuă. Configurația, runtime-urile și starea importului activ rămân local. [Structură, restaurare și reguli de curățare](docs/LOCAL_WORKSPACE.md).
