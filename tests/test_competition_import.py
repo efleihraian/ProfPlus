@@ -60,8 +60,16 @@ class ImportTests(unittest.TestCase):
    extract.assert_not_called();cloud.return_value.archive.assert_not_called();cloud.return_value.source_link.assert_called_once();c.close()
  def test_office_lock_members_are_ignored(self):
   b=io.BytesIO()
-  with zipfile.ZipFile(b,'w') as z:z.writestr('folder/~$subiect.docx',b'invalid');z.writestr('subiect.pdf',b'%PDF-fixture')
+  with zipfile.ZipFile(b,'w') as z:z.writestr('folder/~$subiect.docx',b'invalid');z.writestr('__MACOSX/._subiect.docx',b'junk');z.writestr('subiect.pdf',b'%PDF-fixture')
   self.assertEqual(len(list(m.unpack(b.getvalue(),'archive.zip'))),1)
+ def test_index_failure_becomes_terminal_and_is_not_retried(self):
+  with tempfile.TemporaryDirectory() as directory,patch.object(m,'DATA',Path(directory)/'competitions'),patch.object(m,'OPERATIONAL',Path(directory)):
+   store=Path(directory)/'data/rag';store.mkdir(parents=True);(store/'store.json').write_text(json.dumps({'vector_store_id':'fixture'}));c=m.db();text=Path(directory)/'text.txt';text.write_text('fixture')
+   c.execute('INSERT INTO docs(uid,metadata,sha,path) VALUES(?,?,?,?)',('test',json.dumps({'url':'https://example.org/subiect.pdf'}),'test',str(text)));c.commit()
+   with patch.object(m,'api',side_effect=RuntimeError('API_TEMPORARY_FAILURE')):m.index(c,'test')
+   row=c.execute('SELECT * FROM docs').fetchone();self.assertEqual(row['status'],'failed');self.assertEqual(row['error'],'API_TEMPORARY_FAILURE')
+   with patch.object(m,'api') as api:m.index(c,'test');api.assert_not_called()
+   self.assertTrue(text.exists());c.close()
  def test_failed_extraction_does_not_leave_original_cache(self):
   with tempfile.TemporaryDirectory() as directory,patch.object(m,'DATA',Path(directory)),patch.object(m,'cloud_active',return_value=True),patch.object(m,'text_document',side_effect=RuntimeError('INVALID_DOCUMENT')):
    c=m.db();m.add_document(c,b'invalid','subiect.docx',{'id':'test','title':'Olimpiada','category':'olympiad'},'https://example.org/subiect.docx')
