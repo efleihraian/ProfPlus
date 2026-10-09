@@ -86,3 +86,12 @@ Pro activ; HIBP/secure password change/current password activ. Email/anon/phone 
 Backupurile zilnice PostgreSQL sunt disponibile pe Pro (7 zile), nu cuprind obiectele Storage. PITR este add-on separat și nu a fost cumpărat. Backup separat și probă de restaurare a documentelor private rămân condiții de producție; nu se declară că toate precauțiile proiectului sunt finalizate. Captcha/MFA UI/scanarea malware și auditurile cu conturi/tenant distincte nu sunt rezolvate de simplul upgrade. Spend cap și 50 MB păstrate; importer 50 MB și prag bibliotecă 75 GB. Materialele se șterg local numai după verificare completă și metadata cloud.
 
 P-060 GitHub: PR #8 https://github.com/ProfOS-Edu/ProfPlus/pull/8, review bogdan-25 solicitat, dependent de PR #6. CI run 37935131688: contractele de import și secrets trecute; build/TypeScript/suite cont/bibliotecă trecute în job, controlul npm audit a eșuat pe cele 8 high existente din braces și dependențele de dezvoltare. Controlul nu a fost dezactivat și PR-ul nu este auto-merged. Local: 37 teste Python trecute. Transferul originalelor și OCR pentru candidații noi rămân procese active, nu milestone complet.
+
+
+## Historique P-056 intégré — état daté, remplacé par les notes ultérieures
+
+
+### P-056 — import arhive, 2026-10-08
+
+Izolare de importul manualelor, SQL parametrizat, HTTPS/adrese publice/redirecturi, dimensiuni și expansiune arhive, membri citiți ca bytes fără extracție pe disc, cheie numai în proces/server. DTO comun explicit, URL HTTPS fără credentiale și UID/categorii validate; fără date de ownership/index/private în DTO. Șapte teste offline și test DTO trecut; nu este scanare malware, audit DNS rebinding sau garanție de pseudonimizare. Formulele/OCR și documentele cu date incidentale necesită verificare. Nu se schimbă autentificarea ori sharing-ul Sites.
+
