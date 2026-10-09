@@ -195,3 +195,7 @@ Proveniență per exercițiu, referințe în document și export PDF/Word simpli
 ## Nelansat — P-057
 
 Stocare privată Supabase, transfer verificat înainte de ștergerea copiei locale, restaurare după hash și adaptoare pentru documente/istoric. Schema PostgreSQL și cutoverul sunt pregătite, fără activare înainte de migrare și probe reale.
+
+## 2026-10-09 — Curățarea locală P-058
+
+- Un singur checkout operațional pentru aplicație/import, fără pierderea modificărilor locale. Copiile publicate și dependențele temporare eliminate după verificare; logo-uri în cloud, configurație necesară păstrată protejat.

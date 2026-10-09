@@ -62,3 +62,7 @@ DATA_BACKEND=supabase activ pe site și local. Cele patru conversații din Sites
 Cele două baze SQLite de import sunt cache necesar procesului activ, cu checkpointuri private verificate și evidență relațională în Supabase. Se pot restaura cu scriptul dedicat înainte de reluarea într-un checkout nou; nu se pornește un import cu o bază goală în locul checkpointului. Pentru materiale încă neindexate, --include-pending cere blocarea exclusivă a importurilor înainte de transfer; restaurarea textului din cloud este automată la indexare.
 
 Migrațiile din Git corespund exact istoricului serverului (20261009074150 profplus_cloud_library, 20261009074413 restrict_internal_rls_trigger). Fișierele au fost create prin CLI și redenumite numai pentru alinierea versiunilor returnate de aplicarea nativă. Generatoarele sunt instrumente de redactare inițială; nu regenera sau modifica migrații deja aplicate. Pentru schimbări ulterioare creează o migrație nouă. Variabilele necesare fără valori secrete sunt în .env.example; pe site se configurează ca valori runtime protejate.
+
+## Copia operațională unică — 9 octombrie 2026
+
+Importul și aplicația sunt consolidate în directorul principal; checkout-urile suplimentare pot fi eliminate după verificarea publicării și a transferului. Logo-urile originale sunt în arhiva privată references/profplus-brand-originals/reference; credențialele Google/Apple au fost reunite în data/provider-credentials, ignorat și protejat. [Reguli și restaurare](LOCAL_WORKSPACE.md).

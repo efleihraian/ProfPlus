@@ -17,6 +17,10 @@ from scripts import run_manual_import as queue
 
 class ImportTests(unittest.TestCase):
     def setUp(self):
+        # Offline fixtures must never use the operational cloud configuration.
+        cloud = patch.object(importer, 'cloud_active', return_value=False)
+        cloud.start()
+        self.addCleanup(cloud.stop)
         self.temp = tempfile.TemporaryDirectory()
         self.old_data = importer.DATA
         importer.DATA = Path(self.temp.name)
