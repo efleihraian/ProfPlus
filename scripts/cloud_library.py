@@ -126,6 +126,15 @@ class CloudLibrary:
    if (after.st_size,after.st_mtime_ns)!=(before.st_size,before.st_mtime_ns) or hashlib.sha256(path.read_bytes()).hexdigest()!=digest:raise RuntimeError('LOCAL_FILE_CHANGED_KEEPING_COPY')
    path.unlink()
   return record
+ def omitted_uids(self,family):
+  if not re.fullmatch(r'[a-z0-9_-]{1,100}',family):raise RuntimeError('MATERIAL_KEY_REJECTED')
+  result=set();offset=0
+  while True:
+   reply=self.request('GET','/rest/v1/library_materials',params={'select':'uid','family':'eq.'+family,'kind':'eq.reference','metadata->>omissionReason':'eq.IMPORT_FAILED','order':'uid.asc','limit':1000,'offset':offset})
+   if not reply.ok:raise RuntimeError('CLOUD_OMISSION_CATALOG_READ_'+str(reply.status_code))
+   rows=reply.json();result.update(row['uid'] for row in rows)
+   if len(rows)<1000:return result
+   offset+=len(rows)
  def assert_library_capacity(self,additional):
   # Leave 25 GB for private growth plus a 1 GB buffer for concurrent import workers.
   used=0;offset=0
@@ -137,12 +146,14 @@ class CloudLibrary:
    offset+=len(rows)
   if used+additional>74*1000**3:raise RuntimeError('CLOUD_LIBRARY_BUDGET_REACHED')
   return used
- def source_link(self,family,uid,metadata):
+ def source_link(self,family,uid,metadata,reason="FILE_TOO_LARGE"):
   """Persist a verified reference, never represent it as an uploaded original."""
   if not re.fullmatch(r'[a-z0-9_-]{1,100}',family) or not re.fullmatch(r'[A-Za-z0-9_-]{1,160}',uid):raise RuntimeError('MATERIAL_KEY_REJECTED')
   source=metadata.get('pdf_url') or metadata.get('url');parsed=urlsplit(source or '')
   if parsed.scheme!='https' or not parsed.hostname or parsed.username or parsed.password or parsed.port not in (None,443):raise RuntimeError('SOURCE_URL_REJECTED')
-  metadata={**metadata,'sourceOnly':True,'omissionReason':'FILE_TOO_LARGE','fileLimitBytes':50*1024**2}
+  if reason not in ('FILE_TOO_LARGE','IMPORT_FAILED'):raise RuntimeError('OMISSION_REASON_REJECTED')
+  metadata={**metadata,'sourceOnly':True,'omissionReason':reason}
+  if reason=='FILE_TOO_LARGE':metadata['fileLimitBytes']=50*1024**2
   data=json.dumps(metadata,ensure_ascii=False,sort_keys=True).encode();digest=hashlib.sha256(data).hexdigest()
   key=f'{family}/{uid}/reference/{digest}.txt'
   self.verified_put(BUCKET,key,data,'text/plain; charset=utf-8')
