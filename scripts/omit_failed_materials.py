@@ -112,17 +112,21 @@ def main():
   lock=locks.enter_context((folder/'omit-failed.lock').open('a'))
   fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);target=folder/'failed-materials.txt';journal=read(target).get('materials',{});client=CloudLibrary()
   def save():write(target,{'updated_at':time.time(),'materials':journal})
+  first=True
   while True:
+   running_at_start=active(root)
    items=collect(root)
    pending=[(key,item) for key,item in items.items() if journal.get(key,{}).get('state')!='omitted']
    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
     references=pool.map(lambda pair:prepare_reference(client,pair[1]),pending)
     for (key,item),reference in zip(pending,references):
      omit(root,client,item,journal,save,reference);apply_states(root,{key:journal[key]})
-   apply_states(root,journal);save()
-   client.archive(target,'checkpoints','omitted-failed-materials','text',delete=False)
-   print(json.dumps({'omitted':sum(v['state']=='omitted' for v in journal.values()),'deleted_files':sum(len(v['deleted']) for v in journal.values())}),flush=True)
-   if not args.follow_active_import or not active(root):
+   if pending or first:
+    apply_states(root,journal);save()
+    client.archive(target,'checkpoints','omitted-failed-materials','text',delete=False)
+    print(json.dumps({'omitted':sum(v['state']=='omitted' for v in journal.values()),'deleted_files':sum(len(v['deleted']) for v in journal.values())}),flush=True)
+    first=False
+   if not args.follow_active_import or not running_at_start:
     for family in ('manuals','competitions'):
      database=root/('data/rag/import.sqlite' if family=='manuals' else 'data/competitions/import.sqlite')
      if database.exists():cloud_snapshot(database,family)
