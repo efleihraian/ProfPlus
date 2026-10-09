@@ -58,7 +58,7 @@ def config():
  if not KEY:raise RuntimeError('API_KEY_MISSING')
  return KEY
 
-def api(method,path,**kw):
+def api(method,path,allow_missing=False,**kw):
  global STOP
  for attempt in range(4):
   for f in kw.get('files',{}).values():f[1].seek(0)
@@ -67,6 +67,7 @@ def api(method,path,**kw):
    if attempt==3:raise RuntimeError('API_NETWORK_ERROR') from None
    time.sleep(2**attempt);continue
   if r.ok:return r.json()
+  if r.status_code==404 and allow_missing:return {}
   if r.status_code in (401,403):STOP=True;raise RuntimeError('API_ACCESS_'+str(r.status_code))
   if r.status_code==429 and r.json().get('error',{}).get('code') in ('insufficient_quota','billing_hard_limit_reached'):STOP=True;raise RuntimeError('API_QUOTA')
   if r.status_code not in (429,500,502,503,504):raise RuntimeError('API_HTTP_'+str(r.status_code))
@@ -107,6 +108,7 @@ def db():
  DATA.mkdir(parents=True,exist_ok=True)
  c=sqlite3.connect(DATA/'import.sqlite',timeout=30);c.row_factory=sqlite3.Row;c.execute('PRAGMA journal_mode=WAL')
  c.executescript('CREATE TABLE IF NOT EXISTS urls(url TEXT PRIMARY KEY,seed TEXT,depth INTEGER,label TEXT,status TEXT DEFAULT "pending",error TEXT); CREATE TABLE IF NOT EXISTS docs(uid TEXT PRIMARY KEY,metadata TEXT,sha TEXT UNIQUE,path TEXT,status TEXT DEFAULT "extracted",file_id TEXT,attached INTEGER DEFAULT 0,error TEXT); CREATE TABLE IF NOT EXISTS skips(url TEXT PRIMARY KEY,reason TEXT);')
+ if 'old_file_id' not in [r[1] for r in c.execute('PRAGMA table_info(docs)')]:c.execute('ALTER TABLE docs ADD COLUMN old_file_id TEXT')
  c.commit();return c
 
 def metadata(name,text,seed,url):
@@ -196,6 +198,33 @@ def unpack(data,name,depth=0):
   target.unlink(missing_ok=True);return
  raise RuntimeError('UNSUPPORTED_ARCHIVE')
 
+def marked_chunks(value):
+ matches=list(re.finditer(r'\[\[PAGE:(\d+)\]\]([\s\S]*?)(?=\[\[PAGE:\d+\]\]|$)',value))
+ if not matches:return value
+ sections=[value[:matches[0].start()]]
+ for match in matches:
+  words=match[2].split();chunk=[];length=0
+  for word in words:
+   chunk.append(word);length+=len(word)+1
+   if length>=900:sections.append(f'[[PAGE:{match[1]}]]\n'+' '.join(chunk));chunk=[];length=0
+  if chunk:sections.append(f'[[PAGE:{match[1]}]]\n'+' '.join(chunk))
+ return '\n\n'.join(sections)
+
+def repair_chunks(c):
+ # Replace only this importer's own completed files; preserve old search until replacement completes.
+ for row in c.execute('SELECT * FROM docs WHERE status="indexed" OR (status="extracted" AND file_id IS NULL)').fetchall():
+  m=json.loads(row['metadata'])
+  if m.get('textChunkVersion')==3:continue
+  path=Path(row['path']);value=path.read_text();replacement=marked_chunks(value)
+  m['textChunkVersion']=3
+  if replacement==value:
+   c.execute('UPDATE docs SET metadata=? WHERE uid=?',(json.dumps(m,ensure_ascii=False),row['uid']));c.commit();continue
+  temporary=path.with_suffix('.repair');temporary.write_text(replacement);temporary.replace(path)
+  if row['status']=='indexed':
+   c.execute('UPDATE docs SET metadata=?,old_file_id=file_id,file_id=NULL,attached=0,status="extracted" WHERE uid=?',(json.dumps(m,ensure_ascii=False),row['uid']))
+  else:c.execute('UPDATE docs SET metadata=? WHERE uid=?',(json.dumps(m,ensure_ascii=False),row['uid']))
+  c.commit()
+
 def add_document(c,data,name,seed,url):
  sha=hashlib.sha256(data).hexdigest()
  existing=c.execute('SELECT status,error FROM docs WHERE sha=?',(sha,)).fetchone()
@@ -206,9 +235,9 @@ def add_document(c,data,name,seed,url):
  try:
   text,pages,readable=text_document(data,name)
   if re.search(r'rezultate (?:finale|initiale|olimpiadei)|lista (?:candidat|participant|elev)',norm(text[:12000])):raise RuntimeError('PERSONAL_RESULTS_EXCLUDED')
-  m=metadata(name,text,seed,url);m.update(pages=pages,readablePages=readable,pageLocator='pdf' if pages else 'fragment')
+  m=metadata(name,text,seed,url);m.update(textChunkVersion=3,pages=pages,readablePages=readable,pageLocator='pdf' if pages else 'fragment')
   path=DATA/'text'/f'{uid}.txt';path.parent.mkdir(exist_ok=True)
-  path.write_text('Material educațional: '+m['title']+'\nTip: '+m['category']+'\nDisciplina: '+m['subject']+'\nOriginal: '+url+'\nMembru în arhivă: '+name+'\nPaginile sunt poziții PDF; pentru DOC/DOCX PAGE:1 indică fragment, nu pagina fizică.\n\n'+text)
+  path.write_text('Material educațional: '+m['title']+'\nTip: '+m['category']+'\nDisciplina: '+m['subject']+'\nOriginal: '+url+'\nMembru în arhivă: '+name+'\nPaginile sunt poziții PDF; pentru DOC/DOCX PAGE:1 indică fragment, nu pagina fizică.\n\n'+marked_chunks(text))
   c.execute('INSERT INTO docs(uid,metadata,sha,path) VALUES(?,?,?,?)',(uid,json.dumps(m,ensure_ascii=False),sha,str(path)))
  except Exception as e:
   code=str(e) if isinstance(e,RuntimeError) else type(e).__name__
@@ -282,6 +311,16 @@ def enrich(c):
   m=json.loads(row['metadata'])
   api('POST',f'/vector_stores/{store}/files/{row["file_id"]}',json={'attributes':attributes(row['uid'],m)})
 
+def cleanup_replaced(c,store,only_uid=None):
+ for row in c.execute('SELECT uid,old_file_id FROM docs WHERE status="indexed" AND old_file_id IS NOT NULL'+(' AND uid=?' if only_uid else ''),((only_uid,) if only_uid else ())).fetchall():
+  try:
+   api('DELETE',f'/vector_stores/{store}/files/{row["old_file_id"]}',allow_missing=True)
+   api('DELETE',f'/files/{row["old_file_id"]}',allow_missing=True)
+   c.execute('UPDATE docs SET old_file_id=NULL,error=NULL WHERE uid=?',(row['uid'],))
+  except Exception as e:
+   c.execute('UPDATE docs SET error=? WHERE uid=?',('REPLACEMENT_CLEANUP_'+(str(e) if isinstance(e,RuntimeError) else type(e).__name__),row['uid']))
+  c.commit()
+
 def index(c,only_uid=None):
  store=json.loads((OPERATIONAL/'data/rag/store.json').read_text())['vector_store_id']
  for row in c.execute('SELECT * FROM docs WHERE status IN ("extracted","uploaded","indexing")'+(' AND uid=?' if only_uid else ''),((only_uid,) if only_uid else ())).fetchall():
@@ -298,7 +337,10 @@ def index(c,only_uid=None):
     api('POST',f'/vector_stores/{store}/files/{file_id}',json={'attributes':attributes(row['uid'],m)})
    for _ in range(60):
     item=api('GET',f'/vector_stores/{store}/files/{file_id}')
-    if item['status']=='completed':c.execute('UPDATE docs SET status="indexed",error=NULL WHERE uid=?',(row['uid'],));break
+    if item['status']=='completed':
+     c.execute('UPDATE docs SET status="indexed",error=NULL WHERE uid=?',(row['uid'],));c.commit()
+     cleanup_replaced(c,store,row['uid'])
+     break
     if item['status'] in ('failed','cancelled'):raise RuntimeError('REMOTE_INDEX_FAILED')
     time.sleep(2)
   except Exception as e:
@@ -315,6 +357,8 @@ def main():
   if a.enrich:enrich(c)
   if a.discover:discover(c,json.loads((ROOT/'catalog/competition-archives.json').read_text()),a.batch_size)
   if a.index:
+   repair_chunks(c)
+   cleanup_replaced(c,json.loads((OPERATIONAL/'data/rag/store.json').read_text())['vector_store_id'])
    def worker(uid):
     conn=db()
     try:index(conn,uid)
