@@ -32,7 +32,7 @@ class CloudLibrary:
    except requests.RequestException:
     if attempt==6:raise RuntimeError('SUPABASE_NETWORK_ERROR') from None
     time.sleep(min(2**attempt,30));continue
-   if r.status_code not in (429,500,502,503,504):return r
+   if r.status_code!=429 and not 500<=r.status_code<600:return r
    r.close();time.sleep(min(2**attempt,30))
   raise RuntimeError('SUPABASE_RETRY_EXHAUSTED')
  def ensure_buckets(self):
@@ -64,7 +64,7 @@ class CloudLibrary:
     if next_offset!=offset+len(chunk):raise RuntimeError('RESUMABLE_OFFSET_MISMATCH')
    else:
     # A timed-out PATCH may already have succeeded; reconcile its offset before retrying.
-    if r is not None and r.status_code not in (409,429,500,502,503,504):raise RuntimeError('SUPABASE_RESUMABLE_PATCH_'+str(r.status_code))
+    if r is not None and r.status_code not in (409,429) and not 500<=r.status_code<600:raise RuntimeError('SUPABASE_RESUMABLE_PATCH_'+str(r.status_code))
     check=self.request('HEAD',path,headers={'Tus-Resumable':'1.0.0'})
     if not check.ok:raise RuntimeError('SUPABASE_RESUMABLE_HEAD_'+str(check.status_code))
     next_offset=int(check.headers.get('Upload-Offset','-1'))

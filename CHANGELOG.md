@@ -203,3 +203,9 @@ Stocare privată Supabase, transfer verificat înainte de ștergerea copiei loca
 ## 2026-10-09 — P-059
 
 - Verificarea bibliotecii mari are deadline 120 secunde și cache server 5 minute. Erorile nu mai afișează materialele ca neindexate; stare neverificată distinctă.
+
+### P-060 — 2026-10-09
+
+Recuperare reluabilă a originalelor manualelor în Storage privat, plafon pe fișier și prag de capacitate; listă a originalelor rămase separată de starea indexului. Retry pentru răspunsuri temporare Storage 5xx și limită PDF explicită în importer. Potrivire disciplină/clasă pentru selecția tuturor categoriilor comune și private. Protecțiile Pro și SSL/restricții/jurnalizare verificate live; branding Google rămâne condiționat de domeniu. Publicare privată Sites versiunea 19 confirmată.
+
+P-060: recuperarea originalelor poate relua până la șase transferuri simultane, cu plafon verificat și pentru PDF local, fără reîncărcarea surselor deja identificate ca prea mari.

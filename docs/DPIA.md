@@ -134,3 +134,7 @@ P-057, 2026-10-09: transfer autorizat explicit către proiectul Supabase existen
 ### 2026-10-09 — P-058: minimizarea copiilor locale
 
 Copiile redundante sunt eliminate după verificarea sursei remote sau a transferului fidel; starea importului activ are checkpoint privat. Credențialele providerilor rămân local protejat și nu intră în biblioteca Supabase ori Git. Originalele de branding au backup privat verificat. Nu se modifică audiența Sites, identitățile, retenția furnizorilor sau condițiile de lansare generală.
+
+## P-060 — 2026-10-09
+
+Pro păstrează regiunea eu-west-1 și furnizorii existenți; nu schimbă automat contractele sau aprobarea DPIA. HIBP prin Supabase pentru parole, sesiuni limitate, SSL și restricții directe/jurnalizare activate și documentate; Email rămâne oprit. Jurnalele de conexiune sunt date operaționale cu acces administrativ, nu includ conținutul chat/documentelor prin această schimbare. Backup DB 7 zile; Storage nu este inclus, politica de backup/restaurare a documentelor private rămâne de verificat înainte de producție. PDF-urile oficiale se recuperează cu amprentă și metadate în Storage privat, fără date de elevi; raportul originalelor și indexul AI sunt distincte. Nu se publică OAuth către public, nu se cumpără domeniu/add-onuri și nu se declară branding verificat în lipsa domeniului titularului.
