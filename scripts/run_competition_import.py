@@ -9,8 +9,9 @@ def main():
  with (DATA/'controller.lock').open('a') as lock:
   fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
   with (DATA/'import.lock').open('a') as existing:fcntl.flock(existing,fcntl.LOCK_EX)
-  result=subprocess.run([sys.executable,str(ROOT/'scripts/import_competitions.py'),'--enrich'],cwd=ROOT)
-  if result.returncode:return result.returncode
+  state(state='running',phase='resume_indexing')
+  result=subprocess.run([sys.executable,str(ROOT/'scripts/import_competitions.py'),'--index'],cwd=ROOT)
+  if result.returncode:state(state='stopped',error='IMPORT_CHILD_FAILED');return result.returncode
   while True:
    state(state='running',phase='discovery_and_indexing')
    result=subprocess.run([sys.executable,str(ROOT/'scripts/import_competitions.py'),'--discover','--index','--batch-size','20'],cwd=ROOT)
