@@ -1,5 +1,7 @@
 # Pornirea ProfPlus pentru colaboratori
 
+Repository-ul este privat; colaboratorul are nevoie de acces GitHub la el. Accesul la proiectul ChatGPT nu acordă automat acces GitHub sau la serviciile cloud.
+
 `main` este baza comună a proiectului. Conține aplicația web, exportul PDF/Word și proveniența exercițiilor, adaptoarele cloud, schemele/migrațiile Supabase, importerele manualelor și concursurilor, testele, catalogul public și documentația. Android și iOS sunt planificate; nu există încă aplicații mobile de descărcat.
 
 ## Instalare dintr-o clonă curată
