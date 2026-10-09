@@ -173,7 +173,7 @@ def text_document(data,name):
 
 def unpack(data,name,depth=0):
  if depth>3:raise RuntimeError('NESTED_ARCHIVE_LIMIT')
- if Path(name.replace('\\','/')).name.startswith('~$'):return
+ if Path(name.replace('\\','/')).name.startswith(('~$','._')):return
  if name.lower().endswith('.docx') or data.startswith(b'%PDF-') or name.lower().endswith('.doc'):
   yield name,data;return
  if zipfile.is_zipfile(io.BytesIO(data)):
@@ -181,7 +181,7 @@ def unpack(data,name,depth=0):
    total=0
    for i in z.infolist():
     if i.is_dir():continue
-    if Path(i.filename.replace('\\','/')).name.startswith('~$') or PRIVATE.search(norm(i.filename)):continue
+    if Path(i.filename.replace('\\','/')).name.startswith(('~$','._')) or PRIVATE.search(norm(i.filename)):continue
     if not re.search(r'\.(pdf|docx?|zip|rar)$',i.filename,re.I):continue
     total+=i.file_size
     if i.file_size>MAX_MEMBER or total>MAX_EXPANDED or i.file_size/max(1,i.compress_size)>300:raise RuntimeError('ARCHIVE_SIZE_REJECTED')
@@ -194,7 +194,7 @@ def unpack(data,name,depth=0):
    if listing.returncode:raise RuntimeError('ARCHIVE_FORMAT_UNSUPPORTED')
    total=0
    for member in listing.stdout.decode('utf8',errors='replace').splitlines():
-    if Path(member.replace('\\','/')).name.startswith('~$') or PRIVATE.search(norm(member)) or not re.search(r'\.(pdf|docx?|zip|rar)$',member,re.I):continue
+    if Path(member.replace('\\','/')).name.startswith(('~$','._')) or PRIVATE.search(norm(member)) or not re.search(r'\.(pdf|docx?|zip|rar)$',member,re.I):continue
     with subprocess.Popen(['/usr/bin/bsdtar','-xOf',str(target),'--',member],stdout=subprocess.PIPE,stderr=subprocess.DEVNULL) as p:
      value=p.stdout.read(MAX_MEMBER+1)
      if len(value)>MAX_MEMBER:p.kill();raise RuntimeError('ARCHIVE_SIZE_REJECTED')
@@ -240,6 +240,7 @@ def add_document(c,data,name,seed,url):
  sha=hashlib.sha256(data).hexdigest()
  existing=c.execute('SELECT status,error FROM docs WHERE sha=?',(sha,)).fetchone()
  if existing:
+  if existing['status'] in ('skipped','excluded'):return
   if existing['error']=='PERSONAL_RESULTS_EXCLUDED' or (existing['error'] or '').startswith(('SUPABASE_','CLOUD_','REMOTE_HASH_','MANIFEST_')):c.execute('DELETE FROM docs WHERE sha=?',(sha,));c.commit()
   else:return
  uid='competition-'+sha[:24]
@@ -372,7 +373,7 @@ def index(c,only_uid=None):
   except Exception as e:
    code=str(e) if isinstance(e,RuntimeError) else type(e).__name__
    if code.startswith(('SUPABASE_','CLOUD_','REMOTE_HASH_','MANIFEST_')):STOP=True
-   c.execute('UPDATE docs SET error=? WHERE uid=?',(code,row['uid']))
+   c.execute('UPDATE docs SET status="failed",error=? WHERE uid=?',(code,row['uid']))
   c.commit();r=export(c);print(json.dumps({'uid':row['uid'],'counts':r['counts']}),flush=True)
 
 def main():

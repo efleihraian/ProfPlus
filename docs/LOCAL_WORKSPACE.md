@@ -35,3 +35,7 @@ Capturile de verificare și rapoartele istorice de test/migrare sunt păstrate �
 ## P-062
 
 Cache-ul originalelor peste 50 MB poate fi eliminat după verificarea referinței, conform cererii explicite a titularului. Celelalte originale se elimină numai după transferul verificat. Detalii și rapoarte: [IMPORT_CONTINUATION.md](IMPORT_CONTINUATION.md).
+
+## P-063 — renunțare la materialele cu erori, 2026-10-10
+
+Titularul a autorizat omiterea materialelor cu erori: referință verificată în Supabase înainte de eliminarea cache-ului local, fără redescărcare automată. Cele 10 PDF-uri rămase după erori (394.205.365 bytes) au fost eliminate. Importul valid al concursurilor continuă; companionul păstrează și linkurile pentru erorile lui. [Flux, dovezi și limite](FAILED_MATERIALS.md).

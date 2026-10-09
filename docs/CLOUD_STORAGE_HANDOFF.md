@@ -31,3 +31,7 @@ Verificare live la 14:30 UTC: 639 PDF-uri originale de manuale în Supabase, 828
 Validare: 49 teste Python offline, TypeScript și suite bibliotecă/cache, adaptor Supabase, DTO/RAG comun și proveniență/export trecute. Build Sites trecut și publicat privat, source `024889aab52ab2056d6428873c76a584dcd6b61d`, deployment `appgdep_6ac8fa4c2e2881918f84f75ccaba52f6`, status `succeeded`, env revision 4. Scanner Git/client: 1.240 fișiere/bloburi, zero detecții. Audit npm: cele 8 high existente în toolchain rămân urmărite; fără dezactivarea controlului sau afirmație CI integral verde.
 
 Recuperare separată pentru originalele concursurilor deja indexate: inventarul inițial a identificat 578 originale lipsă din cloud. `recover_competition_originals.py` grupează descărcările după URL, selectează membrii exclusiv prin SHA-256 original, transferă cu doi lucrători și elimină cache-ul după verificare. Nu reindexează și nu înlocuiește un original cu o versiune diferită a sursei. Raport/checkpoint: `data/competitions/original-recovery/progress.txt` / UID `competition-original-recovery`. Erorile și sursele modificate sunt raportate separat.
+
+## P-063 — renunțare la materialele cu erori, 2026-10-10
+
+Titularul a autorizat omiterea materialelor cu erori: referință verificată în Supabase înainte de eliminarea cache-ului local, fără redescărcare automată. Cele 10 PDF-uri rămase după erori (394.205.365 bytes) au fost eliminate. Importul valid al concursurilor continuă; companionul păstrează și linkurile pentru erorile lui. [Flux, dovezi și limite](FAILED_MATERIALS.md).
