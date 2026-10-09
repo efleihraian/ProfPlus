@@ -78,3 +78,7 @@ Verificare P-058: TypeScript și build au trecut în copia consolidată; 26 test
 ### 2026-10-09 — P-059
 
 Cache server: numai metadate publice ale bibliotecii comune, maximum 4 configurații, TTL 5 minute, chei exclusiv server, invalidare la schimbare credențiale. Datele private nu intră în cache; ownership verificat pe fiecare cerere. Eșecul nu conferă ready/selecție AI, ci unknown. Deadline 120 secunde și refuz cursor repetat. Regresii trecute; nu este audit complet.
+
+## 2026-10-09 — Verificare inventar cloud și izolarea testelor
+
+Verificare live: originalele nu sunt încă complete; 7 originale manuale și 828 originale concursuri/olimpiade, texte pentru 1.303 manuale indexate și 1.391 documente de concurs indexate. Un artifact sintetic de 7 bytes a fost identificat prin archiveId=test, example.org și SHA-256 exact al fixture-ului, apoi eliminat din Storage și catalog. Testele de concurs dezactivează explicit cloud_active, la fel ca testele de manuale, fără a depinde de configurația checkout-ului. Niciun material real eliminat. Importul concursurilor s-a oprit la un PDF de 57.946.349 bytes, SUPABASE_RESUMABLE_CREATE_413; originalul este păstrat local. Nu se declară transferul complet sau import activ după acest blocaj.
