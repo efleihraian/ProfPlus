@@ -8,8 +8,11 @@ const discipline=(value:string)=>{
  const key=subjectKey(value);
  if(['informatica','informatica si tic','tehnologia informatiei si a comunicatiilor'].includes(key))return 'informatica';
  if(['limba romana','limba si literatura romana','comunicare in limba romana'].includes(key))return 'romana';
- const modern=key.match(/^(?:limba (?:moderna(?: [12])? )?|comunicare in limba moderna(?: [12])? [(-]?)(engleza|franceza|germana|spaniola|italiana)(?:\)| nivel [ab][12](?:\.\d)?|$)/);
- return modern?'limba '+modern[1]:key;
+ if(key.startsWith('limba moderna')||key.startsWith('comunicare in limba moderna')){
+  const languages=['engleza','franceza','germana','spaniola','italiana'].filter(language=>new RegExp('\\b'+language+'\\b').test(key));
+  if(languages.length===1)return 'limba '+languages[0];
+ }
+ return key;
 };
 export const subjects = [...new Set(Object.values(catalog).map(m=>m.subject.trim()))].sort((a,b)=>a.localeCompare(b,'ro'));
 export function teachingProfile(value:unknown):TeachingProfile|null {

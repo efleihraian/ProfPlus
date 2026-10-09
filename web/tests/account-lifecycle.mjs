@@ -35,6 +35,12 @@ const commonCompetitions=[
 ];
 assert.deepEqual(automaticSources(commonCompetitions,computing),{mode:'automatic',manualIds:['oni','infoarena'],documentIds:['collection']});
 assert.equal(matchesTeaching({subject:'Limba franceză',stages:['high']},teachingProfile({role:'teacher',subject:'Limba moderna franceza',stages:['high']})),true);
+for(const subject of ['Limba modernă 1-limba engleză','LIMBA MODERNA 1-LIMBA ENGLEZA-STUDIU INTENSIV']){
+ assert.equal(matchesTeaching({subject:'Limba engleză',stages:['high']},teachingProfile({role:'teacher',subject,stages:['high']})),true);
+}
+const german=teachingProfile({role:'teacher',subject:'Limba moderna germana nivel A2.1',stages:['high']});
+assert.equal(matchesTeaching({subject:'Limba germană',stages:['high']},german),true);
+assert.equal(matchesTeaching({subject:'Limba franceză',stages:['high']},german),false);
 assert.equal(matchesTeaching({subject:'Limba și literatura română',stages:['middle']},teachingProfile({role:'teacher',subject:'Limba si literatura romana',stages:['middle']})),true);
 assert.equal(matchesTeaching({subject:'Informatică',schoolClass:'Clasele 0–12'},computing),true);
 assert.equal(matchesTeaching({subject:'Informatică',schoolClass:'Clasa 13'},computing),false);
