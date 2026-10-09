@@ -40,3 +40,7 @@ Importul întregului catalog a fost reluat în ordinea matematică, fizică, inf
 ## Acces actual — P-051
 
 Catalog comun vizibil tuturor, inclusiv vizitatori; numai sursele indexate sunt selectabile pentru AI. Documentele conturilor nu sunt publice. Viitor: abonament verificat pe server pentru selecții specifice, vizibilitate catalog păstrată.
+
+## Verificarea indexului și erori — P-059
+
+Verificare completă până la 120 secunde; cache server 5 minute, cereri simultane reunite. Eșecul sau configurația absentă afișează starea indexării neverificată și exclude selecția AI. Numai o verificare completă poate confirma catalog/neindexat. Cache-ul include exclusiv surse comune; documentele private sunt autorizate separat.
