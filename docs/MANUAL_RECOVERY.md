@@ -13,6 +13,8 @@ Din copia operațională, cu configurația server protejată existentă:
   --operational-root /cale/absoluta/profos --file-limit-mb 50
 ```
 
+Transferul are cel mult șase lucrători (implicit șase, `--workers 1..6`); indexarea/OCR păstrează limitele separate. SIGTERM/SIGINT opresc coada și lasă transferurile deja începute să se încheie. Reluarea nu redescarcă un document deja identificat ca prea mare dacă URL-ul nu s-a schimbat, iar un PDF local păstrat este verificat din nou față de limita aleasă.
+
 Scriptul procesează catalogul complet, circular pe disciplină și clasă înaintea editurilor suplimentare din aceeași grupă. Descarcă numai de la manuale.edu.ro, verifică redirectul și semnătura PDF, respinge dimensiunea prea mare înainte de download când Content-Length este disponibil și limitează și fluxurile fără lungime. Transferul privat folosește upload reluabil; recitește toate bytes din Storage, verifică SHA-256/dimensiune, manifest și înregistrarea PostgreSQL înaintea ștergerii locale. Originalele rămase după eșec de upload sunt păstrate pentru reluare. Erorile temporare de rețea/5xx au retry limitat; 413 nu se retrimite repetitiv.
 
 O singură recuperare de originale poate rula simultan. Pentru continuare după pasul deja activ:
