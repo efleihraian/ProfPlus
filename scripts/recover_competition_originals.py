@@ -27,7 +27,9 @@ def main():
   try:
    for row in connection.execute('SELECT * FROM docs WHERE status="indexed"'):
     if row['uid'] not in known:
-     item=dict(row);item['metadata']=json.loads(item['metadata']);groups[item['metadata']['url']].append(item)
+     item=dict(row);item['metadata']=json.loads(item['metadata'])
+     if Path(item['metadata'].get('archiveMember','').replace('\\','/')).name.startswith(('~$','._')):continue
+     groups[item['metadata']['url']].append(item)
   finally:connection.close()
   guard=threading.Lock();stop=threading.Event();results={}
   def report(uid,result):

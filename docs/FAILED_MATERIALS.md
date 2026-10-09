@@ -28,3 +28,7 @@ Listele de participanți/rezultate excluse prin filtrele de confidențialitate n
 Cele 10 PDF-uri de manuale rămase după erori, însumând 394.205.365 bytes, au fost eliminate după verificarea referințelor în Supabase. Cache-ul permanent de PDF-uri manuale și folderul de recuperare nu mai conțin PDF-uri. Referințele celorlalte erori și ale URL-urilor de arhive sunt sincronizate în continuare; importul valid al concursurilor este încă activ.
 
 58 de teste Python offline au trecut, inclusiv eșec cloud înainte de ștergere, protecția symlinkurilor/fișierelor active, păstrarea indexului reușit și lipsa redescarcării după omitere. Build web trecut și scanner Git/client fără detecții. Nu s-a modificat codul aplicației web, identitatea, audiența, politicile RLS sau furnizorii. Datele/referințele sunt în proiectul Supabase folosit deja de site și de copia locală. Auditul dependențelor are în continuare cele 8 high cunoscute în toolchain; controlul rămâne activ.
+
+## Publicare și verificare P-063
+
+PR #11 integrat în main: `46597b7aacf115e1433536a5e919b8abbf07369c`. 448 de referințe pentru materialele/URL-urile cu erori au fost salvate și jurnalizate; 10 PDF-uri eliminate, 394.205.365 bytes. Companionul rămâne activ numai cât rulează importul valid al concursurilor, pentru noile erori. Codul web are același tree Git `fb00b41548a85410be842dac8c1fa02a4c14e503` ca aplicația publicată; schimbarea datelor este în Supabase folosit de site, fără schimbare de audiență. Build, 58 teste offline și scanner Git/client fără detecții; auditul npm are 8 high existente.
