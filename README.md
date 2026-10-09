@@ -17,6 +17,7 @@ Un utilizator încarcă documente text sau PDF cu text, pune o întrebare și pr
 ## Documentație
 
 - [Starea actuală](STATUS.md) — unde am ajuns; se actualizează la fiecare versiune.
+- [Recuperarea originalelor manualelor](docs/MANUAL_RECOVERY.md) — transferul limitat la 50 MB, starea originalelor versus index și protecțiile Pro.
 - [Istoricul versiunilor](CHANGELOG.md) — ce s-a schimbat.
 - [Lucrări rămase](BACKLOG.md) — sarcini și criterii de finalizare.
 - [Planul de dezvoltare](ROADMAP.md) — etapele proiectului.
@@ -37,14 +38,17 @@ Site privat: [ProfPlus](https://profos-chat.cosminsoames.chatgpt.site).
 
 ## Pornirea site-ului local
 
+Pentru o clonă nouă și împărțirea lucrului: [ghidul colaboratorilor](docs/DEVELOPMENT_SETUP.md).
+
 Necesită Node.js 22.13 sau mai nou. Din directorul web:
 
 ```bash
-npm ci
+npm run install:ci
+cp .dev.vars.example .dev.vars
 npm run dev -- --host 127.0.0.1 --port 3000
 ```
 
-Configurarea locală folosește web/.dev.vars cu OPENAI_API_KEY și OPENAI_MODEL. Fișierul este exclus din GitHub. Deschide URL-ul afișat de server. Conversațiile sunt salvate în D1 pentru identitatea autentificată. Configurația locală folosește acum Supabase; site-ul privat publicat păstrează identitatea Sites.
+Configurarea locală folosește web/.dev.vars cu OPENAI_API_KEY și OPENAI_MODEL. Fișierul este exclus din GitHub. Deschide URL-ul afișat de server. Stocarea poate folosi D1/R2 local sau adaptoarele Supabase configurate pe server. Copia operațională și site-ul privat folosesc Supabase pentru date, iar site-ul păstrează identitatea Sites.
 
 ## Biblioteca RAG
 
@@ -75,3 +79,11 @@ Protecția datelor: [DPIA preliminară și condiții de lansare](docs/DPIA.md). 
 [Rebranding și compatibilitate](docs/BRANDING.md) · [Verificarea configurației externe](docs/AUTH_CONFIGURATION_REVIEW.md).
 
 [Securitate: reguli permanente](docs/SECURITY_REQUIREMENTS.md) · [Stare verificată și lipsuri](docs/SECURITY_REVIEW.md). Obligatorii pentru orice contributor și pentru web, Android și iOS.
+
+## Stocare cloud a bibliotecii
+
+Supabase Storage/PostgreSQL este activ pentru materialele bibliotecii, originale private, metadate, documente generate și istoric. Materialele locale disponibile au fost transferate și verificate. Copiile locale sunt eliminate numai după transfer și verificare completă; configurațiile și fișierele necesare proceselor sunt păstrate. [Structură, activare, reluare și limite](docs/CLOUD_STORAGE.md). Migrarea a fost verificată separat pe site și local; indexul de căutare existent rămâne la OpenAI.
+
+## Copia operațională și curățarea locală
+
+Aplicația și importul rulează dintr-un singur checkout. Originalele verificate ale bibliotecii sunt în Supabase; recuperarea celorlalte manuale continuă. Configurația, runtime-urile și starea importului activ rămân local. [Structură, restaurare și reguli de curățare](docs/LOCAL_WORKSPACE.md).

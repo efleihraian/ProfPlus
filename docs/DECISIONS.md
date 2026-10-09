@@ -127,3 +127,25 @@ Numele și activitatea didactică sunt salvate împreună printr-o singură actu
 ## 2026-10-05 — importul general reluat
 
 Reutilizăm indexul comun și UID-urile existente; verificăm starea remote înainte de reluare. Prioritate matematică, fizică, informatică/TIC, apoi rest; text mai întâi pentru disponibilitate rapidă, OCR separat. PDF-urile sunt procesate în subprocess deoarece un volum complex a blocat extracția într-un fir; timeoutul nu oprește restul. Prag 90% pagini text pentru volume noi, fără promisiuni privind formulele. Coada locală și urmărirea în chat păstrează publicarea online separată.
+
+P-057, 2026-10-09: Supabase Storage devine destinația materialelor disponibile; PostgreSQL va păstra datele aplicației și bibliotecii după verificarea migrării. Mac-ul păstrează doar date temporare necesare proceselor. OpenAI rămâne indexul AI existent, iar schimbarea stocării nu implică reindexare în pgvector. Copiile locale se elimină doar după upload, verificare integrală și evidență. Identitățile Sites/Supabase nu sunt reunite automat. Adaptorul server folosește o listă închisă de operații, nu un endpoint SQL generic; nu există fallback de scriere în vechiul backend când noul backend este selectat.
+
+### 2026-10-09 — P-058: un checkout operațional
+
+Se păstrează local numai codul/runtime/configurația și starea necesară importului activ. Copiile de lucru publicate se recreează din GitHub/Sites, materialele se restaurează verificat din Supabase. Nu se elimină modificări unice ori configurații necesare; sources/ sincronizat este read-only.
+
+## P-060 — 2026-10-09: limită 50 MB și separarea originalelor/indexului
+
+Titularul păstrează plafonul de cheltuieli Pro și cere toate originalele care încap în 50 MB, apoi evaluarea celor rămase. Recuperarea originalelor nu reîncarcă inutil textele deja indexate; se ordonează circular pe disciplină/clasă, păstrează proveniența și verifică bytes/metadata înaintea eliminării locale. Prag bibliotecă 75 GB pentru spațiu destinat documentelor private; nu este cotă garantată de furnizor. Backupurile DB nu acoperă Storage. OAuth branding se finalizează după domeniu și verificare reală; numele dintr-un câmp de configurare nu dovedește ce afișează Google.
+
+
+## Istoric P-056 integrat — fotografii datate, înlocuite de notele ulterioare
+
+
+### P-056 — Metadate comune dinamice, 2026-10-08
+
+Materialele de olimpiade/concursuri sunt importate în indexul comun existent, cu UID competition-<SHA256>, category, title, subject, source_url, publisher, stages, class și page_locator. DTO explicit, fără ID intern de fișier/index; bibliotecă/RAG consumă aceste câmpuri, păstrând starea reală a indexării. Se evită publicarea unui manifest nou pentru fiecare document. Doar câmpurile educaționale publice ajung în client; ownership-ul documentelor profesorului rămâne separat. Snapshotul raportului este datat, nu dovada că toate arhivele sunt finalizate.
+
+## P-061 — Bază comună pentru echipă, 2026-10-09
+
+Integrare explicit cerută în main, fără rescrierea istoricului sau resetarea checkout-ului operațional activ. Cheile și datele private nu sunt cod distribuibil și rămân în canalele protejate; accesul la indexul comun se acordă separat. Regula PR/review pentru lucrări noi rămâne.

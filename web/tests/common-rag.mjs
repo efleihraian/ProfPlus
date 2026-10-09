@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import ts from 'typescript';
+const uri=s=>'data:text/javascript;base64,'+Buffer.from(ts.transpileModule(s,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText).toString('base64');
+const helper=uri(await readFile('lib/common-resource.ts','utf8'));
+let source=await readFile('lib/rag.ts','utf8');
+source=source.replace('"./common-resource"',JSON.stringify(helper)).replace("'./common-resource'",JSON.stringify(helper));
+source=source.replace(/import catalog from[^;]+;/,'const catalog={};').replace(/import extra from[^;]+;/,'const extra={};').replace(/import collection from[^;]+;/,'const collection={uids:[]};');
+const {retrieve}=await import(uri(source));
+const uid='competition-'+('b'.repeat(24));let captured;
+globalThis.fetch=async(u,options)=>{captured=JSON.parse(options.body);return {ok:true,json:async()=>({data:[{attributes:{uid,category:'competition',title:'Subiect Word',subject:'Matematică',stages:'middle',source_url:'https://example.org/subiect.docx',page_locator:'fragment'},content:[{type:'text',text:'[[PAGE:1]]\n'+('Exercițiu cu date verificate. '.repeat(5))}]}]})};};
+let result=await retrieve('comper','fixture','fixture',new AbortController().signal);
+assert.equal(captured.filters.type,'or');assert.equal(result.length,1);assert.equal(result[0].source.page,undefined);assert.equal(result[0].source.url,'https://example.org/subiect.docx');
+result=await retrieve('comper','fixture','fixture',new AbortController().signal,[]);assert.equal(result.length,0);
+result=await retrieve('comper','fixture','fixture',new AbortController().signal,['another-source']);assert.equal(captured.filters.type,'in');assert.equal(result.length,0);
+console.log('Dynamic common RAG metadata, automatic category search, explicit selection isolation and Word fragment locator passed.');

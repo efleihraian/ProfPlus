@@ -214,3 +214,64 @@ Meniul Export oferă opțiunea „Doar sursa, fără detalii de proveniență”
 Responsabil: Marcos/Cosmin, la cererea explicită de publicare. Sites a confirmat publicarea privată reușită a surselor per exercițiu, referințelor în document și opțiunii PDF/Word „Doar sursa”. Site: https://profos-chat.cosminsoames.chatgpt.site ; source commit 062b8e0912107ee56627ff94463e859aa3908ac7 ; deployment appgdep_6ac77ef7640c8191b3325c7ff8a18298. Aplicat pe sursa online 0.9.2 pentru a păstra funcțiile/autentificarea existente, fără a publica celelalte funcții locale. Next/React/RSC actualizate la versiunile deja verificate local; build, TypeScript, transformare export și două suite Auth cu provider simulat trecute. Audit online: 28 alerte (0 critice, 20 high, 7 moderate, 1 low), fără certificare de producție. Nu s-a publicat Android/iOS: aplicațiile sunt planificate.
 
 GitHub: branch feature/P-055-source-only-export pornește din main actualizat și păstrează implementarea P-054 deja integrată, completând-o cu exportul și referințele. Verificări izolate: proveniență API cu AI simulat, transformare export, regresie guest, TypeScript/build. Integrarea în main așteaptă review uman independent și controalele cerute în docs/TEAM_WORKFLOW.md. Regula permanentă de publicare este în AGENTS.md; nu înlocuiește review-ul sau controalele CI.
+
+## P-057 — Supabase activat, materiale locale transferate — IN REVIEW, 2026-10-09
+
+Responsabil: Marcos/Cosmin, la cererea explicită a titularului. Conectorul Supabase reconectat; proiectul ProfPlus activ/sănătos, regiunea eu-west-1. Schema PostgreSQL/RLS și operațiile server parametrizate au fost aplicate și verificate real. Materialele găsite pe disc în importurile manuale/olimpiade și inventarul Word au fost transferate, recitite și verificate SHA-256/dimensiune, cu evidență în Storage și PostgreSQL, apoi eliminate local. La finalul transferului: 1.973 obiecte private de bibliotecă, 456.309.261 bytes (inclusiv versiuni de text), zero PDF/text/original restant în directoarele de materiale locale. Numerele cresc odată cu importul reluat. Ultimul PDF de 41.792.961 bytes a trecut prin upload TUS reluabil de 6 MB, apoi verificare completă.
+
+Cutover confirmat: cele patru conversații complete ale site-ului și conversația locală au fost copiate fără trunchiere și verificate rând cu rând. DATA_BACKEND=supabase activ pe site și local; vechiul istoric local a fost eliminat numai după verificare și backup cloud. Capabilitatea temporară de migrare este dezactivată (403), secretele temporare/lock-ul eliminate. Originalele private viitoare merg în profplus-private-documents; datele generate/istoricul/metadatele merg în PostgreSQL. Copiile cloud de rollback se păstrează; vechea sursă D1/R2 a site-ului este păstrată pentru rollback, nu mai este destinația de scriere.
+
+Sites: source 5acc6c0da55ff09599bd3d9e258002ecc873f4b0; deployment appgdep_6ac89dab548c8191ba714e4e4543827b reușit, env revision 4; https://profos-chat.cosminsoames.chatgpt.site. Audiență privată păstrată. Localhost:3000 HTTP 200, proces local 96820. Import olimpiade reluat cu cloud retention, controller 97599; este P-056 și nu se declară arhiva completă indexată. SQLite/checkpointurile/cache-ul folosite de procese, configurațiile, cheile OAuth și modelele OCR sunt necesare și rămân; sources/ sincronizat nu se modifică. Curățate numai copii temporare/cach-uri descărcate create pentru această lucrare.
+
+Verificări: opt teste transfer/ștergere/TUS/restaurare, 11 import olimpiade, șapte import manuale; toate cele 43 operații PostgreSQL WASM, verificare Supabase reală cu fixture-uri rollbackate, service RPC HTTP 200, restaurare reală inventar Word, TypeScript/build curat pe lockfile și suite de cont/guest/bibliotecă/adaptor. Scanner Git/build fără potriviri. Audit npm producție 0; complet 8 high existente din braces fără remediere upstream, controlul CI păstrat. Advisors: avertisment Auth parole compromise dezactivat; info RLS fără politici publice intenționat și index încă nefolosit. Nu reprezintă audit complet sau aprobare generală de producție. GitHub: branch feature/P-057-supabase-storage; PR necesită review uman independent, fără auto-merge. Flux, restaurare și limite: docs/CLOUD_STORAGE.md.
+
+GitHub P-057: commit 8b0e602, branch publicat, PR #6 https://github.com/ProfOS-Edu/ProfPlus/pull/6 (draft; review independent cerut lui bogdan-25). Migrațiile create prin CLI au fost aliniate la versiunile efectiv returnate de Supabase: 20261009074150 și 20261009074413; nu se reaplică o schemă deja instalată.
+
+## P-058 — O singură copie locală necesară — DONE, 2026-10-09
+
+Consolidare la cererea titularului: cod/documentație, runtime/configurație și import activ în copia principală; transfer verificat al stării, checkpoint Supabase și reluare. Copii suplimentare și artefacte regenerabile eliminate; originale logo în Supabase, credențiale protejate. Evidență: docs/LOCAL_WORKSPACE.md și raport operațional privat.
+
+## P-059 — Starea bibliotecii mari — IN REVIEW, 2026-10-09
+
+La sesizarea titularului: manuale indexate apăreau neindexate la eșecul paginării cu deadline 30 secunde. Deadline total 120 secunde, cache server comun 5 minute, cereri simultane reunite; unknown pentru verificare eșuată. Regresie pentru paginare lentă/cache/eșec/retry/cursori; review independent necesar.
+
+## P-060 — IN PROGRESS: Pro și recuperare manuale
+
+Responsabil Marcos/Cosmin. Transferă toate originalele oficiale care se încadrează în 50 MB; nu modifica plafonul de cheltuieli. Acceptare: original verificat/catatlogat înainte de ștergere locală; raport final cu cele prea mari, indisponibile și eșuate; păstrează spațiu pentru datele profesorilor. scripts/run_manual_recovery.py așteaptă pasul activ și execută o continuare finită cu retry, fără scheduler. Indexarea/OCR are raport separat și prag de acoperire 90%; nu promite toate linkurile reușite. Implementarea și protecțiile sunt livrate, importul lung rămâne activ. Google branding blocat până la domeniu/verificare; backup separat Storage și auditurile de producție rămân necesare înaintea documentelor reale ale elevilor.
+
+
+## Istoric P-056 integrat — fotografii datate, înlocuite de notele ulterioare
+
+
+## P-056 — Import olimpiade și concursuri — IN PROGRESS, 2026-10-08
+
+Responsabil: Marcos/Cosmin; cerere explicită de indexare a documentelor din cele 15 arhive enumerate în Word-ul furnizat. Import separat și reluabil în indexul comun existent, fără mutarea/resetarea/opririle cozii de manuale. Catalogul surselor publice este în catalog/competition-archives.json; raportul datat în catalog/competition-import-status.json. Fișierul Word original nu este copiat în Git și nu se modifică.
+
+Descoperire paginată a linkurilor relevante, descărcări HTTPS cu verificare adresă publică și redirecturi, limite de fișier/spațiu, ZIP/RAR/TAR numai în memorie/fără extracție pe disc, limite de expansiune, PDF text/OCR și DOC/DOCX. Rezultatele/clasamentele/listările de participanți sunt excluse prin indicii URL/text; această filtrare nu certifică absența tuturor datelor personale. Documentele primesc tip olimpiadă/concurs, materie/clasă/ciclu unde identificabile, origine și membru al arhivei. Pentru DOC/DOCX/HTML, citarea este pe fragment, fără pagină PDF inventată. Ani numai din text disponibil. Deducerea automată necesită verificare pedagogică.
+
+Dinamica bibliotecii/RAG citește metadatele publice ale materialelor comune din index și validează separat UID/categorie/URL; documentele private rămân în indexuri cu ownership. Materialele noi apar fără reconstruirea manifestului la fiecare upload. Nu se expun cheia, ID-urile interne de fișiere/index sau textele în rapoartele publice.
+
+Verificări: șapte teste offline pentru URL/private/ZIP/expansiune/clasificare/DOCX, test DTO public cu categorii/URL/fragment/minimizare, TypeScript/build pe main actualizat. Procesul este activ în /Users/marcos/dev/profplus-P-056-import/data/competitions, control nescheduled run_competition_import.py, log/checkpoint local, trei indexări concurente. Mac-ul trebuie să rămână pornit și conectat; după întrerupere se reia aceeași coadă. Raportul nu este final; IN PROGRESS până la epuizarea linkurilor relevante, clasificarea lipsurilor și verificarea căutării remote. Unele linkuri inițiale au 404/406. Drepturile de utilizare extinsă și calitatea OCR/formulelor nu sunt certificate.
+
+
+P-056 — Publicare privată confirmată 2026-10-08: source c5b7d9a4cb613cf2bb826d92ff1dd6142de1ce1b, deployment appgdep_6ac783c7b3708191a76ea77d30ed3905, https://profos-chat.cosminsoames.chatgpt.site. Biblioteca/RAG citesc dinamic UID/categorie/origine/ciclu/clasă/locator din fișierele comune, astfel încât importurile ulterioare apar fără o nouă publicare. 134 documente confirmate la fotografia 11:51:58Z; importul rămâne în curs. Căutare reală filtrată competition a returnat trei bareme COMPER cu UID, origine publică și PAGE:1. Build/TypeScript/DTO public și două suite Auth simulate au trecut și pe sursa Sites.
+
+P-056, 2026-10-09: 578 documente confirmate indexed la verificarea 05:24 UTC; raport intermediar, arhivele continuă să fie parcurse. Remediere a păstrării paginilor în fragmente: blocuri cu marcaje repetate, înlocuire confirmată înainte de curățarea fișierului precedent, reluare sigură a curățării. 11 teste import și suitele DTO/RAG/bibliotecă au trecut. Procesul durabil rămâne activ în checkout-ul P-056; copia operațională a manualelor nu este sincronizată forțat.
+
+Acces local, 2026-10-09: localhost:3000 nu avea server activ. Repornit procesul local din copia operațională, PID 90253, log exclus din Git în web/.sites-runtime/local-server.log. GET / confirmat HTTP 200, pagina ProfPlus verificată în browser. Nu s-a schimbat codul pentru repornire.
+
+P-056, 2026-10-09: importul s-a oprit controlat la 578 fișiere confirmate din cauza DISK_SPACE_LOW. Eliminarea exclusivă a dependențelor regenerabile din cele două checkout-uri create pentru această sarcină a eliberat aproximativ 2 GB; originalele, checkpointurile, configurația și copia operațională au fost păstrate. Reluat cu controller PID 90588 și protecție de somn inactiv. La reluare sunt rezolvate întâi indexările/migrarea paginilor, apoi descoperirea. Raportul DISK_SPACE_LOW este istoric; starea curentă se citește din run.json.
+
+## Note operaționale locale păstrate la consolidarea P-061
+
+## P-049 — Pagina chat fără conectare obligatorie — DONE (local)
+
+Pagina `/` rămâne accesibilă fără cont, inclusiv după reîncărcare. Vizitatorul poate scrie un mesaj și folosi sugestiile; trimiterea către AI, istoricul, proiectele și documentele private cer încă o identitate verificată pe server. Nu se creează conturi anonime sau apeluri AI pentru vizitatori. Restricțiile după abonament vor fi definite și implementate ulterior pe server, fără încredere în indicatoare din client. Verificări: browser fără sesiune, trimitere fără redirecționare și cu mesaj păstrat, TypeScript/build și API-uri private 401. Fără publicare sau commit în această conversație laterală.
+
+## 2026-10-09 — Verificare inventar cloud și izolarea testelor
+
+Verificare live: originalele nu sunt încă complete; 7 originale manuale și 828 originale concursuri/olimpiade, texte pentru 1.303 manuale indexate și 1.391 documente de concurs indexate. Un artifact sintetic de 7 bytes a fost identificat prin archiveId=test, example.org și SHA-256 exact al fixture-ului, apoi eliminat din Storage și catalog. Testele de concurs dezactivează explicit cloud_active, la fel ca testele de manuale, fără a depinde de configurația checkout-ului. Niciun material real eliminat. Importul concursurilor s-a oprit la un PDF de 57.946.349 bytes, SUPABASE_RESUMABLE_CREATE_413; originalul este păstrat local. Nu se declară transferul complet sau import activ după acest blocaj.
+
+## P-061 — Consolidarea pentru colaborare — IN PROGRESS, 2026-10-09
+
+Responsabil Marcos/Cosmin, cerere explicită a titularului: întregul cod în main. Reunite istoricul P-056 și ramura P-057/P-059/P-060; conflictele păstrează marcajele paginilor, retenția/restaurarea cloud, izolarea fixture-urilor și cache-ul/starea corectă a bibliotecii. Include modificarea locală de stil pentru linkurile navigației, note operaționale și rapoarte datate. Ghid de pornire și exemple fără chei pentru colaboratori. Importul originalelor rămâne activ și nu este confundat cu publicarea codului. Verificările și publicarea finală se confirmă ulterior.
