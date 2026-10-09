@@ -302,3 +302,9 @@ Verificări: opt teste transfer/ștergere/TUS/restaurare, 11 import olimpiade, �
 GitHub P-057: commit 8b0e602, branch publicat, PR #6 https://github.com/ProfOS-Edu/ProfPlus/pull/6 (draft; review independent cerut lui bogdan-25). Migrațiile create prin CLI au fost aliniate la versiunile efectiv returnate de Supabase: 20261009074150 și 20261009074413; nu se reaplică o schemă deja instalată.
 
 Verificare suplimentară finală: cheia publică/anon nu poate descărca originalul privat și nu poate executa RPC-ul aplicației. Reconcilierea finală verifică și existența fiecărei evidențe de material Storage în PostgreSQL. Importul reluat a continuat indexarea fără reținerea originalelor ca arhivă locală permanentă.
+
+## 2026-10-09 — P-058, consolidare locală
+
+Responsabil: Marcos/Cosmin, la cererea titularului. Inventar și verificare commit remote/Sites înaintea eliminării copiilor; oprire controller între loturi, transfer de stare cu hash și SQLite integrity/count, reîncadrare căi și checkpoint Supabase verificat, import reluat în checkout-ul principal. Codul cloud/documentația au fost consolidate păstrând modificările necomise. Logo-urile originale sunt recuperabile din arhiva privată; credențialele au o singură copie protejată și ignorată de Git. Fișierele sources/ sincronizate nu au fost modificate. Vezi LOCAL_WORKSPACE.md.
+
+Verificare P-058: TypeScript și build au trecut în copia consolidată; 26 teste Python și șase suite Node (bibliotecă/RAG/cloud/proveniență/export) au trecut. Scannerul Git/build client a verificat 1.116 fișiere/bloburi fără detecții. localhost:3000 răspunde 200; importul continuă din copia principală (1.106 documente indexate la fotografia 2026-10-09T09:55:39Z, nu raport final). Testele offline de manuale blochează explicit configurația cloud: patru artefacte sintetice create la prima verificare au fost identificate prin UID/metadate de fixture și eliminate din Storage/PostgreSQL. Nu s-au șters materiale reale sau conturi.
