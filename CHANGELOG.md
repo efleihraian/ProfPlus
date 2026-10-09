@@ -1,5 +1,10 @@
 # Istoricul versiunilor
 
+## P-062 — 2026-10-09
+
+Implementată omiterea originalelor peste 50 MB cu sursa păstrată; reluat importul concursurilor și continuat transferul manualelor. Codul, testele, curățarea verificată și publicarea sunt documentate în [IMPORT_CONTINUATION.md](docs/IMPORT_CONTINUATION.md). Transferul întregii biblioteci rămâne **IN PROGRESS**, separat de livrarea codului; nu sunt declarate toate originalele în cloud.
+
+
 ## Nelansat — colaborare
 
 - P-052: ghid comun, templates issue/PR, review independent și checkout-uri separate; în review.
