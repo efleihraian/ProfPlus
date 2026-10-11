@@ -1,10 +1,10 @@
 # P-068 — Modele de documente ale profesorilor
 
-Cererea titularului din 2026-10-11: documentele generate trebuie să urmeze exemple reale, cu prioritate pentru modelele fiecărui profesor. Exemplele comune vor fi furnizate de titular ulterior. Codul nu pretinde că acestea au fost deja primite sau că modelul AI a fost antrenat.
+Cererea titularului din 2026-10-11: documentele generate trebuie să urmeze exemple reale, cu prioritate pentru modelele fiecărui profesor. Exemplele comune au fost furnizate și integrate în P-070: [inventar și reguli](REFERENCE_MODELS.md). Aceste referințe ghidează generarea; modelul AI nu a fost antrenat pe ele.
 
 ## Folosire
 
-În conversație, profesorul alege „Adaugă document”. După încărcare, deschide biblioteca, filtrează „Documente încărcate” și alege „Încadrează / folosește ca model”. Bifează unul sau mai multe tipuri: Test, Barem, Planificare, Proiect de lecție, Fișă de lucru; verifică materia și ciclurile și salvează. „Modelele mele” arată exemplele personale. Debifarea tuturor tipurilor oprește folosirea ca model; ștergerea documentului/contului folosește fluxul existent, fără copii suplimentare.
+În conversație, profesorul alege „Adaugă document”. După încărcare, deschide biblioteca, filtrează „Documente încărcate” și alege „Încadrează / folosește ca model”. Bifează unul sau mai multe tipuri: Test, Barem, Planificare, Proiectarea unității de învățare, Proiect de lecție, Fișă de lucru; verifică materia și ciclurile și salvează. „Modelele mele” arată exemplele personale. Debifarea tuturor tipurilor oprește folosirea ca model; ștergerea documentului/contului folosește fluxul existent, fără copii suplimentare.
 
 Modelele sunt folosite în toate conversațiile contului, inclusiv când documentul original aparține altei conversații. Nu trebuie bifate ca surse. Selecția automată factuală exclude modele; profesorul poate totuși selecta explicit documentul ca sursă în vederea consultării conținutului. Proveniența exercițiilor și copia pentru elevi rămân funcțiile P-067.
 
@@ -12,11 +12,11 @@ Modelele sunt folosite în toate conversațiile contului, inclusiv când documen
 
 Tipurile sunt identificate din cererea recentă, inclusiv cereri test + barem. Pentru fiecare tip se aleg maximum două modele personale recente, indexate și potrivite materiei/ciclului; maximum șase modele distincte. Dacă nu există exemplu personal utilizabil pentru acel tip, se consultă exemplele comune aprobate potrivite. Un barem personal nu înlocuiește o planificare comună. În lipsa oricărui exemplu, format standard sobru, fără emoji, introduceri conversaționale sau subtitluri decorative. Cererea profesorului decide conținutul și are prioritate față de exemple.
 
-Textul extras ghidează antetul, ordinea secțiunilor, cerințele, numerotarea, coloanele tabelelor și punctajul. Nu este sursă factuală implicită, instrucțiune de sistem sau fine-tuning. Nu există reproducere garantată a fonturilor, siglelor și paginării originale ori a documentelor scanate ilizibile. Evaluarea fidelității pedagogice și vizuale pe exemplele titularului rămâne de făcut după primirea lor.
+Textul extras ghidează antetul, ordinea secțiunilor, cerințele, numerotarea, coloanele tabelelor și punctajul. Nu este sursă factuală implicită, instrucțiune de sistem sau fine-tuning. Nu există reproducere garantată a fonturilor, siglelor și paginării originale ori a documentelor scanate ilizibile. P-070 verifică alegerea referințelor și o generare scurtă; nu certifică întreg conținutul pedagogic ori o reproducere vizuală exactă.
 
 ## Exemplele comune ale titularului
 
-Registrul server `web/lib/common-document-models.json` este deocamdată gol, intenționat. Când titularul trimite aici teste, bareme sau planificări, agentul citește originalele păstrate privat și pregătește structuri/exemple anonimizate. În registru se adaugă numai referințele aprobate pentru folosire comună: id, title, type, subject, stages, text (maximum 6.000 caractere), approved=true. Nu se comit originale private, nume de elevi, note, contacte, secrete sau documente ale altor profesori. Modificarea este verificată și publicată direct pe main și pe site, conform instrucțiunii active. Doar existența approved=true nu echivalează cu verificarea umană: autorizarea titularului și drepturile de utilizare se documentează la adăugare.
+Registrul server `web/lib/common-document-models.json` conține acum zece referințe structurale anonimizate, distilate din originalele păstrate privat. În registru se adaugă numai referințele aprobate pentru folosire comună: id, title, type, schoolClass (opțional), subject, stages, text (maximum 6.000 caractere), approved=true. Nu se comit originale private, nume de elevi, note, contacte, secrete sau documente ale altor profesori. Modificarea este verificată și publicată direct pe main și pe site, conform instrucțiunii active. Doar existența approved=true nu echivalează cu verificarea umană: autorizarea titularului și drepturile de utilizare se documentează la adăugare.
 
 Nu există promovare automată a documentelor încărcate în ProfPlus în modele comune. Un profesor obișnuit nu primește drept de curator din profil sau metadate de autentificare.
 

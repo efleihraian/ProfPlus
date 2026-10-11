@@ -1,5 +1,10 @@
 # Jurnal de lucru
 
+## P-070 — modele comune, 2026-10-11
+
+Zece exemple ale titularului transformate în referințe structurale anonimizate, cu clasa și tipul, fără originale/identități în Git. Șase DOCX integral analizate, opt pagini PDF extrase, inspecție vizuală reprezentativă; SHA-256 al celor zece originale neschimbat. Tip nou de model personal unit, selectare după clasă, prioritate personală și regulă 2+2 în contextul aplicației. Tabele Markdown continue, antet și durate repartizate coerent. Probe AI numai anonimizate au permis corectarea rândurilor fragmentate și a repetării bugetului unității; ultima probă: S1/S2 algebră/geometrie 2+2, unitate 8+4+2=14 ore. TypeScript/build, document-models, guest, teacher-test-controls, document-latex, Supabase și suitele complete de cont trecute; metadata unit salvată cu verificare cont străin/CSRF. Nu s-a verificat generarea AI de teste/bareme/fișe ori un an întreg. Audit: zero producție, opt high toolchain existente. [Dovezi și limite](REFERENCE_MODELS.md). Publicarea și scannerele finale urmează.
+
+
 ## P-069 — editor LaTeX, 2026-10-11
 
 Implementare la cererea titularului, direct pe main fără PR. Sursă și previzualizare alăturate/verticale pe mobil, .tex complet, salvare exactă și redeschidere, titlu în sursă, avertizare pentru conversie vizuală, adnotări gestionate reversibil. Nu este compilator Overleaf în aplicație; preview și PDF/Word sunt simplificate, .tex se compilează în Overleaf. Nu trimitem documentul automat către Overleaf.

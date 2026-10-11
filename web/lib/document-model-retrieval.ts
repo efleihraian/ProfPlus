@@ -34,6 +34,6 @@ export async function documentStyle(user:string|null,profile:TeachingProfile|nul
       if(results.some(r=>!r))warnings.push('Unele modele personale nu au putut fi citite. Pentru tipurile respective sunt folosite modelele comune disponibile sau formatul standard; reîncearcă pentru a folosi modelele tale.');
     }catch{warnings.push('Modelele personale nu au putut fi verificate. Reîncearcă pentru a le folosi.');}
   }
-  const models=effectiveModels(loaded,approvedModels(approvedExamples),types,profile);
-  return {instructions:documentStyleInstructions(models),warnings};
+  const models=effectiveModels(loaded,approvedModels(approvedExamples),types,profile,query);
+  return {instructions:documentStyleInstructions(models,types,profile,query),warnings};
 }
