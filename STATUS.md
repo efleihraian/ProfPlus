@@ -1,8 +1,8 @@
 # Starea proiectului
 
-## P-069 — Editor LaTeX — IN PROGRESS, 2026-10-11
+## P-069 — Editor LaTeX — DONE, 2026-10-11
 
-Sursă LaTeX editabilă cu previzualizare simplificată și export `.tex` pentru Overleaf. Salvare exactă în conversație, conversie vizuală explicită, proveniență reversibilă. Compilarea TeX completă rămâne în Overleaf; PDF/Word din aplicație sunt simplificate. Verificările și publicarea sunt în curs. [Comportament și limite](docs/DOCUMENT_EDITOR.md).
+Sursă LaTeX editabilă cu previzualizare simplificată și export `.tex` pentru Overleaf. Salvare exactă în conversație, conversie vizuală explicită, proveniență reversibilă. Compilarea TeX completă rămâne în Overleaf; PDF/Word din aplicație sunt simplificate. Verificări trecute; cod pe main la f1f7659, site privat publicat cu succes la 11:27 UTC, localhost:3000 actualizat. CI păstrează controlul auditului cu cele opt alerte toolchain preexistente. [Comportament și limite](docs/DOCUMENT_EDITOR.md).
 
 
 ## P-068 — Modele personale de documente — DONE (suport; exemplele comune așteptate), 2026-10-11
