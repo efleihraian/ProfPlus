@@ -21,3 +21,16 @@ Omiterea originalelor peste 50 MB este autorizată explicit de titular; referin�
 ## P-063 — renunțare la materialele cu erori, 2026-10-10
 
 Titularul a autorizat omiterea materialelor cu erori: referință verificată în Supabase înainte de eliminarea cache-ului local, fără redescărcare automată. Cele 10 PDF-uri rămase după erori (394.205.365 bytes) au fost eliminate. Importul valid al concursurilor continuă; companionul păstrează și linkurile pentru erorile lui. [Flux, dovezi și limite](FAILED_MATERIALS.md).
+
+
+## P-071 — scopul bibliotecii, 2026-10-11
+
+Responsabil Marcos Soames, issue #16. Cererea titularului păstrează toate materialele utile pentru învățare și generarea documentelor: subiecte, bareme, soluții, manuale, programe școlare, calendare școlare, repere metodologice, planificări, proiecte de lecție și unități de învățare. Un calendar/regulament/metodologie nu se elimină automat după titlu. Cazurile ambigue deja descoperite rămân în coadă.
+
+Linkurile includ pagini intermediare, nu numai documente. Numărul poate crește când o arhivă dezvăluie alte fișiere; SHA-256 previne indexarea aceluiași conținut de două ori. Navigarea prin meniuri tag/category/comentarii și anul din orice pagină generică nu mai extinde automat coada. Rutele ONI istorice, problemele Infoarena și descărcările Mateinfo sunt păstrate. Subiectele/baremele descărcabile din admitere/examene rămân utile, fără explorarea generală a administrării admiterii.
+
+Formularele de înscriere, tabelele nominale, convocatoarele și cotizațiile fără indicii de conținut didactic sunt excluse după numele efectiv al fișierului. În arhive se verifică numele final, astfel încât un regulament sau subiect dintr-un folder care conține și formulare nu este eliminat. Rezultatele nominale rămân excluse prin controlul existent.
+
+Aplicarea operațională înlocuiește atomic numai importerul verificat, după compararea cu baza Git. Curățarea cozii așteaptă import.lock la încheierea lotului curent; nu întrerupe uploaduri și nu resetează checkout-ul. Se păstrează checkpointul, istoricul surselor și jurnalul eliminărilor. Pentru documente administrative deja indexate se verifică UID/SHA și apartenența la catalogul concursurilor; se elimină numai indexul AI, obiectele și manifestele exacte și rândurile de catalog aferente, apoi se confirmă absența și se marchează excluded în checkpoint. Modelele personale ale profesorilor și cele zece exemple comune P-070 nu sunt vizate.
+
+Verificare: 61 teste Python offline trecute, inclusiv filtrul, arhivele mixte, calendarele/programele/proiectele didactice, materialele de examen și rutele istorice. Testele nu folosesc furnizori reali. Codul web și lockfile-urile sunt identice cu versiunea publicată P-070; nu se declară un nou build/deploy web pentru această modificare a importerului. Audit npm: 8 high preexistente în toolchain, zero în producție. Importul întregii biblioteci rămâne în curs; referințele pentru fișiere inaccesibile/prea mari nu reprezintă originale încărcate.

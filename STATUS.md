@@ -1,5 +1,10 @@
 # Starea proiectului
 
+## P-071 — Curățarea bibliotecii păstrând suportul didactic — 2026-10-11
+
+Responsabil Marcos Soames, issue #16. Filtrul păstrează materie, bareme și documente utile pentru planificări/lecții; exclude formularele administrative și navigarea duplicată. Cazurile ambigue rămân păstrate. 61 teste offline trecute; aplicare la importul operațional sub checkpoint lock, fără reset sau întreruperea uploadurilor. Importul integral rămâne IN PROGRESS. [Detalii și limite](docs/COMPETITION_IMPORT.md#p-071--scopul-bibliotecii-2026-10-11).
+
+
 ## P-070 — Modelele comune ale titularului — DONE, 2026-10-11
 
 Cele zece exemple furnizate au fost analizate și distilate în referințe structurale anonimizate: planificări și proiectări de unități V/VI/VII, două teste, barem și fișă recapitulativă. Alegere după tip/clasă, modele personale prioritare, noul tip „Proiectarea unității de învățare”. Regula matematică 2 ore algebră + 2 geometrie în aceeași săptămână păstrează cele șase coloane și sincronizează duratele unităților. Fără originale sau identități în Git, fără fine-tuning. TypeScript/build, testele de modele/cont/izolare și probele AI focalizate trecute; publicare privată succeeded la 11:53 UTC, cod pe main la 214c40d. [Detalii](docs/REFERENCE_MODELS.md).

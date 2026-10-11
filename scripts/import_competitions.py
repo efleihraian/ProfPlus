@@ -94,19 +94,41 @@ class Links(HTMLParser):
   if t=='a' and self.current:self.links.append(self.current);self.current=None
 
 PRIVATE=re.compile(r'rezultat|clasament|participan|admis|respins|repartizare|borderou|candidati|premianti|castigator|proces.verbal',re.I)
-EDUCATIONAL=re.compile(r'olimp|concurs|comper|subiect|barem|solut|problem|task|o[jn][im]|scoala|lectura|regulament|calendar|competiti',re.I)
+EDUCATIONAL=re.compile(r'olimp|concurs|comper|competiti|contest|\b(?:oji|oni|onm|olm|ioi|boi|ceoi|acm)\b',re.I)
+TEACHING=re.compile(r'planificar|proiect[ _.-]*didactic|plan[ _.-]*de[ _.-]*lect|unitat\w*[ _.-]*de[ _.-]*invatare|programa[ _.-]*scolara|repere[ _.-]*metodolog|calendar[ _.-]*(?:al[ _.-]*)?(?:an|anului)[ _.-]*scolar|structur[ _.-]*(?:a[ _.-]*)?anului[ _.-]*scolar',re.I)
+LEARNING=re.compile(r'subiect|barem|soluti|probleme|problem[ _.-]*rezolvat|exerciti|teorie|manual|fisa[ _.-]*(?:de[ _.-]*)?(?:lucru|evaluare)|lectie',re.I)
+
+def non_learning(name):
+ # Inspect the leaf, not an archive folder shared by rules and enrollment forms.
+ leaf=norm(Path(name.replace('\\','/')).name)
+ return bool(re.search(r'formular[ _.-]*(?:de[ _.-]*)?inscriere|cerere[ _.-]*(?:de[ _.-]*)?inscriere|tabel[ _.-]*nominal|convocator|cotizatie',leaf) and not re.search(r'subiect|barem|soluti|problem|task|lectie|didactic',leaf))
+
 DOCUMENT=re.compile(r'\.(?:pdf|docx?|zip|rar|tar|gz|tgz)(?:$|[?&])|action=download',re.I)
 
 def eligible(u,label,seed,parent):
  s=norm(unquote(urlsplit(u).path+'?'+urlsplit(u).query)+' '+label)
  if PRIVATE.search(s):return False,'personal_results'
  if re.search(r'login|logout|register|forum|author|wp-json|feed|facebook|twitter|instagram|mailto:|javascript:|creare-cont|conectare|contact|politica|cookie|termeni-si|cum-ma-inscriu',s):return False,'unrelated'
- if re.search(r'bacalaureat|evaluare-nationala|testare-nationala|formular.inscriere|statut|cotizati|lista.membr|/files/scoala/',s):return False,'unrelated'
- if DOCUMENT.search(u) or u.startswith('https://drive.google.com/uc?export=download'):return True,'file'
+ if re.search(r'cotizati|lista.membr',s):return False,'unrelated'
+ # A subject/barem label alone can lead through a site's menus to admissions,
+ # classroom pages unrelated to the requested archives. Support documents remain useful.
+ leaf=urlsplit(u).path.rstrip('/').rsplit('/',1)[-1]
+ if leaf=='file':leaf=urlsplit(u).path.rstrip('/').rsplit('/',2)[-2]
+ resource=norm(unquote(leaf)+' '+label)
+ if non_learning(resource):return False,'administrative'
+ download=bool(DOCUMENT.search(u) or u.startswith('https://drive.google.com/uc?export=download') or (urlsplit(u).hostname in ('mateinfo.ro','www.mateinfo.ro') and urlsplit(u).path.endswith('/file')))
+ if re.search(r'admitere',s) and not EDUCATIONAL.search(resource) and not (download and re.search(r'subiect|barem|soluti|problem|exerciti',resource)):return False,'unrelated_admission'
+ if download:return True,'file'
  if urlsplit(u).hostname!=urlsplit(seed['url']).hostname:return False,'external_navigation'
- if EDUCATIONAL.search(s):return True,'page'
- if seed['id']=='archive-08' and re.search(r'\.html?$',urlsplit(u).path):return True,'page'
- if re.search(r'20(?:0\d|1\d|2[0-6])',s) and urlsplit(u).path.startswith(urlsplit(parent).path.rsplit('/',1)[0]+'/'):return True,'page'
+ # Keep linked PDFs/Word files for planning, but do not expand support-only web
+ # pages into unrelated site navigation. Explicit contest pages still expand.
+ if re.search(r'calendar|regulament|metodolog|programa',resource) and not (EDUCATIONAL.search(resource) or TEACHING.search(resource)):return False,'support_navigation'
+ if re.search(r'/(?:tag|category)/|/comment-page-|[?&]replytocom=',u) and not download:return False,'duplicate_navigation'
+ if EDUCATIONAL.search(s) or TEACHING.search(s) or LEARNING.search(resource):return True,'page'
+ if seed.get('id')=='archive-08' and re.search(r'\.html?$',urlsplit(u).path):return True,'page'
+ if seed.get('id')=='archive-07' and re.search(r'/(?:problema|problem|task)/',urlsplit(u).path):return True,'page'
+ base=urlsplit(parent).path.rsplit('/',1)[0]+'/'
+ if base!='/' and EDUCATIONAL.search(norm(unquote(base))) and re.search(r'20(?:0\d|1\d|2[0-6])',s) and urlsplit(u).path.startswith(base):return True,'page'
  return False,'unrelated'
 
 def db():
@@ -173,7 +195,7 @@ def text_document(data,name):
 
 def unpack(data,name,depth=0):
  if depth>3:raise RuntimeError('NESTED_ARCHIVE_LIMIT')
- if Path(name.replace('\\','/')).name.startswith(('~$','._')):return
+ if Path(name.replace('\\','/')).name.startswith(('~$','._')) or non_learning(name):return
  if name.lower().endswith('.docx') or data.startswith(b'%PDF-') or name.lower().endswith('.doc'):
   yield name,data;return
  if zipfile.is_zipfile(io.BytesIO(data)):
