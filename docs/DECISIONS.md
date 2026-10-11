@@ -162,3 +162,8 @@ Titularul a autorizat omiterea materialelor cu erori: referință verificată î
 ## P-065 — 2026-10-11: disponibilitate din confirmările importului
 
 Pentru backendul Supabase, biblioteca citește proiecția minimă a checkpointului cloud: indexed + file_id + attached=1. Nu listează toate fișierele OpenAI la fiecare deschidere. Snapshot comun 60 s, paginare ordonată și încărcare paralelă; fără cache de date personale. Reconcilierea indexului aparține importului. [Dovezi și limită de actualizare](LIBRARY_LOADING.md).
+
+
+## P-067 — 2026-10-11
+
+Priorități în selecția deja autorizată, fără acces nou; toate documentele proprii se verifică pe cont. Copia fără proveniență este reversibilă, originalul și dovezile rămân salvate. KaTeX/MathJax/fonturi locale, fără date trimise altui furnizor și fără relaxarea CSP. Word are formule ca imagini; validarea AI și importul complet rămân separate. Teste noi, verificare browser și descărcări reale executate. Audit: 8 high anterioare în toolchain, zero în producție. [Dovezi și limite](TEACHER_TEST_CONTROLS.md).

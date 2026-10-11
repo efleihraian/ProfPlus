@@ -1,5 +1,10 @@
 # Istoricul versiunilor
 
+## P-067 — Surse prioritare și copie pentru elevi — IN REVIEW, 2026-10-11
+
+Responsabil uman: Marcos Soames; cerere directă a titularului. Toate materialele potrivite pot rămâne selectate; steaua marchează maximum 10 surse comune și 10 documente proprii prioritare pentru enunț. Copia pentru elevi ascunde proveniența, citările și referințele la un singur click, inclusiv în PDF/Word. Formulele, variantele și spațierea sunt formatate. Implementare izolată în `feat/P-067-teacher-test-controls`, dependentă de P-065/PR #13 pentru păstrarea corecției bibliotecii deja publicate. [Dovezi și limite](docs/TEACHER_TEST_CONTROLS.md). Importul bibliotecii rămâne separat în curs.
+
+
 ## P-065 — 2026-10-11
 
 P-065: biblioteca Supabase folosește confirmările importurilor, cache comun 60 s și încărcare paralelă a documentelor proprii; disponibilitatea AI rămâne condiționată de indexarea confirmată. [Dovezi](docs/LIBRARY_LOADING.md).

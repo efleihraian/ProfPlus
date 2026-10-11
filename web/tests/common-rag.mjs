@@ -14,3 +14,11 @@ assert.equal(captured.filters.type,'or');assert.equal(result.length,1);assert.eq
 result=await retrieve('comper','fixture','fixture',new AbortController().signal,[]);assert.equal(result.length,0);
 result=await retrieve('comper','fixture','fixture',new AbortController().signal,['another-source']);assert.equal(captured.filters.type,'in');assert.equal(result.length,0);
 console.log('Dynamic common RAG metadata, automatic category search, explicit selection isolation and Word fragment locator passed.');
+
+const preferred='competition-'+('c'.repeat(24)),calls=[];
+const hit=(uid)=>({attributes:{uid,category:'competition',title:'Sursă '+uid,subject:'Matematică',stages:'middle',source_url:'https://example.org/test.pdf',page_locator:'pdf'},content:[{type:'text',text:'[[PAGE:1]]\n'+('Exercițiu relevant verificat. '.repeat(5))}]});
+globalThis.fetch=async(u,options)=>{const request=JSON.parse(options.body);calls.push(request);return {ok:true,json:async()=>({data:request.filters.value?.length===1&&request.filters.value[0]===preferred?[hit(preferred)]:[hit(uid)]})};};
+result=await retrieve('puteri','fixture','fixture',new AbortController().signal,[uid,preferred],[preferred]);
+assert.equal(calls.length,2);assert.ok(calls.some(c=>c.filters.value.join()===preferred));assert.ok(calls.some(c=>c.filters.value.includes(uid)));assert.equal(result[0].source.uid,preferred);assert.equal(result[1].source.uid,uid);
+calls.length=0;await retrieve('puteri','fixture','fixture',new AbortController().signal,[uid],['not-selected']);assert.equal(calls.length,1);assert.deepEqual(calls[0].filters.value,[uid]);
+console.log('Priority-only search reserves relevant evidence, broad selection remains active and unselected priorities never searched.');

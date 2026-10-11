@@ -9,16 +9,14 @@ import type { ChatDocument } from "../lib/document-store";
 import LibraryPanel, { type Selection } from "./library-panel";
 import type { HistoryChat, Project } from "../lib/history-types";
 import SidebarContent from "./sidebar-content";
+import EducationalMarkdown from "./educational-markdown";
 import DocumentEditor from "./document-editor";
 import type {GeneratedDocument} from "../lib/generated-document";
-import {savedSelection} from '../lib/source-selection';
+import {savedSelection,withPriorities} from '../lib/source-selection';
 import type {AccountIdentity} from '../lib/account-auth';
 type Message = { role: "user" | "assistant"; content: string; sources?: Source[]; warnings?: string[]; document?:GeneratedDocument };
 function Reply({ message }: { message: Message }) {
-  return <p>{message.content.split(/(\[\d+\])/g).map((part, i) => {
-    const id = /^\[(\d+)\]$/.exec(part), source = id ? message.sources?.find(s => s.id === Number(id[1])) : undefined;
-    return source ? <a className="inline-citation" key={i} href={source.url} target="_blank" rel="noopener noreferrer" title={source.title}>{part}</a> : part;
-  })}</p>;
+  return <div className="educational-reply"><EducationalMarkdown content={message.content} sources={message.sources}/></div>;
 }
 
 async function api(path: string, init?: RequestInit) {
@@ -108,7 +106,7 @@ export default function Home() {
     if(chatId) void persist(messages,value).catch(()=>{});
     try { localStorage.setItem("profos-selection-" + chatId, JSON.stringify(value)); } catch {}
   }
-  const effectiveSelection: Selection = !selection||selection.mode==='automatic'?automatic:selection;
+  const effectiveSelection: Selection = !selection||selection.mode==='automatic'?withPriorities(automatic,selection):selection;
   const refreshDocuments = useCallback(async (signal?: AbortSignal) => {
     if (!chatId) return;
     const response = await fetch(`/api/documents?chatId=${chatId}`, { signal });
@@ -156,7 +154,7 @@ export default function Home() {
       const data = await response.json() as { error?: string };
       if (!response.ok) throw new Error(data.error || "Ștergerea a eșuat.");
       setDocuments(previous => previous.filter(d => d.id !== id));
-      if (selection?.mode!=="automatic"&&selection) chooseSources({ ...selection, documentIds: selection.documentIds.filter(v => v !== id) });
+      if (selection?.mode!=="automatic"&&selection) chooseSources({ ...selection, documentIds: selection.documentIds.filter(v => v !== id),priorityDocumentIds:selection.priorityDocumentIds?.filter(v=>v!==id) });
       await refreshAutomatic(chatId||undefined);
     } catch (e) { setDocumentError(e instanceof Error ? e.message : "Ștergerea a eșuat."); }
   }
@@ -228,6 +226,6 @@ export default function Home() {
         {!!documents.length && <><strong>Documentele tale</strong><div className="document-list">{documents.map(d => <div className="document-item" key={d.id}><FileText size={16} /><a href={`/api/documents/${d.id}`} target="_blank" rel="noopener noreferrer">{d.name}</a><span role="status">{d.status === "ready" ? "Gata" : d.status === "indexing" ? "Se pregătește…" : d.status === "uploading" ? "Se încarcă…" : d.status === "deleting" ? "Ștergere de reîncercat" : "Eroare de procesare"}</span><button type="button" onClick={() => void removeDocument(d.id)} disabled={busy || uploading || d.status === "uploading"} aria-label={`Șterge ${d.name}`}><X size={16} /></button></div>)}</div></>}
         {documentError && <div className="document-error" role="alert">{documentError}<button type="button" onClick={() => { setDocumentError(""); void refreshDocuments().catch(e => setDocumentError(e.message)); }}>Reîncearcă</button></div>}
         {uploading && <p role="status">Se încarcă documentele…</p>}
-      </div><div className="chat-selection">{!needsProfile&&!account?.user?.deleting&&<><button onClick={() => setLibraryOpen(true)}><BookOpen size={15} /> Alege sursele</button><span>{effectiveSelection.manualIds.length+effectiveSelection.documentIds.length} materiale · {effectiveSelection.mode==='automatic'?'selecție automată':'selecție personalizată'}</span></>}</div><form className="composer" onSubmit={e => { e.preventDefault(); if (canSend) void send(draft); }}><label htmlFor="message" className="sr-only">Mesaj pentru ProfPlus</label><textarea id="message" ref={input} value={draft} onChange={e => setDraft(e.target.value)} maxLength={6000} placeholder="Întreabă despre o lecție sau despre documentele tale..." rows={2} onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing && window.matchMedia("(min-width: 768px)").matches) { e.preventDefault(); if (canSend) void send(draft); } }} /><div className="composer-bottom"><input ref={fileInput} type="file" accept=".pdf,.doc,.docx,.pptx,.txt,.md,.html" multiple className="sr-only" aria-label="Alege documentele tale" onChange={e => void uploadFiles(e.target.files)} /><button type="button" className="attach" disabled={busy || uploading} onClick={() => fileInput.current?.click()} title="PDF, Word, PowerPoint sau text · max. 10 MB"><Paperclip size={17} /> Adaugă document</button><span>{draft.length > 5500 ? `${draft.length}/6000` : ""}</span>{busy ? <button type="button" className="send" onClick={() => controller.current?.abort()} aria-label="Oprește răspunsul"><Square size={16} fill="currentColor" /></button> : <button className="send" type="submit" disabled={!canSend} aria-label="Trimite mesaj"><Send size={19} /></button>}</div></form><p className="disclaimer">ProfPlus poate greși. Verifică răspunsurile și sursele.</p></footer>
+      </div><div className="chat-selection">{!needsProfile&&!account?.user?.deleting&&<><button onClick={() => setLibraryOpen(true)}><BookOpen size={15} /> Alege sursele</button><span>{effectiveSelection.manualIds.length+effectiveSelection.documentIds.length} materiale · {effectiveSelection.mode==='automatic'?'selecție automată':'selecție personalizată'} · {(effectiveSelection.priorityManualIds?.length||0)+(effectiveSelection.priorityDocumentIds?.length||0)} prioritare</span></>}</div><form className="composer" onSubmit={e => { e.preventDefault(); if (canSend) void send(draft); }}><label htmlFor="message" className="sr-only">Mesaj pentru ProfPlus</label><textarea id="message" ref={input} value={draft} onChange={e => setDraft(e.target.value)} maxLength={6000} placeholder="Întreabă despre o lecție sau despre documentele tale..." rows={2} onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing && window.matchMedia("(min-width: 768px)").matches) { e.preventDefault(); if (canSend) void send(draft); } }} /><div className="composer-bottom"><input ref={fileInput} type="file" accept=".pdf,.doc,.docx,.pptx,.txt,.md,.html" multiple className="sr-only" aria-label="Alege documentele tale" onChange={e => void uploadFiles(e.target.files)} /><button type="button" className="attach" disabled={busy || uploading} onClick={() => fileInput.current?.click()} title="PDF, Word, PowerPoint sau text · max. 10 MB"><Paperclip size={17} /> Adaugă document</button><span>{draft.length > 5500 ? `${draft.length}/6000` : ""}</span>{busy ? <button type="button" className="send" onClick={() => controller.current?.abort()} aria-label="Oprește răspunsul"><Square size={16} fill="currentColor" /></button> : <button className="send" type="submit" disabled={!canSend} aria-label="Trimite mesaj"><Send size={19} /></button>}</div></form><p className="disclaimer">ProfPlus poate greși. Verifică răspunsurile și sursele.</p></footer>
     </main>{editorIndex!==null&&messages[editorIndex]?.document&&<DocumentEditor document={messages[editorIndex].document!} sources={messages[editorIndex].sources||[]} onClose={()=>setEditorIndex(null)} onSave={async value=>{const next=messages.map((m,i)=>i===editorIndex?{...m,content:value.content,document:value}:m);if(account?.user)await persist(next);setMessages(next);}}/>} {libraryOpen && <LibraryPanel chatId={chatId} profile={account?.user?.teaching||null} onAutomaticSelection={setAutomatic} selection={effectiveSelection} onChange={chooseSources} onClose={() => setLibraryOpen(false)} sources={messages.flatMap(m => m.sources || [])} disabled={busy || uploading} onAsk={setDraft} />}</div>;
 }
