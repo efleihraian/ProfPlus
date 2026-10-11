@@ -395,3 +395,5 @@ PR #11 integrat în main: `46597b7aacf115e1433536a5e919b8abbf07369c`. 448 de ref
 ## P-065 — 2026-10-11
 
 Cache doar pentru metadatele educaționale comune confirmate din Supabase, proiecție minimă server-side. Documentele proprii rămân autorizate pe cont și nu intră în cache. Fără date, furnizori, trackere, permisiuni sau audiență noi. [Implementare, verificări și limite](LIBRARY_LOADING.md).
+
+P-065 — livrare: commit `085e90b`, PR https://github.com/ProfOS-Edu/ProfPlus/pull/13, reviewer cerut `bogdan-25` (cont diferit de autor). Publicare privată Sites succeeded și localhost:3000 confirmat HTTP 200, 0,037 s warm. Suitele de cont au trecut în ambele moduri, cu furnizori simulați. Scanner final: 1.324 fișiere/bloburi fără detecții; 8 high existente în audit, review/CI remote rămân de urmărit înainte de merge. Import controller/companion rămân active.
