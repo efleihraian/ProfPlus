@@ -1,6 +1,6 @@
 # Reguli de lucru
 
-Reguli comune pentru toți oamenii și agenții: [docs/TEAM_WORKFLOW.md](docs/TEAM_WORKFLOW.md). Verifică remote-ul înainte de sarcină, lucrează izolat și livrează prin PR.
+Reguli comune pentru toți oamenii și agenții: [docs/TEAM_WORKFLOW.md](docs/TEAM_WORKFLOW.md). Verifică remote-ul înainte de sarcină, lucrează izolat și integrează modificările finalizate și verificate direct pe main, fără PR, până când utilizatorul anunță reluarea colaborării (instrucțiunea din 2026-10-11).
 
 ## La fiecare sarcină
 

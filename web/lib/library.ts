@@ -6,11 +6,12 @@ import {parallelMap} from './parallel-map';
 import catalog from "./manual-catalog.json";
 import extra from './educational-resources.json';
 import {resourceMetadata,type ResourceCategory} from './resource-metadata';
+import type {DocumentModelType} from './document-models';
 import {labelsDb} from './document-labels';
 import type {Stage,TeachingProfile} from './teaching-profile';
 import {automaticSources} from './source-selection';
 import { openai, storage, type DocumentRow } from "./document-store";
-export type LibraryItem = { id: string; kind: "manual" | "document"; title: string; schoolClass?: string; subject?: string; publisher?: string; category?:ResourceCategory;stages?:Stage[];chatId?:string; url: string; status: string };
+export type LibraryItem = { id: string; kind: "manual" | "document"; title: string; schoolClass?: string; subject?: string; publisher?: string; category?:ResourceCategory;stages?:Stage[];modelTypes?:DocumentModelType[];chatId?:string; url: string; status: string };
 type CommonSnapshot={states:Record<string,string>;resources:Record<string,CommonResource>;originals?:Map<string,'manuals'|'competitions'>};
 const commonCache=new Map<string,{key:string;expires:number;value?:CommonSnapshot;pending?:Promise<CommonSnapshot>}>();
 export async function commonLibrary(key:string,store:string):Promise<CommonSnapshot>{

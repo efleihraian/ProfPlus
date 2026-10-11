@@ -55,3 +55,7 @@ Teste/fișe: fiecare exercițiu indică preluare integrală verificată, adaptar
 La generarea testelor și fișelor se menționează pentru fiecare exercițiu sursa preluării integrale sau exercițiul din care este adaptat/inspirat, cu tipul materialului, titlul, pagina, anul și numărul când sunt disponibile. Nu se inventează metadate; exercițiile originale sunt marcate explicit. Proveniența rămâne în document și export. Implementare locală P-052; clasificarea AI necesită verificarea profesorului.
 
 Stocare, 2026-10-09: titularul cere mutarea materialelor și datelor asociate în Supabase, cu actualizarea aplicației/documentației și eliminarea progresivă a copiilor locale verificate. Se șterg numai fișiere inutile sau copii confirmate; configurațiile, codul, sursele sincronizate și datele active necesare reluării se păstrează. P-057 în curs, fără a presupune finalizarea sau capacitatea planului.
+
+## Cerința titularului din 2026-10-11 — modele de documente
+
+Documentele trebuie să urmeze exemple reale de profesor. Fiecare profesor poate încărca și marca modele personale; acestea prevalează pentru tipul, materia și ciclul potrivite. În absența lor, se folosesc exemplele comune furnizate de titular, după aprobare și anonimizare. Până la primirea exemplelor comune, stil sobru standard fără afirmația că au fost folosite modele inexistente. Originalele profesorilor sunt private; marcarea ca model nu autorizează partajarea sau antrenarea unui model AI. Conținutul didactic rămâne verificat separat de stil.

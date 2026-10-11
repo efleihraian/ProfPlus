@@ -1,8 +1,8 @@
 import {matchesTeaching,type TeachingProfile,type Stage} from './teaching-profile';
 export type SourceSelection={mode?:'automatic'|'manual';manualIds:string[];documentIds:string[];priorityManualIds?:string[];priorityDocumentIds?:string[]};
-export type SelectableSource={id:string;kind:'manual'|'document';status:string;subject?:string;schoolClass?:string;stages?:Stage[];chatId?:string};
+export type SelectableSource={id:string;kind:'manual'|'document';status:string;subject?:string;schoolClass?:string;stages?:Stage[];modelTypes?:string[];chatId?:string};
 export function automaticSources(items:SelectableSource[],profile:TeachingProfile|null,chatId?:string):SourceSelection{
- const eligible=items.filter(i=>i.status==='ready'&&((profile&&matchesTeaching(i,profile))||(!profile&&i.kind==='manual')||(i.kind==='document'&&i.chatId===chatId&&!!chatId&&!i.subject)));
+ const eligible=items.filter(i=>!i.modelTypes?.length&&i.status==='ready'&&((profile&&matchesTeaching(i,profile))||(!profile&&i.kind==='manual')||(i.kind==='document'&&i.chatId===chatId&&!!chatId&&!i.subject)));
  return {mode:'automatic',manualIds:[...new Set(eligible.filter(i=>i.kind==='manual').map(i=>i.id))],documentIds:[...new Set(eligible.filter(i=>i.kind==='document').map(i=>i.id))]};
 }
 export function withPriorities(selection:SourceSelection,preferred:SourceSelection|null|undefined):SourceSelection{

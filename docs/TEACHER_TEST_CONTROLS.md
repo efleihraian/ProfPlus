@@ -1,6 +1,6 @@
 # P-067 — Surse prioritare, copie pentru elevi și formule
 
-Cererea titularului, 2026-10-11; responsabil Marcos Soames. Branch izolat bazat pe P-065 deja publicat, păstrând checkout-ul operațional și importul activ. Integrarea necesită PR #13 și review independent.
+Cererea titularului, 2026-10-11; responsabil Marcos Soames. Branch izolat bazat pe P-065 deja publicat, păstrând checkout-ul operațional și importul activ. P-065 și P-067 integrate pe main la `08642f9`, 2026-10-11, conform noii instrucțiuni explicite: livrare direct pe main fără PR până la reluarea colaborării.
 
 ## Comportament
 

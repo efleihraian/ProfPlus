@@ -167,3 +167,7 @@ Pentru backendul Supabase, biblioteca citește proiecția minimă a checkpointul
 ## P-067 — 2026-10-11
 
 Priorități în selecția deja autorizată, fără acces nou; toate documentele proprii se verifică pe cont. Copia fără proveniență este reversibilă, originalul și dovezile rămân salvate. KaTeX/MathJax/fonturi locale, fără date trimise altui furnizor și fără relaxarea CSP. Word are formule ca imagini; validarea AI și importul complet rămân separate. Teste noi, verificare browser și descărcări reale executate. Audit: 8 high anterioare în toolchain, zero în producție. [Dovezi și limite](TEACHER_TEST_CONTROLS.md).
+
+## 2026-10-11 — P-068: referințe de stil și integrare directă
+
+Modelele personale se etichetează în JSON-ul existent, separat de sursele factuale selectate automat; sunt consultate pe proprietar în toate conversațiile. Prevalența se calculează per tip, materie și ciclu. Modelele comune sunt exclusiv exemplele aprobate și anonimizate ale titularului, adăugate versionat după ce acesta le furnizează; niciun model personal nu devine comun prin upload ori user_metadata. Exemplele ghidează structura textuală, fără fine-tuning sau promisiunea reproducerii exacte a fonturilor/paginării. Titularul a înlocuit explicit fluxul PR/reviewer: verificare și integrare direct pe main până când anunță reluarea colaborării. P-065 și P-067 integrate prin fast-forward, fără forțare sau atingerea checkout-ului operațional.

@@ -19,3 +19,7 @@ Acest fișier doar trimite la regulile existente; nu le înlocuiește. Sursa de 
 - Importul manualelor: nu opri, nu duplica și nu porni alt importer pentru verificare; citește doar starea (`data/rag/progress.json`, `run.json`) și procesele existente. Nu afișa texte extrase sau identificatori de furnizor. Fără scheduled tasks.
 - `sources/` din proiectul ChatGPT (în afara acestui repository) este read-only.
 - Nu declara teste, conformitate GDPR/DPIA sau audituri neexecutate.
+
+## Instrucțiune activă a titularului — 2026-10-11
+
+Până când titularul anunță reluarea colaborării, integrează modificările finalizate și verificate direct pe main, fără PR sau așteptarea unui reviewer. Această regulă explicită înlocuiește temporar cerințele PR/review din documentele proiectului. Păstrează izolarea lucrărilor, verificările, documentarea, securitatea și push fără forțare. Vezi AGENTS.md și docs/TEAM_WORKFLOW.md.
