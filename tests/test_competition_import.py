@@ -21,6 +21,28 @@ class ImportTests(unittest.TestCase):
   with zipfile.ZipFile(b,'w') as z:
    z.writestr('../statement.pdf',b'%PDF-fixture');z.writestr('resultate.txt','names');z.writestr('rezultate.pdf',b'%PDF-names');z.writestr('program.exe',b'code')
   items=list(m.unpack(b.getvalue(),'archive.zip'));self.assertEqual(len(items),1);self.assertEqual(items[0][1],b'%PDF-fixture')
+ def test_contest_scope_does_not_follow_generic_site_navigation(self):
+  seed={'id':'archive-05','url':'https://example.org/subiecte-olimpiada-matematica'}
+  for path,label in [('/admitere-facultate/2011-algebra/file','Descarcă'),('/tag/subiecte-examene-2025','Subiecte'),('/inscriere.pdf','Formular de înscriere'),('/file.pdf','Tabel nominal')]:
+   self.assertFalse(m.eligible('https://example.org'+path,label,seed,seed['url'])[0])
+  self.assertTrue(m.eligible('https://example.org/admitere/concursul-mateinfoub/file','Concursul MateInfoUB',seed,seed['url'])[0])
+  self.assertTrue(m.eligible('https://cdn.example/anonymous.pdf','Subiect clasa VI',seed,seed['url'])[0])
+  for name in ['Calendar olimpiade.pdf','Calendar an școlar.pdf','Programa matematică.pdf','Regulament concurs.pdf','Metodologie planificare.docx','Proiect didactic.docx']:
+   self.assertTrue(m.eligible('https://cdn.example/'+name,'',seed,seed['url'])[0])
+  self.assertTrue(m.eligible('https://example.org/admitere/subiecte-matematica.pdf','Subiecte',seed,seed['url'])[0])
+  self.assertTrue(m.eligible('https://mateinfo.ro/olimpiade/2024/file','Descarcă',seed,seed['url'])[0])
+  self.assertTrue(m.eligible('https://example.org/calendar-an-scolar','Calendar an școlar',seed,seed['url'])[0])
+  self.assertTrue(m.eligible('https://example.org/planificari-calendaristice','Planificări calendaristice',seed,seed['url'])[0])
+  self.assertTrue(m.eligible('https://example.org/olimpiade/2025','2025',seed,'https://example.org/olimpiade/2024')[0])
+ def test_admin_archive_leaf_and_useful_learning_materials(self):
+  self.assertEqual(list(m.unpack(b'%PDF-fixture','archive / formular_inscriere.pdf')),[])
+  self.assertEqual(len(list(m.unpack(b'%PDF-fixture','Formulare inscriere / Regulament ONSS.pdf'))),1)
+  seed={'id':'archive-13','url':'https://example.org/concurs-comper'}
+  self.assertTrue(m.eligible('https://example.org/teorie-si-probleme-rezolvate-unghiuri','Teorie și probleme rezolvate',seed,seed['url'])[0])
+  self.assertTrue(m.eligible('https://example.org/evaluare-nationala/subiect.pdf','Subiect',seed,seed['url'])[0])
+ def test_oni_and_infoarena_task_routes_remain_available(self):
+  for seed,path in [({'id':'archive-08','url':'https://example.org/'},'/2001/index.html'),({'id':'archive-07','url':'https://example.org/downloads'},'/problema/arbore')]:
+   self.assertTrue(m.eligible('https://example.org'+path,'',seed,seed['url'])[0])
  def test_bomb_rejected(self):
   b=io.BytesIO()
   with zipfile.ZipFile(b,'w',compression=zipfile.ZIP_DEFLATED) as z:z.writestr('statement.pdf',b'0'*1000000)

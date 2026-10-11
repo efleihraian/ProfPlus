@@ -1,5 +1,11 @@
 # Istoricul versiunilor
 
+## P-071 — 2026-10-11
+
+- Păstrarea materialelor didactice și a suportului pentru planificări/lecții; excluderea formularelor administrative și reducerea navigării duplicate în import.
+- Păstrarea rutelor ONI/Infoarena/Mateinfo și a documentelor utile pentru examene.
+
+
 ## 2026-10-11 — P-070, publicat privat
 
 - Zece modele structurale anonimizate ale titularului, selecție după tip și clasă, prioritate pentru modelele personale.

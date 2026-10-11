@@ -179,3 +179,8 @@ Editor de sursă și proiecție educațională locală, fără motor TeX server 
 ## P-070 — structuri comune anonimizate, 2026-10-11
 
 Cererea explicită a titularului autorizează folosirea celor zece exemple ca modele implicite. Se distribuie numai structuri anonimizate, fără originale, identități sau enunțuri integrale. Noul tip unit rămâne metadata JSON validată în tabelul existent; fără migrare/RLS/permisiuni noi. Prioritate personală per tip și filtrare materie/ciclu/clasă; nicio promovare automată a unui model privat. Referințele ghidează stilul, nu fine-tuning sau adevăr matematic. Regula 2+2 este instrucțiune de organizare a titularului, în contextul aplicației, nu afirmație legală. Furnizorul AI și store=false rămân aceleași; probe live numai cu referințe anonimizate și cereri fictive. Verificările finale și limitele sunt în [REFERENCE_MODELS.md](REFERENCE_MODELS.md). Nu se declară audit complet, conformitate juridică sau drept de distribuire a originalelor. Alertele toolchain existente rămân urmărite separat.
+
+
+## 2026-10-11 — P-071: utilitate pedagogică mai largă decât subiectele
+
+Titularul clarifică păstrarea programelor, calendarelor școlare, reperelor și modelelor necesare planificărilor/proiectelor de lecție. Eliminăm numai materiale administrative clare și navigare duplicată; nu folosim cuvintele calendar/regulament/metodologie drept criteriu de ștergere. Cazurile ambigue deja descoperite se păstrează. Numărul linkurilor nu este numărul documentelor rămase. Importul continuă cu aceeași cheie și ștergerea locală verificată; livrare directă pe main, fără PR, conform instrucțiunii titularului.
