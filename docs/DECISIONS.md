@@ -171,3 +171,7 @@ Priorități în selecția deja autorizată, fără acces nou; toate documentele
 ## 2026-10-11 — P-068: referințe de stil și integrare directă
 
 Modelele personale se etichetează în JSON-ul existent, separat de sursele factuale selectate automat; sunt consultate pe proprietar în toate conversațiile. Prevalența se calculează per tip, materie și ciclu. Modelele comune sunt exclusiv exemplele aprobate și anonimizate ale titularului, adăugate versionat după ce acesta le furnizează; niciun model personal nu devine comun prin upload ori user_metadata. Exemplele ghidează structura textuală, fără fine-tuning sau promisiunea reproducerii exacte a fonturilor/paginării. Titularul a înlocuit explicit fluxul PR/reviewer: verificare și integrare direct pe main până când anunță reluarea colaborării. P-065 și P-067 integrate prin fast-forward, fără forțare sau atingerea checkout-ului operațional.
+
+## P-069 — LaTeX portabil, 2026-10-11
+
+Editor de sursă și proiecție educațională locală, fără motor TeX server sau serviciu terț de compilare. Sursa completă are prioritate și se păstrează exact în JSON-ul documentului. Conversia vizuală este explicită; .tex rămâne calea pentru compilare fidelă în Overleaf. Păstrăm controlul provenienței prin delimitatori proprii, fără rescrierea arbitrară a codului profesorului. Livrare direct pe main, conform instrucțiunii titularului.

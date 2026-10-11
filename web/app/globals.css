@@ -98,7 +98,7 @@ body,.workspace,.main{background:var(--background);color:var(--text)}
 .generated-document-card:hover{border-color:var(--primary)}.generated-document-card small{color:var(--muted)}
 .document-paper,.document-paper>h1,.document-content,.document-editor-header>input{color:var(--text)}
 .document-editor-actions button,.document-export-menu summary,.document-format-bar button{color:var(--primary)}
-.document-editor-actions>button:nth-child(2):not(:disabled){background:var(--emerald);border-color:var(--emerald);color:var(--on-success)}
+.document-editor-actions>button.document-save:not(:disabled){background:var(--emerald);border-color:var(--emerald);color:var(--on-success)}
 .document-export-menu summary{background:var(--action);border-color:var(--primary);color:var(--on-action)}
 .document-content th{background:var(--background)}.document-content a,.document-source-note a{color:var(--primary)}
 .document-editable:focus{box-shadow:0 0 0 3px var(--blue-soft)}
@@ -162,3 +162,8 @@ input:focus-visible,select:focus-visible,summary:focus-visible,[contenteditable]
 .document-model-types{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 16px}
 .resource-classification .document-model-types .account-check{margin:0;min-height:44px}
 @media(max-width:440px){.document-model-types{grid-template-columns:minmax(0,1fr)}}
+
+/* LaTeX source and the existing document paper share one editor. */
+.document-editor-dialog:has(.document-latex-layout){max-width:1480px}.document-latex-help{margin:0;padding:12px 22px;font-size:13px;line-height:1.6;color:var(--muted);border-bottom:1px solid var(--border)}.document-latex-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:24px;padding:20px;overflow:hidden}.document-latex-source{display:flex;flex-direction:column;min-height:0;gap:10px}.document-latex-source label,.document-preview-pane>h2{font-size:14px;font-weight:600;margin:0}.document-latex-source textarea{max-height:none;flex:1;min-height:260px;resize:none;border:1px solid var(--border);border-radius:8px;padding:16px;background:var(--surface);color:var(--text);caret-color:var(--primary);font:13px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;tab-size:2;white-space:pre;overflow:auto}.document-latex-source textarea:focus-visible{outline:2px solid var(--primary);outline-offset:2px}.document-latex-source small{color:var(--muted);font-size:12px;line-height:1.5}.document-preview-pane{min-width:0}.document-latex-layout .document-preview-pane{overflow:auto;min-height:0}.document-preview-pane>h2{margin-bottom:12px}.document-latex-layout .document-paper{padding:30px;min-height:750px}.document-latex-warnings,.document-visual-warning{padding:12px 22px;color:var(--text);background:var(--surface);font-size:13px;line-height:1.6}.document-latex-warnings{padding:12px 0}.document-visual-warning>div{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}.document-visual-warning button{padding:8px;border:1px solid var(--border);border-radius:8px;color:var(--primary);background:var(--background)}@media(max-width:900px){.document-latex-layout{display:flex;flex-direction:column;overflow:auto;padding:16px;gap:24px}.document-latex-source textarea{height:320px;flex:none;width:100%}.document-latex-layout .document-preview-pane{overflow:visible;flex:none}.document-latex-layout .document-paper{padding:24px 18px}.document-latex-help{padding:10px 12px}.document-latex-source{flex:none}}
+
+.document-editor-actions>button[aria-pressed="true"]{background:var(--blue-soft);border-color:var(--primary)}

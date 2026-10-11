@@ -1,5 +1,12 @@
 # Jurnal de lucru
 
+## P-069 — editor LaTeX, 2026-10-11
+
+Implementare la cererea titularului, direct pe main fără PR. Sursă și previzualizare alăturate/verticale pe mobil, .tex complet, salvare exactă și redeschidere, titlu în sursă, avertizare pentru conversie vizuală, adnotări gestionate reversibil. Nu este compilator Overleaf în aplicație; preview și PDF/Word sunt simplificate, .tex se compilează în Overleaf. Nu trimitem documentul automat către Overleaf.
+
+Verificări executate: TypeScript/build, test document-latex (escapare, formule, tabele, sursă exactă, limite, comenzi inerte, proveniență fără pierdere/dublare de enunțuri); teacher-test-controls, document-models, supabase-storage; test:account complet cu JSON LaTeX exact, autor/cont străin, CSRF, limite și ștergere. Browser: editare, salvare și redeschidere exactă, .tex descărcat real și verificat fără proveniență, refuzul închiderii nesalvate și conversie vizuală explicită. Două runde desktop 1280×720 / mobil 390×844, fără overflow al dialogului; capturi de document fictiv în /tmp/profplus-P069-latex-desktop.png și mobile.png. Ruta de verificare a fost eliminată înainte de build/publicare. Compilarea TeX exactă nu este certificată: apelul compilerului desktop nu a furnizat rezultat și a fost oprit; nu adăugăm serviciu de compilare pe server. Build final fără ruta QA trecut; scanner Git/istoric/client 1.505 fișiere/bloburi, zero rezultate. Audit: 8 high preexistente toolchain; zero vulnerabilități de producție. Publicarea în curs.
+
+
 ## 2026-10-01 — Inițializare
 
 - Creat documentația proiectului și structura pentru urmărirea lucrului.
