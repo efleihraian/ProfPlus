@@ -157,3 +157,8 @@ Omiterea originalelor peste 50 MB este autorizată explicit de titular; referin�
 ## P-063 — renunțare la materialele cu erori, 2026-10-10
 
 Titularul a autorizat omiterea materialelor cu erori: referință verificată în Supabase înainte de eliminarea cache-ului local, fără redescărcare automată. Cele 10 PDF-uri rămase după erori (394.205.365 bytes) au fost eliminate. Importul valid al concursurilor continuă; companionul păstrează și linkurile pentru erorile lui. [Flux, dovezi și limite](FAILED_MATERIALS.md).
+
+
+## P-065 — 2026-10-11: disponibilitate din confirmările importului
+
+Pentru backendul Supabase, biblioteca citește proiecția minimă a checkpointului cloud: indexed + file_id + attached=1. Nu listează toate fișierele OpenAI la fiecare deschidere. Snapshot comun 60 s, paginare ordonată și încărcare paralelă; fără cache de date personale. Reconcilierea indexului aparține importului. [Dovezi și limită de actualizare](LIBRARY_LOADING.md).

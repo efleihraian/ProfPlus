@@ -46,3 +46,8 @@ Catalog comun vizibil tuturor, inclusiv vizitatori; numai sursele indexate sunt 
 Verificare completă până la 120 secunde; cache server 5 minute, cereri simultane reunite. Eșecul sau configurația absentă afișează starea indexării neverificată și exclude selecția AI. Numai o verificare completă poate confirma catalog/neindexat. Cache-ul include exclusiv surse comune; documentele private sunt autorizate separat.
 
 Limita cache-ului P-059: snapshotul de 5 minute este în memoria instanței serverului. În pilotul Sites, a doua cerere separată a durat 42,69 secunde; reutilizarea între instanțe nu este garantată. Corectitudinea online a trecut în ambele cereri, dar nu se declară o accelerare persistentă a găzduirii. Local, reutilizarea a fost 0,03 secunde.
+
+
+## P-065 — 2026-10-11
+
+Cache doar pentru metadatele educaționale comune confirmate din Supabase, proiecție minimă server-side. Documentele proprii rămân autorizate pe cont și nu intră în cache. Fără date, furnizori, trackere, permisiuni sau audiență noi. [Implementare, verificări și limite](LIBRARY_LOADING.md).

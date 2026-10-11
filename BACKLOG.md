@@ -1,4 +1,9 @@
 # Lucrări rămase
+
+## P-065 — 2026-10-11
+
+**P-065 — IN PROGRESS (review).** Responsabil Marcos/Cosmin Soames, issue #12. Corecția încărcării bibliotecii este implementată și verificată; integrarea în main așteaptă review uman independent. [Criterii, dovezi și limite](docs/LIBRARY_LOADING.md).
+
 ## P-063 — renunțare la materialele cu erori, 2026-10-10
 
 Titularul a autorizat omiterea materialelor cu erori: referință verificată în Supabase înainte de eliminarea cache-ului local, fără redescărcare automată. Cele 10 PDF-uri rămase după erori (394.205.365 bytes) au fost eliminate. Importul valid al concursurilor continuă; companionul păstrează și linkurile pentru erorile lui. [Flux, dovezi și limite](docs/FAILED_MATERIALS.md).

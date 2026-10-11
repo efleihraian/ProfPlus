@@ -44,9 +44,21 @@ export function cloudBucket(c:CloudConfig){
   async delete(id:string){object(id);const response=await request(c,'/storage/v1/object/'+bucket,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({prefixes:[id]})});if(!response.ok&&response.status!==404)throw new Error('SUPABASE_DELETE_'+response.status);},
  } as unknown as R2Bucket;
 }
+export type CloudImportRow={family:string;uid:string;status:string;metadata:Record<string,unknown>|string;file_id:string|null;attached:number};
+export async function cloudImportCatalog(c:CloudConfig){
+ const rows:CloudImportRow[]=[];let offset=0;
+ while(true){
+  const query=new URLSearchParams({select:'family,uid,status:state->>status,metadata:state->metadata,file_id:state->>file_id,attached:state->attached',family:'in.(manuals,competitions)',order:'family.asc,uid.asc',limit:'1000',offset:String(offset)});
+  const response=await request(c,'/rest/v1/library_import_documents?'+query);
+  if(!response.ok)throw new Error('CLOUD_LIBRARY_UNAVAILABLE');
+  const page=await response.json() as CloudImportRow[];rows.push(...page);
+  if(page.length<1000)return rows;
+  offset+=page.length;
+ }
+}
 export async function cloudOriginals(c:CloudConfig){
  const result=new Map<string,'manuals'|'competitions'>();let offset=0;
- while(true){const response=await request(c,'/rest/v1/library_materials?select=family,uid&kind=eq.original&family=in.(manuals,competitions)&limit=1000&offset='+offset);if(!response.ok)throw new Error('CLOUD_LIBRARY_UNAVAILABLE');const items=await response.json() as {family:'manuals'|'competitions';uid:string}[];for(const item of items)result.set(item.uid,item.family);if(items.length<1000)break;offset+=1000;}
+ while(true){const response=await request(c,'/rest/v1/library_materials?select=family,uid&kind=eq.original&family=in.(manuals,competitions)&order=family.asc,uid.asc&limit=1000&offset='+offset);if(!response.ok)throw new Error('CLOUD_LIBRARY_UNAVAILABLE');const items=await response.json() as {family:'manuals'|'competitions';uid:string}[];for(const item of items)result.set(item.uid,item.family);if(items.length<1000)break;offset+=1000;}
  return result;
 }
 export async function cloudOriginal(c:CloudConfig,family:string,uid:string){
