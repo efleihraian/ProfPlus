@@ -41,6 +41,10 @@ jobs:
       - run: python3 ../scripts/security_scan.py --client
       - run: npm run test:account
       - run: node tests/guest-chat.mjs
+      - run: node tests/teacher-test-controls.mjs
+      - run: node tests/exercise-provenance.mjs
+      - run: node tests/export-provenance.mjs
+      - run: node tests/common-rag.mjs
       - run: npm run test:manual-library
       - run: node tests/library-availability.mjs
       - run: node tests/cloud-library.mjs

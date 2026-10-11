@@ -1,5 +1,10 @@
 # Lucrări rămase
 
+## P-067 — Surse prioritare și copie pentru elevi — IN REVIEW, 2026-10-11
+
+Responsabil uman: Marcos Soames; cerere directă a titularului. Toate materialele potrivite pot rămâne selectate; steaua marchează maximum 10 surse comune și 10 documente proprii prioritare pentru enunț. Copia pentru elevi ascunde proveniența, citările și referințele la un singur click, inclusiv în PDF/Word. Formulele, variantele și spațierea sunt formatate. Implementare izolată în `feat/P-067-teacher-test-controls`, dependentă de P-065/PR #13 pentru păstrarea corecției bibliotecii deja publicate. [Dovezi și limite](docs/TEACHER_TEST_CONTROLS.md). Importul bibliotecii rămâne separat în curs.
+
+
 ## P-065 — 2026-10-11
 
 **P-065 — IN PROGRESS (review).** Responsabil Marcos/Cosmin Soames, issue #12. Corecția încărcării bibliotecii este implementată și verificată; integrarea în main așteaptă review uman independent. [Criterii, dovezi și limite](docs/LIBRARY_LOADING.md).

@@ -130,3 +130,8 @@ Cache doar pentru metadatele educaționale comune confirmate din Supabase, proie
 
 
 P-065, revenire 2026-10-11: corectată blocarea după expirarea cache-ului. Lista comună recentă rămâne vizibilă în timpul actualizării; refresh în fundal, termen de 8 s pentru catalog și paginare paralelă limitată. Datele personale nu intră în cache/preview. [Dovezi și limite](LIBRARY_LOADING.md).
+
+
+## P-067 — 2026-10-11
+
+Priorități în selecția deja autorizată, fără acces nou; toate documentele proprii se verifică pe cont. Copia fără proveniență este reversibilă, originalul și dovezile rămân salvate. KaTeX/MathJax/fonturi locale, fără date trimise altui furnizor și fără relaxarea CSP. Word are formule ca imagini; validarea AI și importul complet rămân separate. Teste noi, verificare browser și descărcări reale executate. Audit: 8 high anterioare în toolchain, zero în producție. [Dovezi și limite](TEACHER_TEST_CONTROLS.md).

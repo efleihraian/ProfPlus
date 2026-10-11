@@ -9,8 +9,14 @@ export type Evidence = { source: Source; text: string };
 type Hit = { score?: number; filename?: string; attributes?: { uid?: string;[key:string]:unknown }; content?: { type: string; text?: string }[] };
 const metadata = {...catalog,...extra} as Record<string, { title: string; class?: string;schoolClass?:string; subject: string; publisher: string; url: string; pageLocator?:string }>;
 
-export async function retrieve(query: string, key: string, store: string, signal: AbortSignal, selected?:string[]): Promise<Evidence[]> {
+export async function retrieve(query: string, key: string, store: string, signal: AbortSignal, selected?:string[],priority:string[]=[]): Promise<Evidence[]> {
   if (selected?.length===0) return [];
+  const preferred=priority.filter(id=>selected?.includes(id));
+  if(preferred.length){
+    const [focused,broad]=await Promise.all([retrieve(query,key,store,signal,preferred),retrieve(query,key,store,signal,selected)]);
+    const first=focused.slice(0,4),seen=new Set(first.map(e=>e.source.uid+':'+e.source.page+':'+e.text));
+    return [...first,...broad.filter(e=>!seen.has(e.source.uid+':'+e.source.page+':'+e.text))].slice(0,8);
+  }
   const response = await fetch(`https://api.openai.com/v1/vector_stores/${encodeURIComponent(store)}/search`, {
     method: "POST", headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" }, signal,
     body: JSON.stringify({ query, filters: selected?{ type: "in", key: "uid", value: selected }:{type:"or",filters:[{type:"in",key:"uid",value:Object.keys(metadata)},{type:"in",key:"category",value:["olympiad","competition"]}]}, max_num_results: 8, rewrite_query: true, ranking_options: { score_threshold: 0.25 } }),

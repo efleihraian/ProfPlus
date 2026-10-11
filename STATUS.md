@@ -1,5 +1,10 @@
 # Starea proiectului
 
+## P-067 — Surse prioritare și copie pentru elevi — IN REVIEW, 2026-10-11
+
+Responsabil uman: Marcos Soames; cerere directă a titularului. Toate materialele potrivite pot rămâne selectate; steaua marchează maximum 10 surse comune și 10 documente proprii prioritare pentru enunț. Copia pentru elevi ascunde proveniența, citările și referințele la un singur click, inclusiv în PDF/Word. Formulele, variantele și spațierea sunt formatate. Implementare izolată în `feat/P-067-teacher-test-controls`, dependentă de P-065/PR #13 pentru păstrarea corecției bibliotecii deja publicate. [Dovezi și limite](docs/TEACHER_TEST_CONTROLS.md). Site privat publicat cu succes la 10:18 UTC; implementarea este disponibilă și pe localhost:3000. Importul bibliotecii rămâne separat în curs.
+
+
 ## P-065 — 2026-10-11
 
 Corecția P-065 este verificată local: biblioteca se încarcă în 2,74–4,76 s cold și 0,04 s warm; 4.663 materiale în fotografia curentă. Publicat cu succes pe site-ul privat existent. PR în review; main nu este integrat automat. [Dovezi și limite](docs/LIBRARY_LOADING.md).

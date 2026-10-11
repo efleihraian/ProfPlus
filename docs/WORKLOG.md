@@ -404,3 +404,10 @@ P-065, revenire 2026-10-11: corectată blocarea după expirarea cache-ului. List
 P-065 revenire: publicare privată confirmată succeeded (source 38477483db942e765d59d2904c8576928ed2fa73). PR #13 actualizat; review separat rămâne necesar. Probe browser/local după expirare, teste pentru refresh blocat/eșuat și termene comune trecute. Scanner local 1.343 fișiere/bloburi, Sites 306, fără detecții. Configurația și procesele importului păstrate.
 
 P-065 — verificare finală operațională: serverul local este activ; biblioteca HTTP 200 în 0,143 s, 4.707 materiale fără avertismente. Procesele vechi de import nu mai sunt active; run.json din copia operațională raportează stopped / IMPORT_STOPPED. Corecția bibliotecii nu a semnalat, reluat sau modificat importul; nu se declară import activ pe baza PID-urilor istorice.
+
+
+## P-067 — 2026-10-11
+
+Priorități în selecția deja autorizată, fără acces nou; toate documentele proprii se verifică pe cont. Copia fără proveniență este reversibilă, originalul și dovezile rămân salvate. KaTeX/MathJax/fonturi locale, fără date trimise altui furnizor și fără relaxarea CSP. Word are formule ca imagini; validarea AI și importul complet rămân separate. Teste noi, verificare browser și descărcări reale executate. Audit: 8 high anterioare în toolchain, zero în producție. [Dovezi și limite](TEACHER_TEST_CONTROLS.md).
+
+P-067 livrare: issue #14, responsabil Marcos Soames. TypeScript/build local și Sites complete; dependențe de producție fără vulnerabilități. Scanner final Git/client 1.426, Sites 279, fără detecții. Publicare privată succeeded la 10:18 UTC, source `f359a4cfb6d0122560d73df1cd7fc87066a7fbd8`. Server local din checkout-ul P-067 relansat pe 3000, PID 29995; importul operațional nu a fost semnalat sau modificat. PR către main dependent de #13; review independent necesar, fără auto-merge.

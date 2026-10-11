@@ -1,7 +1,7 @@
 import {parallelMap} from './parallel-map';
 import type { Evidence, Source } from "./rag";
 import { openai, refreshDocument, rowsForChat, type DocumentRow, ownedDocument } from "./document-store";
-export async function teacherEvidence(user: string, chat: string, query: string, key: string, signal: AbortSignal, selected?: string[]): Promise<Evidence[]> {
+export async function teacherEvidence(user: string, chat: string, query: string, key: string, signal: AbortSignal, selected?: string[],priority:string[]=[]): Promise<Evidence[]> {
   const owned = selected ? (await Promise.all(selected.map(id => ownedDocument(user, id)))).filter((r): r is DocumentRow => !!r) : await rowsForChat(user, chat);
   const rows = await parallelMap(owned,refreshDocument);
   const ready = rows.filter((r): r is DocumentRow & { store_id: string; file_id: string } => r.status === "ready" && !!r.store_id && !!r.file_id);
@@ -11,7 +11,7 @@ export async function teacherEvidence(user: string, chat: string, query: string,
     const data = await response.json() as { data: { file_id: string; score: number; content: { type: string; text?: string }[] }[] };
     return data.data.filter(hit => hit.file_id === row.file_id).map(hit => ({ score: hit.score, source: { id: 0, kind: "document" as const, documentId: row.id, title: row.name, url: `/api/documents/${row.id}` }, text: hit.content.filter(c => c.type === "text").map(c => c.text || "").join("\n").slice(0, 4800) }));
   });
-  return results.flat().sort((a,b) => b.score - a.score).slice(0, 5);
+  return results.flat().sort((a,b) => Number(priority.includes(b.source.documentId))-Number(priority.includes(a.source.documentId))||b.score-a.score).slice(0, 5);
 }
 type OutputText = { type: string; text?: string; annotations?: { type: string; url?: string; title?: string }[] };
 type ModelResponse = { status: string; output: { type: string; content?: OutputText[] }[] };

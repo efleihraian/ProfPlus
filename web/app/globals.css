@@ -139,3 +139,19 @@ input:focus-visible,select:focus-visible,summary:focus-visible,[contenteditable]
 .document-export-menu>div:has(.export-source-option){width:240px;max-width:calc(100vw - 32px)}
 .export-source-option{display:flex;align-items:flex-start;gap:8px;padding:8px;font-size:13px;line-height:1.4;color:var(--text);border-bottom:1px solid var(--border);margin-bottom:4px;cursor:pointer}
 .export-source-option input{flex:none;margin-top:2px;accent-color:var(--primary)}
+
+/* Teacher priorities and readable mathematical exercises. */
+.library-priority-help{margin:10px 26px;font-size:13px;line-height:1.55;color:var(--muted)}
+.library-card button.library-priority{display:flex;align-items:center;gap:8px;min-height:40px;text-decoration:none;text-align:left;font-size:13px}
+.library-priority[aria-pressed="true"]{color:var(--primary);font-weight:600}
+.document-provenance-toggle[aria-pressed="true"]{background:var(--blue-soft);border-color:var(--blue-border)}
+.educational-reply{line-height:1.75;overflow-wrap:anywhere}
+.educational-reply p{white-space:normal}.educational-reply li{margin:.45em 0}
+.document-content{line-height:1.75}.document-content li{margin:.55em 0}.document-content li>p{margin:.4em 0}
+.document-content .katex,.educational-reply .katex{font-size:1.08em}
+.katex-display{overflow-x:auto;overflow-y:hidden;padding:.35em 0;max-width:100%}
+.document-content .katex{white-space:normal}.document-content ol{padding-left:1.7em}
+.document-editor-header{flex-wrap:wrap}.document-editor-actions{flex-wrap:wrap}
+@media(max-width:767px){.document-editor-actions{width:100%;gap:6px}.document-editor-actions button{min-height:40px;font-size:12px;padding:8px}.library-priority-help{margin:10px 16px}.library-selection{flex-wrap:wrap;gap:8px}}
+
+.document-content li.exercise-choice,.educational-reply li.exercise-choice{list-style:none;margin-left:.25em}
