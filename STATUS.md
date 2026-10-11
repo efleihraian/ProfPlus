@@ -1,13 +1,18 @@
 # Starea proiectului
 
-## P-067 — Surse prioritare și copie pentru elevi — IN REVIEW, 2026-10-11
+## P-068 — Modele personale de documente — 2026-10-11
+
+Responsabil: Marcos Soames, la cererea titularului. Modele private pentru test, barem, planificare, proiect de lecție și fișă; marcarea din bibliotecă și folosirea în toate conversațiile după tip/materie/ciclu. Modelele personale au prioritate pentru fiecare tip; registrul comun primește doar exemplele titularului aprobate și anonimizate. Registrul este deocamdată gol: exemplele nu au fost încă furnizate. Stilul standard a devenit sobru, fără introduceri și ornamente automate. [Comportament, verificări și limite](docs/DOCUMENT_MODELS.md). P-065 și P-067 sunt integrate pe main la `08642f9`; de acum livrare direct pe main fără PR, conform instrucțiunii explicite din 2026-10-11. Importul bibliotecii este separat.
+
+
+## P-067 — Surse prioritare și copie pentru elevi — DONE, 2026-10-11
 
 Responsabil uman: Marcos Soames; cerere directă a titularului. Toate materialele potrivite pot rămâne selectate; steaua marchează maximum 10 surse comune și 10 documente proprii prioritare pentru enunț. Copia pentru elevi ascunde proveniența, citările și referințele la un singur click, inclusiv în PDF/Word. Formulele, variantele și spațierea sunt formatate. Implementare izolată în `feat/P-067-teacher-test-controls`, dependentă de P-065/PR #13 pentru păstrarea corecției bibliotecii deja publicate. [Dovezi și limite](docs/TEACHER_TEST_CONTROLS.md). Site privat publicat cu succes la 10:18 UTC; implementarea este disponibilă și pe localhost:3000. Importul bibliotecii rămâne separat în curs.
 
 
 ## P-065 — 2026-10-11
 
-Corecția P-065 este verificată local: biblioteca se încarcă în 2,74–4,76 s cold și 0,04 s warm; 4.663 materiale în fotografia curentă. Publicat cu succes pe site-ul privat existent. PR în review; main nu este integrat automat. [Dovezi și limite](docs/LIBRARY_LOADING.md).
+Corecția P-065 este verificată local: biblioteca se încarcă în 2,74–4,76 s cold și 0,04 s warm; 4.663 materiale în fotografia curentă. Publicat cu succes pe site-ul privat existent. Integrată în main conform cererii explicite din 2026-10-11. [Dovezi și limite](docs/LIBRARY_LOADING.md).
 
 ## P-063 — renunțare la materialele cu erori, 2026-10-10
 

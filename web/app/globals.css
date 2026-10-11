@@ -155,3 +155,10 @@ input:focus-visible,select:focus-visible,summary:focus-visible,[contenteditable]
 @media(max-width:767px){.document-editor-actions{width:100%;gap:6px}.document-editor-actions button{min-height:40px;font-size:12px;padding:8px}.library-priority-help{margin:10px 16px}.library-selection{flex-wrap:wrap;gap:8px}}
 
 .document-content li.exercise-choice,.educational-reply li.exercise-choice{list-style:none;margin-left:.25em}
+
+.library-model-label{font-weight:600;color:var(--text)}
+.resource-classification .account-check{margin:10px 0}
+
+.document-model-types{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 16px}
+.resource-classification .document-model-types .account-check{margin:0;min-height:44px}
+@media(max-width:440px){.document-model-types{grid-template-columns:minmax(0,1fr)}}

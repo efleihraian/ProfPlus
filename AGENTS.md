@@ -1,6 +1,6 @@
 # Instrucțiuni pentru agenții care lucrează în ProfPlus
 
-Reguli comune pentru toți oamenii și agenții: [docs/TEAM_WORKFLOW.md](docs/TEAM_WORKFLOW.md). Verifică remote-ul înainte de sarcină, lucrează izolat și livrează prin PR.
+Reguli comune pentru toți oamenii și agenții: [docs/TEAM_WORKFLOW.md](docs/TEAM_WORKFLOW.md). Verifică remote-ul înainte de sarcină, lucrează izolat și integrează modificările finalizate și verificate direct pe main, fără PR, până când utilizatorul anunță reluarea colaborării (instrucțiunea din 2026-10-11).
 
 Citește README.md, STATUS.md și BACKLOG.md înainte de lucru. Respectă CONTRIBUTING.md. La fiecare schimbare relevantă actualizează starea, backlog-ul, changelog-ul și jurnalul. Înregistrează deciziile importante. Nu inventa cerințe, rezultate de teste sau funcționalități existente. Nu comite secrete sau documente private. Folosește teste relevante pentru comportamentul schimbat.
 

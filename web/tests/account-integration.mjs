@@ -106,6 +106,19 @@ try{
  assert.ok(library.items.some(i=>i.id==='own-doc'&&i.category==='collection'&&i.subject==='Matematica'));
  assert.ok(!library.items.some(i=>i.id==='other-doc'));
  assert.deepEqual(library.selection.documentIds,['own-doc'],'Matching owned materials from any conversation are selected');
+ assert.equal((await patch('own-doc',{...label,modelTypes:['test','rubric']})).status,200);
+ library=await(await call('/api/library')).json();
+ assert.deepEqual(library.items.find(i=>i.id==='own-doc').modelTypes,['test','rubric']);
+ assert.deepEqual(library.selection.documentIds,[],'Models guide style without becoming automatic factual evidence');
+ assert.equal((await patch('other-doc',{...label,modelTypes:['test']})).status,404);
+ assert.equal((await patch('own-doc',{...label,modelTypes:['unknown']})).status,400);
+ assert.equal((await patch('own-doc',{...label,modelTypes:['test','test']})).status,400);
+ assert.equal((await patch('own-doc',{...label,subject:'unknown'})).status,400);
+ assert.equal((await patch('own-doc',{...label,modelTypes:[],scope:'shared'})).status,200);
+ library=await(await call('/api/library')).json();
+ assert.deepEqual(library.selection.documentIds,['own-doc']);
+ assert.ok(!('scope' in library.items.find(i=>i.id==='own-doc')),'Client cannot publish private models');
+ console.log('PASS: private model labels persist, foreign write denied, invalid/duplicate types rejected, automatic fact selection excludes models and unmarking restores it.');
  assert.equal((await patch('own-doc',{...label,stages:['high']})).status,200);
  library=await(await call('/api/library')).json();assert.deepEqual(library.selection.documentIds,[]);
  for(const category of ['manual','collection','olympiad','competition','document']){
@@ -122,7 +135,8 @@ try{
  stored=await(await call('/api/history?id='+newChat.id)).json();assert.deepEqual(stored.chat.selection,edit.selection);
  console.log('PASS: all resource categories, classification ownership/CSRF/validation, subject/cycle matching, automatic cross-chat selection, compact automatic persistence and preserved manual selection.');
  if(process.argv.includes('--preview')){
-  await patch('own-doc',{...label,category:'collection'});
+  await patch('own-doc',{...label,category:'document',modelTypes:['test','rubric']});
+  sql("UPDATE documents SET name='Model de test — clasa V' WHERE id='own-doc'");
   console.log('UI preview ready at '+origin+'; synthetic fixture@example.test / valid-test-password. Stop with SIGINT.');
   await new Promise(resolve=>process.once('SIGINT',resolve));throw new Error('PREVIEW_FINISHED');
  }
