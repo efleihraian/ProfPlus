@@ -402,3 +402,5 @@ P-065 — livrare: commit `085e90b`, PR https://github.com/ProfOS-Edu/ProfPlus/p
 P-065, revenire 2026-10-11: corectată blocarea după expirarea cache-ului. Lista comună recentă rămâne vizibilă în timpul actualizării; refresh în fundal, termen de 8 s pentru catalog și paginare paralelă limitată. Datele personale nu intră în cache/preview. [Dovezi și limite](LIBRARY_LOADING.md).
 
 P-065 revenire: publicare privată confirmată succeeded (source 38477483db942e765d59d2904c8576928ed2fa73). PR #13 actualizat; review separat rămâne necesar. Probe browser/local după expirare, teste pentru refresh blocat/eșuat și termene comune trecute. Scanner local 1.343 fișiere/bloburi, Sites 306, fără detecții. Configurația și procesele importului păstrate.
+
+P-065 — verificare finală operațională: serverul local este activ; biblioteca HTTP 200 în 0,143 s, 4.707 materiale fără avertismente. Procesele vechi de import nu mai sunt active; run.json din copia operațională raportează stopped / IMPORT_STOPPED. Corecția bibliotecii nu a semnalat, reluat sau modificat importul; nu se declară import activ pe baza PID-urilor istorice.
