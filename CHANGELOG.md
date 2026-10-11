@@ -1,6 +1,6 @@
 # Istoricul versiunilor
 
-## Nelansat — P-070
+## 2026-10-11 — P-070, publicat privat
 
 - Zece modele structurale anonimizate ale titularului, selecție după tip și clasă, prioritate pentru modelele personale.
 - Proiectarea unității de învățare distinctă de planificare/proiectul de lecție; algebră și geometrie în paralel câte două ore, cu totaluri sincronizate.
