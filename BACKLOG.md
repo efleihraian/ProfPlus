@@ -1,5 +1,10 @@
 # Lucrări rămase
 
+## P-069 — Editor LaTeX — IN PROGRESS, 2026-10-11
+
+Sursă LaTeX editabilă cu previzualizare simplificată și export `.tex` pentru Overleaf. Salvare exactă în conversație, conversie vizuală explicită, proveniență reversibilă. Compilarea TeX completă rămâne în Overleaf; PDF/Word din aplicație sunt simplificate. Verificările și publicarea sunt în curs. [Comportament și limite](docs/DOCUMENT_EDITOR.md).
+
+
 ## P-068 — Modele personale de documente — DONE (suport; exemplele comune așteptate), 2026-10-11
 
 Responsabil: Marcos Soames, la cererea titularului. Modele private pentru test, barem, planificare, proiect de lecție și fișă; marcarea din bibliotecă și folosirea în toate conversațiile după tip/materie/ciclu. Modelele personale au prioritate pentru fiecare tip; registrul comun primește doar exemplele titularului aprobate și anonimizate. Registrul este deocamdată gol: exemplele nu au fost încă furnizate. Stilul standard a devenit sobru, fără introduceri și ornamente automate. [Comportament, verificări și limite](docs/DOCUMENT_MODELS.md). P-065 și P-067 sunt integrate pe main la `08642f9`; de acum livrare direct pe main fără PR, conform instrucțiunii explicite din 2026-10-11. Importul bibliotecii este separat. Publicare privată confirmată la 10:50 UTC, cod pe main la 25bce36; localhost:3000 actualizat. CI: build/teste/scannere trecute, audit blocat de cele opt alerte toolchain existente.

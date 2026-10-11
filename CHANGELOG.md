@@ -1,5 +1,7 @@
 # Istoricul versiunilor
 
+- P-069: editor LaTeX cu sursă exactă salvată, previzualizare simplificată, export .tex, conversie vizuală explicită și copie fără proveniență. Compilarea exactă se face în Overleaf.
+
 ## P-068 — Modele personale de documente — 2026-10-11
 
 Responsabil: Marcos Soames, la cererea titularului. Modele private pentru test, barem, planificare, proiect de lecție și fișă; marcarea din bibliotecă și folosirea în toate conversațiile după tip/materie/ciclu. Modelele personale au prioritate pentru fiecare tip; registrul comun primește doar exemplele titularului aprobate și anonimizate. Registrul este deocamdată gol: exemplele nu au fost încă furnizate. Stilul standard a devenit sobru, fără introduceri și ornamente automate. [Comportament, verificări și limite](docs/DOCUMENT_MODELS.md). P-065 și P-067 sunt integrate pe main la `08642f9`; de acum livrare direct pe main fără PR, conform instrucțiunii explicite din 2026-10-11. Importul bibliotecii este separat.

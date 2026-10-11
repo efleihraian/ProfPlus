@@ -52,8 +52,8 @@ try{
  const r2=(action,id)=>spawnSync(process.execPath,['./node_modules/wrangler/bin/wrangler.js','r2','object',action,bucket+'/'+id,'--config','dist/server/wrangler.json','--local','--persist-to','.wrangler/account-test',...(action==='put'?['--pipe']:['--pipe'])],{input:action==='put'?'synthetic private original':undefined,encoding:'utf8'});
  assert.equal(r2('put','own-doc').status,0);assert.equal(r2('get','own-doc').status,0);
  sql(`INSERT INTO projects(id,user_id,name,created_at) VALUES('own-project','supabase:${uid}','Own',1),('other-project','supabase:55555555-5555-4555-8555-555555555555','Other',1);
- INSERT INTO conversations(id,user_id,title,project_id,messages,selection,revision,created_at,updated_at,deleted) VALUES('own-chat','supabase:${uid}','Own','own-project','[]','null',0,1,1,0),('own-deleted-chat','supabase:${uid}','Old',NULL,'[]','null',0,1,1,1),('other-chat','supabase:55555555-5555-4555-8555-555555555555','Other','other-project','[]','null',0,1,1,0);
- INSERT INTO documents(id,user_id,chat_id,name,mime,size,status,created_at) VALUES('own-doc','supabase:${uid}','own-chat','Own','text/plain',24,'ready',1),('other-doc','supabase:55555555-5555-4555-8555-555555555555','other-chat','Other','text/plain',10,'ready',1);`);
+ INSERT INTO conversations(id,user_id,title,project_id,messages,selection,revision,created_at,updated_at,deleted) VALUES('own-chat','supabase:${uid}','Own','own-project','[]','null',0,1,1,0),('own-deleted-chat','supabase:${uid}','Old',NULL,'[]','null',0,1,1,1),('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa','supabase:55555555-5555-4555-8555-555555555555','Other','other-project','[]','null',0,1,1,0);
+ INSERT INTO documents(id,user_id,chat_id,name,mime,size,status,created_at) VALUES('own-doc','supabase:${uid}','own-chat','Own','text/plain',24,'ready',1),('other-doc','supabase:55555555-5555-4555-8555-555555555555','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa','Other','text/plain',10,'ready',1);`);
  await new Promise(resolve=>server.listen(3098,'127.0.0.1',resolve));
  await writeFile(configPath,`AUTH_PROVIDER=supabase\nSUPABASE_URL=${mockOrigin}\nSUPABASE_PUBLISHABLE_KEY=synthetic-publishable-key\nSUPABASE_SECRET_KEY=synthetic-admin-key\nOPENAI_API_KEY=synthetic-never-used\nAPP_ORIGIN=${origin}\nAUTH_GOOGLE_ENABLED=true\nAUTH_APPLE_ENABLED=${socialOnly}\nAUTH_EMAIL_ENABLED=${!socialOnly}\nAUTH_REGISTRATION_ENABLED=true\n`,{mode:0o600});
  worker=spawn(process.execPath,['--import','./scripts/sites-env.mjs','./node_modules/wrangler/bin/wrangler.js','dev','--config','dist/server/wrangler.json','--local','--persist-to','.wrangler/account-test','--ip','127.0.0.1','--inspector-port','0','--port','3099'],{stdio:['ignore','pipe','pipe']});
@@ -133,6 +133,18 @@ try{
  edit.revision=1;edit.selection={mode:'manual',manualIds:[],documentIds:['own-doc']};
  assert.equal((await call('/api/history',edit,{},'PUT')).status,200);
  stored=await(await call('/api/history?id='+newChat.id)).json();assert.deepEqual(stored.chat.selection,edit.selection);
+ // Generated source stays exact in owner-only history, including unsupported TeX.
+ const latexDoc={title:'Test LaTeX',content:'Calculați $2^3$.',latex:String.raw`\documentclass{article}
+\title{Test LaTeX}
+\begin{document}Calculați $2^3$. \customlayout{kept}\end{document}`};
+ edit.revision=2;edit.messages=[{role:'assistant',content:latexDoc.content,document:latexDoc}];
+ assert.equal((await call('/api/history',edit,{},'PUT')).status,200);
+ stored=await(await call('/api/history?id='+newChat.id)).json();assert.deepEqual(stored.chat.messages[0].document,latexDoc);
+ assert.equal((await call('/api/history?id=aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa')).status,404);
+ assert.equal((await call('/api/history',{...edit,revision:3,id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'}, {}, 'PUT')).status,409);
+ for(const bad of [null,123,'x'.repeat(60001),''])assert.equal((await call('/api/history',{...edit,revision:3,messages:[{role:'assistant',content:'Text',document:{...latexDoc,latex:bad}}]}, {}, 'PUT')).status,400);
+ assert.equal((await call('/api/history',{...edit,revision:3},{Origin:'https://untrusted.example'},'PUT')).status,403);
+ console.log('PASS: exact private LaTeX persistence, foreign chat read/write rejection, source bounds and CSRF.');
  console.log('PASS: all resource categories, classification ownership/CSRF/validation, subject/cycle matching, automatic cross-chat selection, compact automatic persistence and preserved manual selection.');
  if(process.argv.includes('--preview')){
   await patch('own-doc',{...label,category:'document',modelTypes:['test','rubric']});
@@ -167,7 +179,7 @@ try{
  failAdmin=false;r=await action({action:'delete',confirmation:'STERGE',userId:'someone-else'},200);const erased=await r.json();assert.equal(erased.clearLocalData,true);assert.match(erased.redirect,/apple=1/);
  assert.deepEqual(deletedIds,[uid,uid],'Deletion target is always the authenticated UID');assert.equal((await(await call()).json()).user,null);
  const projects=sql('SELECT id FROM projects')[0].results,chats=sql('SELECT id FROM conversations')[0].results,documents=sql('SELECT id FROM documents')[0].results,markers=sql('SELECT * FROM account_deletions')[0].results;
- assert.deepEqual(projects,[{id:'other-project'}]);assert.deepEqual(chats,[{id:'other-chat'}]);assert.deepEqual(documents,[{id:'other-doc'}]);assert.deepEqual(markers,[]);assert.deepEqual(sql('SELECT document_id FROM document_labels')[0].results,[{document_id:'other-doc'}]);assert.notEqual(r2('get','own-doc').status,0,'Private R2 original is erased');
+ assert.deepEqual(projects,[{id:'other-project'}]);assert.deepEqual(chats,[{id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'}]);assert.deepEqual(documents,[{id:'other-doc'}]);assert.deepEqual(markers,[]);assert.deepEqual(sql('SELECT document_id FROM document_labels')[0].results,[{document_id:'other-doc'}]);assert.notEqual(r2('get','own-doc').status,0,'Private R2 original is erased');
  console.log('PASS: erasure reauthentication, provider outage, inaccessible pending account, retry, authenticated target, complete own D1 cleanup (including deleted chats), other-user isolation and session invalidation.');
  console.log('PASS: configuration, CSRF, verification gate, remote identity, session cookies, register/login/logout, profile, email, password recovery, OAuth PKCE, safe redirects, tampered session.');
  }

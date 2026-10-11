@@ -43,6 +43,7 @@ jobs:
       - run: node tests/guest-chat.mjs
       - run: node tests/teacher-test-controls.mjs
       - run: node tests/document-models.mjs
+      - run: node tests/document-latex.mjs
       - run: node tests/exercise-provenance.mjs
       - run: node tests/export-provenance.mjs
       - run: node tests/common-rag.mjs

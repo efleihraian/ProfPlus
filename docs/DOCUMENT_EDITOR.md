@@ -24,3 +24,13 @@ Editorul oferă formatare de bază, nu toate funcțiile Word. Formula matematic�
 ### Export cu sursa simplificată
 
 Bifează în meniul Export „Doar sursa, fără detalii de proveniență” pentru PDF sau Word. Copia exportată păstrează sursele disponibile, fără clasificarea preluat/adaptat/original și fără datele marcate neprecizate. Documentul din editor păstrează proveniența completă. Opțiunea este implicit dezactivată.
+
+## Editare LaTeX — P-069
+
+Butonul **LaTeX** creează o sursă `.tex` completă pentru documentele existente. Sursa și previzualizarea sunt alăturate pe calculator, una sub alta pe telefon. Modificările se salvează exact în documentul conversației; redeschiderea unui document cu sursă salvată pornește în modul LaTeX. Titlul se editează în `\title{…}`. Exportul **LaTeX (.tex)** descarcă sursa curentă fără trimitere automată la Overleaf. Fișierul se încarcă într-un proiect Overleaf; acesta asigură compilarea exactă.
+
+Previzualizarea locală este simplificată: text, titluri, aldine/cursive, liste itemize/enumerate, formule delimitate sau equation/align, tabele tabular/tabularx simple. Nu este motor TeX și nu reproduce pachete, macrocomenzi, imagini, referințe sau paginație arbitrară. Comenzile necunoscute sunt indicate și păstrate în sursa originală; nu sunt executate. PDF/Word folosesc textul previzualizat, nu compilarea sursei TeX. Pentru PDF fidel sursei se folosește compilarea din Overleaf. Conversia înapoi la editorul vizual cere alegerea explicită în interfață și înlocuiește comenzile personalizate; se recomandă descărcarea `.tex` înainte.
+
+Proveniența generată este delimitată prin mediul `profplussources`, iar citările cunoscute prin `\ProfPlusCitation{…}`. „Ascunde proveniența” elimină aceste fragmente numai din previzualizare/export, păstrând sursa salvată. Anotările adăugate liber în TeX trebuie plasate în același mediu pentru a fi ascunse; nu se șterg automat comenzi necunoscute sau bucăți arbitrare ale enunțului.
+
+Limite: 60.000 caractere sursă, 20.000 caractere text de compatibilitate, titlu 200; cererea istoricului rămâne maximum 1 MB. Sursa este salvată în JSON-ul existent al conversației, cu aceleași controale de proprietar, CSRF, revizie, export și ștergere. Fără migrare SQL, compilator pe server, shell, citire fișiere, furnizor nou, tracker, CDN sau relaxare CSP. Documentele vechi nu necesită migrare. Vizitatorii fără cont păstrează doar sesiunea curentă, ca anterior.
