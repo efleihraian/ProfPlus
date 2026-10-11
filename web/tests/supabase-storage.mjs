@@ -44,3 +44,14 @@ assert.deepEqual(pages.map(p=>p.searchParams.get('offset')),['0','1000','0','100
 globalThis.fetch=async()=>new Response('',{status:503});
 await assert.rejects(m.cloudImportCatalog(config),/CLOUD_LIBRARY_UNAVAILABLE/);
 console.log('Supabase bridge: fixed operations, owner bindings, atomic batch, no fallback, private keys and verified object upload passed.');
+
+let active=0,peak=0;const offsets=[];const deadline=AbortSignal.timeout(1000);
+globalThis.fetch=async(url,options)=>{
+ assert.equal(options.signal,deadline,'All pages share one overall deadline');
+ const offset=Number(new URL(url).searchParams.get('offset'));offsets.push(offset);
+ active++;peak=Math.max(peak,active);await new Promise(resolve=>setTimeout(resolve,1));active--;
+ return Response.json(Array.from({length:offset<2000?1000:1},(_,i)=>({family:'manuals',uid:'1-'+(offset+i)})),{headers:{'content-range':offset===0?'0-999/2001':'*/*'}});
+};
+assert.equal((await m.cloudImportCatalog(config,deadline)).length,2001);
+assert.deepEqual(offsets,[0,1000,2000]);assert.equal(peak,2);
+console.log('PASS: count-based pagination is complete and parallelism is bounded; every page shares the same deadline.');

@@ -10,7 +10,7 @@ function connection(c:CloudConfig){
 }
 async function request(c:CloudConfig,path:string,init:RequestInit={}){
  const {url,key}=connection(c);const headers=new Headers(init.headers);headers.set('apikey',key);
- return fetch(url+path,{...init,headers,signal:AbortSignal.timeout(30000)});
+ return fetch(url+path,{...init,headers,signal:init.signal||AbortSignal.timeout(30000)});
 }
 const normalize=(sql:string)=>sql.replace(/\s+/g,' ').trim();
 class Statement{
@@ -45,21 +45,37 @@ export function cloudBucket(c:CloudConfig){
  } as unknown as R2Bucket;
 }
 export type CloudImportRow={family:string;uid:string;status:string;metadata:Record<string,unknown>|string;file_id:string|null;attached:number};
-export async function cloudImportCatalog(c:CloudConfig){
- const rows:CloudImportRow[]=[];let offset=0;
- while(true){
-  const query=new URLSearchParams({select:'family,uid,status:state->>status,metadata:state->metadata,file_id:state->>file_id,attached:state->attached',family:'in.(manuals,competitions)',order:'family.asc,uid.asc',limit:'1000',offset:String(offset)});
-  const response=await request(c,'/rest/v1/library_import_documents?'+query);
+async function cloudPages<T>(c:CloudConfig,path:string,query:URLSearchParams,signal?:AbortSignal):Promise<T[]>{
+ const read=async(offset:number,count=false,limit=1000)=>{
+  const params=new URLSearchParams(query);params.set('offset',String(offset));params.set('limit',String(limit));
+  const response=await request(c,path+'?'+params,{signal,headers:count?{Prefer:'count=exact'}:{}});
   if(!response.ok)throw new Error('CLOUD_LIBRARY_UNAVAILABLE');
-  const page=await response.json() as CloudImportRow[];rows.push(...page);
-  if(page.length<1000)return rows;
-  offset+=page.length;
+  return {rows:await response.json() as T[],total:response.headers.get('content-range')?.split('/')[1]};
+ };
+ const first=await read(0,true);const result=[...first.rows];const total=Number(first.total);
+ if(first.total&&first.total!=='*'&&Number.isSafeInteger(total)&&total>=result.length){
+  const size=first.rows.length;if(!size&&total)throw new Error('INVALID_CLOUD_LIBRARY_PAGE');
+  // Two pages per catalog: at most four common-library requests in flight.
+  for(let offset=size;offset<total;offset+=size*2){
+   const offsets=[offset,offset+size].filter(value=>value<total);
+   const pages=await Promise.all(offsets.map(value=>read(value,false,size)));
+   for(const page of pages){if(!page.rows.length)throw new Error('INVALID_CLOUD_LIBRARY_PAGE');result.push(...page.rows);}
+  }
+  return result;
  }
-}
-export async function cloudOriginals(c:CloudConfig){
- const result=new Map<string,'manuals'|'competitions'>();let offset=0;
- while(true){const response=await request(c,'/rest/v1/library_materials?select=family,uid&kind=eq.original&family=in.(manuals,competitions)&order=family.asc,uid.asc&limit=1000&offset='+offset);if(!response.ok)throw new Error('CLOUD_LIBRARY_UNAVAILABLE');const items=await response.json() as {family:'manuals'|'competitions';uid:string}[];for(const item of items)result.set(item.uid,item.family);if(items.length<1000)break;offset+=1000;}
+ // Keep pagination complete when a compatible endpoint omits the count header.
+ let page=first.rows;
+ while(page.length===1000){page=(await read(result.length)).rows;result.push(...page);}
  return result;
+}
+export async function cloudImportCatalog(c:CloudConfig,signal?:AbortSignal){
+ const query=new URLSearchParams({select:'family,uid,status:state->>status,metadata:state->metadata,file_id:state->>file_id,attached:state->attached',family:'in.(manuals,competitions)',order:'family.asc,uid.asc'});
+ return cloudPages<CloudImportRow>(c,'/rest/v1/library_import_documents',query,signal);
+}
+export async function cloudOriginals(c:CloudConfig,signal?:AbortSignal){
+ const query=new URLSearchParams({select:'family,uid',kind:'eq.original',family:'in.(manuals,competitions)',order:'family.asc,uid.asc'});
+ const rows=await cloudPages<{family:'manuals'|'competitions';uid:string}>(c,'/rest/v1/library_materials',query,signal);
+ return new Map(rows.map(item=>[item.uid,item.family]));
 }
 export async function cloudOriginal(c:CloudConfig,family:string,uid:string){
  if(!['manuals','competitions'].includes(family)||!/^[a-zA-Z0-9_-]{1,160}$/.test(uid))throw new Error('INVALID_COMMON_RESOURCE');

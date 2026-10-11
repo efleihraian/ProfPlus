@@ -1,5 +1,5 @@
-import {env} from 'cloudflare:workers';
-import {cloudEnabled,cloudOriginals,type CloudConfig} from './supabase-storage';
+import {env,waitUntil} from 'cloudflare:workers';
+import {cloudEnabled,type CloudConfig} from './supabase-storage';
 import {cloudCommonLibrary} from './cloud-library';
 import {commonResource,type CommonResource} from './common-resource';
 import {parallelMap} from './parallel-map';
@@ -15,7 +15,7 @@ type CommonSnapshot={states:Record<string,string>;resources:Record<string,Common
 const commonCache=new Map<string,{key:string;expires:number;value?:CommonSnapshot;pending?:Promise<CommonSnapshot>}>();
 export async function commonLibrary(key:string,store:string):Promise<CommonSnapshot>{
  const config=env as unknown as CloudConfig;
- if(cloudEnabled(config))return cloudCommonLibrary(config,store);
+ if(cloudEnabled(config))return cloudCommonLibrary(config,store,waitUntil);
  let entry=commonCache.get(store);
  if(entry?.key===key){if(entry.pending)return entry.pending;if(entry.value&&entry.expires>Date.now())return entry.value;}
  entry={key,expires:0};commonCache.set(store,entry);
@@ -59,6 +59,6 @@ export async function librarySnapshot(user:string|null,profile:TeachingProfile|n
  })(),(async()=>{if(user)try{const {refreshDocument}=await import('./document-store');documents=await parallelMap(await userDocuments(user),refreshDocument);}catch{warnings.push('Documentele tale nu au putut fi verificate. Reîncearcă.');}
  })()]);
  const items=[...manualLibrary(states,dynamic,verified),...documentLibrary(documents)];
- if(user&&cloudEnabled(config))try{originals??=await cloudOriginals(config);for(const item of items)if(item.kind==='manual'&&originals.has(item.id))item.url='/api/library/materials/'+originals.get(item.id)+'/'+encodeURIComponent(item.id);}catch{warnings.push('Copiile bibliotecii nu au putut fi verificate.');}
+ if(user&&originals)for(const item of items)if(item.kind==='manual'&&originals.has(item.id))item.url='/api/library/materials/'+originals.get(item.id)+'/'+encodeURIComponent(item.id);
  return {items,warnings,selection:automaticSources(items,profile,chatId)};
 }

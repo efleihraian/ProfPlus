@@ -127,3 +127,6 @@ PR #11 integrat în main: `46597b7aacf115e1433536a5e919b8abbf07369c`. 448 de ref
 ## P-065 — 2026-10-11
 
 Cache doar pentru metadatele educaționale comune confirmate din Supabase, proiecție minimă server-side. Documentele proprii rămân autorizate pe cont și nu intră în cache. Fără date, furnizori, trackere, permisiuni sau audiență noi. [Implementare, verificări și limite](LIBRARY_LOADING.md).
+
+
+P-065, revenire 2026-10-11: corectată blocarea după expirarea cache-ului. Lista comună recentă rămâne vizibilă în timpul actualizării; refresh în fundal, termen de 8 s pentru catalog și paginare paralelă limitată. Datele personale nu intră în cache/preview. [Dovezi și limite](LIBRARY_LOADING.md).
