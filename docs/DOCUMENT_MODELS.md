@@ -29,3 +29,7 @@ Verificări executate: TypeScript, build, modele private/personal-first per tip/
 ## Livrare
 
 P-065 și P-067 integrate în main la 08642f9; PR-urile #13/#15 sunt MERGED. Regula activă este livrarea directă pe main, fără PR/review independent, până când titularul anunță reluarea colaborării. Protecțiile datelor, verificările și push fără forțare rămân. Checkout-ul operațional cu import activ nu a fost sincronizat sau curățat; importul P-066 continuă separat.
+
+Publicare confirmată succeeded la 2026-10-11T10:50:39Z: https://profos-chat.cosminsoames.chatgpt.site/, deployment appgdep_6acb69e78ac08191b4891de70867aa3f, source Site c35840059bbe9283f2476bbb1509092cbb577fdb, env revision 4; audiență owner-only păstrată. Cod integrat direct pe main la 25bce36, fără PR nou. Localhost:3000 servește noul worktree P-068, HTTP 200; proces local 34584. Preview-ul cu cont fictiv oprit, fără rută QA în build. Importul operațional rămâne activ și nemodificat (controller 22491 și companion 22492 la verificare).
+
+CI remote 38133353969: contracte import, scanner Git/client, TypeScript, build și toate suitele web (inclusiv modele) trecute; npm audit --audit-level=high eșuat exclusiv pentru cele 8 high preexistente braces/micromatch și lanțul toolchain. Zero alerte în producție în auditul local. Nu se dezactivează controlul și nu se declară CI complet verde. Scanner Git/client 1.462 fișiere/bloburi, source/client Site 282, zero detecții; limitele scannerului rămân.
