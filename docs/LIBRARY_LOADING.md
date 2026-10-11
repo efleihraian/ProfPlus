@@ -17,3 +17,17 @@ Limită: cache-ul expiră la 60 s; importurile apar după checkpointul lor cloud
 ## Publicare confirmată
 
 Sites a confirmat `succeeded` la 2026-10-11T08:56:51Z, deployment `appgdep_6acb4f3c63c481918940e91aa92ccc65`, source `f7e292b8c94bff10f57c58023b2dc10b4d49c007`, versiune `appgprj_6abec66261108191a46809aef0d505ad~appgver_0948be1ef6fc8191a482b3d1597040bf`, env revision 4. Adresă: https://profos-chat.cosminsoames.chatgpt.site. Operația privată a păstrat accesul exclusiv al proprietarului. Scannerul buildului Sites: 305 fișiere/bloburi fără detecții. Publicarea pilotului este separată de review și integrarea PR-ului în main.
+
+## P-065 — revenirea încetinirii, 2026-10-11
+
+Prima corecție elimina parcurgerea OpenAI, dar expirarea cache-ului tot bloca pe toate paginile Supabase. Reprodus ulterior: cerere fără răspuns în 40 s, încă una în 15 s; în log există biblioteci autentificate la 11,1 s și status la 15,3 s. Măsurarea rapidă inițială nu acoperea acest caz.
+
+Corecție: snapshotul comun rămâne disponibil maximum 5 minute de la ultima verificare, cu refresh după 60 s în fundal păstrat prin Cloudflare waitUntil; o singură actualizare simultană, backoff 10 s după eroare și invalidare la schimbarea credențialei. Un termen comun de 8 s anulează toate paginile unei încărcări de catalog. După expirarea maximă, lipsa verificării produce stări necunoscute și avertisment, nu disponibilitate falsă. Eliminată recitirea originalelor fără termen după eșecul snapshotului. Pagini în paralel de câte două per catalog, cu count exact și ordine stabilă; fallback complet fără count.
+
+Dialogul păstrează în memoria paginii numai intrările comune, maximum 5 minute, pentru afișare la redeschidere în timpul actualizării. Documentele proprii nu sunt păstrate în acest preview și sunt recitite cu autorizare. Nicio persistență în localStorage sau relaxare de acces.
+
+Verificat local după schimbare: catalog complet 4.707 materiale, fără warnings, încărcare rece 1,980–5,161 s; cerere după expirare 0,050 s. Browser: închidere/redeschidere cu 4.707 materiale afișate; nu mai pornește de la o listă goală. Teste suplimentare cu refresh blocat, cereri simultane, refresh eșuat/backoff, expirare maximă și trei pagini cu maximum două cereri simultane/deadline comun. TypeScript/build și suitele cloud, manuale, availability, guest trecute.
+
+PR #13 este actualizat, păstrând review-ul independent. CI precedent 38126762568 a trecut verificările/testele și a eșuat exclusiv la cele 8 high existente în auditul toolchain; controalele rămân active. Importul nu este oprit.
+
+Publicarea revenirii este confirmată `succeeded` la 2026-10-11T09:24:40Z: source `38477483db942e765d59d2904c8576928ed2fa73`, deployment `appgdep_6acb55c1de8c819184b7f18286bd50c1`, versiune `appgprj_6abec66261108191a46809aef0d505ad~appgver_c5fd35cadc988191a34adf8c87cfa6a2`, env revision 4. Accesul owner-private este păstrat. Scanner Sites: 306 fișiere/bloburi fără detecții. [Site](https://profos-chat.cosminsoames.chatgpt.site).
