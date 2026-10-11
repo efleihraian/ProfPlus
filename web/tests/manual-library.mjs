@@ -10,7 +10,7 @@ let source=await readFile('lib/library.ts','utf8');
 source=source.slice(source.indexOf('type CommonSnapshot'),source.indexOf('export function manualLibrary'));
 const pages=[{data:[{attributes:{uid:math},status:'completed'},{attributes:{uid:physics},status:'in_progress'}],has_more:true,last_id:'page-one'},{data:[{attributes:{uid:informatics},status:'completed'},{attributes:{uid:'unknown-source'},status:'completed'}],has_more:false}];
 const helper=uri(await readFile('lib/common-resource.ts','utf8'));
-const module=await import(uri(`import {commonResource} from ${JSON.stringify(helper)};let page=0;const pages=${JSON.stringify(pages)};async function openai(key,path){if(page===1&&!path.includes('after=page-one'))throw Error('Missing pagination');return {json:async()=>pages[page++]};}\n`+source));
+const module=await import(uri(`import {commonResource} from ${JSON.stringify(helper)};const env={};const cloudEnabled=()=>false;let page=0;const pages=${JSON.stringify(pages)};async function openai(key,path){if(page===1&&!path.includes('after=page-one'))throw Error('Missing pagination');return {json:async()=>pages[page++]};}\n`+source));
 const states=await module.manualStates('synthetic','synthetic');assert.equal(states[math],'ready');assert.equal(states[physics],'indexing');assert.equal(states[informatics],'ready');
 const provider=uri('export async function manualStates(){return '+JSON.stringify(states)+';}');
 const auth=uri(`export async function userId(request){return request.headers.get('x-test-user');}export function json(data,status=200){return Response.json(data,{status,headers:{'Cache-Control':'no-store'}});}`);

@@ -1,4 +1,9 @@
 # Starea proiectului
+
+## P-065 — 2026-10-11
+
+Corecția P-065 este verificată local: biblioteca se încarcă în 2,74–4,76 s cold și 0,04 s warm; 4.663 materiale în fotografia curentă. Publicat cu succes pe site-ul privat existent. PR în review; main nu este integrat automat. [Dovezi și limite](docs/LIBRARY_LOADING.md).
+
 ## P-063 — renunțare la materialele cu erori, 2026-10-10
 
 Titularul a autorizat omiterea materialelor cu erori: referință verificată în Supabase înainte de eliminarea cache-ului local, fără redescărcare automată. Cele 10 PDF-uri rămase după erori (394.205.365 bytes) au fost eliminate. Importul valid al concursurilor continuă; companionul păstrează și linkurile pentru erorile lui. [Flux, dovezi și limite](docs/FAILED_MATERIALS.md).

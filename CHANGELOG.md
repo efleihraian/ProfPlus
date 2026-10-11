@@ -1,4 +1,9 @@
 # Istoricul versiunilor
+
+## P-065 — 2026-10-11
+
+P-065: biblioteca Supabase folosește confirmările importurilor, cache comun 60 s și încărcare paralelă a documentelor proprii; disponibilitatea AI rămâne condiționată de indexarea confirmată. [Dovezi](docs/LIBRARY_LOADING.md).
+
 ## P-063 — renunțare la materialele cu erori, 2026-10-10
 
 Titularul a autorizat omiterea materialelor cu erori: referință verificată în Supabase înainte de eliminarea cache-ului local, fără redescărcare automată. Cele 10 PDF-uri rămase după erori (394.205.365 bytes) au fost eliminate. Importul valid al concursurilor continuă; companionul păstrează și linkurile pentru erorile lui. [Flux, dovezi și limite](docs/FAILED_MATERIALS.md).

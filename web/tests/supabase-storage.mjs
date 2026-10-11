@@ -24,4 +24,23 @@ let uploaded;globalThis.fetch=async(url,options)=>{if(options.method==='POST'){u
 await bucket.put('11111111-1111-4111-8111-111111111111',new Uint8Array([1,2,3]));
 globalThis.fetch=async(url,options)=>options.method==='POST'?Response.json({}):new Response(new Uint8Array([1,2,4]));
 await assert.rejects(bucket.put('11111111-1111-4111-8111-111111111111',new Uint8Array([1,2,3])),/HASH_MISMATCH/);
+const pages=[];
+globalThis.fetch=async(url,options)=>{
+ const parsed=new URL(url);pages.push(parsed);
+ assert.equal(parsed.searchParams.get('family'),'in.(manuals,competitions)');
+ assert.equal(parsed.searchParams.get('order'),'family.asc,uid.asc');
+ assert.equal(parsed.searchParams.get('limit'),'1000');
+ assert.equal(new Headers(options.headers).get('apikey'),config.SUPABASE_SECRET_KEY);
+ if(parsed.pathname.endsWith('library_import_documents')){
+  assert.equal(parsed.searchParams.get('select'),'family,uid,status:state->>status,metadata:state->metadata,file_id:state->>file_id,attached:state->attached');
+  return Response.json(Array.from({length:parsed.searchParams.get('offset')==='0'?1000:1},(_,i)=>({family:'manuals',uid:'1-'+(Number(parsed.searchParams.get('offset'))+i),status:'indexed',metadata:'{}',file_id:'file-test',attached:1})));
+ }
+ assert.equal(parsed.searchParams.get('kind'),'eq.original');
+ return Response.json(Array.from({length:parsed.searchParams.get('offset')==='0'?1000:1},(_,i)=>({family:'manuals',uid:'1-'+(Number(parsed.searchParams.get('offset'))+i)})));
+};
+assert.equal((await m.cloudImportCatalog(config)).length,1001);
+assert.equal((await m.cloudOriginals(config)).size,1001);
+assert.deepEqual(pages.map(p=>p.searchParams.get('offset')),['0','1000','0','1000']);
+globalThis.fetch=async()=>new Response('',{status:503});
+await assert.rejects(m.cloudImportCatalog(config),/CLOUD_LIBRARY_UNAVAILABLE/);
 console.log('Supabase bridge: fixed operations, owner bindings, atomic batch, no fallback, private keys and verified object upload passed.');

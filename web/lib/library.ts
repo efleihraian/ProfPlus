@@ -1,5 +1,6 @@
 import {env} from 'cloudflare:workers';
 import {cloudEnabled,cloudOriginals,type CloudConfig} from './supabase-storage';
+import {cloudCommonLibrary} from './cloud-library';
 import {commonResource,type CommonResource} from './common-resource';
 import {parallelMap} from './parallel-map';
 import catalog from "./manual-catalog.json";
@@ -10,9 +11,11 @@ import type {Stage,TeachingProfile} from './teaching-profile';
 import {automaticSources} from './source-selection';
 import { openai, storage, type DocumentRow } from "./document-store";
 export type LibraryItem = { id: string; kind: "manual" | "document"; title: string; schoolClass?: string; subject?: string; publisher?: string; category?:ResourceCategory;stages?:Stage[];chatId?:string; url: string; status: string };
-type CommonSnapshot={states:Record<string,string>;resources:Record<string,CommonResource>};
+type CommonSnapshot={states:Record<string,string>;resources:Record<string,CommonResource>;originals?:Map<string,'manuals'|'competitions'>};
 const commonCache=new Map<string,{key:string;expires:number;value?:CommonSnapshot;pending?:Promise<CommonSnapshot>}>();
 export async function commonLibrary(key:string,store:string):Promise<CommonSnapshot>{
+ const config=env as unknown as CloudConfig;
+ if(cloudEnabled(config))return cloudCommonLibrary(config,store);
  let entry=commonCache.get(store);
  if(entry?.key===key){if(entry.pending)return entry.pending;if(entry.value&&entry.expires>Date.now())return entry.value;}
  entry={key,expires:0};commonCache.set(store,entry);
@@ -49,11 +52,13 @@ export function documentLibrary(rows: DocumentRow[]): LibraryItem[] {
 }
 
 export async function librarySnapshot(user:string|null,profile:TeachingProfile|null,key?:string,store?:string,chatId?:string){
- const warnings:string[]=[];let verified=false;let states:Record<string,string>={};let dynamic:Record<string,CommonResource>={};let documents:DocumentRow[]=[];
- try{if(key&&store){const common=await commonLibrary(key,store);states=common.states;dynamic=common.resources;verified=true;}else warnings.push('Starea surselor comune nu este disponibilă.');}catch{warnings.push('Sursele comune nu au putut fi verificate. Reîncearcă.');}
- if(user)try{const {refreshDocument}=await import('./document-store');documents=await parallelMap(await userDocuments(user),refreshDocument);}catch{warnings.push('Documentele tale nu au putut fi verificate. Reîncearcă.');}
- const items=[...manualLibrary(states,dynamic,verified),...documentLibrary(documents)];
+ const warnings:string[]=[];let verified=false;let states:Record<string,string>={};let dynamic:Record<string,CommonResource>={};let documents:DocumentRow[]=[];let originals:Map<string,'manuals'|'competitions'>|undefined;
  const config=env as unknown as CloudConfig;
- if(user&&cloudEnabled(config))try{const originals=await cloudOriginals(config);for(const item of items)if(item.kind==='manual'&&originals.has(item.id))item.url='/api/library/materials/'+originals.get(item.id)+'/'+encodeURIComponent(item.id);}catch{warnings.push('Copiile bibliotecii nu au putut fi verificate.');}
+ await Promise.all([(async()=>{
+ try{if((key&&store)||cloudEnabled(config)){const common=await commonLibrary(key||'',store||'');states=common.states;dynamic=common.resources;originals=common.originals;verified=true;}else warnings.push('Starea surselor comune nu este disponibilă.');}catch{warnings.push('Sursele comune nu au putut fi verificate. Reîncearcă.');}
+ })(),(async()=>{if(user)try{const {refreshDocument}=await import('./document-store');documents=await parallelMap(await userDocuments(user),refreshDocument);}catch{warnings.push('Documentele tale nu au putut fi verificate. Reîncearcă.');}
+ })()]);
+ const items=[...manualLibrary(states,dynamic,verified),...documentLibrary(documents)];
+ if(user&&cloudEnabled(config))try{originals??=await cloudOriginals(config);for(const item of items)if(item.kind==='manual'&&originals.has(item.id))item.url='/api/library/materials/'+originals.get(item.id)+'/'+encodeURIComponent(item.id);}catch{warnings.push('Copiile bibliotecii nu au putut fi verificate.');}
  return {items,warnings,selection:automaticSources(items,profile,chatId)};
 }
