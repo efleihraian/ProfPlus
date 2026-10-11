@@ -1,5 +1,11 @@
 # Istoricul versiunilor
 
+## Nelansat — P-070
+
+- Zece modele structurale anonimizate ale titularului, selecție după tip și clasă, prioritate pentru modelele personale.
+- Proiectarea unității de învățare distinctă de planificare/proiectul de lecție; algebră și geometrie în paralel câte două ore, cu totaluri sincronizate.
+
+
 - P-069: editor LaTeX cu sursă exactă salvată, previzualizare simplificată, export .tex, conversie vizuală explicită și copie fără proveniență. Compilarea exactă se face în Overleaf.
 
 ## P-068 — Modele personale de documente — 2026-10-11

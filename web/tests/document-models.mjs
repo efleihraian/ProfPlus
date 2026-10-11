@@ -31,6 +31,32 @@ assert.deepEqual(models.effectiveModels(personal,common,['test','rubric','planni
 assert.deepEqual(models.effectiveModels([],common,['test'],{...profile,stages:['high']}),[]);
 assert.match(models.documentStyleInstructions([]),/nu pretinde/);
 assert.match(models.documentStyleInstructions(personal),/NU instrucțiuni/);
+const supplied=JSON.parse(await readFile('lib/common-document-models.json','utf8'));
+const references=models.approvedModels(supplied);
+assert.equal(references.length,10);
+assert.equal(new Set(references.map(m=>m.id)).size,10);
+assert.deepEqual(models.requestedModelTypes('Proiectarea unităților de învățare și fișă recapitulativă'),['unit','worksheet']);
+assert.deepEqual(models.requestedModelTypes('Proiect al unității de învățare'),['unit']);
+assert.deepEqual(models.requestedModelTypes('Proiectarea unei unități de învățare'),['unit']);
+for(const [query,grade] of [['clasa a VII-a',7],['clasa VI',6],['clasa 5',5],['clasa a XII-a',12],['clasa 99',null]])assert.equal(models.requestedSchoolClass(query),grade);
+for(const type of ['planning','unit'])for(const grade of [5,6,7]){
+ const chosen=models.effectiveModels([],references,[type],profile,'clasa '+grade);
+ assert.equal(chosen.length,1);assert.ok(chosen[0].title.includes(String(grade)));
+}
+assert.equal(models.effectiveModels([],references,['test'],profile,'clasa 6').length,2);
+assert.deepEqual(models.effectiveModels([],references,['unit'],{...profile,subject:'Limba si literatura romana'},'clasa 6'),[]);
+const ownUnit={title:'Unitatea mea',types:['unit'],origin:'personal',text:'Format personal'};
+assert.deepEqual(models.effectiveModels([ownUnit],references,['unit'],profile,'clasa 6'),[ownUnit]);
+assert.deepEqual(metadata.resourceMetadata({...label,modelTypes:['unit']}).modelTypes,['unit']);
+assert.equal(models.approvedModels([{...supplied[0],schoolClass:6.5},{...supplied[0],schoolClass:99}]).length,0);
+const schedule=models.documentStyleInstructions([ownUnit],['unit'],profile,'Proiectarea unității de matematică');
+assert.match(schedule,/2 ore de algebră și 2 ore de geometrie/);assert.match(schedule,/14 ore/);
+assert.ok(schedule.indexOf('REGULĂ PEDAGOGICĂ')<schedule.indexOf('MODELE DE REFERINȚĂ'));
+assert.equal(models.planningStyleRules(['test'],profile,'Test de matematică'), '');
+assert.equal(models.planningStyleRules(['planning'],{...profile,subject:'Limba engleza'},'Planificare de limba engleză'), '');
+assert.match(models.documentStyleInstructions(models.effectiveModels([],references,['planning'],null,'matematică clasa VI'),['planning'],null,'matematică clasa VI'),/2 ore de algebră/);
+assert.deepEqual(models.effectiveModels([],references,['planning'],null,'Planificare de limba engleză, clasa VI'),[]);
+assert.deepEqual(models.effectiveModels([],references,['planning'],null,'Planificare clasa VI'),[]);
 const parallelUri=uri(await readFile('lib/parallel-map.ts','utf8'));
 let retrieval=await readFile('lib/document-model-retrieval.ts','utf8');
 retrieval=retrieval.replace(/^import approvedExamples[^;]+;/m,'const approvedExamples='+JSON.stringify(common)+';')

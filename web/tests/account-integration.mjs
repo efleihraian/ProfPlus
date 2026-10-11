@@ -111,6 +111,11 @@ try{
  assert.deepEqual(library.items.find(i=>i.id==='own-doc').modelTypes,['test','rubric']);
  assert.deepEqual(library.selection.documentIds,[],'Models guide style without becoming automatic factual evidence');
  assert.equal((await patch('other-doc',{...label,modelTypes:['test']})).status,404);
+ assert.equal((await patch('own-doc',{...label,modelTypes:['unit']})).status,200);
+ library=await(await call('/api/library')).json();
+ assert.deepEqual(library.items.find(i=>i.id==='own-doc').modelTypes,['unit']);
+ assert.equal((await patch('other-doc',{...label,modelTypes:['unit']})).status,404);
+ assert.equal((await patch('own-doc',{...label,modelTypes:['unit']},{Origin:'https://untrusted.example'})).status,403);
  assert.equal((await patch('own-doc',{...label,modelTypes:['unknown']})).status,400);
  assert.equal((await patch('own-doc',{...label,modelTypes:['test','test']})).status,400);
  assert.equal((await patch('own-doc',{...label,subject:'unknown'})).status,400);
