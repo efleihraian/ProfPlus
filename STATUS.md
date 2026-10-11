@@ -286,3 +286,6 @@ PR #11 integrat în main: `46597b7aacf115e1433536a5e919b8abbf07369c`. 448 de ref
 
 
 P-065, revenire 2026-10-11: corectată blocarea după expirarea cache-ului. Lista comună recentă rămâne vizibilă în timpul actualizării; refresh în fundal, termen de 8 s pentru catalog și paginare paralelă limitată. Datele personale nu intră în cache/preview. [Dovezi și limite](docs/LIBRARY_LOADING.md).
+
+
+P-071, aplicare verificată: 643 URL-uri scoase din coada activă (633 navigare duplicată, 10 administrative), cinci formulare de înscriere eliminate din catalog/Storage/manifestele Supabase și indexul AI; checkpoint actualizat. Absența celor cinci UID-uri confirmată în catalog după eliminare. Calendarele controlate au în continuare original și text în Supabase; nu s-a făcut purjare generală a calendarelor/regulamentelor/programelor. Fotografia operațională: 5.204 documente competitions indexate, 5 excluded, 24 failed, 56 skipped; 5.401 URL-uri pending, incluzând pagini intermediare. Cifrele evoluează cu importul și nu reprezintă finalizarea lui. Controllerul și companionul existente rămân active. Cod publicat direct pe main la 30e4c84, fără PR; web identic cu P-070 publicat privat. Scanner final: 1.560 fișiere/bloburi, fără detecții. CI 38173558758: scanner și contracte import trecute; build/audit încă în curs la verificare.

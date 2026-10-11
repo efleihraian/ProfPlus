@@ -1,6 +1,6 @@
 # Lucrări rămase
 
-## P-071 — Curățarea bibliotecii păstrând suportul didactic — 2026-10-11
+## P-071 — Curățarea bibliotecii păstrând suportul didactic — DONE (filtru/curățare; import integral în curs), 2026-10-11
 
 Responsabil Marcos Soames, issue #16. Filtrul păstrează materie, bareme și documente utile pentru planificări/lecții; exclude formularele administrative și navigarea duplicată. Cazurile ambigue rămân păstrate. 61 teste offline trecute; aplicare la importul operațional sub checkpoint lock, fără reset sau întreruperea uploadurilor. Importul integral rămâne IN PROGRESS. [Detalii și limite](docs/COMPETITION_IMPORT.md#p-071--scopul-bibliotecii-2026-10-11).
 
