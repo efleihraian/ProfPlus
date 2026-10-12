@@ -184,3 +184,8 @@ Cererea explicită a titularului autorizează folosirea celor zece exemple ca mo
 ## 2026-10-11 — P-071: utilitate pedagogică mai largă decât subiectele
 
 Titularul clarifică păstrarea programelor, calendarelor școlare, reperelor și modelelor necesare planificărilor/proiectelor de lecție. Eliminăm numai materiale administrative clare și navigare duplicată; nu folosim cuvintele calendar/regulament/metodologie drept criteriu de ștergere. Cazurile ambigue deja descoperite se păstrează. Numărul linkurilor nu este numărul documentelor rămase. Importul continuă cu aceeași cheie și ștergerea locală verificată; livrare directă pe main, fără PR, conform instrucțiunii titularului.
+
+
+## 2026-10-12 — P-072
+
+Manualele sunt baza factuală pentru teste și planificări, iar modelele personale/comune aprobate sunt șablonul structural. Scorurile vectoriale se completează cu locuri rezervate manualelor; prioritățile explicite ale profesorului prevalează. Planificarea nu schimbă coloanele pe baza manualului. După proba AI cu erori se introduce o revizie a testului; aceasta completează controlul profesorului. Antetul/tabelele comune se verifică înaintea salvării, cu o singură corectare și eșec vizibil dacă modelul nu este respectat. Formatul Markdown nu este un motor de reproducere exactă DOCX.

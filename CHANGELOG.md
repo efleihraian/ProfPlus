@@ -1,5 +1,11 @@
 # Istoricul versiunilor
 
+## P-072 — 2026-10-12
+
+- Manualele au pasaje rezervate pentru teste/planificări; sursele complementare și prioritățile profesorului rămân active.
+- Structura comună a testului are valori implicite explicite, revizie AI separată; planificarea verifică șablonul și antetul înaintea livrării.
+
+
 ## P-071 — 2026-10-11
 
 - Păstrarea materialelor didactice și a suportului pentru planificări/lecții; excluderea formularelor administrative și reducerea navigării duplicate în import.

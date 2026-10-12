@@ -1,5 +1,10 @@
 # Starea proiectului
 
+## P-072 — Manuale întâi, teste revizuite și planificări în șablon — 2026-10-12
+
+Responsabil Marcos Soames, issue #17. Recuperare separată a manualelor, respectarea selecției/priorităților, structuri implicite P-070 și modele personale prioritare. Revizie AI a testelor și control al antetului/coloanelor planificării, cu o corectare și refuzul salvării când șablonul rămâne invalid. TypeScript/build și verificări relevante trecute; livrarea se confirmă separat. Importul este oprit la cererea titularului; materialele locale au fost eliminate, checkpointurile păstrate. [Detalii și limite](docs/TEST_GENERATION.md).
+
+
 ## P-071 — Curățarea bibliotecii păstrând suportul didactic — 2026-10-11
 
 Responsabil Marcos Soames, issue #16. Filtrul păstrează materie, bareme și documente utile pentru planificări/lecții; exclude formularele administrative și navigarea duplicată. Cazurile ambigue rămân păstrate. 61 teste offline trecute; aplicare la importul operațional sub checkpoint lock, fără reset sau întreruperea uploadurilor. Importul integral rămâne IN PROGRESS. [Detalii și limite](docs/COMPETITION_IMPORT.md#p-071--scopul-bibliotecii-2026-10-11).
@@ -289,3 +294,6 @@ P-065, revenire 2026-10-11: corectată blocarea după expirarea cache-ului. List
 
 
 P-071, aplicare verificată: 643 URL-uri scoase din coada activă (633 navigare duplicată, 10 administrative), cinci formulare de înscriere eliminate din catalog/Storage/manifestele Supabase și indexul AI; checkpoint actualizat. Absența celor cinci UID-uri confirmată în catalog după eliminare. Calendarele controlate au în continuare original și text în Supabase; nu s-a făcut purjare generală a calendarelor/regulamentelor/programelor. Fotografia operațională: 5.204 documente competitions indexate, 5 excluded, 24 failed, 56 skipped; 5.401 URL-uri pending, incluzând pagini intermediare. Cifrele evoluează cu importul și nu reprezintă finalizarea lui. Controllerul și companionul existente rămân active. Cod publicat direct pe main la 30e4c84, fără PR; web identic cu P-070 publicat privat. Scanner final: 1.560 fișiere/bloburi, fără detecții. CI 38173558758: scanner și contracte import trecute; build/audit încă în curs la verificare.
+
+
+Livrare P-072 confirmată: publicare privată succeeded la 2026-10-12T20:44:26Z (23:44 București), deployment appgdep_6acd4691628c8191a78d4f2953ac559a, source Site 5b810f02e912546f9fde9f3706b83fe8591f4326, env revision 4; audiența owner-only păstrată. TypeScript/build și suitele relevante trecute; scanner Git/istoric/client 1.566 fișiere/bloburi și scanner sursă/istoric/client Sites 699, fără detecții. Auditul păstrează 8 high toolchain existente, zero producție. Probele finale AI au returnat documente pentru test și planificare; controlul uman a întărit regulile pentru zero, notația incluziunii și punctajele subpunctelor. Nu se declară validare pedagogică completă. Importul rămâne paused; nu s-au redescărcat materiale locale.
