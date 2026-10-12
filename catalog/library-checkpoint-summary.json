@@ -1,0 +1,24 @@
+{
+  "updatedAt": "2026-10-12",
+  "importState": "paused",
+  "competitionDocuments": {
+    "excluded": 5,
+    "extracted": 18,
+    "failed": 39,
+    "indexed": 8189,
+    "skipped": 121
+  },
+  "competitionDiscovery": {
+    "done": 3020,
+    "excluded": 653,
+    "failed": 1,
+    "pending": 9499,
+    "skipped": 599
+  },
+  "manualDocuments": {
+    "indexed": 1336,
+    "omitted": 13
+  },
+  "localLibraryMaterialsRemoved": true,
+  "totalRemainingDocumentCountKnown": false
+}

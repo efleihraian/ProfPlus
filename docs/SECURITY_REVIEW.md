@@ -168,3 +168,8 @@ Revizia testelor folosește OPENAI_REVIEW_MODEL dacă este configurat, implicit 
 
 
 Livrare P-072 confirmată: publicare privată succeeded la 2026-10-12T20:44:26Z (23:44 București), deployment appgdep_6acd4691628c8191a78d4f2953ac559a, source Site 5b810f02e912546f9fde9f3706b83fe8591f4326, env revision 4; audiența owner-only păstrată. TypeScript/build și suitele relevante trecute; scanner Git/istoric/client 1.566 fișiere/bloburi și scanner sursă/istoric/client Sites 699, fără detecții. Auditul păstrează 8 high toolchain existente, zero producție. Probele finale AI au returnat documente pentru test și planificare; controlul uman a întărit regulile pentru zero, notația incluziunii și punctajele subpunctelor. Nu se declară validare pedagogică completă. Importul rămâne paused; nu s-au redescărcat materiale locale.
+
+
+## P-073 — 2026-10-12
+
+Responsabil Marcos Soames, issue #18. Inventar opt worktree-uri și sursele Sites; toate implementările existente sunt în main. Merge-uri istorice pentru 8977bda și 2fdfbc2, conflicte revizuite păstrând P-054/P-065/P-067/P-069/P-072 și guard-ul fixture-urilor. Runtime/teste/scheme identice cu 1c50602, fără migrare, furnizor, cheie, permisiune sau audiență nouă. Rezumatul importului include numai numărări, fără URL-uri/titluri/private content; jurnalul brut și checkpointurile rămân excluse. 61 teste Python și suitele web focalizate trecute; scanner Git/istoric/client fără detecții, audit 8 high toolchain existente și zero producție. Site-ul P-072 deja publicat rămâne curent, fără deploy redundant; import paused și checkout operațional păstrat. Nu se declară CI complet verde, audit complet sau conformitate GDPR. [Dovezi](MAIN_CONSOLIDATION.md).

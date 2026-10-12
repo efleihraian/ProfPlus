@@ -1,5 +1,10 @@
 # Lucrări rămase
 
+## P-073 — Toate lucrările pe main — DONE, 2026-10-12
+
+Responsabil Marcos Soames, issue #18, cerere explicită a titularului. Inventar complet al worktree-urilor, integrarea istoricului 8977bda/2fdfbc2 și verificarea modificărilor locale față de main. Codul/testele/schemele rămân identice cu P-072; istoricul lipsă și rezumatul operațional sunt integrate. 61 teste Python și suite web relevante trecute, scanner fără detecții; 8 high toolchain existente, zero producție. Import paused; Site privat P-072 păstrat. [Dovezi și limite](docs/MAIN_CONSOLIDATION.md).
+
+
 ## P-072 — Manuale întâi, teste revizuite și planificări în șablon — DONE, 2026-10-12
 
 Responsabil Marcos Soames, issue #17. Recuperare separată a manualelor, respectarea selecției/priorităților, structuri implicite P-070 și modele personale prioritare. Revizie AI a testelor și control al antetului/coloanelor planificării, cu o corectare și refuzul salvării când șablonul rămâne invalid. TypeScript/build și verificări relevante trecute; publicare privată confirmată la 23:44 București. Importul este oprit la cererea titularului; materialele locale au fost eliminate, checkpointurile păstrate. [Detalii și limite](docs/TEST_GENERATION.md).
