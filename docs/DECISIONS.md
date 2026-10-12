@@ -189,3 +189,8 @@ Titularul clarifică păstrarea programelor, calendarelor școlare, reperelor ș
 ## 2026-10-12 — P-072
 
 Manualele sunt baza factuală pentru teste și planificări, iar modelele personale/comune aprobate sunt șablonul structural. Scorurile vectoriale se completează cu locuri rezervate manualelor; prioritățile explicite ale profesorului prevalează. Planificarea nu schimbă coloanele pe baza manualului. După proba AI cu erori se introduce o revizie a testului; aceasta completează controlul profesorului. Antetul/tabelele comune se verifică înaintea salvării, cu o singură corectare și eșec vizibil dacă modelul nu este respectat. Formatul Markdown nu este un motor de reproducere exactă DOCX.
+
+
+## P-073 — 2026-10-12
+
+Responsabil Marcos Soames, issue #18. Inventar opt worktree-uri și sursele Sites; toate implementările existente sunt în main. Merge-uri istorice pentru 8977bda și 2fdfbc2, conflicte revizuite păstrând P-054/P-065/P-067/P-069/P-072 și guard-ul fixture-urilor. Runtime/teste/scheme identice cu 1c50602, fără migrare, furnizor, cheie, permisiune sau audiență nouă. Rezumatul importului include numai numărări, fără URL-uri/titluri/private content; jurnalul brut și checkpointurile rămân excluse. 61 teste Python și suitele web focalizate trecute; scanner Git/istoric/client fără detecții, audit 8 high toolchain existente și zero producție. Site-ul P-072 deja publicat rămâne curent, fără deploy redundant; import paused și checkout operațional păstrat. Nu se declară CI complet verde, audit complet sau conformitate GDPR. [Dovezi](MAIN_CONSOLIDATION.md).

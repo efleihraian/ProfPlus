@@ -1,5 +1,11 @@
 # Istoricul versiunilor
 
+## P-073 — 2026-10-12
+
+- Istoricul și toate implementările existente consolidate pe main, păstrând funcțiile publicate P-072.
+- Rezumatul final al importului oprit și raportul de consolidare versionate fără secrete/date private.
+
+
 ## P-072 — 2026-10-12
 
 - Manualele au pasaje rezervate pentru teste/planificări; sursele complementare și prioritățile profesorului rămân active.
