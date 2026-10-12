@@ -1,5 +1,9 @@
 # Starea proiectului
 
+## P-074 — Interfața ProfPlus după designul de referință — 2026-10-13
+
+Cerere explicită a titularului, direct pe main. Designul din `docs/design/` (antet cu 4 tab-uri, mascota Plusi, Acasă, Documente personale, Clasele mele, Plusi plutitor) aplicat în `web/app`; chatul existent rămâne în tabul „Asistent virtual”, restilizat, fără schimbări de logică de cont, istoric sau bibliotecă. Tema implicită devine luminoasă, paleta verde/crem, font Roboto găzduit local (CSP neschimbat). Mesajele din Acasă și „Generează cu Plusi” se trimit automat în asistent. Portofoliul și clasele sunt păstrate doar în browser (`localStorage`, chei `profplus-*`, șterse la delogare); încărcarea, opisul, exportul și meniurile clasei nu sunt încă legate la server. TypeScript/build trecute, lint fără erori noi, verificare în browser la 1440 px și lățime îngustă. [Design](docs/design/README.md).
+
 ## P-073 — Toate lucrările pe main — 2026-10-12
 
 Responsabil Marcos Soames, issue #18, cerere explicită a titularului. Inventar complet al worktree-urilor, integrarea istoricului 8977bda/2fdfbc2 și verificarea modificărilor locale față de main. Codul/testele/schemele rămân identice cu P-072; istoricul lipsă și rezumatul operațional sunt integrate. 61 teste Python și suite web relevante trecute, scanner fără detecții; 8 high toolchain existente, zero producție. Import paused; Site privat P-072 păstrat. [Dovezi și limite](docs/MAIN_CONSOLIDATION.md).
