@@ -1,5 +1,12 @@
 # Istoricul versiunilor
 
+## P-074 — 2026-10-13
+
+- Antet cu tab-urile Acasă, Asistent virtual, Documente personale, Clasele mele și mascota Plusi, conform designului din `docs/design/`.
+- Chatul existent mutat în tabul „Asistent virtual” și restilizat (Plusi ca avatar, bule verzi, bara laterală crem).
+- Documente personale (39 de documente, 5 secțiuni, progres), Clasele mele (adăugare, meniu, ștergere) și Plusi plutitor cu mini-chat de ajutor; stare locală în browser.
+- Temă implicită luminoasă, paletă verde/crem, Roboto găzduit local; aranjare stabilă între tab-uri.
+
 ## P-073 — 2026-10-12
 
 - Istoricul și toate implementările existente consolidate pe main, păstrând funcțiile publicate P-072.

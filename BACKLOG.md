@@ -1,5 +1,9 @@
 # Lucrări rămase
 
+## P-074 — Interfața ProfPlus după designul de referință — DONE, 2026-10-13
+
+Shell cu 4 tab-uri și Plusi după `docs/design/`, chatul existent în „Asistent virtual”. DONE acoperă interfața; persistența pe server a portofoliului și a claselor, încărcarea/exportul documentelor, meniurile clasei și știrile reale rămân de făcut. [Design](docs/design/README.md).
+
 ## P-073 — Toate lucrările pe main — DONE, 2026-10-12
 
 Responsabil Marcos Soames, issue #18, cerere explicită a titularului. Inventar complet al worktree-urilor, integrarea istoricului 8977bda/2fdfbc2 și verificarea modificărilor locale față de main. Codul/testele/schemele rămân identice cu P-072; istoricul lipsă și rezumatul operațional sunt integrate. 61 teste Python și suite web relevante trecute, scanner fără detecții; 8 high toolchain existente, zero producție. Import paused; Site privat P-072 păstrat. [Dovezi și limite](docs/MAIN_CONSOLIDATION.md).

@@ -1,0 +1,990 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<title>ProfPlus – platformă pentru profesori</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FBF8F3}
+a{color:#2F7D5B}a:hover{color:#24654A}
+button,textarea,input{font-family:inherit}
+.dol-swim{animation:dol-swim 5s ease-in-out infinite;transform-origin:70px 70px}
+@keyframes dol-swim{0%,100%{transform:translateY(0) rotate(0deg)}15%{transform:translateY(-7px) rotate(-4deg)}30%{transform:translateY(3px) rotate(3deg)}45%{transform:translateY(-5px) rotate(-2deg)}62%{transform:translateY(0) rotate(0deg)}70%{transform:translateY(-26px) rotate(-16deg)}78%{transform:translateY(-30px) rotate(10deg)}88%{transform:translateY(2px) rotate(2deg)}}
+.dol-calm{animation:dol-calm 2.6s ease-in-out infinite;transform-origin:70px 70px}
+@keyframes dol-calm{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-4px) rotate(-3deg)}}
+.dol-tail{animation:dol-tail .7s ease-in-out infinite alternate;transform-origin:70px 106px}
+@keyframes dol-tail{from{transform:rotate(-14deg)}to{transform:rotate(12deg)}}
+.dol-fin{animation:dol-fin 1.1s ease-in-out infinite alternate;transform-origin:100px 89px}
+@keyframes dol-fin{from{transform:rotate(-12deg)}to{transform:rotate(20deg)}}
+.dol-blink{animation:dol-blink 4.5s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes dol-blink{0%,91%,100%{transform:scaleY(1)}94%{transform:scaleY(.08)}}
+.dol-tassel{animation:dol-tassel 1.5s ease-in-out infinite alternate;transform-origin:70px 22px}
+@keyframes dol-tassel{from{transform:rotate(-10deg)}to{transform:rotate(12deg)}}
+.dol-bubble{animation:dol-bubble 3s ease-in infinite;transform-box:fill-box;transform-origin:center;opacity:0}
+.dol-bubble.b2{animation-delay:1s}.dol-bubble.b3{animation-delay:2s}
+@keyframes dol-bubble{0%{opacity:0;transform:translateY(0) scale(.6)}20%{opacity:.9}100%{opacity:0;transform:translateY(-28px) scale(1.2)}}
+.say{animation:say 4s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes say{0%,100%{transform:rotate(0deg)}5%{transform:rotate(-3deg) scale(1.04)}10%{transform:rotate(2deg)}15%{transform:none}}
+.fx-out{animation:fx-out .45s ease-in forwards}
+@keyframes fx-out{to{opacity:0;transform:translateY(-24px) scale(.97)}}
+.fx-dive{animation:fx-dive .5s cubic-bezier(.5,0,.8,.4) forwards}
+@keyframes fx-dive{30%{transform:translate(10px,-40px) rotate(-20deg)}100%{transform:translate(260px,40px) rotate(35deg);opacity:0}}
+.fx-in{animation:fx-in .65s cubic-bezier(.2,.8,.2,1) both}
+@keyframes fx-in{from{opacity:0;transform:translateY(30px) scale(.98)}to{opacity:1;transform:none}}
+.fx-splash{animation:fx-splash .8s cubic-bezier(.2,.9,.3,1.4) both}
+@keyframes fx-splash{0%{opacity:0;transform:translate(-120px,60px) rotate(-30deg) scale(.6)}60%{opacity:1;transform:translate(0,-14px) rotate(8deg) scale(1.05)}100%{transform:none}}
+.fx-pop{animation:fx-pop .45s cubic-bezier(.2,.9,.3,1.2) both}
+@keyframes fx-pop{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#2F7D5B;animation:dot 1s infinite}
+.dot.d2{animation-delay:.15s}.dot.d3{animation-delay:.3s}
+@keyframes dot{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+.whisk{animation:whisk 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes whisk{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.18)}}
+.float-plusi{animation:float-in .6s cubic-bezier(.2,.9,.3,1.3) both}
+@keyframes float-in{from{opacity:0;transform:translateY(40px) scale(.7)}to{opacity:1;transform:none}}
+.dol-finl{animation:dol-finl 1.3s ease-in-out infinite alternate;transform-origin:40px 89px}
+@keyframes dol-finl{from{transform:rotate(12deg)}to{transform:rotate(-18deg)}}
+.hint-pop{animation:hint-pop 3.85s ease forwards;transform-origin:75% 100%}
+@keyframes hint-pop{0%{opacity:0;transform:translateY(8px) scale(.85)}8%{opacity:1;transform:none}91%{opacity:1;transform:scale(1)}95%{opacity:1;transform:scale(1.08)}100%{opacity:0;transform:scale(.25)}}
+.burst{position:absolute;width:6px;height:6px;border-radius:50%;background:#9FCFB3;opacity:0;pointer-events:none;animation:burst .45s ease-out 3.62s forwards}
+@keyframes burst{0%{opacity:0;transform:translate(0,0) scale(.6)}25%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1)}}
+button,a[style*="border-radius"]{transition:box-shadow .18s ease,filter .18s ease,transform .18s ease,background-color .18s ease}
+button:not(:disabled):hover,a[style*="border-radius"]:hover{filter:brightness(1.05);box-shadow:0 0 0 3px rgba(47,125,91,0.22),0 8px 20px rgba(31,42,36,0.12)!important;transform:translateY(-1px)}
+button:not(:disabled):active{transform:translateY(0)}
+button:focus-visible,a:focus-visible{outline:3px solid #2F7D5B;outline-offset:3px}
+nav[aria-label="Navigare principală"] button:hover{box-shadow:none!important;transform:none;background:#E8F3EC!important;border-radius:8px 8px 0 0}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #FBF8F3; color: #1F2A24; font-family: Roboto, ui-sans-serif, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 1.5; overflow-x: clip">
+
+<header style="background: rgba(255,255,255,0.94); backdrop-filter: blur(8px); border-bottom: 1px solid #ECE6DC; position: sticky; top: 0; z-index: 10">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; column-gap: 32px; row-gap: 4px; min-height: 72px">
+<a href="#" aria-label="ProfPlus — acasă" onClick="{{ goHome }}" style="display: flex; align-items: center; gap: 11px; text-decoration: none; color: #1F2A24; font-size: 23px; font-weight: 650; letter-spacing: -1px; padding: 12px 0">
+<svg width="38" height="38" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#2F7D5B"></rect><path d="M9 25V7h7.5a5.6 5.6 0 0 1 0 11.2H12.6V25zm3.6-10h3.7a2.3 2.3 0 0 0 0-4.6h-3.7z" fill="#FFFFFF"></path><path d="M24.5 19.5v7M21 23h7" stroke="#86D9AE" stroke-width="2.8" stroke-linecap="round"></path></svg>
+<span>Prof<span style="font-weight: 400">Plus</span></span>
+</a>
+
+<nav aria-label="Navigare principală" style="display: flex; flex-wrap: wrap; gap: 4px">
+<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+<button type="button" onClick="{{ t.pick }}" aria-current="{{ t.current }}" style="background: none; border: none; border-bottom: 3px solid {{ t.bar }}; padding: 24px 14px 21px; font-size: 15px; font-weight: 550; color: {{ t.color }}; cursor: pointer; min-height: 44px">{{ t.label }}</button>
+</sc-for>
+</nav>
+
+<div style="display: flex; align-items: center; gap: 8px">
+<a href="#login" aria-label="Autentificare" title="Autentificare" style="height: 44px; padding: 0 16px 0 12px; border-radius: 10px; background: #2F7D5B; color: #FFFFFF; display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; font-size: 14px">
+<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>
+<span>Intră în cont</span>
+</a>
+</div>
+</div>
+</header>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<main class="fx-in" style="max-width: 1280px; margin: 0 auto; padding: 48px 24px 80px">
+<sc-if value="{{ isChatHome }}" hint-placeholder-val="{{ true }}">
+<section aria-labelledby="ai-home-titlu" style="background: #FFFFFF; border: 1px solid #ECE6DC; border-radius: 20px; padding: 32px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center; margin-bottom: 64px; box-shadow: 0 24px 60px rgba(47,125,91,0.14), 0 2px 6px rgba(31,42,36,0.04)">
+<div class="{{ diveFx }}" style="flex: 1 1 220px; display: flex; flex-direction: column; align-items: center; gap: 4px; border-radius: 20px; padding: 16px 8px 8px; background: radial-gradient(circle at 50% 62%, #D6EBDD 0%, #CFE6D8 45%, rgba(255,255,255,0) 72%)">
+<div class="say" style="background: #E8F3EC; border: 1px solid #BFDDCB; color: #1F2A24; font-weight: 500; font-size: 15px; padding: 10px 16px; border-radius: 14px; text-align: center; max-width: 230px">Salut! Sunt Plusi. Cu ce te ajut azi?</div>
+<svg width="210" height="195" viewBox="0 0 140 130" role="img" aria-label="Plusi, foca ProfPlus">
+<circle class="dol-bubble" cx="130" cy="44" r="3" fill="none" stroke="#9FCFB3" stroke-width="1.5"></circle>
+<circle class="dol-bubble b2" cx="135" cy="34" r="2.2" fill="none" stroke="#9FCFB3" stroke-width="1.5"></circle>
+<circle class="dol-bubble b3" cx="127" cy="26" r="1.6" fill="none" stroke="#9FCFB3" stroke-width="1.5"></circle>
+<ellipse cx="74" cy="124" rx="38" ry="4" fill="#1F2A24" opacity="0.08"></ellipse>
+<g class="dol-swim">
+<g class="dol-tail"><path d="M54 110 Q42 122 30 119 Q40 110 50 103 Z" fill="#5B7FB0"></path><path d="M86 110 Q98 122 110 119 Q100 110 90 103 Z" fill="#5B7FB0"></path></g>
+<ellipse cx="70" cy="92" rx="34" ry="27" fill="#7A9CC6"></ellipse>
+<g class="dol-finl"><path d="M38 86 Q24 90 18 101 Q30 103 42 96 Z" fill="#5B7FB0"></path></g>
+<g class="dol-fin"><path d="M102 86 Q116 90 122 101 Q110 103 98 96 Z" fill="#5B7FB0"></path></g>
+<ellipse cx="70" cy="97" rx="22" ry="18" fill="#DCE7F5"></ellipse>
+<circle cx="70" cy="54" r="30" fill="#7A9CC6"></circle>
+<ellipse cx="70" cy="66" rx="12" ry="8.5" fill="#DCE7F5"></ellipse>
+<g class="whisk"><path d="M59 64 Q51 61 43 61.5 M59 67.5 Q51 67.5 42 69 M60 70.5 Q53 72.5 46 76 M81 64 Q89 61 97 61.5 M81 67.5 Q89 67.5 98 69 M80 70.5 Q87 72.5 94 76" stroke="#3A4640" stroke-width="1.6" fill="none" stroke-linecap="round"></path></g>
+<ellipse cx="70" cy="62.5" rx="4.2" ry="3" fill="#1F2A24"></ellipse>
+<path d="M65.5 68 Q70 72.5 74.5 68" stroke="#1F2A24" stroke-width="2" fill="none" stroke-linecap="round"></path>
+<g class="dol-blink"><circle cx="58" cy="49.5" r="7.8" fill="#1F2A24"></circle><circle cx="82" cy="49.5" r="7.8" fill="#1F2A24"></circle><circle cx="60.6" cy="46.4" r="2.9" fill="#FFFFFF"></circle><circle cx="84.6" cy="46.4" r="2.9" fill="#FFFFFF"></circle><circle cx="55.6" cy="52.6" r="1.3" fill="#FFFFFF"></circle><circle cx="79.6" cy="52.6" r="1.3" fill="#FFFFFF"></circle></g>
+<path d="M54 27 v7 c0 5 32 5 32 0 v-7 l-16 7 z" fill="#1F2A24"></path>
+<path d="M42 22 L70 10 L98 22 L70 34 Z" fill="#1F2A24"></path>
+<circle cx="70" cy="22" r="2" fill="#1B4D36"></circle>
+<g class="dol-tassel"><path d="M70 22 Q86 24 94 28 L94 40" stroke="#1B4D36" stroke-width="2.2" fill="none" stroke-linecap="round"></path><circle cx="94" cy="42" r="3.2" fill="#1B4D36"></circle></g>
+</g>
+</svg>
+</div>
+<div class="{{ homeFx }}" style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="font-size: 12px; font-weight: 600; letter-spacing: 2px; color: #1B4D36">ASISTENT VIRTUAL</div>
+<h1 id="ai-home-titlu" style="margin: 0; font-size: 40px; font-weight: 500; letter-spacing: -1.5px; line-height: 1.2">Cu ce te pot <span style="color: #2F7D5B">ajuta</span>?</h1>
+<p style="margin: 0; color: #55605A">Lecții, exerciții și explicații, cu surse la îndemână.</p>
+<div style="background: #FFFFFF; border: 1px solid #ECE6DC; border-radius: 16px; padding: 16px 18px 12px; box-shadow: 0 4px 20px rgba(31,42,36,0.027); margin-top: 6px">
+<label for="ai-home-input" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0)">Mesaj pentru Plusi</label>
+<textarea id="ai-home-input" rows="2" value="{{ draft }}" onChange="{{ onDraft }}" onKeyDown="{{ onHomeKey }}" placeholder="Întreabă despre o lecție sau despre documentele tale..." style="display: block; width: 100%; resize: none; min-height: 52px; background: transparent; border: 0; outline: 0; font-size: 16px; line-height: 1.6; color: #1F2A24; padding: 0"></textarea>
+<div style="display: flex; align-items: center; justify-content: space-between; margin-top: 5px">
+<button type="button" style="display: flex; align-items: center; gap: 7px; background: none; border: 0; color: #55605A; font-size: 14px; padding: 8px 4px; cursor: pointer; min-height: 40px">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+Adaugă document</button>
+<button type="button" onClick="{{ sendHome }}" aria-label="Trimite mesaj" style="display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 10px; background: #2F7D5B; color: #FFFFFF; box-shadow: 0 6px 16px rgba(47,125,91,0.35); cursor: pointer">
+<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ isMascotHome }}" hint-placeholder-val="{{ false }}">
+<section aria-labelledby="plusi-titlu" style="background: #FFFFFF; border: 1px solid #ECE6DC; border-radius: 24px; padding: 40px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; margin-bottom: 64px; box-shadow: 0 24px 60px rgba(47,125,91,0.14), 0 2px 6px rgba(31,42,36,0.04)">
+<div class="{{ diveFx }}" style="flex: 1 1 300px; display: flex; flex-direction: column; align-items: center; gap: 6px; background: #E8F3EC; border-radius: 20px; padding: 28px 16px 20px">
+<div class="say" style="background: #FFFFFF; border: 1px solid #BFDDCB; color: #1F2A24; font-weight: 500; font-size: 16px; padding: 10px 18px; border-radius: 14px; text-align: center">Salut! Eu sunt Plusi.</div>
+<svg width="300" height="279" viewBox="0 0 140 130" role="img" aria-label="Plusi, foca ProfPlus">
+<circle class="dol-bubble" cx="130" cy="44" r="3" fill="none" stroke="#7DBF99" stroke-width="1.5"></circle>
+<circle class="dol-bubble b2" cx="135" cy="34" r="2.2" fill="none" stroke="#7DBF99" stroke-width="1.5"></circle>
+<circle class="dol-bubble b3" cx="127" cy="26" r="1.6" fill="none" stroke="#7DBF99" stroke-width="1.5"></circle>
+<ellipse cx="74" cy="124" rx="38" ry="4" fill="#1F2A24" opacity="0.08"></ellipse>
+<g class="dol-swim">
+<g class="dol-tail"><path d="M54 110 Q42 122 30 119 Q40 110 50 103 Z" fill="#5B7FB0"></path><path d="M86 110 Q98 122 110 119 Q100 110 90 103 Z" fill="#5B7FB0"></path></g>
+<ellipse cx="70" cy="92" rx="34" ry="27" fill="#7A9CC6"></ellipse>
+<g class="dol-finl"><path d="M38 86 Q24 90 18 101 Q30 103 42 96 Z" fill="#5B7FB0"></path></g>
+<g class="dol-fin"><path d="M102 86 Q116 90 122 101 Q110 103 98 96 Z" fill="#5B7FB0"></path></g>
+<ellipse cx="70" cy="97" rx="22" ry="18" fill="#DCE7F5"></ellipse>
+<circle cx="70" cy="54" r="30" fill="#7A9CC6"></circle>
+<ellipse cx="70" cy="66" rx="12" ry="8.5" fill="#DCE7F5"></ellipse>
+<g class="whisk"><path d="M59 64 Q51 61 43 61.5 M59 67.5 Q51 67.5 42 69 M60 70.5 Q53 72.5 46 76 M81 64 Q89 61 97 61.5 M81 67.5 Q89 67.5 98 69 M80 70.5 Q87 72.5 94 76" stroke="#3A4640" stroke-width="1.6" fill="none" stroke-linecap="round"></path></g>
+<ellipse cx="70" cy="62.5" rx="4.2" ry="3" fill="#1F2A24"></ellipse>
+<path d="M65.5 68 Q70 72.5 74.5 68" stroke="#1F2A24" stroke-width="2" fill="none" stroke-linecap="round"></path>
+<g class="dol-blink"><circle cx="58" cy="49.5" r="7.8" fill="#1F2A24"></circle><circle cx="82" cy="49.5" r="7.8" fill="#1F2A24"></circle><circle cx="60.6" cy="46.4" r="2.9" fill="#FFFFFF"></circle><circle cx="84.6" cy="46.4" r="2.9" fill="#FFFFFF"></circle><circle cx="55.6" cy="52.6" r="1.3" fill="#FFFFFF"></circle><circle cx="79.6" cy="52.6" r="1.3" fill="#FFFFFF"></circle></g>
+<path d="M54 27 v7 c0 5 32 5 32 0 v-7 l-16 7 z" fill="#1F2A24"></path>
+<path d="M42 22 L70 10 L98 22 L70 34 Z" fill="#1F2A24"></path>
+<circle cx="70" cy="22" r="2" fill="#1B4D36"></circle>
+<g class="dol-tassel"><path d="M70 22 Q86 24 94 28 L94 40" stroke="#1B4D36" stroke-width="2.2" fill="none" stroke-linecap="round"></path><circle cx="94" cy="42" r="3.2" fill="#1B4D36"></circle></g>
+</g>
+</svg>
+</div>
+<div class="{{ homeFx }}" style="flex: 999 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<h1 id="plusi-titlu" style="margin: 0; font-size: 44px; font-weight: 600; letter-spacing: -1.6px; line-height: 1.1"><span style="color: #2F7D5B">Plusi</span>, foca care te ajută la <span style="color: #2F7D5B">catedră</span></h1>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #55605A; max-width: 620px">Plusi este asistentul virtual al platformei ProfPlus. Îi poți cere explicații pentru o lecție, exerciții sau idei pentru oră. Caută răspunsul în manualele școlare și în documentele tale și îți arată mereu sursele, ca să le poți verifica.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 4px">
+<div style="border: 1px solid #ECE6DC; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 6px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2F7D5B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+<strong style="font-size: 15px; font-weight: 600">Răspunsuri cu surse</strong>
+<span style="font-size: 14px; color: #55605A">Trimiteri la manual și la pagină, pentru fiecare explicație.</span>
+</div>
+<div style="border: 1px solid #ECE6DC; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 6px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2F7D5B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path></svg>
+<strong style="font-size: 15px; font-weight: 600">Documentele tale</strong>
+<span style="font-size: 14px; color: #55605A">Încarci PDF, Word sau PowerPoint, iar Plusi le folosește în răspunsuri.</span>
+</div>
+<div style="border: 1px solid #ECE6DC; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 6px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2F7D5B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect></svg>
+<strong style="font-size: 15px; font-weight: 600">Totul într-un loc</strong>
+<span style="font-size: 14px; color: #55605A">Asistent, documente personale și clasele tale, pe aceeași platformă.</span>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 8px">
+<button type="button" onClick="{{ sendHome }}" style="min-height: 52px; padding: 0 26px; border-radius: 12px; border: 0; background: #1B4D36; color: #FFFFFF; box-shadow: 0 8px 22px rgba(27,77,54,0.28); font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px">Vorbește cu Plusi
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 5 7 7-7 7"></path></svg></button>
+<span style="font-size: 14px; color: #6B746F">Te duce direct la Asistentul virtual.</span>
+</div>
+</div>
+</section>
+</sc-if>
+
+<section aria-labelledby="docs-home-titlu" class="{{ homeFx }}" style="background: #FFFFFF; border: 1px solid #ECE6DC; border-radius: 20px; padding: 32px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center; margin-bottom: 64px">
+<div style="flex: 1 1 260px; background: #E8F3EC; border-radius: 16px; min-height: 220px; display: grid; place-items: center">
+<svg width="210" height="170" viewBox="0 0 210 170" aria-hidden="true">
+<rect x="36" y="34" width="110" height="128" rx="12" fill="#BFDDCB" transform="rotate(-8 91 98)"></rect>
+<rect x="56" y="22" width="110" height="128" rx="12" fill="#D6EBDD" transform="rotate(4 111 86)"></rect>
+<rect x="60" y="18" width="110" height="132" rx="12" fill="#FFFFFF" stroke="#BFDDCB" stroke-width="2"></rect>
+<rect x="76" y="36" width="40" height="8" rx="4" fill="#2F7D5B"></rect>
+<path d="M76 60h78M76 76h78M76 92h60M76 108h70M76 124h50" stroke="#DCD4C6" stroke-width="5" stroke-linecap="round"></path>
+<circle cx="164" cy="134" r="22" fill="#1B4D36"></circle>
+<path d="m154 134 7 7 13-14" stroke="#FFFFFF" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px"><span style="font-size: 12px; font-weight: 600; letter-spacing: 2px; color: #1B4D36">DOCUMENTE PERSONALE</span><span style="font-size: 12px; font-weight: 600; color: #047857; background: #ECFDF5; padding: 3px 9px; border-radius: 999px">Obligatoriu din 2026–2027</span></div>
+<h2 id="docs-home-titlu" style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -1.2px; line-height: 1.15">Portofoliul profesional, mereu <span style="color: #2F7D5B">în ordine</span></h2>
+<p style="margin: 0; color: #55605A; max-width: 680px">Conform noii metodologii (OMEC nr. 3.858/2026), fiecare profesor trebuie să aibă un portofoliu profesional. Acesta contează la definitivat, grade didactice, evaluarea anuală, inspecții și gradații de merit. ProfPlus păstrează toate documentele din structura-cadru, pe secțiuni, cu opisul actualizat automat. Pe cele pe care le poți redacta, le generezi împreună cu Plusi.</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 6px">
+<button type="button" onClick="{{ goDocs }}" style="min-height: 50px; padding: 0 22px; border-radius: 12px; border: 0; background: #1B4D36; color: #FFFFFF; box-shadow: 0 8px 22px rgba(27,77,54,0.28); font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px">Mergi la Documente personale
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 5 7 7-7 7"></path></svg></button>
+<div style="flex: 1 1 200px; min-width: 180px; max-width: 320px">
+<div style="font-size: 14px; color: #55605A; margin-bottom: 6px">{{ doneAll }} din {{ totalAll }} documente adăugate</div>
+<div role="progressbar" aria-label="Progres portofoliu" aria-valuemin="0" aria-valuemax="{{ totalAll }}" aria-valuenow="{{ doneAll }}" style="height: 8px; background: #E3E1DC; border-radius: 999px; overflow: hidden"><div style="height: 100%; width: {{ pctAll }}%; background: #2F7D5B; border-radius: 999px; transition: width .4s"></div></div>
+</div>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="stiri-titlu" class="{{ homeFx }}">
+<div style="margin-bottom: 28px">
+<h2 id="stiri-titlu" style="margin: 0; font-size: 36px; font-weight: 600; line-height: 1.15; letter-spacing: -1.2px">Știri pentru <span style="color: #2F7D5B">profesori</span></h2>
+<p style="margin: 10px 0 0; max-width: 560px; color: #55605A">Ce s-a schimbat în educație săptămâna aceasta: legislație, examene, resurse și evenimente.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 24px; align-items: stretch">
+<article style="min-width: 0; background: #1F2A24; color: #FBF8F3; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column">
+<div style="height: 220px; background: #2A3A32; display: flex; align-items: center; justify-content: center; color: #A3ABA6; font-size: 14px">[Imagine știre]</div>
+<div style="padding: 24px 28px 28px; display: flex; flex-direction: column; gap: 12px; flex: 1">
+<div style="display: flex; gap: 12px; align-items: center; font-size: 13px">
+<span style="color: #DCD4C6">{{ featured.date }}</span>
+</div>
+<h3 style="margin: 0; font-weight: 600; font-size: 26px; line-height: 1.2; letter-spacing: -0.8px">{{ featured.title }}</h3>
+<p style="margin: 0; color: #DCD4C6">{{ featured.summary }}</p>
+<a href="#" style="color: #9FCFB3; font-weight: 600; text-decoration: none; margin-top: auto; padding-top: 4px">Citește articolul →</a>
+</div>
+</article>
+<div style="min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<sc-for list="{{ side }}" as="n" hint-placeholder-count="2">
+<article style="flex: 1 1 0; min-height: 180px; background: #FFFFFF; border: 1px solid #ECE6DC; border-radius: 20px; overflow: hidden; display: flex">
+<div style="flex: 0 0 40%; background: #E8F3EC; display: flex; align-items: center; justify-content: center; color: #6B746F; font-size: 13px">[Imagine]</div>
+<div style="flex: 1; min-width: 0; padding: 22px 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; gap: 10px; align-items: center; font-size: 13px">
+<span style="color: #6B746F">{{ n.date }}</span>
+</div>
+<h3 style="margin: 0; font-weight: 600; font-size: 20px; line-height: 1.25; letter-spacing: -0.5px">{{ n.title }}</h3>
+<a href="#" style="font-size: 14px; font-weight: 600; text-decoration: none; margin-top: auto">Citește →</a>
+</div>
+</article>
+</sc-for>
+<a href="#stiri" style="flex: 0 0 auto; min-height: 56px; border-radius: 14px; background: #2F7D5B; color: #FFFFFF; box-shadow: 0 10px 26px rgba(47,125,91,0.32); display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; font-weight: 600; font-size: 15px">Citește toate știrile →</a>
+</div>
+</div>
+</section>
+</main>
+</sc-if>
+
+<sc-if value="{{ isAi }}" hint-placeholder-val="{{ false }}">
+<div class="{{ aiFx }}" style="display: flex; flex-wrap: wrap; min-height: 820px; background: #FFFFFF">
+<aside aria-label="Navigare ProfPlus" style="flex: 1 1 252px; max-width: 100%; background: #FBF8F3; border-right: 1px solid #ECE6DC; padding: 28px 20px 20px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+<nav aria-label="Acțiuni" style="display: flex; flex-direction: column; gap: 4px">
+<button type="button" style="display: flex; align-items: center; gap: 12px; background: none; border: 0; border-radius: 9px; padding: 11px 12px; font-size: 14px; color: #1F2A24; cursor: pointer; text-align: left">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>Bibliotecă</button>
+<button type="button" onClick="{{ newChat }}" style="display: flex; align-items: center; gap: 12px; background: #FFFFFF; border: 1px solid #ECE6DC; border-radius: 10px; padding: 12px; font-size: 14px; color: #1F2A24; cursor: pointer; text-align: left">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>Conversație nouă</button>
+</nav>
+<label style="display: flex; align-items: center; gap: 9px; border: 1px solid #ECE6DC; background: #FFFFFF; border-radius: 9px; padding: 0 12px; margin: 14px 0 18px; color: #6B746F">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+<input aria-label="Caută conversații" placeholder="Caută conversații" style="border: 0; outline: 0; background: transparent; font-size: 14px; padding: 11px 0; flex: 1; min-width: 0; color: #1F2A24">
+</label>
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 0 12px">
+<h2 style="margin: 0; font-size: 12px; letter-spacing: 1.6px; color: #55605A; font-weight: 500">PROIECTE</h2>
+<button type="button" aria-label="Creează proiect" title="Creează proiect" style="width: 32px; height: 32px; display: grid; place-items: center; background: none; border: 0; border-radius: 8px; color: #55605A; cursor: pointer">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 10v6"></path><path d="M9 13h6"></path><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path></svg>
+</button>
+</div>
+<button type="button" style="display: flex; align-items: center; gap: 10px; background: none; border: 1px dashed #DCD4C6; border-radius: 9px; padding: 10px 12px; font-size: 14px; color: #55605A; cursor: pointer; margin: 6px 0 18px">Proiect nou</button>
+<h2 style="margin: 0 12px 6px; font-size: 12px; letter-spacing: 1.6px; color: #55605A; font-weight: 500">CONVERSAȚII</h2>
+<sc-for list="{{ recent }}" as="r" hint-placeholder-count="4">
+<button type="button" aria-current="{{ r.current }}" style="display: flex; align-items: center; gap: 12px; background: {{ r.bg }}; border: 0; border-radius: 9px; padding: 11px 12px; font-size: 14px; color: #1F2A24; cursor: pointer; text-align: left">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+<span>[Titlu conversație]</span></button>
+</sc-for>
+</aside>
+
+<section aria-label="Conversație" style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+
+<sc-if value="{{ noMessages }}" hint-placeholder-val="{{ true }}">
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 24px; text-align: center">
+<div class="{{ splashFx }}">
+<svg width="132" height="122" viewBox="0 0 140 130" aria-hidden="true" style="margin-bottom: 10px">
+<circle class="dol-bubble" cx="130" cy="44" r="3" fill="none" stroke="#9FCFB3" stroke-width="1.5"></circle>
+<circle class="dol-bubble b2" cx="135" cy="34" r="2.2" fill="none" stroke="#9FCFB3" stroke-width="1.5"></circle>
+<g class="dol-swim">
+<g class="dol-tail"><path d="M54 110 Q42 122 30 119 Q40 110 50 103 Z" fill="#5B7FB0"></path><path d="M86 110 Q98 122 110 119 Q100 110 90 103 Z" fill="#5B7FB0"></path></g>
+<ellipse cx="70" cy="92" rx="34" ry="27" fill="#7A9CC6"></ellipse>
+<g class="dol-finl"><path d="M38 86 Q24 90 18 101 Q30 103 42 96 Z" fill="#5B7FB0"></path></g>
+<g class="dol-fin"><path d="M102 86 Q116 90 122 101 Q110 103 98 96 Z" fill="#5B7FB0"></path></g>
+<ellipse cx="70" cy="97" rx="22" ry="18" fill="#DCE7F5"></ellipse>
+<circle cx="70" cy="54" r="30" fill="#7A9CC6"></circle>
+<ellipse cx="70" cy="66" rx="12" ry="8.5" fill="#DCE7F5"></ellipse>
+<g class="whisk"><path d="M59 64 Q51 61 43 61.5 M59 67.5 Q51 67.5 42 69 M60 70.5 Q53 72.5 46 76 M81 64 Q89 61 97 61.5 M81 67.5 Q89 67.5 98 69 M80 70.5 Q87 72.5 94 76" stroke="#3A4640" stroke-width="1.6" fill="none" stroke-linecap="round"></path></g>
+<ellipse cx="70" cy="62.5" rx="4.2" ry="3" fill="#1F2A24"></ellipse>
+<path d="M65.5 68 Q70 72.5 74.5 68" stroke="#1F2A24" stroke-width="2" fill="none" stroke-linecap="round"></path>
+<g class="dol-blink"><circle cx="58" cy="49.5" r="7.8" fill="#1F2A24"></circle><circle cx="82" cy="49.5" r="7.8" fill="#1F2A24"></circle><circle cx="60.6" cy="46.4" r="2.9" fill="#FFFFFF"></circle><circle cx="84.6" cy="46.4" r="2.9" fill="#FFFFFF"></circle><circle cx="55.6" cy="52.6" r="1.3" fill="#FFFFFF"></circle><circle cx="79.6" cy="52.6" r="1.3" fill="#FFFFFF"></circle></g>
+<path d="M54 27 v7 c0 5 32 5 32 0 v-7 l-16 7 z" fill="#1F2A24"></path>
+<path d="M42 22 L70 10 L98 22 L70 34 Z" fill="#1F2A24"></path>
+<circle cx="70" cy="22" r="2" fill="#1B4D36"></circle>
+<g class="dol-tassel"><path d="M70 22 Q86 24 94 28 L94 40" stroke="#1B4D36" stroke-width="2.2" fill="none" stroke-linecap="round"></path><circle cx="94" cy="42" r="3.2" fill="#1B4D36"></circle></g>
+</g>
+</svg>
+</div>
+<h1 style="font-size: 40px; letter-spacing: -1.5px; font-weight: 500; line-height: 1.25; margin: 0 0 14px">Cu ce te pot <span style="color: #2F7D5B">ajuta</span>?</h1>
+<p style="font-size: 16px; color: #55605A; line-height: 1.6; margin: 0">Sunt Plusi. Lecții, exerciții și explicații, cu surse la îndemână.</p>
+<a href="#" style="font-size: 14px; margin-top: 10px; text-decoration: none">[nr.] manuale indexate · Consultă biblioteca de surse</a>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; margin-top: 34px; max-width: 600px">
+<sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="3">
+<button type="button" onClick="{{ s.pick }}" style="display: flex; align-items: center; gap: 18px; border: 1px solid #ECE6DC; color: #55605A; background: #FFFFFF; border-radius: 8px; font-size: 14px; padding: 12px 14px; cursor: pointer">{{ s.text }}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasMessages }}" hint-placeholder-val="{{ false }}">
+<div role="log" aria-live="polite" style="flex: 1; width: 100%; max-width: 800px; margin: 0 auto; padding: 30px 28px 20px; box-sizing: border-box">
+<sc-for list="{{ messages }}" as="m" hint-placeholder-count="2">
+<sc-if value="{{ m.isUser }}" hint-placeholder-val="{{ true }}">
+<article class="fx-pop" style="display: flex; gap: 16px; padding: 20px 0">
+<div style="flex: none; width: 36px; height: 36px; background: #FBF8F3; border: 1px solid #ECE6DC; display: grid; place-items: center; border-radius: 10px; font-size: 12px; color: #55605A">Tu</div>
+<div style="min-width: 0; flex: 1">
+<span style="font-size: 14px; font-weight: 600">Tu</span>
+<p style="white-space: pre-wrap; font-size: 16px; line-height: 1.7; margin: 7px 0 0; background: #FBF8F3; border-radius: 0 12px 12px 12px; padding: 13px 18px">{{ m.text }}</p>
+</div>
+</article>
+</sc-if>
+<sc-if value="{{ m.isBot }}" hint-placeholder-val="{{ false }}">
+<article class="fx-pop" style="display: flex; gap: 16px; padding: 20px 0">
+<div style="flex: none; width: 44px; height: 44px; background: #E8F3EC; border: 1px solid #BFDDCB; border-radius: 12px; display: grid; place-items: center; overflow: hidden">
+<svg width="42" height="39" viewBox="0 0 140 130" aria-hidden="true"><g class="dol-calm"><ellipse cx="70" cy="92" rx="34" ry="27" fill="#7A9CC6"></ellipse><g class="dol-finl"><path d="M38 86 Q24 90 18 101 Q30 103 42 96 Z" fill="#5B7FB0"></path></g><g class="dol-fin"><path d="M102 86 Q116 90 122 101 Q110 103 98 96 Z" fill="#5B7FB0"></path></g><ellipse cx="70" cy="97" rx="22" ry="18" fill="#DCE7F5"></ellipse><circle cx="70" cy="54" r="30" fill="#7A9CC6"></circle><ellipse cx="70" cy="66" rx="12" ry="8.5" fill="#DCE7F5"></ellipse><ellipse cx="70" cy="62.5" rx="4.5" ry="3.2" fill="#1F2A24"></ellipse><path d="M59 66 Q50 63 40 64 M59 70 Q51 72 43 75 M81 66 Q90 63 100 64 M81 70 Q89 72 97 75" stroke="#3A4640" stroke-width="2.6" fill="none" stroke-linecap="round"></path><g class="dol-blink"><circle cx="58" cy="49.5" r="8.5" fill="#1F2A24"></circle><circle cx="82" cy="49.5" r="8.5" fill="#1F2A24"></circle><circle cx="61" cy="46" r="3.2" fill="#FFFFFF"></circle><circle cx="85" cy="46" r="3.2" fill="#FFFFFF"></circle></g><path d="M54 27 v7 c0 5 32 5 32 0 v-7 l-16 7 z" fill="#1F2A24"></path><path d="M42 22 L70 10 L98 22 L70 34 Z" fill="#1F2A24"></path></g></svg>
+</div>
+<div style="min-width: 0; flex: 1">
+<span style="font-size: 14px; font-weight: 600">Plusi <span style="font-weight: 400; color: #6B746F">· foca ProfPlus</span></span>
+<div style="margin-top: 7px; background: #E8F3EC; border: 1px solid #BFDDCB; border-radius: 4px 16px 16px 16px; padding: 13px 18px">
+<p style="white-space: pre-wrap; font-size: 16px; line-height: 1.7; margin: 0">{{ m.text }}</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 9px; margin-top: 12px">
+<a href="#" style="display: block; border: 1px solid #ECE6DC; border-radius: 9px; background: #FBF8F3; padding: 10px 13px; text-decoration: none; color: #1F2A24"><strong style="font-size: 14px; font-weight: 500; display: block">[1] [Manual]</strong><span style="font-size: 12px; color: #55605A">[Clasa] · [Editura] · pagina [nr.]</span></a>
+</div>
+</div>
+</article>
+</sc-if>
+</sc-for>
+<sc-if value="{{ typing }}" hint-placeholder-val="{{ false }}">
+<div class="fx-pop" role="status" style="display: flex; align-items: center; gap: 14px; padding: 18px 0">
+<div style="flex: none; width: 44px; height: 44px; background: #E8F3EC; border: 1px solid #BFDDCB; border-radius: 12px; display: grid; place-items: center; overflow: hidden">
+<svg width="42" height="39" viewBox="0 0 140 130" aria-hidden="true"><g class="dol-swim"><ellipse cx="70" cy="92" rx="34" ry="27" fill="#7A9CC6"></ellipse><g class="dol-finl"><path d="M38 86 Q24 90 18 101 Q30 103 42 96 Z" fill="#5B7FB0"></path></g><g class="dol-fin"><path d="M102 86 Q116 90 122 101 Q110 103 98 96 Z" fill="#5B7FB0"></path></g><ellipse cx="70" cy="97" rx="22" ry="18" fill="#DCE7F5"></ellipse><circle cx="70" cy="54" r="30" fill="#7A9CC6"></circle><ellipse cx="70" cy="66" rx="12" ry="8.5" fill="#DCE7F5"></ellipse><ellipse cx="70" cy="62.5" rx="4.5" ry="3.2" fill="#1F2A24"></ellipse><path d="M59 66 Q50 63 40 64 M59 70 Q51 72 43 75 M81 66 Q90 63 100 64 M81 70 Q89 72 97 75" stroke="#3A4640" stroke-width="2.6" fill="none" stroke-linecap="round"></path><g class="dol-blink"><circle cx="58" cy="49.5" r="8.5" fill="#1F2A24"></circle><circle cx="82" cy="49.5" r="8.5" fill="#1F2A24"></circle><circle cx="61" cy="46" r="3.2" fill="#FFFFFF"></circle><circle cx="85" cy="46" r="3.2" fill="#FFFFFF"></circle></g><path d="M54 27 v7 c0 5 32 5 32 0 v-7 l-16 7 z" fill="#1F2A24"></path><path d="M42 22 L70 10 L98 22 L70 34 Z" fill="#1F2A24"></path></g></svg>
+</div>
+<span class="dot"></span><span class="dot d2"></span><span class="dot d3"></span>
+<span style="font-size: 14px; color: #55605A">Plusi caută prin manuale…</span>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<footer style="padding: 12px 30px 20px; max-width: 860px; width: 100%; margin: 0 auto; box-sizing: border-box">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 13px; color: #6B746F">
+<button type="button" style="display: flex; align-items: center; gap: 7px; border: 1px solid #ECE6DC; background: #FFFFFF; color: #1F2A24; border-radius: 8px; padding: 8px 12px; font-size: 13px; cursor: pointer">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>Alege sursele</button>
+<span>[nr.] materiale · selecție automată</span>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #ECE6DC; border-radius: 16px; padding: 16px 18px 12px; box-shadow: 0 4px 20px rgba(31,42,36,0.027)">
+<label for="message" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0)">Mesaj pentru Plusi</label>
+<textarea id="message" rows="2" value="{{ draft }}" onChange="{{ onDraft }}" onKeyDown="{{ onChatKey }}" placeholder="Scrie-i lui Plusi despre o lecție sau despre documentele tale..." style="display: block; width: 100%; resize: none; min-height: 52px; background: transparent; border: 0; outline: 0; font-size: 16px; line-height: 1.6; color: #1F2A24; padding: 0"></textarea>
+<div style="display: flex; align-items: center; justify-content: space-between; margin-top: 5px">
+<button type="button" title="PDF, Word, PowerPoint sau text · max. 10 MB" style="display: flex; align-items: center; gap: 7px; background: none; border: 0; color: #55605A; font-size: 14px; padding: 8px 4px; cursor: pointer; min-height: 40px">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+Adaugă document</button>
+<button type="button" onClick="{{ sendChat }}" aria-label="Trimite mesaj" style="display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 10px; background: #2F7D5B; color: #FFFFFF; box-shadow: 0 6px 16px rgba(47,125,91,0.35); cursor: pointer">
+<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg>
+</button>
+</div>
+</div>
+<p style="text-align: center; color: #6B746F; font-size: 12px; margin: 13px 0 0; line-height: 1.5">Plusi poate greși. Verifică răspunsurile și sursele.</p>
+</footer>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ isDocs }}" hint-placeholder-val="{{ false }}">
+<main class="{{ pageFx }}" style="max-width: 1280px; margin: 0 auto; padding: 48px 24px 80px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 28px">
+<div style="max-width: 760px">
+<h1 style="margin: 0; font-size: 36px; font-weight: 600; letter-spacing: -1.2px; line-height: 1.15">Portofoliul tău <span style="color: #2F7D5B">profesional</span></h1>
+<p style="margin: 12px 0 0; color: #55605A">Din anul școlar 2026–2027 portofoliul profesional e obligatoriu pentru toate cadrele didactice (OMEC nr. 3.858/2026). Contează la definitivat, grade didactice, evaluarea anuală, inspecții și gradații de merit. Aici îl ții complet, pe cele 5 secțiuni din structura-cadru.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<button type="button" style="min-height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid #ECE6DC; background: #FFFFFF; color: #1F2A24; font-size: 14px; font-weight: 600; cursor: pointer">Descarcă opisul</button>
+<button type="button" style="min-height: 44px; padding: 0 18px; border-radius: 10px; border: none; background: #1B4D36; color: #FFFFFF; box-shadow: 0 8px 22px rgba(27,77,54,0.28); font-size: 14px; font-weight: 600; cursor: pointer">Exportă portofoliul</button>
+</div>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #ECE6DC; border-radius: 16px; padding: 20px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 20px 32px; margin-bottom: 20px">
+<div style="flex: 1 1 280px; min-width: 0">
+<div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px"><strong style="font-weight: 600">Progres portofoliu</strong><span style="color: #55605A">{{ doneAll }} din {{ totalAll }} documente obligatorii</span></div>
+<div style="height: 10px; background: #E8F3EC; border-radius: 999px; overflow: hidden"><div style="height: 100%; width: {{ pctAll }}%; background: #10B981; border-radius: 999px; transition: width .4s"></div></div>
+</div>
+<div style="flex: 1 1 320px; display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: #55605A">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2F7D5B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 1px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path><path d="M9 13h6M9 17h4"></path></svg>
+<span>Opisul se actualizează automat, cu data fiecărui document. Documentele sunt ordonate cronologic în fiecare secțiune.</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<sc-for list="{{ portfolio }}" as="sec" hint-placeholder-count="5">
+<section style="background: #FFFFFF; border: 1px solid #ECE6DC; border-radius: 16px; overflow: hidden">
+<button type="button" onClick="{{ sec.toggle }}" aria-expanded="{{ sec.expanded }}" style="width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; padding: 18px 22px; background: none; border: 0; cursor: pointer; text-align: left; color: #1F2A24">
+<span style="flex: none; width: 40px; height: 40px; border-radius: 10px; background: {{ sec.badgeBg }}; color: {{ sec.badgeColor }}; box-shadow: 0 6px 16px {{ sec.badgeGlow }}; display: grid; place-items: center; font-weight: 700; font-size: 16px">{{ sec.letter }}</span>
+<span style="flex: 1 1 260px; min-width: 0; font-size: 17px; font-weight: 600">{{ sec.title }}</span>
+<span style="display: flex; align-items: center; gap: 12px; font-size: 13px; color: #55605A">
+<span style="width: 110px; height: 6px; background: #E8F3EC; border-radius: 999px; overflow: hidden; display: block"><span style="display: block; height: 100%; width: {{ sec.pct }}%; background: #10B981"></span></span>
+{{ sec.doneCount }} / {{ sec.total }}
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform: {{ sec.chevron }}; transition: transform .2s"><path d="m6 9 6 6 6-6"></path></svg>
+</span>
+</button>
+<sc-if value="{{ sec.open }}" hint-placeholder-val="{{ false }}">
+<div class="fx-pop" style="border-top: 1px solid #ECE6DC">
+<sc-for list="{{ sec.items }}" as="it" hint-placeholder-count="4">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 16px 22px; border-bottom: 1px solid #F5F0E8; background: {{ it.rowBg }}">
+<div style="flex: 1 1 340px; min-width: 0">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 6px">
+<sc-if value="{{ it.active }}" hint-placeholder-val="{{ true }}"><span style="font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: {{ it.statusBg }}; color: {{ it.statusColor }}">{{ it.statusLabel }}</span></sc-if>
+<sc-if value="{{ it.optional }}" hint-placeholder-val="{{ false }}"><span style="font-size: 12px; color: #55605A; background: #ECE6DC; padding: 3px 10px; border-radius: 999px">{{ it.optLabel }}</span></sc-if>
+</div>
+<strong style="font-size: 15px; font-weight: 600; color: {{ it.nameColor }}">{{ it.name }}</strong>
+<div style="font-size: 14px; color: #6B746F; margin-top: 3px">{{ it.desc }}</div>
+</div>
+<sc-if value="{{ it.inactive }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ it.add }}" aria-label="{{ it.addAria }}" style="min-height: 38px; padding: 0 14px; border-radius: 999px; border: 1px dashed #A3ABA6; background: #FFFFFF; color: #1F2A24; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>Adaugă la obligatorii</button>
+</sc-if>
+<sc-if value="{{ it.active }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-left: auto">
+<sc-if value="{{ it.optional }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ it.remove }}" aria-label="{{ it.removeAria }}" title="Scoate din obligatorii" style="min-height: 38px; width: 38px; border-radius: 8px; border: 1px solid #ECE6DC; background: #FFFFFF; color: #55605A; cursor: pointer; display: grid; place-items: center">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
+</sc-if>
+<sc-if value="{{ it.hasLink }}" hint-placeholder-val="{{ false }}">
+<a href="{{ it.link }}" target="_blank" rel="noopener noreferrer" style="min-height: 38px; padding: 0 12px; border-radius: 8px; border: 1px solid #ECE6DC; color: #1F2A24; font-size: 13px; text-decoration: none; display: flex; align-items: center; gap: 6px">{{ it.linkLabel }} ↗</a>
+</sc-if>
+<sc-if value="{{ it.canGen }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ it.gen }}" style="min-height: 38px; padding: 0 12px; border-radius: 8px; border: 1px solid #BFDDCB; background: #E8F3EC; color: #24654A; font-size: 13px; font-weight: 600; cursor: pointer">Generează cu Plusi</button>
+</sc-if>
+<button type="button" onClick="{{ it.upload }}" style="min-height: 38px; padding: 0 12px; border-radius: 8px; border: 1px solid #ECE6DC; background: #FFFFFF; color: #1F2A24; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m17 8-5-5-5 5"></path><path d="M12 3v12"></path></svg>{{ it.uploadLabel }}</button>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</section>
+</sc-for>
+</div>
+<p style="margin: 18px 0 0; font-size: 13px; color: #6B746F">Lista urmează structura-cadru din Anexa 1 la OMEC nr. 3.858/2026. Este orientativă și minimală, iar școala o poate adapta prin procedura proprie. Documentele administrative (fișe de evaluare, adeverințe) se păstrează și în dosarul personal.</p>
+</main>
+</sc-if>
+
+<sc-if value="{{ isCatalog }}" hint-placeholder-val="{{ false }}">
+<main class="fx-in" style="max-width: 1280px; margin: 0 auto; padding: 48px 24px 80px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 28px">
+<div>
+<sc-if value="{{ noOpenClass }}" hint-placeholder-val="{{ true }}">
+<h1 style="margin: 0; font-size: 36px; font-weight: 600; letter-spacing: -1.2px; line-height: 1.15">Clasele la care <span style="color: #2F7D5B">predai</span></h1>
+</sc-if>
+<sc-if value="{{ hasOpenClass }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ closeClass }}" style="display: flex; align-items: center; gap: 6px; background: none; border: 0; padding: 6px 0; margin-bottom: 8px; color: #2F7D5B; font-size: 14px; font-weight: 600; cursor: pointer">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"></path><path d="m11 19-7-7 7-7"></path></svg>Clasele mele</button>
+<h1 style="margin: 0; font-size: 36px; font-weight: 600; letter-spacing: -1.2px; line-height: 1.15">{{ openClassName }}</h1>
+</sc-if>
+</div>
+<sc-if value="{{ showClassActions }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<sc-if value="{{ notDelMode }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ startDel }}" style="min-height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid #FECACA; background: #FEF2F2; color: #B91C1C; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path></svg>Șterge clase</button>
+<button type="button" onClick="{{ openAdd }}" style="min-height: 44px; padding: 0 20px; border-radius: 10px; border: 0; background: #1B4D36; color: #FFFFFF; box-shadow: 0 8px 22px rgba(27,77,54,0.28); font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>Adaugă clasă</button>
+</sc-if>
+<sc-if value="{{ delMode }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ cancelDel }}" style="min-height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid #ECE6DC; background: #FFFFFF; color: #1F2A24; font-size: 14px; font-weight: 600; cursor: pointer">Anulează</button>
+<button type="button" onClick="{{ confirmDel }}" disabled="{{ delDisabled }}" style="min-height: 44px; padding: 0 20px; border-radius: 10px; border: 0; background: {{ delBtnBg }}; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">{{ delBtnLabel }}</button>
+</sc-if>
+</div>
+</sc-if>
+</div>
+
+<sc-if value="{{ noOpenClass }}" hint-placeholder-val="{{ true }}">
+<sc-if value="{{ delMode }}" hint-placeholder-val="{{ false }}">
+<p class="fx-pop" style="margin: 0 0 16px; padding: 12px 16px; border-radius: 12px; background: #FEF2F2; border: 1px solid #FECACA; color: #991B1B; font-size: 14px">Bifează clasele pe care vrei să le ștergi, apoi apasă „Șterge”.</p>
+</sc-if>
+<sc-if value="{{ noClasses }}" hint-placeholder-val="{{ true }}">
+<div style="background: #FFFFFF; border: 1px dashed #DCD4C6; border-radius: 20px; padding: 56px 24px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px">
+<span style="width: 64px; height: 64px; border-radius: 18px; background: #E8F3EC; color: #2F7D5B; display: grid; place-items: center"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5z"></path><path d="M6 12v5c3 2 9 2 12 0v-5"></path></svg></span>
+<h2 style="margin: 0; font-size: 20px; font-weight: 600">Nu ai adăugat încă nicio clasă</h2>
+<p style="margin: 0; color: #55605A; max-width: 420px">Adaugă clasele la care predai. Fiecare clasă va avea propriul meniu, cu planificări, teste, fișe și personalizări.</p>
+<button type="button" onClick="{{ openAdd }}" style="margin-top: 6px; min-height: 44px; padding: 0 20px; border-radius: 10px; border: 0; background: #1B4D36; color: #FFFFFF; box-shadow: 0 8px 22px rgba(27,77,54,0.28); font-size: 14px; font-weight: 600; cursor: pointer">+ Adaugă prima clasă</button>
+</div>
+</sc-if>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px">
+<sc-for list="{{ classCards }}" as="cl" hint-placeholder-count="0">
+<button type="button" class="fx-pop" onClick="{{ cl.click }}" aria-pressed="{{ cl.pressed }}" aria-label="{{ cl.aria }}" style="position: relative; text-align: left; background: #FFFFFF; border: 2px solid {{ cl.border }}; border-radius: 18px; padding: 20px; cursor: pointer; display: flex; flex-direction: column; gap: 14px; color: #1F2A24; box-shadow: 0 2px 6px rgba(31,42,36,0.04)">
+<sc-if value="{{ delMode }}" hint-placeholder-val="{{ false }}">
+<span style="position: absolute; top: 14px; right: 14px; width: 24px; height: 24px; border-radius: 7px; border: 2px solid {{ cl.boxBorder }}; background: {{ cl.boxBg }}; display: grid; place-items: center; color: #FFFFFF"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"></path></svg></span>
+</sc-if>
+<span style="width: 64px; height: 64px; border-radius: 16px; background: #E8F3EC; color: #24654A; display: grid; place-items: center; font-size: 22px; font-weight: 700; letter-spacing: -0.5px">{{ cl.short }}</span>
+<span>
+<strong style="display: block; font-size: 17px; font-weight: 600">{{ cl.name }}</strong>
+<span style="font-size: 13px; color: #6B746F">{{ cl.hint }}</span>
+</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasOpenClass }}" hint-placeholder-val="{{ false }}">
+<div class="fx-in" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px">
+<sc-for list="{{ classMenu }}" as="cm" hint-placeholder-count="5">
+<a href="#" style="background: #FFFFFF; border: 1px solid #ECE6DC; border-radius: 16px; padding: 20px; text-decoration: none; color: #1F2A24; display: flex; flex-direction: column; gap: 10px">
+<span style="width: 44px; height: 44px; border-radius: 12px; background: #E8F3EC; color: #2F7D5B; display: grid; place-items: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path></svg></span>
+<strong style="font-size: 16px; font-weight: 600">{{ cm.title }}</strong>
+<span style="font-size: 14px; color: #6B746F">{{ cm.desc }}</span>
+</a>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ addOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position: fixed; inset: 0; z-index: 30; background: rgba(31,42,36,0.45); display: grid; place-items: center; padding: 16px">
+<div class="fx-pop" role="dialog" aria-modal="true" aria-labelledby="add-class-title" style="width: 100%; max-width: 520px; background: #FFFFFF; border-radius: 20px; box-shadow: 0 24px 60px rgba(31,42,36,0.25); padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<h2 id="add-class-title" style="margin: 0; font-size: 22px; font-weight: 600">Adaugă o clasă</h2>
+<button type="button" onClick="{{ closeAdd }}" aria-label="Închide" style="width: 36px; height: 36px; border-radius: 8px; border: 0; background: #F5F0E8; color: #55605A; cursor: pointer; display: grid; place-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+</div>
+<div>
+<div style="font-size: 14px; font-weight: 600; margin-bottom: 10px">Clasa</div>
+<div role="group" aria-label="Alege clasa" style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{ gradeOpts }}" as="g" hint-placeholder-count="13">
+<button type="button" onClick="{{ g.pick }}" aria-pressed="{{ g.pressed }}" title="{{ g.title }}" style="min-height: 44px; border-radius: 10px; border: 1px solid {{ g.border }}; background: {{ g.bg }}; color: {{ g.color }}; font-size: 14px; font-weight: 600; cursor: pointer">{{ g.label }}</button>
+</sc-for>
+</div>
+</div>
+<div>
+<div style="font-size: 14px; font-weight: 600; margin-bottom: 10px">Litera</div>
+<div role="group" aria-label="Alege litera" style="display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{ letterOpts }}" as="l" hint-placeholder-count="10">
+<button type="button" onClick="{{ l.pick }}" aria-pressed="{{ l.pressed }}" style="min-height: 44px; border-radius: 10px; border: 1px solid {{ l.border }}; background: {{ l.bg }}; color: {{ l.color }}; font-size: 15px; font-weight: 600; cursor: pointer">{{ l.label }}</button>
+</sc-for>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 12px; background: #FBF8F3; border-radius: 12px; padding: 12px 14px">
+<span style="width: 44px; height: 44px; border-radius: 12px; background: #E8F3EC; color: #24654A; display: grid; place-items: center; font-weight: 700">{{ addPreviewShort }}</span>
+<span style="font-size: 15px; color: {{ addPreviewColor }}">{{ addPreview }}</span>
+</div>
+<sc-if value="{{ addDup }}" hint-placeholder-val="{{ false }}">
+<p role="alert" style="margin: -6px 0 0; color: #B91C1C; font-size: 14px">Clasa aceasta este deja în listă.</p>
+</sc-if>
+<div style="display: flex; justify-content: flex-end; gap: 10px">
+<button type="button" onClick="{{ closeAdd }}" style="min-height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid #ECE6DC; background: #FFFFFF; color: #1F2A24; font-size: 14px; font-weight: 600; cursor: pointer">Anulează</button>
+<button type="button" onClick="{{ confirmAdd }}" disabled="{{ addDisabled }}" style="min-height: 44px; padding: 0 20px; border-radius: 10px; border: 0; background: {{ addBtnBg }}; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Adaugă clasa</button>
+</div>
+</div>
+</div>
+</sc-if>
+</main>
+</sc-if>
+
+<sc-if value="{{ showFloat }}" hint-placeholder-val="{{ false }}">
+<div class="float-plusi" style="position: fixed; right: 24px; bottom: 24px; z-index: 5; display: flex; flex-direction: column; align-items: flex-end; gap: 12px">
+
+<sc-if value="{{ helpChat }}" hint-placeholder-val="{{ false }}">
+<div class="fx-pop" role="dialog" aria-label="Ajutor ProfPlus" style="width: 340px; max-width: calc(100vw - 48px); height: 460px; background: #FFFFFF; border: 1px solid #ECE6DC; border-radius: 18px; box-shadow: 0 16px 40px rgba(31,42,36,0.16); display: flex; flex-direction: column; overflow: hidden">
+<div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid #ECE6DC; background: #E8F3EC">
+<svg width="36" height="34" viewBox="0 0 140 130" aria-hidden="true"><g class="dol-calm"><ellipse cx="70" cy="92" rx="34" ry="27" fill="#7A9CC6"></ellipse><circle cx="70" cy="54" r="30" fill="#7A9CC6"></circle><ellipse cx="70" cy="66" rx="12" ry="8.5" fill="#DCE7F5"></ellipse><ellipse cx="70" cy="62.5" rx="4.5" ry="3.2" fill="#1F2A24"></ellipse><g class="dol-blink"><circle cx="58" cy="49.5" r="8.5" fill="#1F2A24"></circle><circle cx="82" cy="49.5" r="8.5" fill="#1F2A24"></circle><circle cx="61" cy="46" r="3.2" fill="#FFFFFF"></circle><circle cx="85" cy="46" r="3.2" fill="#FFFFFF"></circle></g><path d="M54 27 v7 c0 5 32 5 32 0 v-7 l-16 7 z" fill="#1F2A24"></path><path d="M42 22 L70 10 L98 22 L70 34 Z" fill="#1F2A24"></path></g></svg>
+<div style="flex: 1; min-width: 0"><strong style="display: block; font-size: 14px; font-weight: 600">Plusi · ajutor</strong><span style="font-size: 12px; color: #55605A">Cum funcționează ProfPlus</span></div>
+<button type="button" onClick="{{ closeHelp }}" aria-label="Închide ajutorul" style="width: 36px; height: 36px; border-radius: 8px; border: 0; background: transparent; color: #55605A; cursor: pointer; display: grid; place-items: center">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+</div>
+<div role="log" aria-live="polite" style="flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; background: #FFFFFF">
+<sc-for list="{{ helpMsgs }}" as="hm" hint-placeholder-count="1">
+<div class="fx-pop" style="align-self: {{ hm.align }}; max-width: 85%; background: {{ hm.bg }}; color: {{ hm.color }}; border-radius: {{ hm.radius }}; padding: 10px 13px; font-size: 14px; line-height: 1.5; white-space: pre-wrap">{{ hm.text }}</div>
+</sc-for>
+<sc-if value="{{ helpTyping }}" hint-placeholder-val="{{ false }}">
+<div style="align-self: flex-start; display: flex; gap: 5px; padding: 12px 14px; background: #E8F3EC; border-radius: 4px 14px 14px 14px"><span class="dot"></span><span class="dot d2"></span><span class="dot d3"></span></div>
+</sc-if>
+<sc-if value="{{ showHelpTopics }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px">
+<sc-for list="{{ helpTopics }}" as="ht" hint-placeholder-count="4">
+<button type="button" onClick="{{ ht.pick }}" style="border: 1px solid #BFDDCB; background: #FFFFFF; color: #24654A; border-radius: 999px; padding: 6px 11px; font-size: 13px; cursor: pointer; text-align: left">{{ ht.text }}</button>
+</sc-for>
+</div>
+</sc-if>
+</div>
+<div style="display: flex; gap: 8px; padding: 10px 12px; border-top: 1px solid #ECE6DC">
+<label for="help-input" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0)">Întrebare pentru Plusi</label>
+<input id="help-input" value="{{ helpDraft }}" onChange="{{ onHelpDraft }}" onKeyDown="{{ onHelpKey }}" placeholder="Întreabă despre ProfPlus..." style="flex: 1; min-width: 0; border: 1px solid #ECE6DC; border-radius: 10px; padding: 10px 12px; font-size: 14px; outline: none; color: #1F2A24">
+<button type="button" onClick="{{ sendHelp }}" aria-label="Trimite întrebarea" style="width: 40px; height: 40px; border-radius: 10px; border: 0; background: #2F7D5B; color: #FFFFFF; cursor: pointer; display: grid; place-items: center; flex: none">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg></button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ helpMenu }}" hint-placeholder-val="{{ false }}">
+<div class="fx-pop" role="menu" aria-label="Cum te poate ajuta Plusi" style="width: 290px; background: #FFFFFF; border: 1px solid #ECE6DC; border-radius: 16px; box-shadow: 0 12px 32px rgba(31,42,36,0.14); padding: 8px">
+<div style="padding: 8px 10px 10px; font-size: 14px; font-weight: 600">Cum te pot ajuta?</div>
+<button type="button" role="menuitem" onClick="{{ floatGo }}" style="width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px; border: 0; border-radius: 10px; background: transparent; cursor: pointer; text-align: left; color: #1F2A24">
+<span style="flex: none; width: 36px; height: 36px; border-radius: 10px; background: #E8F3EC; color: #2F7D5B; display: grid; place-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 5 7 7-7 7"></path></svg></span>
+<span><strong style="display: block; font-size: 14px; font-weight: 600">Deschide Asistentul virtual</strong><span style="font-size: 13px; color: #55605A">Lecții, explicații și documente</span></span>
+</button>
+<button type="button" role="menuitem" onClick="{{ openHelpChat }}" style="width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px; border: 0; border-radius: 10px; background: transparent; cursor: pointer; text-align: left; color: #1F2A24">
+<span style="flex: none; width: 36px; height: 36px; border-radius: 10px; background: #ECFDF5; color: #047857; display: grid; place-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span>
+<span><strong style="display: block; font-size: 14px; font-weight: 600">Întreabă-l aici</strong><span style="font-size: 13px; color: #55605A">Cum funcționează ProfPlus</span></span>
+</button>
+</div>
+</sc-if>
+
+<div style="display: flex; align-items: flex-end; gap: 6px">
+<sc-if value="{{ showHint }}" hint-placeholder-val="{{ true }}">
+<span style="position: relative; display: block; margin-bottom: 70px; pointer-events: none">
+<span class="hint-pop" style="display: block; background: #FFFFFF; border: 1px solid #BFDDCB; color: #1F2A24; font-size: 14px; font-weight: 500; padding: 8px 12px; border-radius: 12px; box-shadow: 0 4px 14px rgba(31,42,36,0.08); white-space: nowrap">Ai nevoie de ajutor?</span>
+<span class="burst" style="left: 12%; top: 10%; --dx: -14px; --dy: -12px"></span>
+<span class="burst" style="left: 45%; top: -4px; --dx: 0px; --dy: -18px"></span>
+<span class="burst" style="left: 82%; top: 8%; --dx: 14px; --dy: -12px"></span>
+<span class="burst" style="left: 8%; top: 70%; --dx: -16px; --dy: 8px"></span>
+<span class="burst" style="left: 50%; top: 85%; --dx: 2px; --dy: 14px"></span>
+<span class="burst" style="left: 88%; top: 70%; --dx: 16px; --dy: 8px"></span>
+</span>
+</sc-if>
+<button type="button" onClick="{{ toggleHelp }}" aria-label="Plusi: opțiuni de ajutor" aria-expanded="{{ helpMenuAria }}" style="background: none; border: 0; padding: 0; cursor: pointer; border-radius: 50%">
+<span style="width: 96px; height: 96px; border-radius: 50%; background: #E8F3EC; border: 2px solid #BFDDCB; display: grid; place-items: center; box-shadow: 0 8px 24px rgba(47,125,91,0.18)">
+<svg width="84" height="78" viewBox="0 0 140 130" aria-hidden="true"><g class="dol-swim"><g class="dol-tail"><path d="M54 110 Q42 122 30 119 Q40 110 50 103 Z" fill="#5B7FB0"></path><path d="M86 110 Q98 122 110 119 Q100 110 90 103 Z" fill="#5B7FB0"></path></g><ellipse cx="70" cy="92" rx="34" ry="27" fill="#7A9CC6"></ellipse><g class="dol-finl"><path d="M38 86 Q24 90 18 101 Q30 103 42 96 Z" fill="#5B7FB0"></path></g><g class="dol-fin"><path d="M102 86 Q116 90 122 101 Q110 103 98 96 Z" fill="#5B7FB0"></path></g><ellipse cx="70" cy="97" rx="22" ry="18" fill="#DCE7F5"></ellipse><circle cx="70" cy="54" r="30" fill="#7A9CC6"></circle><ellipse cx="70" cy="66" rx="12" ry="8.5" fill="#DCE7F5"></ellipse><g class="whisk"><path d="M59 66 Q50 63 40 64 M59 70 Q51 72 43 75 M81 66 Q90 63 100 64 M81 70 Q89 72 97 75" stroke="#3A4640" stroke-width="2.4" fill="none" stroke-linecap="round"></path></g><ellipse cx="70" cy="62.5" rx="4.5" ry="3.2" fill="#1F2A24"></ellipse><g class="dol-blink"><circle cx="58" cy="49.5" r="8" fill="#1F2A24"></circle><circle cx="82" cy="49.5" r="8" fill="#1F2A24"></circle><circle cx="60.8" cy="46.2" r="3" fill="#FFFFFF"></circle><circle cx="84.8" cy="46.2" r="3" fill="#FFFFFF"></circle></g><path d="M54 27 v7 c0 5 32 5 32 0 v-7 l-16 7 z" fill="#1F2A24"></path><path d="M42 22 L70 10 L98 22 L70 34 Z" fill="#1F2A24"></path><g class="dol-tassel"><path d="M70 22 Q86 24 94 28 L94 40" stroke="#1B4D36" stroke-width="3" fill="none" stroke-linecap="round"></path><circle cx="94" cy="42" r="4" fill="#1B4D36"></circle></g></g></svg>
+</span>
+</button>
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"homeVariant":{"editor":"enum","options":["chat","mascota"],"default":"chat"},"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'home', phase: '', draft: '', messages: [], typing: false, open: { a: true }, done: {} };
+    this.timers = [];
+  }
+  componentWillUnmount() {
+    this.timers.forEach((t) => clearTimeout(t));
+  }
+  later(fn, ms) {
+    this.timers.push(setTimeout(fn, ms));
+  }
+  className(g, l) {
+    const R = ['pregătitoare', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+    const base = g === 0 ? 'Clasa pregătitoare' : g === 1 ? 'Clasa I' : 'Clasa a ' + R[g] + '-a';
+    return base + (l ? ' ' + l : '');
+  }
+  classVals() {
+    const R = ['P', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+    const s = this.state;
+    const classes = (s.classes || []).slice().sort((a, b) => a.g - b.g || a.l.localeCompare(b.l));
+    const delMode = !!s.delMode;
+    const sel = s.delSel || {};
+    const selCount = classes.filter((c) => sel[c.id]).length;
+    const open = classes.find((c) => c.id === s.openClass);
+    const ag = s.addGrade;
+    const al = s.addLetter;
+    const hasG = ag !== undefined && ag !== null;
+    const dup = hasG && !!al && classes.some((c) => c.g === ag && c.l === al);
+    const ready = hasG && !!al && !dup;
+    const on = (x) => ({ border: x ? '#2F7D5B' : '#ECE6DC', bg: x ? '#2F7D5B' : '#FFFFFF', color: x ? '#FFFFFF' : '#1F2A24', pressed: x ? 'true' : 'false' });
+    return {
+      classCards: classes.map((c) => {
+        const picked = !!sel[c.id];
+        return {
+          short: R[c.g] + ' ' + c.l,
+          name: this.className(c.g, c.l),
+          hint: delMode ? (picked ? 'Selectată pentru ștergere' : 'Apasă pentru a selecta') : 'Deschide meniul clasei →',
+          border: delMode && picked ? '#DC2626' : '#ECE6DC',
+          boxBorder: picked ? '#DC2626' : '#DCD4C6',
+          boxBg: picked ? '#DC2626' : '#FFFFFF',
+          pressed: delMode ? (picked ? 'true' : 'false') : 'false',
+          aria: delMode ? 'Selectează pentru ștergere: ' + this.className(c.g, c.l) : 'Deschide ' + this.className(c.g, c.l),
+          click: () => delMode
+            ? this.setState({ delSel: { ...(this.state.delSel || {}), [c.id]: !picked } })
+            : this.setState({ openClass: c.id })
+        };
+      }),
+      noClasses: classes.length === 0,
+      delMode,
+      notDelMode: !delMode,
+      showClassActions: !open,
+      hasOpenClass: !!open,
+      noOpenClass: !open,
+      openClassName: open ? this.className(open.g, open.l) : '',
+      closeClass: () => this.setState({ openClass: null }),
+      classMenu: [
+        { title: 'Planificări', desc: 'Planificarea anuală și calendaristică a clasei.' },
+        { title: 'Proiecte de lecție', desc: 'Lecțiile pregătite pentru această clasă.' },
+        { title: 'Teste și evaluări', desc: 'Evaluări inițiale, formative și sumative.' },
+        { title: 'Fișe de lucru', desc: 'Fișe diferențiate și resurse pentru clasă.' },
+        { title: 'Personalizări', desc: 'Setări și preferințe pentru această clasă.' }
+      ],
+      startDel: () => this.setState({ delMode: true, delSel: {} }),
+      cancelDel: () => this.setState({ delMode: false, delSel: {} }),
+      confirmDel: () => {
+        if (!selCount) return;
+        this.setState({ classes: (this.state.classes || []).filter((c) => !sel[c.id]), delMode: false, delSel: {} });
+      },
+      delDisabled: selCount === 0,
+      delBtnBg: selCount ? '#DC2626' : '#FCA5A5',
+      delBtnLabel: selCount ? 'Șterge (' + selCount + ')' : 'Șterge',
+      openAdd: () => this.setState({ addOpen: true, addGrade: null, addLetter: null, delMode: false, delSel: {} }),
+      closeAdd: () => this.setState({ addOpen: false }),
+      addOpen: !!s.addOpen,
+      gradeOpts: R.map((r, i) => ({ label: r, title: this.className(i, ''), ...on(ag === i), pick: () => this.setState({ addGrade: i }) })),
+      letterOpts: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'].map((x) => ({ label: x, ...on(al === x), pick: () => this.setState({ addLetter: x }) })),
+      addPreviewShort: hasG || al ? (hasG ? R[ag] : '?') + ' ' + (al || '?') : '?',
+      addPreview: hasG || al ? (hasG ? this.className(ag, al || '…') : 'Alege clasa') : 'Alege clasa și litera',
+      addPreviewColor: ready ? '#1F2A24' : '#6B746F',
+      addDup: dup,
+      addDisabled: !ready,
+      addBtnBg: ready ? '#1B4D36' : '#9DB8A9',
+      confirmAdd: () => {
+        if (!ready) return;
+        const id = 'c' + Date.now();
+        this.setState({ classes: (this.state.classes || []).concat([{ id, g: ag, l: al }]), addOpen: false });
+      }
+    };
+  }
+  helpAnswer(q) {
+    const t = q.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    const has = (...w) => w.some((x) => t.includes(x));
+    if (has('dupa caz', 'optional', 'facultativ', 'adaug la obligatorii', 'obligatori')) return 'Documentele „după caz” apar estompate și nu intră în progres. Dacă ți se aplică, apasă „+ Adaugă la obligatorii”: devin evidențiate și sunt numărate în bara de progres. Le poți scoate oricând cu butonul „−”.';
+    if (has('opis', 'export', 'descarc')) return '„Descarcă opisul” îți dă lista tuturor documentelor din portofoliu, cu data fiecăruia. „Exportă portofoliul” descarcă documentele, ordonate pe cele 5 secțiuni din structura-cadru.';
+    if (has('genere', 'generez', 'redact', 'creez', 'fac un')) return 'La documentele pe care le poți redacta apare „Generează cu Plusi”. Te duce în Asistentul virtual cu cererea deja scrisă. Ciorna se deschide în editor, de unde o exporți în PDF sau Word și apoi o încarci în portofoliu.';
+    if (has('progres', 'bara', 'procent')) return 'Bara de progres numără doar documentele obligatorii, plus cele „după caz” pe care le-ai adăugat tu. Fiecare secțiune are și propriul contor.';
+    if (has('incarc', 'upload', 'fisier', 'pdf', 'word')) return 'Apasă „Încarcă” pe rândul documentului. Eticheta trece din „Lipsește” în „Adăugat”, iar progresul se actualizează. Dacă ai o versiune nouă, același buton devine „Înlocuiește”.';
+    if (has('europass', 'cv')) return 'Pentru CV, butonul „Editor Europass” deschide editorul oficial Europass. Îl completezi acolo, îl descarci și apoi îl încarci la rândul „Curriculum vitae”.';
+    if (has('portofoliu', 'lege', 'ordin', '3.858', '3858', 'structura')) return 'Din anul școlar 2026–2027 portofoliul profesional e obligatoriu (OMEC nr. 3.858/2026). În Documente personale ai toate documentele din structura-cadru, împărțite pe 5 secțiuni, cu progresul și opisul ținute la zi.';
+    if (has('clase', 'clasele', 'catalog', 'elev', 'note')) return 'În „Clasele mele” vei avea, pentru fiecare clasă la care predai, planificările, testele, fișele și situația elevilor. Secțiunea e în lucru.';
+    if (has('asistent', 'chat', 'intreb', 'lectie', 'manual')) return 'Pentru lecții, exerciții și explicații folosește Asistentul virtual. Răspunde din manuale și din documentele tale, cu surse pe care le poți verifica.';
+    return 'Te pot ajuta cu Documentele personale (încărcare, documente „după caz”, opis, export), cu generarea documentelor și cu Asistentul virtual. Încearcă una dintre întrebările de mai sus sau reformulează.';
+  }
+  askHelp(text) {
+    const q = (text || '').trim();
+    if (!q) return;
+    const msgs = (this.state.helpMsgs || []).concat([{ role: 'user', text: q }]);
+    this.setState({ helpMsgs: msgs, helpDraft: '', helpTyping: true });
+    this.later(() => {
+      this.setState({ helpTyping: false, helpMsgs: this.state.helpMsgs.concat([{ role: 'bot', text: this.helpAnswer(q) }]) });
+    }, 900);
+  }
+  ask(text) {
+    const q = (text || '').trim();
+    if (!q) return;
+    const msgs = this.state.messages.concat([{ role: 'user', text: q }]);
+    this.setState({ messages: msgs, draft: '', typing: true });
+    this.later(() => {
+      const reply = 'Bună întrebare! Hai să vedem „' + q + '” pas cu pas.\n\n[Aici apare explicația lui Plusi, adaptată pentru clasă, cu trimiteri la manuale și la documentele tale.]';
+      this.setState({ typing: false, messages: this.state.messages.concat([{ role: 'bot', text: reply }]) });
+    }, 1600);
+  }
+  goToAi(text) {
+    if (this.state.phase) return;
+    this.setState({ phase: 'out' });
+    this.later(() => {
+      this.setState({ tab: 'ai', phase: 'in' });
+      this.later(() => this.ask(text), 500);
+      this.later(() => this.setState({ phase: '' }), 900);
+    }, 480);
+  }
+  renderVals() {
+    const { tab, phase, draft, messages, typing } = this.state;
+    const tabs = [
+      { id: 'home', label: 'Acasă' },
+      { id: 'ai', label: 'Asistent virtual' },
+      { id: 'docs', label: 'Documente personale' },
+      { id: 'catalog', label: 'Clasele mele' }
+    ].map((t) => ({
+      ...t,
+      current: t.id === tab ? 'page' : 'false',
+      color: t.id === tab ? '#2F7D5B' : '#55605A',
+      bar: t.id === tab ? '#2F7D5B' : 'transparent',
+      pick: () => {
+        if (t.id === tab) return;
+        this.setState({ tab: t.id, phase: t.id === 'ai' ? 'in' : '', hintDone: true, helpMenu: false, helpChat: false });
+        this.later(() => this.setState({ hintDone: false }), 40);
+      }
+    }));
+    const news = [
+      { cat: 'Legislație', date: '[data]', title: '[Titlul știrii principale]', summary: '[Un rezumat de două rânduri al știrii, ca profesorul să știe imediat de ce contează.]' },
+      { cat: 'Examene', date: '[data]', title: '[Titlu știre]' },
+      { cat: 'Resurse', date: '[data]', title: '[Titlu știre]' }
+    ];
+    const suggestions = ['Criteriile de divizibilitate', 'Adunarea fracțiilor', 'Aria dreptunghiului'].map((s) => ({
+      text: s,
+      pick: () => this.setState({ draft: s + ': ' })
+    }));
+    const sendKey = (fn) => (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); fn(); }
+    };
+    const sendHome = () => this.goToAi(this.state.draft);
+    const sendChat = () => this.ask(this.state.draft);
+    const EU = 'https://europass.europa.eu/ro';
+    const P = [
+      { id: 'a', letter: 'A', title: 'Date personale și de identificare profesională', items: [
+        ['a1', 'Curriculum vitae (format Europass)', 'Completat, semnat și datat.', 0, 1, EU, 'Editor Europass'],
+        ['a2', 'Copie a actului de identitate', 'Document de identificare.', 0, 0],
+        ['a3', 'Certificat de naștere / acte de schimbare a numelui', 'Doar dacă este cazul.', 1, 0],
+        ['a4', 'Diplome și certificate de studii', 'Liceu pedagogic, postliceal, universitar, postuniversitar sau de conversie, cu foi matricole ori suplimente.', 0, 0],
+        ['a5', 'Decizia de numire sau de transfer', 'Actul de încadrare pe post.', 0, 0],
+        ['a6', 'Contract individual de muncă și fișa postului', 'Cu toate actele adiționale.', 0, 0],
+        ['a7', 'Decizia anuală de încadrare', 'Pentru anul școlar în curs.', 0, 0],
+        ['a8', 'Adeverințe de vechime', 'Vechimea în învățământ.', 0, 0],
+        ['a9', 'Certificate de definitivat și grade didactice', 'Sau ordinul de acordare a gradului I pe baza doctoratului.', 1, 0],
+        ['a10', 'Comunicarea calificativului anual', 'Rezultatul evaluării anuale.', 0, 0],
+        ['a11', 'Decizia de acordare a gradației de merit', 'Doar dacă ai primit gradație.', 1, 0]
+      ] },
+      { id: 'b', letter: 'B', title: 'Activitate specifică normei: predare-învățare-evaluare', items: [
+        ['b1', 'Planificări anuale / calendaristice', 'Pentru fiecare disciplină și clasă.', 0, 1],
+        ['b2', 'Curriculum la decizia școlii', 'Programa opționalului elaborat în oferta școlii.', 0, 1],
+        ['b3', 'Proiecte de lecție / secvențe de instruire', 'Proiecte sau secvențe reprezentative.', 0, 1],
+        ['b4', 'Planuri remediale sau de ameliorare', 'Pentru elevii care au nevoie de sprijin.', 0, 1],
+        ['b5', 'Planuri de intervenție personalizată (CES)', 'Pentru elevii cu cerințe educaționale speciale.', 0, 1],
+        ['b6', 'Fișe de lucru diferențiate / resurse educaționale deschise', 'Materiale folosite la clasă.', 0, 1],
+        ['b7', 'Instrumente de evaluare inițială, formativă și sumativă', 'Inclusiv în format digital.', 0, 1],
+        ['b8', 'Pregătirea pentru examene și concursuri', 'Dovezi ale implicării în activități de performanță.', 1, 0],
+        ['b9', 'Rezultate la evaluări naționale, bacalaureat, certificare', 'Rezultatele elevilor tăi.', 0, 0],
+        ['b10', 'Rezultate la concursuri și diplome ale elevilor', 'Diplome obținute de elevii pregătiți de tine.', 0, 0],
+        ['b11', 'Evidența progresului elevilor la activitățile remediale', 'Cum au evoluat elevii sprijiniți.', 0, 1]
+      ] },
+      { id: 'c', letter: 'C', title: 'Activități complementare procesului de învățământ', items: [
+        ['c1', 'Comisii, consilii, asociații, comisii de examen și concurs', 'Calitatea deținută (președinte, membru etc.); metodist sau grupuri de lucru, după caz.', 0, 0],
+        ['c2', 'Activități extracurriculare', 'Planificare, organizare și participare: culturale, sportive, voluntariat, excursii.', 0, 1],
+        ['c3', 'Programe naționale', 'Școala altfel, Masă sănătoasă, Școală după școală, școala de vară.', 0, 1],
+        ['c4', 'Promovarea imaginii școlii', 'Oferta educațională, târguri ale educației.', 0, 0]
+      ] },
+      { id: 'd', letter: 'D', title: 'Activități de management al clasei', items: [
+        ['d1', 'Fișe psihopedagogice', 'Pentru cunoașterea elevilor.', 0, 1],
+        ['d2', 'Evidența elevilor care necesită sprijin', 'Elevi cu nevoi de sprijin educațional.', 0, 1],
+        ['d3', 'Planuri de consiliere pentru elevii cu risc de abandon', 'Avizate de director.', 0, 1],
+        ['d4', 'Plan de prevenire a absenteismului', 'Avizat de director.', 0, 1],
+        ['d5', 'Analiza progresului clasei', 'Situația și evoluția clasei.', 0, 1],
+        ['d6', 'Graficul consultațiilor cu părinții și procesele-verbale', 'Inclusiv ședințele comitetului de părinți.', 0, 1],
+        ['d7', 'Informarea despre reguli de conduită și ROI', 'Dovezi ale informării elevilor și părinților, inclusiv despre procedurile de acces.', 0, 0],
+        ['d8', 'Informarea părinților despre disciplină și frecvență', 'Situații disciplinare și monitorizarea frecvenței.', 0, 0]
+      ] },
+      { id: 'e', letter: 'E', title: 'Evoluția în carieră și dezvoltare profesională', items: [
+        ['e1', 'Formare continuă și credite profesionale', 'Certificate, atestate, adeverințe ECTS / CTP.', 0, 0],
+        ['e2', 'Activitate metodică și științifică', 'Participări și susțineri la cercuri, conferințe, ateliere.', 0, 0],
+        ['e3', 'Publicații', 'Copertă și pagini de identificare cu ISBN / ISSN.', 0, 0],
+        ['e4', 'Proiecte și programe educaționale', 'Contract sau decizie, produse realizate, rapoarte.', 0, 1],
+        ['e5', 'Funcții de conducere, îndrumare și control', 'Mai ales pentru directori și inspectori.', 1, 0]
+      ] }
+    ];
+    const done = this.state.done;
+    const open = this.state.open;
+    const extra = this.state.extra || {};
+    let doneAll = 0;
+    let totalAll = 0;
+    const portfolio = P.map((s) => {
+      const counted = s.items.filter((it) => !it[3] || extra[it[0]]);
+      const items = s.items.map(([id, name, desc, opt, gen, link, linkLabel]) => {
+        const ok = !!done[id];
+        const active = !opt || !!extra[id];
+        return {
+          name, desc,
+          optional: !!opt,
+          active,
+          inactive: !active,
+          optLabel: active ? 'După caz · adăugat de tine' : 'După caz',
+          rowBg: active ? '#FFFFFF' : '#FBF8F3',
+          nameColor: active ? '#1F2A24' : '#55605A',
+          canGen: !!gen,
+          hasLink: !!link,
+          link: link || '#',
+          linkLabel: linkLabel || '',
+          statusLabel: ok ? 'Adăugat' : 'Lipsește',
+          statusBg: ok ? '#ECFDF5' : '#FEF2F2',
+          statusColor: ok ? '#047857' : '#B91C1C',
+          uploadLabel: ok ? 'Înlocuiește' : 'Încarcă',
+          addAria: 'Adaugă la obligatorii: ' + name,
+          removeAria: 'Scoate din obligatorii: ' + name,
+          add: () => this.setState({ extra: { ...(this.state.extra || {}), [id]: true } }),
+          remove: () => this.setState({ extra: { ...(this.state.extra || {}), [id]: false } }),
+          upload: () => this.setState({ done: { ...this.state.done, [id]: true } }),
+          gen: () => this.goToAi('Ajută-mă să pregătesc: ' + name)
+        };
+      });
+      const dc = counted.filter((it) => done[it[0]]).length;
+      doneAll += dc;
+      totalAll += counted.length;
+      const isOpen = !!open[s.id];
+      return {
+        letter: s.letter, title: s.title, items,
+        badgeBg: ({ a: '#E8F3EC', b: '#DCEBE2', c: '#E3F8EF', d: '#E8F3EC', e: '#DCEBE2' })[s.id],
+        badgeColor: ({ a: '#2F7D5B', b: '#1B4D36', c: '#047857', d: '#2F7D5B', e: '#1B4D36' })[s.id],
+        badgeGlow: ({ a: 'rgba(47,125,91,0.18)', b: 'rgba(27,77,54,0.2)', c: 'rgba(16,185,129,0.2)', d: 'rgba(47,125,91,0.18)', e: 'rgba(27,77,54,0.2)' })[s.id],
+        doneCount: dc, total: counted.length,
+        pct: counted.length ? Math.round(dc * 100 / counted.length) : 0,
+        open: isOpen,
+        expanded: isOpen ? 'true' : 'false',
+        chevron: isOpen ? 'rotate(180deg)' : 'none',
+        toggle: () => this.setState({ open: { ...this.state.open, [s.id]: !this.state.open[s.id] } })
+      };
+    });
+    return {
+      tabs,
+      goHome: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ tab: 'home', phase: '' }); },
+      isHome: tab === 'home',
+      showFloat: tab === 'docs' || tab === 'catalog',
+      floatGo: () => this.setState({ tab: 'ai', phase: 'in', helpMenu: false, helpChat: false }),
+      toggleHelp: () => this.setState({ helpMenu: !this.state.helpMenu && !this.state.helpChat, helpChat: false, hintDone: true }),
+      helpMenu: !!this.state.helpMenu,
+      helpChat: !!this.state.helpChat,
+      helpMenuAria: this.state.helpMenu ? 'true' : 'false',
+      showHint: !this.state.hintDone && !this.state.helpMenu && !this.state.helpChat,
+      openHelpChat: () => this.setState({
+        helpMenu: false,
+        helpChat: true,
+        helpMsgs: (this.state.helpMsgs && this.state.helpMsgs.length) ? this.state.helpMsgs : [{ role: 'bot', text: 'Salut! Sunt Plusi. Te ajut să te descurci în ProfPlus. Alege o întrebare sau scrie-mi.' }]
+      }),
+      closeHelp: () => this.setState({ helpChat: false, helpMenu: false }),
+      helpMsgs: (this.state.helpMsgs || []).map((m) => ({
+        text: m.text,
+        align: m.role === 'user' ? 'flex-end' : 'flex-start',
+        bg: m.role === 'user' ? '#2F7D5B' : '#E8F3EC',
+        color: m.role === 'user' ? '#FFFFFF' : '#1F2A24',
+        radius: m.role === 'user' ? '14px 4px 14px 14px' : '4px 14px 14px 14px'
+      })),
+      helpTyping: !!this.state.helpTyping,
+      showHelpTopics: (this.state.helpMsgs || []).length <= 1 && !this.state.helpTyping,
+      helpTopics: ['Cum încarc un document?', 'Ce înseamnă „după caz”?', 'Cum generez un document cu Plusi?', 'Ce este opisul?'].map((q) => ({ text: q, pick: () => this.askHelp(q) })),
+      helpDraft: this.state.helpDraft || '',
+      onHelpDraft: (e) => this.setState({ helpDraft: e.target.value }),
+      onHelpKey: (e) => { if (e.key === 'Enter') { e.preventDefault(); this.askHelp(this.state.helpDraft); } },
+      sendHelp: () => this.askHelp(this.state.helpDraft),
+      isChatHome: (this.props.homeVariant ?? 'chat') !== 'mascota',
+      isMascotHome: (this.props.homeVariant ?? 'chat') === 'mascota',
+      isAi: tab === 'ai',
+      isDocs: tab === 'docs',
+      isCatalog: tab === 'catalog',
+      homeFx: phase === 'out' ? 'fx-out' : '',
+      diveFx: phase === 'out' ? 'fx-dive' : '',
+      aiFx: phase === 'in' ? 'fx-in' : '',
+      splashFx: phase === 'in' ? 'fx-splash' : '',
+      draft,
+      onDraft: (e) => this.setState({ draft: e.target.value }),
+      onHomeKey: sendKey(sendHome),
+      onChatKey: sendKey(sendChat),
+      sendHome,
+      sendChat,
+      newChat: () => this.setState({ messages: [], typing: false, draft: '' }),
+      messages: messages.map((m) => ({ ...m, isUser: m.role === 'user', isBot: m.role === 'bot' })),
+      hasMessages: messages.length > 0 || typing,
+      noMessages: messages.length === 0 && !typing,
+      typing,
+      featured: news[0],
+      side: news.slice(1, 3),
+      suggestions,
+      recent: [
+        { current: 'page', bg: '#E8F3EC' },
+        { current: 'false', bg: 'transparent' },
+        { current: 'false', bg: 'transparent' },
+        { current: 'false', bg: 'transparent' }
+      ],
+      portfolio,
+      doneAll,
+      totalAll,
+      pctAll: totalAll ? Math.round(doneAll * 100 / totalAll) : 0,
+      pageFx: phase === 'out' ? 'fx-out' : 'fx-in',
+      goDocs: () => this.setState({ tab: 'docs', phase: '', hintDone: false, helpMenu: false, helpChat: false }),
+      ...this.classVals()
+    };
+  }
+}
+</script>
+</body>
+</html>
