@@ -1,5 +1,10 @@
 # Lucrări rămase
 
+## P-072 — Manuale întâi, teste revizuite și planificări în șablon — DONE, 2026-10-12
+
+Responsabil Marcos Soames, issue #17. Recuperare separată a manualelor, respectarea selecției/priorităților, structuri implicite P-070 și modele personale prioritare. Revizie AI a testelor și control al antetului/coloanelor planificării, cu o corectare și refuzul salvării când șablonul rămâne invalid. TypeScript/build și verificări relevante trecute; publicare privată confirmată la 23:44 București. Importul este oprit la cererea titularului; materialele locale au fost eliminate, checkpointurile păstrate. [Detalii și limite](docs/TEST_GENERATION.md).
+
+
 ## P-071 — Curățarea bibliotecii păstrând suportul didactic — DONE (filtru/curățare; import integral în curs), 2026-10-11
 
 Responsabil Marcos Soames, issue #16. Filtrul păstrează materie, bareme și documente utile pentru planificări/lecții; exclude formularele administrative și navigarea duplicată. Cazurile ambigue rămân păstrate. 61 teste offline trecute; aplicare la importul operațional sub checkpoint lock, fără reset sau întreruperea uploadurilor. Importul integral rămâne IN PROGRESS. [Detalii și limite](docs/COMPETITION_IMPORT.md#p-071--scopul-bibliotecii-2026-10-11).

@@ -1,7 +1,7 @@
 import approvedExamples from './common-document-models.json';
 import {openai} from './document-store';
 import {documentLibrary,userDocuments} from './library';
-import {approvedModels,documentStyleInstructions,effectiveModels,personalModels,requestedModelTypes,type StyleReference} from './document-models';
+import {approvedModels,documentStyleInstructions,modelTableHeaders,matchesModelLayout,effectiveModels,personalModels,requestedModelTypes,type StyleReference} from './document-models';
 import type {TeachingProfile} from './teaching-profile';
 import {parallelMap} from './parallel-map';
 
@@ -18,7 +18,7 @@ async function modelText(response:Response):Promise<string>{
 }
 export async function documentStyle(user:string|null,profile:TeachingProfile|null,query:string,key:string,signal:AbortSignal){
   const types=requestedModelTypes(query),warnings:string[]=[],loaded:StyleReference[]=[];
-  if(!types.length)return {instructions:documentStyleInstructions([]),warnings};
+  if(!types.length)return {instructions:documentStyleInstructions([]),warnings,acceptsLayout:(_reply:string)=>true,tableHeaders:[] as string[][]};
   if(user){
     try{
       const rows=await userDocuments(user),items=documentLibrary(rows);
@@ -35,5 +35,6 @@ export async function documentStyle(user:string|null,profile:TeachingProfile|nul
     }catch{warnings.push('Modelele personale nu au putut fi verificate. Reîncearcă pentru a le folosi.');}
   }
   const models=effectiveModels(loaded,approvedModels(approvedExamples),types,profile,query);
-  return {instructions:documentStyleInstructions(models,types,profile,query),warnings};
+  const tableHeaders=modelTableHeaders(models,types,query);
+  return {instructions:documentStyleInstructions(models,types,profile,query),warnings,acceptsLayout:(reply:string)=>matchesModelLayout(reply,models,types,query),tableHeaders};
 }

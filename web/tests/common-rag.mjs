@@ -22,3 +22,19 @@ result=await retrieve('puteri','fixture','fixture',new AbortController().signal,
 assert.equal(calls.length,2);assert.ok(calls.some(c=>c.filters.value.join()===preferred));assert.ok(calls.some(c=>c.filters.value.includes(uid)));assert.equal(result[0].source.uid,preferred);assert.equal(result[1].source.uid,uid);
 calls.length=0;await retrieve('puteri','fixture','fixture',new AbortController().signal,[uid],['not-selected']);assert.equal(calls.length,1);assert.deepEqual(calls[0].filters.value,[uid]);
 console.log('Priority-only search reserves relevant evidence, broad selection remains active and unselected priorities never searched.');
+
+const manual='manual-fixture',manualMeta={title:'Manual clasa VI',class:'Clasa 6',subject:'Matematică',publisher:'Editura fixture',url:'https://example.org/manual.pdf'};
+const manualSource=source.replace('const catalog={};','const catalog='+JSON.stringify({[manual]:manualMeta})+';');
+const manualRetrieve=(await import(uri(manualSource))).retrieve;
+const manualHit={attributes:{uid:manual},content:[{type:'text',text:Array.from({length:8},(_,i)=>'[[PAGE:'+(i+1)+']]\n'+('Exercițiu de manual relevant. '.repeat(5))).join('\n')}]};
+let manualAvailable=true;calls.length=0;
+globalThis.fetch=async(u,options)=>{const request=JSON.parse(options.body);calls.push(request);const onlyManual=request.filters.type==='in'&&request.filters.value.every(id=>id===manual);return {ok:true,json:async()=>({data:onlyManual?(manualAvailable?[manualHit]:[]):[hit(uid),hit(preferred)]})};};
+result=await manualRetrieve('Generează test de matematică clasa VI','fixture','fixture',new AbortController().signal,[manual,uid,preferred],[],true);
+assert.equal(calls.length,2);assert.equal(result.length,8);assert.equal(result.filter(e=>e.source.category==='manual').length,6);assert.equal(result[0].source.uid,manual);assert.deepEqual(calls.find(c=>c.filters.value.includes(manual)).filters.value,[manual]);assert.deepEqual(calls.find(c=>!c.filters.value.includes(manual)).filters.value,[uid,preferred]);
+manualAvailable=false;calls.length=0;
+result=await manualRetrieve('Test','fixture','fixture',new AbortController().signal,[manual,uid],[],true);assert.equal(result[0].source.category,'competition');assert.ok(result.every(e=>e.source.uid!==manual));
+manualAvailable=true;calls.length=0;
+result=await manualRetrieve('Test','fixture','fixture',new AbortController().signal,[manual,uid,preferred],[preferred],true);assert.equal(result[0].source.uid,preferred);assert.ok(result.some(e=>e.source.category==='manual'));assert.equal(calls.length,3);
+calls.length=0;result=await manualRetrieve('Test','fixture','fixture',new AbortController().signal,[manual],[],true);assert.equal(calls.length,1);assert.equal(result.length,8);assert.ok(result.every(e=>e.source.category==='manual'));
+calls.length=0;result=await manualRetrieve('Test','fixture','fixture',new AbortController().signal,[],[],true);assert.equal(calls.length,0);assert.equal(result.length,0);
+console.log('Manual-first retrieval reserves curriculum evidence, preserves explicit priority/selection, fills manual-only results and falls back without invented manuals.');
