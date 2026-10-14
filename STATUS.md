@@ -1,8 +1,8 @@
 # Starea proiectului
 
-## P-079 — Dashboard practic și flux de știri — 2026-10-14
+## P-079 — DONE — Dashboard practic și flux de știri — 2026-10-14/15
 
-Responsabil Marcos Soames, issue #23. Dashboard pe trei zone, editor cu previzualizare și acțiuni distincte ciornă/publicare, poziții clare pe Acasă și înlocuire atomică păstrând știrea anterioară în lista completă. Citire cu titlu unic/paragrafe, principal + trei secundare, căutare/filtre și paginare public/admin. Membership și audiență păstrate; migration și probe reale rollback trecute. [Utilizare, dovezi și limite](docs/NEWS_EDITOR.md). Confirmarea livrării urmează în jurnal.
+Responsabil Marcos Soames, issue #23. Dashboard pe trei zone, editor cu previzualizare și acțiuni distincte ciornă/publicare, poziții clare pe Acasă și înlocuire atomică păstrând știrea anterioară în lista completă. Citire cu titlu unic/paragrafe, principal + trei secundare, căutare/filtre și paginare public/admin. Membership și audiență păstrate; migration și probe reale rollback trecute. [Utilizare, dovezi și limite](docs/NEWS_EDITOR.md). Publicat pe main f09ff47 și Site succeeded la 00:04 București, 2026-10-15; dovezi în jurnal.
 
 ## P-078 — DONE — Unificare, antet mobil și admin/știri — 2026-10-14
 
