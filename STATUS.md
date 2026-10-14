@@ -1,12 +1,12 @@
 # Starea proiectului
 
-## P-078 — Unificare, antet mobil și admin/știri — 2026-10-14
+## P-078 — DONE — Unificare, antet mobil și admin/știri — 2026-10-14
 
-Responsabil Marcos Soames, issue #22. Varianta funcțională Supabase combinată cu interfața P-074 și controalele P-077; copie operațională/backup păstrate. Antet responsive și cont aliniat, dashboard cu statistici agregate, rol persistent server-only pentru contul autorizat și știri principal + trei secundare cu draft/publicare/arhivare. Migration aplicată și controale reale de izolare/atomicitate trecute cu fixture-uri rollback. [Comportament și limite](docs/UNIFIED_APP_ADMIN.md). Confirmarea publicării urmează în jurnal.
+Responsabil Marcos Soames, issue #22. Varianta funcțională Supabase combinată cu interfața P-074 și controalele P-077; copie operațională/backup păstrate. Antet responsive și cont aliniat, dashboard cu statistici agregate, rol persistent server-only pentru contul autorizat și știri principal + trei secundare cu draft/publicare/arhivare. Migration aplicată și controale reale de izolare/atomicitate trecute cu fixture-uri rollback. [Comportament și limite](docs/UNIFIED_APP_ADMIN.md). Publicat: main bd5f6b3 și Site succeeded, 21:57 București; livrarea este consemnată în jurnal.
 
 ## P-077 — Compoziția exercițiilor și selecție rapidă — 2026-10-14
 
-Responsabil Marcos Soames, issue #21. „Exerciții” lângă alegerea surselor: număr de originale, preluări exacte și variante cu numai numere schimbate (total 1–30), plus descriere liberă a tipului/dificultății și indicație că se poate scrie în prompt. Preferințe păstrate în selecția conversației; mod fără numere explicite pentru cerință liberă. Biblioteca oferă deselectarea tuturor concursurilor/olimpiadelor și acțiuni pe toate rezultatele filtrate, cu materiale indexate implicit. Generarea verifică distribuția, enunțurile, citările din selecție și schimbările exclusiv numerice înainte de livrare; nepotrivirile nu sunt salvate ca document. [Comportament și limite](docs/EXERCISE_COMPOSITION.md). Publicarea se confirmă în jurnal.
+Responsabil Marcos Soames, issue #21. „Exerciții” lângă alegerea surselor: număr de originale, preluări exacte și variante cu numai numere schimbate (total 1–30), plus descriere liberă a tipului/dificultății și indicație că se poate scrie în prompt. Preferințe păstrate în selecția conversației; mod fără numere explicite pentru cerință liberă. Biblioteca oferă deselectarea tuturor concursurilor/olimpiadelor și acțiuni pe toate rezultatele filtrate, cu materiale indexate implicit. Generarea verifică distribuția, enunțurile, citările din selecție și schimbările exclusiv numerice înainte de livrare; nepotrivirile nu sunt salvate ca document. [Comportament și limite](docs/EXERCISE_COMPOSITION.md). Total editabil 1–30 și reguli de subpuncte pe exercițiu, păstrate în conversație. Publicat pe main/Site împreună cu P-078; dovezi în jurnal.
 
 
 ## P-076 — Export PDF cursiv după testele-model — 2026-10-14
