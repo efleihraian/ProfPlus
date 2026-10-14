@@ -59,3 +59,7 @@ Stocare, 2026-10-09: titularul cere mutarea materialelor și datelor asociate î
 ## Cerința titularului din 2026-10-11 — modele de documente
 
 Documentele trebuie să urmeze exemple reale de profesor. Fiecare profesor poate încărca și marca modele personale; acestea prevalează pentru tipul, materia și ciclul potrivite. În absența lor, se folosesc exemplele comune furnizate de titular, după aprobare și anonimizare. Până la primirea exemplelor comune, stil sobru standard fără afirmația că au fost folosite modele inexistente. Originalele profesorilor sunt private; marcarea ca model nu autorizează partajarea sau antrenarea unui model AI. Conținutul didactic rămâne verificat separat de stil.
+
+## Materialele furnizate explicit — 2026-10-14
+
+Titularul reconfirmă prioritatea materialelor încărcate specific pentru structură, aranjare și dificultate. Cele două teste de clasa V despre numere naturale și puteri intră ca referințe structurale anonimizate P-075. Se păstrează prioritatea modelului personal potrivit; originalele nu se distribuie prin Git. Fidelitatea paginării și corectitudinea/echilibrul dificultății se verifică separat, fără afirmații de reproducere exactă.
