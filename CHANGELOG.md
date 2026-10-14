@@ -1,5 +1,16 @@
 # Istoricul versiunilor
 
+## P-078 — Unificare, antet mobil și admin/știri — 2026-10-14
+
+Responsabil Marcos Soames, issue #22. Varianta funcțională Supabase combinată cu interfața P-074 și controalele P-077; copie operațională/backup păstrate. Antet responsive și cont aliniat, dashboard cu statistici agregate, rol persistent server-only pentru contul autorizat și știri principal + trei secundare cu draft/publicare/arhivare. Migration aplicată și controale reale de izolare/atomicitate trecute cu fixture-uri rollback. [Comportament și limite](docs/UNIFIED_APP_ADMIN.md). Confirmarea publicării urmează în jurnal.
+
+## P-077 — 2026-10-14
+
+- Control „Exerciții” pentru numărul de originale, preluate exact și din surse cu numai numere schimbate; descriere liberă și instrucțiune de precizare în prompt.
+- Preferințe salvate pe conversație și verificarea compoziției/provenienței înainte de livrarea documentului.
+- Deselectarea tuturor concursurilor sau olimpiadelor dintr-un clic, selectare/deselectare a tuturor rezultatelor filtrate și bibliotecă mobilă derulabilă.
+
+
 ## P-076 — 2026-10-14
 
 - Separatoarele dintre secțiuni devin linii discrete, fără pagină nouă implicită în PDF/Word.

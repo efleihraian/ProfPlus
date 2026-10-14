@@ -1,5 +1,14 @@
 # Lucrări rămase
 
+## P-078 — Unificare, antet mobil și admin/știri — 2026-10-14
+
+Responsabil Marcos Soames, issue #22. Varianta funcțională Supabase combinată cu interfața P-074 și controalele P-077; copie operațională/backup păstrate. Antet responsive și cont aliniat, dashboard cu statistici agregate, rol persistent server-only pentru contul autorizat și știri principal + trei secundare cu draft/publicare/arhivare. Migration aplicată și controale reale de izolare/atomicitate trecute cu fixture-uri rollback. [Comportament și limite](docs/UNIFIED_APP_ADMIN.md). Confirmarea publicării urmează în jurnal.
+
+## P-077 — Număr pe categorie, cerință liberă și filtre surse — DONE (implementare), 2026-10-14
+
+Responsabil Marcos Soames, issue #21. Alegerea numărului (nu procente), trei categorii, cerință liberă și hint pentru prompt. Persistență automatic/manual, limite server, selecție bulk pe toate rezultatele și deselectare categorie din întreaga bibliotecă. Verificare server pentru număr/plan/proveniență/preluare exactă/numere schimbate, fără substituție tăcută; insuficiența surselor se explică. UI desktop/mobil și trimitere cu preferințe verificate cu date sintetice; teste generare cu AI simulat. Calitatea OCR, caracterul complet al candidatului extras și corectitudinea pedagogică finală cer verificarea profesorului. [Dovezi și limite](docs/EXERCISE_COMPOSITION.md).
+
+
 ## P-076 — Paginare și aspect export PDF/Word — DONE (publicat), 2026-10-14
 
 Responsabil Marcos Soames, issue #20. Reprodus exportul de 7 pagini din separatoare; corectat la 2 pagini pe același test sintetic, cu verificare vizuală. Punctaje/variante aliniate, antet compact și titluri păstrate cu conținutul. DOCX fără pageBreakBefore implicit, cu keepNext pentru titluri; salt explicit păstrat. Test de regresie adăugat în CI. Numărul final de pagini depinde de volumul documentului, surse și formule; nu se forțează două pagini pentru orice document. GitHub ad4cbdb și Site privat succeeded, dovezi în WORKLOG.

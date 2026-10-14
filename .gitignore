@@ -29,3 +29,5 @@ firebase-adminsdk*.json
 # This directory contains Worker/plugin source, not generated build output.
 !web/build/
 !web/build/**
+
+supabase/.temp/

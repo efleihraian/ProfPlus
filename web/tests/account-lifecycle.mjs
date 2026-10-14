@@ -13,7 +13,9 @@ const high=teachingProfile({role:'teacher',subject:'Matematică',stages:['high']
 const {uids}=JSON.parse(await readFile('lib/active-collection.json','utf8'));assert.deepEqual(defaultManualIds(primary,uids),[]);assert.equal(defaultManualIds(teacher,uids).length,9);assert.deepEqual(defaultManualIds(teacher,[]),[]);
 const teachingCode=ts.transpileModule((await readFile('lib/teaching-profile.ts','utf8')).replace("import catalog from './manual-catalog.json';",'const catalog='+JSON.stringify(catalog)+';'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
 const teachingUri='data:text/javascript;base64,'+Buffer.from(teachingCode).toString('base64');
-const {automaticSources,savedSelection,validSelection}=await moduleAt('lib/source-selection.ts',s=>s.replace("'./teaching-profile'",JSON.stringify(teachingUri)));
+const uri=s=>'data:text/javascript;base64,'+Buffer.from(ts.transpileModule(s,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText).toString('base64');
+const exerciseOptionsUri=uri(await readFile('lib/exercise-options.ts','utf8'));
+const {automaticSources,savedSelection,validSelection}=await moduleAt('lib/source-selection.ts',s=>s.replace("'./teaching-profile'",JSON.stringify(teachingUri)).replace("'./exercise-options'",JSON.stringify(exerciseOptionsUri)));
 const kinds=['manual','collection','olympiad','competition','document'];
 const materials=kinds.map((category,i)=>({id:'resource-'+i,category,kind:i?'document':'manual',subject:'Matematica',stages:['middle'],status:'ready'}));
 materials.push({id:'wrong-discipline',kind:'manual',subject:'Istorie',stages:['middle'],status:'ready'},{id:'wrong-cycle',kind:'document',subject:'Matematica',stages:['high'],status:'ready'},{id:'not-ready',kind:'document',subject:'Matematica',stages:['middle'],status:'indexing'});

@@ -39,3 +39,12 @@ Aplicațiile viitoare pot folosi același contract JSON. Înainte de integrarea 
 Documentele proprii, câmpurile suplimentare ale răspunsului și accesul pe utilizator sunt descrise în HYBRID_CHAT.md. Sursele includ `kind` (`manual`, `document`, `web`); pagina este opțională și disponibilă numai pentru manualele extrase pe pagini.
 
 În 0.6.0, chatul trimite și revision după salvarea mesajului utilizatorului în /api/history. Serverul verifică proprietarul și revizia, salvează răspunsul cu surse înainte de trimitere și returnează noua revision. Apelurile fără revision păstrează compatibilitatea API anterioară, fără salvare automată a răspunsului. Vezi HISTORY.md.
+
+## P-077 — Preferințe pentru exerciții
+
+`selection.exerciseOptions` este opțional: `{counts:{original:3,copied:4,numbers:3},details:"Probleme cu resturi, nivel mediu"}`. `counts` poate lipsi pentru cerință liberă; `details` poate lipsi pentru compoziție. Numere întregi 0–30 cu total 1–30, descriere maximum 800 caractere; câmpuri necunoscute refuzate. Se păstrează în selecția istorică fără migrare. Compoziția se aplică numai cererilor de teste/fișe/exerciții. Planul de proveniență este intern și verificat înainte de document; nepotrivire → 422, fără document salvat. [Detalii și limite](EXERCISE_COMPOSITION.md).
+
+
+## P-078 — Știri și administrare
+
+`GET /api/news[?id=UUID]`: numai știri published cu data <= acum și titlul/introducerea secțiunii; fără ciorne/audit/actor. `GET /api/admin/dashboard`: identitate Supabase confirmată, neștearsă și membership server-only; statistici agregate, articole editoriale și setări, nu mesaje/documente ale conturilor. `POST /api/admin/news`: same-origin/JSON, actor din identitatea verificată, exact unul dintre article/settings, max. 100 KB stream și 26.000 caractere corp. Titlu <=200, rezumat <=600, text <=20.000, categorie <=80, URL-uri HTTPS <=2.048, slot 0–3, stare draft/published/archived, revizie. RPC atomic cu verificare membership și audit minim. Conflict de revizie/slot ->409; input invalid ->400, lipsă rol ->403, provider indisponibil ->503. Cheile nu apar în răspuns. [Detalii](UNIFIED_APP_ADMIN.md).

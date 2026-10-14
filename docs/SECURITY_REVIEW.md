@@ -183,3 +183,12 @@ P-075 verificat: scanner Git/istoric/client 1.637 fișiere/bloburi fără detec�
 ## P-076 — Paginare export, 2026-10-14
 
 Remediere locală de compoziție PDF/DOCX, fără date, conturi, RLS, scheme, credențiale, furnizori sau audiență noi. Separatoarele și marcajele explicite sunt interpretate numai ca aranjare, fără execuție sau încărcări externe. Fonturile și randarea formulelor rămân locale, cu aceleași limite și refuzul linkurilor/imaginilor arbitrare. Fixture nou sintetic și regresii de formule/proveniență/LaTeX; originalele testelor-model nu sunt distribuite. Dovezile finale de build/scanare/audit sunt în WORKLOG. Nu constituie audit complet.
+
+## P-077 — 2026-10-14
+
+Validare server pentru preferințe/numere/text, inclusă în chat și istoric. Selecția și ownership existente sunt păstrate; bulk operează numai pe catalogul deja autorizat și curăță prioritățile eliminate. Categoriile/numerele/profilul nu acordă privilegii. Planul AI este date nefiabile, confruntat cu enunțul livrat și contextul selectat; nu se acceptă ID inexistent/web pentru preluări, falsă preluare integrală ori schimbări nenumerice mascate. Refuz înainte de document pentru distribuție/proveniență invalidă. Fixture local și Auth/DB simulate, fără original/private content/secrete publicate. Fără afirmație de audit complet, OCR sigur sau dovadă automată de completitudine pedagogică. [Limite](EXERCISE_COMPOSITION.md).
+
+
+## P-078 — Dashboard și știri
+
+Membership server-only, verificare getUser/cont confirmat/neșters și membership pe fiecare API. Refuz escaladare din client/metadata, CSRF/JSON/limite, actor server-bound, conflict revision/slot, publicare filtrată și text inert. Baza reală: RLS/granturi/RPC SECURITY INVOKER, anon/authenticated deny; scrieri atomice testate cu rollback. Advisor zero WARN/ERROR, 8 INFO RLS fără politici pentru tabele server-only cu granturi publice revocate. Supabase provider existente, chei server-only; audiență Site păstrată. [Dovezi/riscuri](UNIFIED_APP_ADMIN.md); scanner Git/client și builduri finale în jurnal. Nu este audit complet auth/tenant.

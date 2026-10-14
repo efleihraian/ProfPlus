@@ -1,6 +1,7 @@
 "use client";
 import {useEffect, useRef, useState} from "react";
 import "./shell-pages.css";
+import {ThemeToggle} from "./theme-controls";
 import Assistant from "./assistant";
 import HomePage from "./home-page";
 import DocumentsPage from "./documents-page";
@@ -22,11 +23,12 @@ export default function Home() {
   const [phase, setPhase] = useState<"" | "out" | "in">("");
   const [seed, setSeed] = useState<{text: string; n: number}>();
   const [signedIn, setSignedIn] = useState(false);
+  const [admin,setAdmin]=useState(false);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   useEffect(() => {
     const sync = () => { setTab(fromHash()); setReady(true); };
     sync(); window.addEventListener("hashchange", sync);
-    void fetch("/api/account", {cache: "no-store"}).then(r => r.ok ? r.json() as Promise<{user?: unknown}> : null).then(data => setSignedIn(!!data?.user)).catch(() => {});
+    void fetch("/api/account", {cache: "no-store"}).then(r => r.ok ? r.json() as Promise<{user?: unknown;admin?:boolean}> : null).then(data => {setSignedIn(!!data?.user);setAdmin(!!data?.admin);}).catch(() => {});
     const pending = timers.current;
     return () => { window.removeEventListener("hashchange", sync); pending.forEach(clearTimeout); };
   }, []);
@@ -54,7 +56,7 @@ export default function Home() {
         <nav aria-label="Navigare principală" className="shell-tabs">
           {TABS.map(t => <button key={t.id} type="button" className="shell-tab" aria-current={tab === t.id ? "page" : undefined} onClick={() => go(t.id)}>{t.label}</button>)}
         </nav>
-        <div style={{display: "flex", alignItems: "center", gap: 8}}>
+        <div className="shell-account-actions"><div className="shell-theme"><ThemeToggle/></div>{admin&&<a href="/admin" className="shell-admin">Admin</a>}
           <a href={signedIn ? "/account" : "/account?view=login"} aria-label={signedIn ? "Cont și setări" : "Autentificare"} title={signedIn ? "Cont și setări" : "Autentificare"} className="shell-login">
             <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
             <span>{signedIn ? "Contul meu" : "Intră în cont"}</span>

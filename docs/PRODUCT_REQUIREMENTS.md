@@ -63,3 +63,8 @@ Documentele trebuie să urmeze exemple reale de profesor. Fiecare profesor poate
 ## Materialele furnizate explicit — 2026-10-14
 
 Titularul reconfirmă prioritatea materialelor încărcate specific pentru structură, aranjare și dificultate. Cele două teste de clasa V despre numere naturale și puteri intră ca referințe structurale anonimizate P-075. Se păstrează prioritatea modelului personal potrivit; originalele nu se distribuie prin Git. Fidelitatea paginării și corectitudinea/echilibrul dificultății se verifică separat, fără afirmații de reproducere exactă.
+
+
+## Cereri din 2026-10-14 — P-077/P-078
+
+Număr total editabil, număr pe proveniență, tip liber în formular/prompt, exercițiile și numărul subpunctelor selectabile; surse filtrabile/bulk concursuri și olimpiade. Unificare local/main/Site pe baza variantei funcționale, cu backup local și navigare mobilă/cont încadrate. Admin persistent pentru contul confirmat indicat separat de profil normal; dashboard cu statistici și știri principale + trei secundare, editare/publicare/arhivare și bază de date. [Implementare și limite](UNIFIED_APP_ADMIN.md), [control exerciții](EXERCISE_COMPOSITION.md).

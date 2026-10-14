@@ -202,3 +202,12 @@ Revizia testelor folosește OPENAI_REVIEW_MODEL dacă este configurat, implicit 
 ## P-073 — 2026-10-12
 
 Responsabil Marcos Soames, issue #18. Inventar opt worktree-uri și sursele Sites; toate implementările existente sunt în main. Merge-uri istorice pentru 8977bda și 2fdfbc2, conflicte revizuite păstrând P-054/P-065/P-067/P-069/P-072 și guard-ul fixture-urilor. Runtime/teste/scheme identice cu 1c50602, fără migrare, furnizor, cheie, permisiune sau audiență nouă. Rezumatul importului include numai numărări, fără URL-uri/titluri/private content; jurnalul brut și checkpointurile rămân excluse. 61 teste Python și suitele web focalizate trecute; scanner Git/istoric/client fără detecții, audit 8 high toolchain existente și zero producție. Site-ul P-072 deja publicat rămâne curent, fără deploy redundant; import paused și checkout operațional păstrat. Nu se declară CI complet verde, audit complet sau conformitate GDPR. [Dovezi](MAIN_CONSOLIDATION.md).
+
+## P-077 — 2026-10-14
+
+Preferințe didactice minime (trei numere și cerință liberă, maximum 800 caractere), păstrate în JSON-ul selection al conversației private existente; aceleași controale de acces, retenție și ștergere. Vizitator: numai starea paginii. Context/enunțuri deja autorizate și planul de verificare sunt procesate de același furnizor OpenAI, store=false; planul nu este salvat ori expus ca metadată suplimentară. Numărarea/verificarea textuală nu acordă note oficiale și nu înlocuiește controlul profesorului. Buget de ieșire 8.000 tokeni pentru compoziție și revizie suplimentară pentru fișe, în timeoutul existent de 90 s; cost/latenta pot crește. Fără servicii, schemă, RLS, trackere, audiență sau permisiuni noi. Nu reprezintă aprobare GDPR ori audit complet.
+
+
+## P-078 — Admin și știri, 2026-10-14
+
+Rol persistent legat de identitate Supabase verificată, fără rol din profil. Admin gestionează numai conținut editorial și numărări agregate, fără acces nou la datele profesorilor/elevilor. Articole publicate sunt publice în aplicație, ciornele/arhivele numai admin; Site rămâne owner-private. Audit minim 90 zile la următoarea scriere, actor nul la ștergere; fără job periodic. Configurație de cont Supabase comună local/Site, Google/Apple; nu se activează Email/registration. Imagini externe opționale fără referer. [Scop, retenție, verificări și limite](UNIFIED_APP_ADMIN.md). Nu se declară conformitate sau audit complet.

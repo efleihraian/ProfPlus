@@ -9,7 +9,7 @@ export function secureResponse(request:Request,response:Response,independentAuth
  if(independentAuth)headers.set('X-Frame-Options','DENY');
  // The private Sites pilot is embedded by ChatGPT; independent hosting denies framing.
  const ancestors=independentAuth?"'none'":"'self' https://chatgpt.com https://chat.openai.com";
- headers.set('Content-Security-Policy',`default-src 'self'; script-src 'self' 'unsafe-inline'${local?" 'unsafe-eval'":''}; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'${local?' ws: wss:':''}; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors ${ancestors}`);
+ headers.set('Content-Security-Policy',`default-src 'self'; script-src 'self' 'unsafe-inline'${local?" 'unsafe-eval'":''}; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'${local?' ws: wss:':''}; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors ${ancestors}`);
  if(url.protocol==='https:'&&!local)headers.set('Strict-Transport-Security','max-age=31536000');
  return new Response(response.body,{status:response.status,statusText:response.statusText,headers});
 }
