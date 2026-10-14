@@ -41,6 +41,7 @@ jobs:
       - run: python3 ../scripts/security_scan.py --client
       - run: npm run test:account
       - run: node tests/guest-chat.mjs
+      - run: node tests/export-layout.mjs
       - run: node tests/teacher-test-controls.mjs
       - run: node tests/document-models.mjs
       - run: node tests/document-latex.mjs

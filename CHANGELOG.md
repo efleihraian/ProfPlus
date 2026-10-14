@@ -1,5 +1,13 @@
 # Istoricul versiunilor
 
+## P-076 — 2026-10-14
+
+- Separatoarele dintre secțiuni devin linii discrete, fără pagină nouă implicită în PDF/Word.
+- Export PDF cu titlu centrat unic, spațiere compactă, punctaje de secțiune în dreapta și răspunsuri A-D distribuite pe rând.
+- Titluri împreună cu începutul secțiunii și grupare a problemelor finale/bonusului când grupul este scurt; salturile explicite rămân disponibile.
+- Regresie pe export real cu formule: același test trece de la 7 la 2 pagini.
+
+
 ## P-075 — 2026-10-14
 
 - Două modele de test de clasa V furnizate de titular: structură, aranjare în pagină și dificultate pentru numere naturale și puteri.
