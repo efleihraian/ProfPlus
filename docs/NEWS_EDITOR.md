@@ -35,3 +35,6 @@ Node admin-news: validare publicare și câmpuri, paginare public/admin și filt
 UI cu API proxy sintetic strict loopback, separat de aplicația reală: 1360×1000 și 390×844, dashboard/editor, ciornă→publicare, previzualizare, poziție ocupată explicată, toate știrile/căutare/paginare și lectură pe mobil. Fixture-ul a păstrat 27 știri publicate la salvarea ciornei, apoi 28 la publicare, păstrând știrea înlocuită. Ajustare unică după inspecție: preview cu aceeași tipografie, Acasă principal+trei dedesubt, protecția ieșirii din formular/setări. Capturile exemplifică articole de test, fără publicarea lor în baza reală. Contul real nu a fost impersonat; nu se pretinde login OAuth complet ori audit de securitate complet.
 
 TypeScript/build main și Site, suitele relevante și scanarea Git/client se consemnează în WORKLOG; publicarea se declară numai după confirmare. Copia operațională veche și backupul P-078 rămân intacte. Preview QA se închide la livrare; localhost:3000 rămâne aplicația reală.
+
+
+Livrare confirmată în 2026-10-15: main `f09ff47`, Site source `f5df7b01f8e9b96284b635542fdf7659985cdfe1`, deployment `appgdep_6acfee54a3508191afa0004aa4b6f834` succeeded; env revision 5 și audiență păstrate. Local: http://localhost:3000/admin. Proxy-ul de verificare nu este aplicația de producție și este oprit la livrare.
