@@ -1,5 +1,14 @@
 # Starea proiectului
 
+## P-078 — Unificare, antet mobil și admin/știri — 2026-10-14
+
+Responsabil Marcos Soames, issue #22. Varianta funcțională Supabase combinată cu interfața P-074 și controalele P-077; copie operațională/backup păstrate. Antet responsive și cont aliniat, dashboard cu statistici agregate, rol persistent server-only pentru contul autorizat și știri principal + trei secundare cu draft/publicare/arhivare. Migration aplicată și controale reale de izolare/atomicitate trecute cu fixture-uri rollback. [Comportament și limite](docs/UNIFIED_APP_ADMIN.md). Confirmarea publicării urmează în jurnal.
+
+## P-077 — Compoziția exercițiilor și selecție rapidă — 2026-10-14
+
+Responsabil Marcos Soames, issue #21. „Exerciții” lângă alegerea surselor: număr de originale, preluări exacte și variante cu numai numere schimbate (total 1–30), plus descriere liberă a tipului/dificultății și indicație că se poate scrie în prompt. Preferințe păstrate în selecția conversației; mod fără numere explicite pentru cerință liberă. Biblioteca oferă deselectarea tuturor concursurilor/olimpiadelor și acțiuni pe toate rezultatele filtrate, cu materiale indexate implicit. Generarea verifică distribuția, enunțurile, citările din selecție și schimbările exclusiv numerice înainte de livrare; nepotrivirile nu sunt salvate ca document. [Comportament și limite](docs/EXERCISE_COMPOSITION.md). Publicarea se confirmă în jurnal.
+
+
 ## P-076 — Export PDF cursiv după testele-model — 2026-10-14
 
 Responsabil Marcos Soames, issue #20. Separatoarele Markdown nu mai sunt salturi de pagină în PDF/Word. Antet compact, titlu unic centrat, secțiuni subliniate, punctaje de secțiune în dreapta și variante A-D pe patru coloane în PDF. Titlurile păstrează începutul secțiunii; o secțiune finală scurtă de probleme și bonusul sunt păstrate împreună când încap pe o pagină. Același fixture cu formule: 7 pagini înainte, 2 după, inspectate vizual. Șapte secțiuni scurte încap pe o pagină. Salturile explicite rămân disponibile. [Comportament și limite](docs/DOCUMENT_EDITOR.md#p-076--aranjare-cursivă-la-export-2026-10-14). Cod ad4cbdb pe main și publicare privată Site succeeded la 10:39 București; dovezi în jurnal.

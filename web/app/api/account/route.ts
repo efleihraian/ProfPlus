@@ -1,11 +1,13 @@
 import {accountIdentity,accountJson,authClient,authConfig} from '../../../lib/account-auth';
+import {isAdministrator} from '../../../lib/admin-store';
 import {teachingProfile,defaultManualIds} from '../../../lib/teaching-profile';
 import collection from '../../../lib/active-collection.json';
 import {deletionPending} from '../../../lib/account-state';
 import {deleteOwnAccount,deletionEnabled,DeletionError} from '../../../lib/account-deletion';
 export async function GET(request:Request){
  const c=authConfig(),user=await accountIdentity(request);
- return accountJson({user,provider:c.provider,ready:c.ready,google:c.google,apple:c.apple,registration:c.registration,emailEnabled:c.emailEnabled,deletionEnabled:deletionEnabled(),defaultManualIds:defaultManualIds(user?.teaching||null,collection.uids)});
+ const admin=await isAdministrator(user).catch(()=>false);
+ return accountJson({user,admin,provider:c.provider,ready:c.ready,google:c.google,apple:c.apple,registration:c.registration,emailEnabled:c.emailEnabled,deletionEnabled:deletionEnabled(),defaultManualIds:defaultManualIds(user?.teaching||null,collection.uids)});
 }
 export async function POST(request:Request){
  const c=authConfig();

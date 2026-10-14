@@ -132,12 +132,16 @@ try{
  }
  sql(`INSERT INTO document_labels(document_id,user_id,metadata) VALUES('other-doc','supabase:55555555-5555-4555-8555-555555555555','{"category":"competition","subject":"Matematica","stages":["middle"]}')`);
  const newChat=await(await call('/api/history',{projectId:null})).json();
- const edit={id:newChat.id,revision:0,messages:[],projectId:null,selection:{mode:'automatic',manualIds:['stale'],documentIds:['other-doc']}};
+ const edit={id:newChat.id,revision:0,messages:[],projectId:null,selection:{mode:'automatic',manualIds:['stale'],documentIds:['other-doc'],exerciseOptions:{total:10,counts:{original:3,copied:4,numbers:3},subpoints:[{exercise:2,count:3},{exercise:5,count:2}],details:'Puteri, dificultate medie.'}}};
  assert.equal((await call('/api/history',edit,{},'PUT')).status,200);
- let stored=await(await call('/api/history?id='+newChat.id)).json();assert.ok(!('user_id' in stored.chat));assert.deepEqual(stored.chat.selection,{mode:'automatic',manualIds:[],documentIds:[]});
- edit.revision=1;edit.selection={mode:'manual',manualIds:[],documentIds:['own-doc']};
+ let stored=await(await call('/api/history?id='+newChat.id)).json();assert.ok(!('user_id' in stored.chat));assert.deepEqual(stored.chat.selection,{mode:'automatic',manualIds:[],documentIds:[],exerciseOptions:edit.selection.exerciseOptions});
+ edit.revision=1;edit.selection={mode:'manual',manualIds:[],documentIds:['own-doc'],exerciseOptions:{details:'Numai probleme cu resturi.'}};
  assert.equal((await call('/api/history',edit,{},'PUT')).status,200);
  stored=await(await call('/api/history?id='+newChat.id)).json();assert.deepEqual(stored.chat.selection,edit.selection);
+ assert.equal((await call('/api/history',{...edit,revision:2,selection:{...edit.selection,exerciseOptions:{counts:{original:99,copied:0,numbers:0}}}}, {},'PUT')).status,400);
+ assert.equal((await call('/api/history',{...edit,revision:2,selection:{...edit.selection,exerciseOptions:{details:'x'.repeat(801)}}}, {},'PUT')).status,400);
+ assert.equal((await call('/api/history',{...edit,revision:2,selection:{...edit.selection,exerciseOptions:{total:3,subpoints:[{exercise:4,count:2}]}}}, {},'PUT')).status,400);
+ console.log('PASS: exercise total/subpoints/counts/details persist in automatic and manual selections; invalid counts and oversized requests are rejected.');
  // Generated source stays exact in owner-only history, including unsupported TeX.
  const latexDoc={title:'Test LaTeX',content:'Calculați $2^3$.',latex:String.raw`\documentclass{article}
 \title{Test LaTeX}

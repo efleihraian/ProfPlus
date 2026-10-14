@@ -147,3 +147,26 @@ html:has(.shell){scrollbar-gutter:stable}
 .shell:has(.shell-assistant:not([hidden])){height:100dvh;min-height:0}
 .shell-assistant:not([hidden]){flex:1;min-height:0;display:flex}
 .shell-assistant .workspace{flex:1;height:auto;min-height:0}
+
+/* Unified responsive navigation: account stays beside the logo, tabs scroll on small screens. */
+.shell-header-in{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:20px;flex-wrap:nowrap}
+.shell-tabs{min-width:0;justify-content:center;flex-wrap:nowrap;overflow-x:auto}
+.shell-tab{flex:none;white-space:nowrap}
+.shell-account-actions{display:flex;align-items:center;gap:8px;justify-self:end}
+.shell-admin{font-size:14px;padding:10px 8px}
+.shell .shell-login{min-width:0;white-space:nowrap}
+@media(max-width:1100px){.shell-header-in{grid-template-columns:1fr auto;gap:0 12px;padding:0 20px}.shell-tabs{grid-column:1 / -1;grid-row:2;justify-content:flex-start}.shell-account-actions{grid-column:2;grid-row:1}.shell-tab{padding:12px 14px 10px}.shell-logo{grid-column:1;grid-row:1}}
+@media(max-width:767px){.shell-header-in{padding:0 12px}.shell .shell-logo{font-size:21px;gap:8px;padding:10px 0}.shell-logo svg{width:32px;height:32px}.shell .shell-login{height:40px;font-size:13px;padding:0 10px;gap:6px}.shell-tabs{gap:0;margin:0 -4px}.shell-tab{font-size:13px;padding:12px 10px 9px;min-height:44px}.shell-assistant .topbar{height:44px;padding:0 12px;border-bottom:1px solid var(--border)}.shell-assistant .topbar-name{display:none}.shell-assistant .composer-area{padding:8px 12px 12px}.shell-assistant .message-list{padding:16px 12px}.shell-assistant .message{gap:10px}.shell-assistant .welcome{padding:24px 16px}.shell-assistant .welcome h1{font-size:30px}.shell-assistant .chat-selection{gap:6px}.shell-assistant .chat-selection .selection-summary{flex-basis:100%}}
+/* Preserve the functional assistant's dark preference in the new shell. */
+[data-theme=dark] .shell{background:var(--background);color:var(--text)}
+[data-theme=dark] .shell-header{background:var(--surface);border-color:var(--border)}
+[data-theme=dark] .shell .shell-logo,[data-theme=dark] .shell-tab{color:var(--text)}
+[data-theme=dark] .shell-assistant .workspace,[data-theme=dark] .shell-assistant .main,[data-theme=dark] .shell-assistant .sidebar,[data-theme=dark] .shell-assistant .composer,[data-theme=dark] .shell-assistant .suggestions button,[data-theme=dark] .shell-assistant .chat-selection button{background:var(--surface);color:var(--text);border-color:var(--border)}
+[data-theme=dark] .shell-assistant .composer textarea,[data-theme=dark] .shell-assistant .message-name,[data-theme=dark] .shell-assistant .welcome h1,[data-theme=dark] .shell-assistant .nav-chat,[data-theme=dark] .shell-assistant .nav-actions button{color:var(--text)}
+[data-theme=dark] .shell-assistant .user-bubble>.educational-reply p,[data-theme=dark] .shell-assistant .plusi-bubble,[data-theme=dark] .shell-assistant .nav-search,[data-theme=dark] .shell-assistant .nav-chat-row.active{background:var(--blue-soft);color:var(--text);border-color:var(--border)}
+@media(max-width:480px){.shell-tabs{display:grid;grid-template-columns:1fr 1fr;overflow:visible;margin:0;gap:0}.shell-tab{min-width:0;padding:10px 6px 8px;min-height:42px}.shell-assistant .chat-selection>span{flex-basis:100%;text-align:left}.shell-assistant .chat-selection{justify-content:flex-start}}
+
+.shell-theme .theme-toggle{width:42px;height:42px;padding:0;display:grid;place-items:center}.shell-theme .theme-toggle span{display:none}@media(max-width:767px){.shell-theme{display:none}}
+
+@media(max-width:480px){.shell-admin{display:none}}
+[data-theme=dark] .shell .shell-tab[aria-current=page]{color:var(--primary);border-color:var(--primary)}[data-theme=dark] .shell .shell-tab:hover{background:var(--blue-soft)!important}
