@@ -1,5 +1,10 @@
 # Starea proiectului
 
+## P-076 — Export PDF cursiv după testele-model — 2026-10-14
+
+Responsabil Marcos Soames, issue #20. Separatoarele Markdown nu mai sunt salturi de pagină în PDF/Word. Antet compact, titlu unic centrat, secțiuni subliniate, punctaje de secțiune în dreapta și variante A-D pe patru coloane în PDF. Titlurile păstrează începutul secțiunii; o secțiune finală scurtă de probleme și bonusul sunt păstrate împreună când încap pe o pagină. Același fixture cu formule: 7 pagini înainte, 2 după, inspectate vizual. Șapte secțiuni scurte încap pe o pagină. Salturile explicite rămân disponibile. [Comportament și limite](docs/DOCUMENT_EDITOR.md#p-076--aranjare-cursivă-la-export-2026-10-14). Publicarea este confirmată separat în jurnal.
+
+
 ## P-075 — Testele furnizate pentru clasa V — 2026-10-14
 
 Responsabil Marcos Soames, issue #19. Două referințe structurale anonimizate R1/R2 pentru numere naturale și puteri în registrul comun, selectate după clasa V. Aspect de două pagini A4 portret, punctaj 30/30/30 + 10 din oficiu, bonus separat, gradație pedagogică și notația numeralelor din cifre. Modelele personale potrivite păstrează prioritatea. Publicarea automată pe GitHub reconfirmată în AGENTS.md. Originalele PDF nu intră în Git. GitHub: commit 1b8dbe9 confirmat pe main; teste relevante/TypeScript/build și scanner fără detecții, 8 high toolchain existente / zero producție; detalii în WORKLOG; cererea curentă privește GitHub, fără declararea unei noi publicări Sites.

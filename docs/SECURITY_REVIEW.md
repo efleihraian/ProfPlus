@@ -179,3 +179,7 @@ Responsabil Marcos Soames, issue #18. Inventar opt worktree-uri și sursele Site
 Registrul comun primește numai descrieri structurale anonimizate din cele două PDF-uri furnizate explicit. Originalele și enunțurile integrale nu sunt comise; fără date personale, migrare, acces, furnizor, schemă sau RLS nou. Modelele rămân date de stil nefiabile. Selecția pe disciplină/ciclu și prioritatea personală sunt verificate în suitele existente, inclusiv refuzul aplicării la limba engleză. Nu reprezintă audit complet sau validare pedagogică a ieșirilor AI.
 
 P-075 verificat: scanner Git/istoric/client 1.637 fișiere/bloburi fără detecții; audit 8 high toolchain existente și zero producție. Build/TypeScript, selecție modele, proveniență simulată și regresie guest trecute.
+
+## P-076 — Paginare export, 2026-10-14
+
+Remediere locală de compoziție PDF/DOCX, fără date, conturi, RLS, scheme, credențiale, furnizori sau audiență noi. Separatoarele și marcajele explicite sunt interpretate numai ca aranjare, fără execuție sau încărcări externe. Fonturile și randarea formulelor rămân locale, cu aceleași limite și refuzul linkurilor/imaginilor arbitrare. Fixture nou sintetic și regresii de formule/proveniență/LaTeX; originalele testelor-model nu sunt distribuite. Dovezile finale de build/scanare/audit sunt în WORKLOG. Nu constituie audit complet.

@@ -1,5 +1,10 @@
 # Lucrări rămase
 
+## P-076 — Paginare și aspect export PDF/Word — DONE (implementare), 2026-10-14
+
+Responsabil Marcos Soames, issue #20. Reprodus exportul de 7 pagini din separatoare; corectat la 2 pagini pe același test sintetic, cu verificare vizuală. Punctaje/variante aliniate, antet compact și titluri păstrate cu conținutul. DOCX fără pageBreakBefore implicit, cu keepNext pentru titluri; salt explicit păstrat. Test de regresie adăugat în CI. Numărul final de pagini depinde de volumul documentului, surse și formule; nu se forțează două pagini pentru orice document. Livrarea se confirmă în WORKLOG.
+
+
 ## P-075 — Referințe R1/R2, numere naturale și puteri, clasa V — DONE (GitHub), 2026-10-14
 
 Responsabil Marcos Soames, issue #19. Structurile celor două teste încărcate incluse fără enunțuri integrale sau originale PDF. Alegere clasa V, păstrarea clasei VI și a priorității personale, instrucțiuni de punctaj și bonus coerente; repere vizuale și de dificultate. Paginația exactă și echivalența pedagogică a tuturor ieșirilor AI necesită verificarea profesorului. Livrare GitHub confirmată direct pe main, commit 1b8dbe9; detalii în jurnal.
