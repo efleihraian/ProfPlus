@@ -211,3 +211,8 @@ Preferințe didactice minime (trei numere și cerință liberă, maximum 800 car
 ## P-078 — Admin și știri, 2026-10-14
 
 Rol persistent legat de identitate Supabase verificată, fără rol din profil. Admin gestionează numai conținut editorial și numărări agregate, fără acces nou la datele profesorilor/elevilor. Articole publicate sunt publice în aplicație, ciornele/arhivele numai admin; Site rămâne owner-private. Audit minim 90 zile la următoarea scriere, actor nul la ștergere; fără job periodic. Configurație de cont Supabase comună local/Site, Google/Apple; nu se activează Email/registration. Imagini externe opționale fără referer. [Scop, retenție, verificări și limite](UNIFIED_APP_ADMIN.md). Nu se declară conformitate sau audit complet.
+
+
+## P-079 — Flux editorial simplificat
+
+Înlocuirea unei știri pe Acasă păstrează articolul deja published în lista completă, explicat editorului; arhivarea explicită îl retrage. Ciornele/archived rămân private, actorul și autorizarea identice. Fără date noi de profil ori transmitere AI. Auditul înlocuirii minim, cu aceeași retenție și limite P-078. Filtrare/paginare readonly și preview local; [dovezi și limite](NEWS_EDITOR.md). Nu este declarație de conformitate.

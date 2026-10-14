@@ -192,3 +192,8 @@ Validare server pentru preferințe/numere/text, inclusă în chat și istoric. S
 ## P-078 — Dashboard și știri
 
 Membership server-only, verificare getUser/cont confirmat/neșters și membership pe fiecare API. Refuz escaladare din client/metadata, CSRF/JSON/limite, actor server-bound, conflict revision/slot, publicare filtrată și text inert. Baza reală: RLS/granturi/RPC SECURITY INVOKER, anon/authenticated deny; scrieri atomice testate cu rollback. Advisor zero WARN/ERROR, 8 INFO RLS fără politici pentru tabele server-only cu granturi publice revocate. Supabase provider existente, chei server-only; audiență Site păstrată. [Dovezi/riscuri](UNIFIED_APP_ADMIN.md); scanner Git/client și builduri finale în jurnal. Nu este audit complet auth/tenant.
+
+
+## P-079 — Știri și înlocuire atomică
+
+Grants/RLS/membership server-only păstrate; GET admin protejat, publicare validată (titlu/rezumat/text sau sursă), filtre/paginare limitate, fără SQL/HTML executabil din client. RPC cu lock tranzacțional, revizie și audit, conflictul anulează inclusiv deplasarea știrii anterioare. Node și SQL real cu rollback verifică refuzuri și păstrarea datelor; nu este stress test concurrent. Advisor numai INFO existente. [Dovezi](NEWS_EDITOR.md); scanările și buildurile finale în WORKLOG.

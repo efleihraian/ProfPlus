@@ -48,3 +48,8 @@ Documentele proprii, câmpurile suplimentare ale răspunsului și accesul pe uti
 ## P-078 — Știri și administrare
 
 `GET /api/news[?id=UUID]`: numai știri published cu data <= acum și titlul/introducerea secțiunii; fără ciorne/audit/actor. `GET /api/admin/dashboard`: identitate Supabase confirmată, neștearsă și membership server-only; statistici agregate, articole editoriale și setări, nu mesaje/documente ale conturilor. `POST /api/admin/news`: same-origin/JSON, actor din identitatea verificată, exact unul dintre article/settings, max. 100 KB stream și 26.000 caractere corp. Titlu <=200, rezumat <=600, text <=20.000, categorie <=80, URL-uri HTTPS <=2.048, slot 0–3, stare draft/published/archived, revizie. RPC atomic cu verificare membership și audit minim. Conflict de revizie/slot ->409; input invalid ->400, lipsă rol ->403, provider indisponibil ->503. Cheile nu apar în răspuns. [Detalii](UNIFIED_APP_ADMIN.md).
+
+
+## P-079 — Listă și poziții editoriale
+
+`GET /api/news`: `home=1` pentru patru poziții; altfel `page=1..1000`, `q` <=100 pentru titlu și `category` <=80; DTO include hasMore, pagini de 20. `id` rămâne UUID valid. Publicul nu primește ciorne/arhive ori dată viitoare. `GET /api/admin/news`: membership obligatoriu, `status` empty/draft/published/archived, `page`, `q`, pagini de 20 și hasMore. Dashboard include explicit pozițiile publicate pe Acasă, indiferent de vechime. POST acceptă slot 4 (numai listă), validare completă pentru published și înlocuire atomică a poziției ocupate; articolul precedent rămâne published/list-only. [Contract și dovezi](NEWS_EDITOR.md).

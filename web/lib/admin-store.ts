@@ -16,8 +16,14 @@ export async function isAdministrator(user:AccountIdentity|null){
  const rows=await adminRequest<{user_id:string}[]>('profplus_admins?'+query);return Array.isArray(rows)&&rows.length===1;
 }
 export async function requireAdministrator(request:Request){const user=await accountIdentity(request);if(!await isAdministrator(user))return null;return user;}
-export async function readNews(admin=false,id?:string):Promise<{articles:NewsArticle[];settings:NewsSettings}>{
- const query=new URLSearchParams({select:'id,title,summary,body,category,image_url,source_url,slot,status,published_at,revision',order:'slot.asc,published_at.desc',limit:admin?'100':'40'});
- if(!admin){query.set('status','eq.published');query.set('published_at','lte.'+new Date().toISOString());}if(id)query.set('id','eq.'+id);
- const [articles,settings]=await Promise.all([adminRequest<NewsArticle[]>('profplus_news?'+query),adminRequest<NewsSettings[]>('profplus_news_settings?select=title,intro&id=eq.1')]);return {articles,settings:settings[0]};
+export type NewsQuery={home?:boolean;page?:number;search?:string;category?:string;paged?:boolean;status?:string};
+export async function readNews(admin=false,id?:string,options:NewsQuery={}):Promise<{articles:NewsArticle[];settings:NewsSettings;hasMore:boolean}>{
+ const query=new URLSearchParams({select:'id,title,summary,body,category,image_url,source_url,slot,status,published_at,revision',order:options.home?'slot.asc':'published_at.desc.nullslast,id.desc',limit:options.home?'4':admin&&!options.paged?'100':id?'1':'21'});
+ if(!admin){query.set('status','eq.published');query.set('published_at','lte.'+new Date().toISOString());}
+ if(id)query.set('id','eq.'+id);else if(options.home)query.set('slot','lt.4');else if(!admin||options.paged)query.set('offset',String(((options.page||1)-1)*20));
+ if(admin&&(options.status||options.home))query.set('status','eq.'+(options.home?'published':options.status));
+ if(options.category)query.set('category','eq.'+options.category);
+ const search=options.search?.replace(/[%_*.,()]/g,' ').trim();if(search)query.set('title','ilike.*'+search+'*');
+ const [articles,settings]=await Promise.all([adminRequest<NewsArticle[]>('profplus_news?'+query),adminRequest<NewsSettings[]>('profplus_news_settings?select=title,intro&id=eq.1')]);
+ const hasMore=(!admin||!!options.paged)&&!id&&!options.home&&articles.length>20;return {articles:hasMore?articles.slice(0,20):articles,settings:settings[0],hasMore};
 }
