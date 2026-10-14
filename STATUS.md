@@ -2,7 +2,7 @@
 
 ## P-075 — Testele furnizate pentru clasa V — 2026-10-14
 
-Responsabil Marcos Soames, issue #19. Două referințe structurale anonimizate R1/R2 pentru numere naturale și puteri în registrul comun, selectate după clasa V. Aspect de două pagini A4 portret, punctaj 30/30/30 + 10 din oficiu, bonus separat, gradație pedagogică și notația numeralelor din cifre. Modelele personale potrivite păstrează prioritatea. Publicarea automată pe GitHub reconfirmată în AGENTS.md. Originalele PDF nu intră în Git. Livrarea GitHub și rezultatele finale sunt consemnate în WORKLOG; cererea curentă privește GitHub, fără declararea unei noi publicări Sites.
+Responsabil Marcos Soames, issue #19. Două referințe structurale anonimizate R1/R2 pentru numere naturale și puteri în registrul comun, selectate după clasa V. Aspect de două pagini A4 portret, punctaj 30/30/30 + 10 din oficiu, bonus separat, gradație pedagogică și notația numeralelor din cifre. Modelele personale potrivite păstrează prioritatea. Publicarea automată pe GitHub reconfirmată în AGENTS.md. Originalele PDF nu intră în Git. GitHub: commit 1b8dbe9 confirmat pe main; teste relevante/TypeScript/build și scanner fără detecții, 8 high toolchain existente / zero producție; detalii în WORKLOG; cererea curentă privește GitHub, fără declararea unei noi publicări Sites.
 
 
 ## P-074 — Interfața ProfPlus după designul de referință — 2026-10-13
