@@ -2,7 +2,7 @@
 
 ## P-076 — Export PDF cursiv după testele-model — 2026-10-14
 
-Responsabil Marcos Soames, issue #20. Separatoarele Markdown nu mai sunt salturi de pagină în PDF/Word. Antet compact, titlu unic centrat, secțiuni subliniate, punctaje de secțiune în dreapta și variante A-D pe patru coloane în PDF. Titlurile păstrează începutul secțiunii; o secțiune finală scurtă de probleme și bonusul sunt păstrate împreună când încap pe o pagină. Același fixture cu formule: 7 pagini înainte, 2 după, inspectate vizual. Șapte secțiuni scurte încap pe o pagină. Salturile explicite rămân disponibile. [Comportament și limite](docs/DOCUMENT_EDITOR.md#p-076--aranjare-cursivă-la-export-2026-10-14). Publicarea este confirmată separat în jurnal.
+Responsabil Marcos Soames, issue #20. Separatoarele Markdown nu mai sunt salturi de pagină în PDF/Word. Antet compact, titlu unic centrat, secțiuni subliniate, punctaje de secțiune în dreapta și variante A-D pe patru coloane în PDF. Titlurile păstrează începutul secțiunii; o secțiune finală scurtă de probleme și bonusul sunt păstrate împreună când încap pe o pagină. Același fixture cu formule: 7 pagini înainte, 2 după, inspectate vizual. Șapte secțiuni scurte încap pe o pagină. Salturile explicite rămân disponibile. [Comportament și limite](docs/DOCUMENT_EDITOR.md#p-076--aranjare-cursivă-la-export-2026-10-14). Cod ad4cbdb pe main și publicare privată Site succeeded la 10:39 București; dovezi în jurnal.
 
 
 ## P-075 — Testele furnizate pentru clasa V — 2026-10-14
