@@ -1,5 +1,10 @@
 # Starea proiectului
 
+## P-075 — Testele furnizate pentru clasa V — 2026-10-14
+
+Responsabil Marcos Soames, issue #19. Două referințe structurale anonimizate R1/R2 pentru numere naturale și puteri în registrul comun, selectate după clasa V. Aspect de două pagini A4 portret, punctaj 30/30/30 + 10 din oficiu, bonus separat, gradație pedagogică și notația numeralelor din cifre. Modelele personale potrivite păstrează prioritatea. Publicarea automată pe GitHub reconfirmată în AGENTS.md. Originalele PDF nu intră în Git. Livrarea GitHub și rezultatele finale sunt consemnate în WORKLOG; cererea curentă privește GitHub, fără declararea unei noi publicări Sites.
+
+
 ## P-074 — Interfața ProfPlus după designul de referință — 2026-10-13
 
 Cerere explicită a titularului, direct pe main. Designul din `docs/design/` (antet cu 4 tab-uri, mascota Plusi, Acasă, Documente personale, Clasele mele, Plusi plutitor) aplicat în `web/app`; chatul existent rămâne în tabul „Asistent virtual”, restilizat, fără schimbări de logică de cont, istoric sau bibliotecă. Tema implicită devine luminoasă, paleta verde/crem, font Roboto găzduit local (CSP neschimbat). Mesajele din Acasă și „Generează cu Plusi” se trimit automat în asistent. Portofoliul și clasele sunt păstrate doar în browser (`localStorage`, chei `profplus-*`, șterse la delogare); încărcarea, opisul, exportul și meniurile clasei nu sunt încă legate la server. TypeScript/build trecute, lint fără erori noi, verificare în browser la 1440 px și lățime îngustă. [Design](docs/design/README.md).

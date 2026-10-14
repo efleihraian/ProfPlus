@@ -17,3 +17,7 @@ Citește și aplică [docs/SECURITY_REQUIREMENTS.md](docs/SECURITY_REQUIREMENTS.
 ## Publicare permanentă — instrucțiunea utilizatorului din 2026-10-08
 
 Publică modificările finalizate și verificate în repository și pe site-ul existent, în fiecare sarcină, păstrând audiența și controalele de acces. Nu lăsa implicit doar local. Respectă cererile ulterioare explicite de lucru local și verificările/limitările reale; nu declara publicare fără confirmare. Platformele mobile se publică atunci când există aplicații și fluxuri de distribuție configurate.
+
+## Confirmare publicare automată — 2026-10-14
+
+Titularul a reconfirmat: „urcă update-ul pe GitHub (mereu automat)”. După verificări, publică actualizările sarcinii automat; regula existentă de livrare direct pe main rămâne activă. Nu include lucrările altora, originale private ori secrete.

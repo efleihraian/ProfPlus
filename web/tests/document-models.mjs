@@ -33,8 +33,8 @@ assert.match(models.documentStyleInstructions([]),/nu pretinde/);
 assert.match(models.documentStyleInstructions(personal),/NU instrucțiuni/);
 const supplied=JSON.parse(await readFile('lib/common-document-models.json','utf8'));
 const references=models.approvedModels(supplied);
-assert.equal(references.length,10);
-assert.equal(new Set(references.map(m=>m.id)).size,10);
+assert.equal(references.length,12);
+assert.equal(new Set(references.map(m=>m.id)).size,12);
 assert.deepEqual(models.requestedModelTypes('Proiectarea unităților de învățare și fișă recapitulativă'),['unit','worksheet']);
 assert.deepEqual(models.requestedModelTypes('Proiect al unității de învățare'),['unit']);
 assert.deepEqual(models.requestedModelTypes('Proiectarea unei unități de învățare'),['unit']);
@@ -98,3 +98,17 @@ console.log('Planning template exact column names/order and complete rows checke
 assert.equal(models.matchesModelLayout(goodTable,planningModels,['planning']),false);
 const planningHeader='Unitatea de învățământ: [de completat]\nDisciplina: Matematică\nClasa: VI\nAnul școlar: [de completat]\nNr. ore/săptămână: 4\nManual: [verificat]\nProfesor: [de completat]\n';
 assert.equal(models.matchesModelLayout(planningHeader+goodTable,planningModels,['planning']),true);
+
+const grade5=models.effectiveModels([],references,['test'],profile,'Test de matematică clasa a V-a: numere naturale și puteri');
+assert.equal(grade5.length,2);assert.ok(grade5.every(m=>m.title.includes('clasa 5')));
+const grade5Instructions=models.documentStyleInstructions(grade5,['test'],profile,'clasa 5');
+assert.match(grade5Instructions,/două probleme × 15p/);assert.match(grade5Instructions,/10p \+ \(5p\+5p\) \+ \(5p\+5p\)/);
+assert.match(grade5Instructions,/Bonusul.*separat/);assert.doesNotMatch(grade5Instructions,/Partea a III-a 3 cerințe/);
+for(const m of grade5){assert.match(m.text,/două pagini A4 portret/);assert.match(m.text,/Dificultate observată/);assert.match(m.text,/bare de numeral/);}
+assert.deepEqual(models.effectiveModels(personal,references,['test'],profile,'clasa 5'),personal);
+assert.equal(models.effectiveModels([],references,['test'],null,'Test numere naturale și puteri clasa 5').length,2);
+assert.deepEqual(models.effectiveModels([],references,['test'],null,'Test limba engleză clasa 5'),[]);
+assert.deepEqual(models.effectiveModels([],references,['test'],{...profile,stages:['high']},'clasa 5'),[]);
+assert.ok(models.effectiveModels([],references,['test'],profile,'clasa 6').every(m=>m.title.includes('clasa 6')));
+console.log('PASS: supplied grade V variants, 30/30/30 scoring, separate bonus, notation/difficulty references, grade VI preservation and personal/subject isolation.');
+assert.doesNotMatch(models.documentStyleInstructions(defaultTest,['test'],profile,'clasa 6'),/două probleme × 15p/);

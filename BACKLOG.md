@@ -1,5 +1,10 @@
 # Lucrări rămase
 
+## P-075 — Referințe R1/R2, numere naturale și puteri, clasa V — DONE (implementare), 2026-10-14
+
+Responsabil Marcos Soames, issue #19. Structurile celor două teste încărcate incluse fără enunțuri integrale sau originale PDF. Alegere clasa V, păstrarea clasei VI și a priorității personale, instrucțiuni de punctaj și bonus coerente; repere vizuale și de dificultate. Paginația exactă și echivalența pedagogică a tuturor ieșirilor AI necesită verificarea profesorului. Livrare GitHub la cererea explicită, confirmată separat în jurnal.
+
+
 ## P-074 — Interfața ProfPlus după designul de referință — DONE, 2026-10-13
 
 Shell cu 4 tab-uri și Plusi după `docs/design/`, chatul existent în „Asistent virtual”. DONE acoperă interfața; persistența pe server a portofoliului și a claselor, încărcarea/exportul documentelor, meniurile clasei și știrile reale rămân de făcut. [Design](docs/design/README.md).

@@ -1,5 +1,12 @@
 # Istoricul versiunilor
 
+## P-075 — 2026-10-14
+
+- Două modele de test de clasa V furnizate de titular: structură, aranjare în pagină și dificultate pentru numere naturale și puteri.
+- Distribuția punctajelor urmează modelul selectat; bonus separat, fără aplicarea structurii clasei VI la clasa V.
+- Publicarea automată a actualizărilor pe GitHub reconfirmată în instrucțiunile agenților.
+
+
 ## P-074 — 2026-10-13
 
 - Antet cu tab-urile Acasă, Asistent virtual, Documente personale, Clasele mele și mascota Plusi, conform designului din `docs/design/`.

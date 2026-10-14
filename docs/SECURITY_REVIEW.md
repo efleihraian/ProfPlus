@@ -173,3 +173,9 @@ Livrare P-072 confirmată: publicare privată succeeded la 2026-10-12T20:44:26Z 
 ## P-073 — 2026-10-12
 
 Responsabil Marcos Soames, issue #18. Inventar opt worktree-uri și sursele Sites; toate implementările existente sunt în main. Merge-uri istorice pentru 8977bda și 2fdfbc2, conflicte revizuite păstrând P-054/P-065/P-067/P-069/P-072 și guard-ul fixture-urilor. Runtime/teste/scheme identice cu 1c50602, fără migrare, furnizor, cheie, permisiune sau audiență nouă. Rezumatul importului include numai numărări, fără URL-uri/titluri/private content; jurnalul brut și checkpointurile rămân excluse. 61 teste Python și suitele web focalizate trecute; scanner Git/istoric/client fără detecții, audit 8 high toolchain existente și zero producție. Site-ul P-072 deja publicat rămâne curent, fără deploy redundant; import paused și checkout operațional păstrat. Nu se declară CI complet verde, audit complet sau conformitate GDPR. [Dovezi](MAIN_CONSOLIDATION.md).
+
+## P-075 — Referințe teste clasa V, 2026-10-14
+
+Registrul comun primește numai descrieri structurale anonimizate din cele două PDF-uri furnizate explicit. Originalele și enunțurile integrale nu sunt comise; fără date personale, migrare, acces, furnizor, schemă sau RLS nou. Modelele rămân date de stil nefiabile. Selecția pe disciplină/ciclu și prioritatea personală sunt verificate în suitele existente, inclusiv refuzul aplicării la limba engleză. Nu reprezintă audit complet sau validare pedagogică a ieșirilor AI.
+
+P-075 verificat: scanner Git/istoric/client 1.637 fișiere/bloburi fără detecții; audit 8 high toolchain existente și zero producție. Build/TypeScript, selecție modele, proveniență simulată și regresie guest trecute.
