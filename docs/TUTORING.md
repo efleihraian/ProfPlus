@@ -1,6 +1,6 @@
 # Meditații, animația taburilor și finisarea designului — P-087
 
-Responsabil: Marcos Soames (cerere din 2026-10-15). Branch `feature/P-087-tutoring-design`, din `main` 06800a4. Livrare prin PR, **neintegrat**: integrarea, aplicarea migrației și publicarea cer autorizarea titularului.
+Responsabil: Marcos Soames (cerere din 2026-10-15). Branch `feature/P-087-tutoring-design`, din `main` 06800a4. PR #25 integrat și publicat cu autorizarea explicită a titularului; confirmarea livrării este mai jos.
 
 ## Tabul „Meditații”
 
@@ -14,7 +14,7 @@ Responsabil: Marcos Soames (cerere din 2026-10-15). Branch `feature/P-087-tutori
 
 ## Date și infrastructură
 
-- Migrație nouă `supabase/migrations/20261015200000_tutoring_ads.sql`: `profplus_tutoring_ads`, `profplus_tutoring_reports`, RLS activ, acces numai `service_role`, constrângeri pe lungimi/valori. **Neaplicată** — până la aplicare, tabul arată „Anunțurile de meditații vor fi disponibile în curând”, iar ștergerea contului nu este blocată de tabelul lipsă.
+- Migrație nouă `supabase/migrations/20261015200000_tutoring_ads.sql`: `profplus_tutoring_ads`, `profplus_tutoring_reports`, RLS activ, acces numai `service_role`, constrângeri pe lungimi/valori. **Aplicată la 2026-10-15 23:11:38 București**, înregistrare Supabase `20261015201138 tutoring_ads`. Fallback-ul pentru tabel lipsă rămâne disponibil pentru alte medii.
 - Acces numai prin API-ul server (`/api/tutoring`, `/api/tutoring/mine`, `/api/tutoring/[id]`, `/contact`, `/report`, `/api/admin/tutoring`), cu Origin verificat la scrieri și filtrare pe `user_id` din identitatea verificată.
 
 ## Animația dintre taburi
@@ -38,5 +38,13 @@ Plusi care înota între taburi (P-080) a fost eliminat: nu arăta bine și dist
 
 ## Limite
 
-- Fără test cu baza reală (migrația nu e aplicată) și fără login real.
+- Baza reală a fost verificată cu date sintetice eliminate după probă; loginul și fluxul UI complet cu cont real rămân pentru acceptanța titularului.
 - Fără verificarea identității profesorilor și fără limită de frecvență pentru vizualizarea contactelor (doar autentificare); de evaluat la lansarea generală.
+
+## Livrare confirmată — 2026-10-15
+
+Merge `956b7c084c9428f7bc4d350e2ae2ddf1b0e20bd3`, CI PR și main verzi; instalare curată, build/TypeScript, 22 comenzi web, 61 teste Python, audit strict zero. Migrație aplicată, RLS/privilegii verificate, probă reală prin store-ul/PostgREST al aplicației (inserare, proiecție publică fără contact, raportare, ștergere și cascadă); zero date de test rămase. Advisorii nu au WARN/ERROR noi; cele două INFO RLS fără politici sunt intenționate pentru tabele service_role-only, iar indexurile noi pot apărea INFO ca neutilizate.
+
+Site v36, source `51decb670a33ab910c136b90d30658eb03fe0ec6`, deployment `appgdep_6ad134317b4c81919fab51699a5571f1`, succeeded la 23:15:08 București, env revision 5 și public păstrate. HTTP live: /, /api/account, /api/tutoring 200; mine și contact fără cont 401. Browser: tab Meditații și pagina se încarcă; schimbare la Clase și înapoi, un indicator și zero mascote în navigare. Prima încărcare a browserului a rămas pe SSR; reîncărcarea a pornit hidratarea și interacțiunile au fost confirmate.
+
+Acceptanță rămasă pentru titular: creează un anunț din contul propriu (profil/acord), vezi contactul din alt cont autentificat, raportează din alt cont și șterge anunțul din contul proprietar. Nu s-a șters niciun cont real.
