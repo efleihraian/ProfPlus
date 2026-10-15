@@ -72,3 +72,7 @@ Branch-ul inițial docs/team-workflow (PR #1) precede convenția; rămâne excep
 ## Consolidarea cerută explicit — P-061, 2026-10-09
 
 Titularul a cerut explicit integrarea întregului cod pe main pentru începerea colaborării. Această integrare se verifică și se înregistrează separat; nu este auto-merge pentru sarcinile viitoare. Codul, schema, testele și documentația sunt versionate; cheile, materialele private, runtime-urile și checkpointurile operaționale nu sunt distribuite prin Git. Ghid: [DEVELOPMENT_SETUP.md](DEVELOPMENT_SETUP.md).
+
+## Publicare și blocaje de mediu — instrucțiunea titularului, P-084, 2026-10-15
+
+Titularul cere actualizarea Site-ului și remedierea alertelor, înlocuind condiția de oprire automată pentru orice verificare locală nerulabilă. Se folosesc dovezi pe commitul exact: build/TypeScript/teste și audit npm strict în CI; o probă locală blocată exclusiv de DNS/loopback/infrastructura de browser se documentează distinct și poate fi acoperită de CI, fără a fi declarată trecută local. Eșecurile reale de cod, detecțiile de secrete și alertele high nu se maschează; auditul `npm audit --audit-level=high` rămâne obligatoriu, fără excepții. Se păstrează audiența/configurația Site, iar migrările și variabilele noi cer aprobarea titularului înainte de aplicare. Confirmarea nativă a deployment-ului și limitele reale se trec în STATUS/WORKLOG.

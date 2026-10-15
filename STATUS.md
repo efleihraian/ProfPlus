@@ -1,5 +1,9 @@
 # Starea proiectului
 
+## P-084 — În verificare/publicare — 2026-10-15
+
+Responsabil Marcos Soames. Cererea ulterioară autorizează publicarea P-080–P-083 și schimbarea condiției pentru blocajele mediului local, cu remedierea reală a celor 8 alerte. Adaptorul local tinyglobby elimină braces/micromatch din lockfile și instalarea curată; auditul complet strict raportează 0 vulnerabilități. Build/TypeScript și 61 contracte Python trecute. Corectate tokenurile temei la :root pentru dialogul de creare a claselor randat în body (fundal opac). Confirmarea testelor web/CI/deployment și limitele vizuale se consemnează în WORKLOG. Folderul operațional și localhost:3000 sunt păstrate.
+
 ## P-083 — DONE (GitHub main) — Tururi ghidate cu Plusi — 2026-10-15
 
 Responsabil Marcos Soames, cerere din 2026-10-15. La prima intrare pe fiecare pagină, Plusi conduce un tur cu evidențieri (spot luminos și inel pulsatoriu), explică fiecare element și reacționează animat la fiecare pas; poate fi sărit, navigat cu tastatura și reluat din meniul lui Plusi sau din Cont. Fără date pe server. Test nou în CI, verificat în harness (desktop/mobil, luminos/întunecat) și pe localhost:3000. [Detalii](docs/PLUSI_TOURS.md). Publicarea Site prin Codex.

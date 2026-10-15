@@ -212,3 +212,7 @@ Clasele, jurnalul și documentele clasei sunt filtrate pe user_id și pe proiect
 ## P-082 — Flux de știri
 
 Fetch către surse fixe din cod (fără URL de la client), timeout 10 s, limită 2 MB, parser fără execuție de cod, text curățat de HTML, linkuri numai https validate de `validNews`. Scrierea folosește cheia server existentă, idempotent (ignore-duplicates). Endpointul manual de actualizare cere administrator și Origin identic.
+
+## P-084 — 2026-10-15 — Remedierea alertelor de toolchain
+
+Înlocuit codul fast-glob/micromatch/braces prin adaptor propriu restrâns pe tinyglobby (deja prezent în Vite), fără secrete, date, telemetrie, servicii ori permisiuni noi. Instalare curată și audit complet strict: 0 vulnerabilități. Limite de pattern/număr/adâncime înainte de glob, opțiuni necunoscute refuzate, teste pentru rezoluția Next/Vinext și diferențe de directoare/căi absolute. Auditul din CI nu este dezactivat sau exceptat. Buildul, scannerul și rezultatele finale/CI sunt în WORKLOG; nu constituie audit complet de securitate sau conformitate. Remedierea CSS nu schimbă fluxurile de date ori DPIA.

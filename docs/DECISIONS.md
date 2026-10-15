@@ -209,3 +209,7 @@ O clasă este un proiect al contului cu nume standard; documentele pe secțiuni 
 ## P-082 — 2026-10-15 — Știri automate din RSS
 
 Se folosesc fluxurile RSS publice ale surselor, nu scraping de pagini, și se păstrează doar titlul, un extras scurt și linkul, cu atribuire. Publicarea în listă este automată; Acasă rămâne principal + trei secundare, cu fixările recente ale editorului prioritare și restul completat după importanță și profilul didactic. Clasificarea este deterministă (cuvinte-cheie), fără AI, ca să fie verificabilă și fără costuri sau transfer de date.
+
+## P-084 — 2026-10-15 — Eliminarea lanțului braces din unelte
+
+Advisory GHSA-vfj7-8cjw-p6xm nu are release reparat; nu se aplică sugestia npm de downgrade breaking și nu se exclude advisory-ul. Consumatorii pin-uiți folosesc numai sync/globSync cu cwd/onlyDirectories. Un pachet privat local @profplus/tooling-glob bazat pe tinyglobby 0.2.17 îi înlocuiește prin npm override referit la dependența directă; lockfile-ul și npm ci nu mai conțin braces/micromatch. Testul consumatorilor reali verifică diferențele de directoare/absolute și patternuri; upgrade-urile cer reverificare. Nu este o versiune oficială fast-glob/braces și nu implementează tot API-ul lor. Tokenurile pp sunt disponibile la :root pentru portaluri, păstrând paleta existentă. Titularul autorizează folosirea CI pentru limitările exclusiv locale, fără reducerea controlului de securitate.

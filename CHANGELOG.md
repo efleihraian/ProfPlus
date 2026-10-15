@@ -1,5 +1,11 @@
 # Istoricul versiunilor
 
+## Nelansat — P-084 — 2026-10-15
+
+- Înlocuită dependența vulnerabilă de glob din uneltele de build/lint; auditul npm strict rămâne activ.
+- Corectat fundalul transparent al dialogului „Adaugă o clasă”, inclusiv tema întunecată, prin disponibilitatea culorilor în portaluri.
+- Verificările CI pe commitul publicat pot furniza dovezile pentru probele blocate exclusiv de mediul local; limitele se raportează separat.
+
 ## Nelansat — P-083 — 2026-10-15
 
 - Tur ghidat de Plusi la prima intrare pe fiecare pagină, cu evidențierea elementelor, reluabil oricând.
