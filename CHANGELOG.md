@@ -1,6 +1,6 @@
 # Istoricul versiunilor
 
-## Nelansat — P-087 — 2026-10-15
+## Publicat pe Site v36 — P-087 — 2026-10-15
 
 - Tab nou „Meditații”: anunțuri de meditații publicate de profesori, filtre, contact pentru utilizatori conectați, raportare și moderare.
 - Eliminată animația cu Plusi între taburi; bara tabului activ rămâne.
