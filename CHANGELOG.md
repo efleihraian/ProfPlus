@@ -1,6 +1,6 @@
 # Istoricul versiunilor
 
-## Nelansat — P-089
+## Publicat pe Site v38 — P-089 — 2026-10-15
 
 - Recomandările de știri disting Fizică de Educație fizică și pregătire sportivă.
 - Eliminate potrivirile pe fragmente scurte; expresii de disciplină, limite de cuvânt și variante uzuale explicite. Limba de predare a manualului nu este folosită ca disciplină.
