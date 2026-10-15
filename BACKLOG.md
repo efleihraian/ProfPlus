@@ -1,10 +1,10 @@
 # Lucrări rămase
 
-## P-080 — INTEGRARE PE MAIN — Bibliotecă personală, întrebare la prima deschidere și animații Plusi — 2026-10-15
+## P-080 — DONE (GitHub main) — Bibliotecă personală, întrebare la prima deschidere și animații Plusi — 2026-10-15
 
 Responsabil Marcos Soames, cerere din 2026-10-15 (fără issue GitHub: GitHub nu a fost accesibil din sesiune). Tab „Bibliotecă personală” în Cont și întrebare la prima deschidere a asistentului pentru adăugarea documentelor folosite des. Documentele personale gata sunt surse automate în toate conversațiile, excluse manual la nevoie; fără migrare, cu grup derivat pe server, ascuns din istoric și aceleași validări/limite/ștergeri. Plusi reacționează la atingere și înoată între taburi, cu tranziții direcționale și respectarea mișcării reduse. TypeScript fără erori noi, test nou și suite relevante trecute, probă vizuală desktop/mobil în harness; build real, CI și publicare neexecutate. [Detalii și limite](docs/PERSONAL_LIBRARY.md).
 
-Criterii: (1) tab în Cont cu adăugare/listare/ștergere numai pentru conturi; (2) întrebare la prima deschidere a asistentului; (3) chatul folosește automat documentele; (4) aceleași reguli de securitate, minimizare și ștergere; (5) animații la interacțiune și la schimbarea taburilor. Titularul a cerut integrarea directă, fără reviewer. Rămas pentru DONE: build local, push pe main confirmat și publicarea Site.
+Criterii: (1) tab în Cont cu adăugare/listare/ștergere numai pentru conturi; (2) întrebare la prima deschidere a asistentului; (3) chatul folosește automat documentele; (4) aceleași reguli de securitate, minimizare și ștergere; (5) animații la interacțiune și la schimbarea taburilor. Titularul a cerut integrarea directă, fără reviewer. Integrat pe main (PR #24, c126156) cu build/teste/audit/scanner trecute. Rămas separat: publicarea Site.
 
 ## P-079 — DONE — Dashboard practic și flux de știri — 2026-10-14/15
 
