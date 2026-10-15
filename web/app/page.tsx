@@ -2,7 +2,7 @@
 import {useEffect, useRef, useState} from "react";
 import "./shell-pages.css";
 import {ThemeToggle} from "./theme-controls";
-import Assistant from "./assistant";
+import Assistant, {type AssistantSeed} from "./assistant";
 import HomePage from "./home-page";
 import DocumentsPage from "./documents-page";
 import ClassesPage from "./classes-page";
@@ -23,7 +23,7 @@ export default function Home() {
   const [tab, setTab] = useState<Tab>("acasa");
   const [ready, setReady] = useState(false);
   const [phase, setPhase] = useState<"" | "out" | "in">("");
-  const [seed, setSeed] = useState<{text: string; n: number}>();
+  const [seed, setSeed] = useState<AssistantSeed>();
   const [signedIn, setSignedIn] = useState(false);
   const [admin,setAdmin]=useState(false);
   // Direcția tranziției: pagina nouă intră din partea tabului ales.
@@ -46,10 +46,10 @@ export default function Home() {
     if (next === "asistent") later(() => setPhase(""), 900);
   }
   // Acasă → Asistent: Plusi se scufundă, pagina iese, conversația intră și mesajul pleacă.
-  function ask(text: string) {
+  function ask(text: string, options: {projectId?: string; openChat?: string} = {}) {
     if (phase) return;
     const fromHome = tab === "acasa";
-    const open = () => { setDir("right"); setSeed(s => ({text, n: (s?.n ?? 0) + 1})); setTab("asistent"); setPhase("in"); window.history.replaceState(null, "", "#asistent"); window.scrollTo(0, 0); later(() => setPhase(""), 900); };
+    const open = () => { setDir("right"); setSeed(s => ({text, n: (s?.n ?? 0) + 1, ...options})); setTab("asistent"); setPhase("in"); window.history.replaceState(null, "", "#asistent"); window.scrollTo(0, 0); later(() => setPhase(""), 900); };
     if (fromHome) { setPhase("out"); later(open, 480); } else open();
   }
   return <div className="shell">
@@ -74,7 +74,7 @@ export default function Home() {
     {tab !== "asistent" && <div key={"stage-" + tab} className={"tab-stage from-" + dir}>
       {tab === "acasa" && <HomePage phase={phase} onAsk={ask} onDocuments={() => go("documente")}/>}
       {tab === "documente" && <DocumentsPage onGenerate={ask}/>}
-      {tab === "clase" && <ClassesPage/>}
+      {tab === "clase" && <ClassesPage onGenerate={(text, projectId) => ask(text, {projectId})} onOpenChat={id => ask("", {openChat: id})}/>}
     </div>}
     {(tab === "documente" || tab === "clase") && <HelpPlusi key={tab} onOpenAssistant={() => go("asistent")}/>}
     {ready && <div className={"shell-assistant" + (phase === "in" ? " fx-page" : " tab-stage from-" + dir)} hidden={tab !== "asistent"}><Assistant seed={seed} splash={phase === "in"}/></div>}

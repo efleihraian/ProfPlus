@@ -1,5 +1,11 @@
 # Lucrări rămase
 
+## P-081 — DONE (GitHub main) — Clasele mele complete, favicon și mod întunecat — 2026-10-15
+
+Responsabil Marcos Soames, cerere din 2026-10-15. Clasele mele în cont (proiecte), cu Generează cu Plusi în conversații ale clasei, încărcare pe Planificări/Proiecte/Teste/Fișe, observații generale despre clasă și personalizări folosite de Plusi; documentele clasei sunt surse automate doar în conversațiile clasei. Fără migrare, grupuri interne derivate pe server, ascunse din istoric; ștergerea clasei elimină documentele și jurnalul. Favicon verde și mod întunecat verde, lizibil, pe shell și paginile de cont. Build, TypeScript, test nou în CI și suitele trecute; probă vizuală luminos/întunecat. Fără test cu cont real. [Detalii și limite](docs/CLASSES.md).
+
+Urmează separat: test cu cont real după publicare, catalog/observații per elev numai după P-043 și DPIA, migrare pentru limite mai mari.
+
 ## P-080 — DONE (GitHub main) — Bibliotecă personală, întrebare la prima deschidere și animații Plusi — 2026-10-15
 
 Responsabil Marcos Soames, cerere din 2026-10-15 (fără issue GitHub: GitHub nu a fost accesibil din sesiune). Tab „Bibliotecă personală” în Cont și întrebare la prima deschidere a asistentului pentru adăugarea documentelor folosite des. Documentele personale gata sunt surse automate în toate conversațiile, excluse manual la nevoie; fără migrare, cu grup derivat pe server, ascuns din istoric și aceleași validări/limite/ștergeri. Plusi reacționează la atingere și înoată între taburi, cu tranziții direcționale și respectarea mișcării reduse. TypeScript fără erori noi, test nou și suite relevante trecute, probă vizuală desktop/mobil în harness; build real, CI și publicare neexecutate. [Detalii și limite](docs/PERSONAL_LIBRARY.md).

@@ -7,7 +7,8 @@ import { storage, userId, validChatId } from "../../../lib/document-store";
 import {accountIdentity,authConfig} from '../../../lib/account-auth';
 import {validSelection,withPriorities,type SourceSelection} from '../../../lib/source-selection';
 import { manualStates,librarySnapshot } from "../../../lib/library";
-import {personalLibraryId} from "../../../lib/personal-library";
+import {hiddenGroupIds} from "../../../lib/class-workspace";
+import {userProjectIds} from "../../../lib/class-store";
 import { ownedDocument } from "../../../lib/document-store";
 import {exerciseInstructions,exerciseFormat,verifyExercisePlan,type ExerciseOrigin} from '../../../lib/exercise-options';
 import {documentStyle} from '../../../lib/document-model-retrieval';
@@ -32,7 +33,7 @@ export async function POST(request: Request) {
  try{if(!await allowGuestChat(storage().db))return json({error:"Limita temporară pentru vizitatori a fost atinsă. Reîncearcă mai târziu."},429);}catch{return json({error:"Chatul pentru vizitatori este temporar indisponibil."},503);}
  }
   if (chat !== undefined && (!validChatId(chat) || !user)) return json({ error: !user ? "Autentificare necesară pentru documentele conversației." : "Conversație invalidă." }, !user ? 401 : 400);
-  if (chat !== undefined && user && chat === await personalLibraryId(user)) return json({ error: "Conversație invalidă." }, 400);
+  if (chat !== undefined && user && (await hiddenGroupIds(user, await userProjectIds(user))).has(chat as string)) return json({ error: "Conversație invalidă." }, 400);
   let savedChat: {messages:string;revision:number} | null = null;
   if (body.revision !== undefined) {
     if (!chat || !user || !Number.isInteger(body.revision)) return json({error:"Conversație invalidă."},400);

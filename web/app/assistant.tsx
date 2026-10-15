@@ -28,7 +28,8 @@ async function api(path: string, init?: RequestInit) {
     if (!r.ok) throw new Error(data.error || "Operația a eșuat."); return data;
   }
 
-export default function Assistant({seed, splash = false}: {seed?: {text: string; n: number}; splash?: boolean}) {
+export type AssistantSeed = {text: string; n: number; projectId?: string; openChat?: string};
+export default function Assistant({seed, splash = false}: {seed?: AssistantSeed; splash?: boolean}) {
   const [guestFiles,setGuestFiles]=useState<{name:string;data:string}[]>([]);
   const [account,setAccount]=useState<{provider:string;user:AccountIdentity|null}|null>(null);
   const needsLogin=!!account&&!account.user;
@@ -57,7 +58,10 @@ export default function Assistant({seed, splash = false}: {seed?: {text: string;
   const input = useRef<HTMLTextAreaElement>(null);
   // Mesaj trimis din Acasă sau din „Generează cu Plusi”: pleacă automat când conversația e gata.
   const pendingSeed = useRef<string | null>(null);
-  useEffect(() => { if (!seed) return; pendingSeed.current = seed.text || null; input.current?.focus(); }, [seed]);
+  // Din „Clasele mele”: conversație nouă în proiectul clasei sau deschiderea unei conversații existente.
+  const [projectRequest, setProjectRequest] = useState<{id: string; n: number} | null>(null);
+  const [openRequest, setOpenRequest] = useState<{id: string; n: number} | null>(null);
+  useEffect(() => { if (!seed) return; if (seed.openChat) { const id = seed.openChat; void Promise.resolve().then(() => setOpenRequest({id, n: seed.n})); return; } pendingSeed.current = seed.text || null; if (seed.projectId) { const id = seed.projectId; void Promise.resolve().then(() => setProjectRequest({id, n: seed.n})); } input.current?.focus(); }, [seed]);
   const active = useRef(false);
   const lastAttempt = useRef<Message[] | null>(null);
   useEffect(() => { bottom.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, busy, error]);
@@ -205,10 +209,22 @@ export default function Assistant({seed, splash = false}: {seed?: {text: string;
   }, [messages, requestReply, uploading, documents, account, needsProfile, guestFiles]);
   useEffect(() => {
     const text = pendingSeed.current;
-    if (!text || !account || busy || pendingSave || (account.user && !chatId)) return;
+    if (!text || !account || busy || pendingSave || projectRequest || (account.user && !chatId)) return;
     pendingSeed.current = null;
     void Promise.resolve().then(() => send(text)).catch(e => setError(e instanceof Error ? e.message : "Mesajul nu a putut fi trimis."));
-  }, [seed, send, account, busy, pendingSave, chatId]);
+  }, [seed, send, account, busy, pendingSave, chatId, projectRequest]);
+  useEffect(() => {
+    const request = projectRequest; if (!request || !account) return;
+    if (!account.user) { void Promise.resolve().then(() => setProjectRequest(null)); return; }
+    void Promise.resolve().then(() => newChat(request.id)).finally(() => setProjectRequest(p => p === request ? null : p));
+    // newChat folosește starea curentă; cererea rulează o singură dată pentru fiecare seed.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectRequest, account]);
+  useEffect(() => {
+    const request = openRequest; if (!request || !account?.user) return;
+    void Promise.resolve().then(() => { setOpenRequest(null); return openChat(request.id); });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openRequest, account]);
   useEffect(() => {
     const context = (document as Document & { modelContext?: { registerTool: (tool: unknown, options: { signal: AbortSignal }) => Promise<void> } }).modelContext;
     if (!context) return;

@@ -43,12 +43,13 @@ async function userDocuments(user){await Promise.resolve();return [{id:'document
 const refreshDocument=async row=>row;
 const parallelMap=async(rows,fn)=>Promise.all(rows.map(fn));
 const personalLibraryId=async user=>'library-'+user;
+const listClasses=async()=>[],classDocumentGroups=async()=>({});
 const manualLibrary=(states,dynamic,verified)=>[{id:'1-1',kind:'manual',status:verified?'ready':'unknown',url:'https://example.org/manual.pdf'}];
 const documentLibrary=rows=>rows.map(row=>({...row,kind:'document',status:'ready'}));
 const automaticSources=items=>({manualIds:items.filter(x=>x.kind==='manual').map(x=>x.id),documentIds:items.filter(x=>x.kind==='document').map(x=>x.id)});
 `+snapshot));
 const [ownerA,ownerB,guest]=await Promise.all([api.librarySnapshot('a',null),api.librarySnapshot('b',null),api.librarySnapshot(null,null)]);
-assert.deepEqual(ownerA.selection.documentIds,['document-a']);
+assert.deepEqual(ownerA.selection.documentIds,['document-a']);assert.deepEqual(ownerA.warnings,[]);
 assert.deepEqual(ownerB.selection.documentIds,['document-b']);
 assert.deepEqual(guest.selection.documentIds,[]);
 assert.equal(ownerA.items[0].url,'/api/library/materials/manuals/1-1');

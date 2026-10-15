@@ -1,18 +1,21 @@
 import {validSelection,savedSelection} from '../../../lib/source-selection';
 import {validGeneratedDocument} from '../../../lib/generated-document';
 import { json, sameOrigin, storage, userId, validChatId } from '../../../lib/document-store';
-import {personalLibraryId,withoutPersonalLibrary} from '../../../lib/personal-library';
+import {hiddenGroupIds} from '../../../lib/class-workspace';
+import {listClasses,userProjectIds} from '../../../lib/class-store';
+// Grupurile interne (bibliotecă personală, documente și jurnal de clasă) nu sunt conversații.
+const hidden=async(user:string)=>hiddenGroupIds(user,await userProjectIds(user));
 export async function GET(request: Request) {
   const user = await userId(request); if (!user) return json({error:'Autentificare necesară.'},401);
   try {
     const db = storage().db, id = new URL(request.url).searchParams.get('id');
-    const libraryId = await personalLibraryId(user);
-    if (id === libraryId) return json({error:'Conversație indisponibilă.'},404);
+    const hiddenIds = await hidden(user);
+    if (id && hiddenIds.has(id)) return json({error:'Conversație indisponibilă.'},404);
     if (id) { const chat = await db.prepare('SELECT id,title,project_id,messages,selection,revision,created_at,updated_at FROM conversations WHERE id=? AND user_id=? AND deleted=0').bind(id,user).first(); if (!chat) return json({error:'Conversație indisponibilă.'},404); return json({chat:{...chat,messages:JSON.parse(String(chat.messages)),selection:JSON.parse(String(chat.selection))}}); }
     // Adopt previous document-only conversations without inventing missing messages.
     await db.prepare("INSERT OR IGNORE INTO conversations (id,user_id,title,messages,selection,revision,created_at,updated_at) SELECT chat_id,user_id,'Documente anterioare','[]','null',0,MIN(created_at),MAX(created_at) FROM documents WHERE user_id=? AND NOT EXISTS (SELECT 1 FROM account_deletions WHERE user_id=?) GROUP BY chat_id,user_id").bind(user,user).run();
     const [projects,chats] = await Promise.all([db.prepare('SELECT id,name FROM projects WHERE user_id=? ORDER BY created_at DESC').bind(user).all(),db.prepare('SELECT id,title,project_id,revision,updated_at FROM conversations WHERE user_id=? AND deleted=0 ORDER BY updated_at DESC').bind(user).all()]);
-    return json({projects:projects.results,chats:withoutPersonalLibrary(chats.results as {id:unknown}[],libraryId)});
+    return json({projects:projects.results,chats:(chats.results as {id:string}[]).filter(c=>!hiddenIds.has(c.id))});
   } catch { return json({error:'Istoricul nu este disponibil momentan.'},503); }
 }
 export async function POST(request: Request) {
@@ -28,7 +31,7 @@ export async function PUT(request: Request) {
   if (!sameOrigin(request)) return json({error:'Origine nepermisă.'},403);
   const user=await userId(request); if(!user) return json({error:'Autentificare necesară.'},401);
   try { const raw=await request.text(); if(raw.length>1000000) return json({error:'Conversația este prea mare.'},413);
-    const b=JSON.parse(raw); if(b.id===await personalLibraryId(user))return json({error:'Conversație invalidă.'},400); if(!validChatId(b.id)||!Number.isInteger(b.revision)||!Array.isArray(b.messages)||b.messages.length>1000||b.messages.some((m: {role?:string;content?:string;sources?:unknown[];warnings?:unknown[]})=>!m||!['user','assistant'].includes(m.role||'')||typeof m.content!=='string'||m.content.length>20000|| (m.sources!==undefined&&!Array.isArray(m.sources)) || (m.warnings!==undefined&&!Array.isArray(m.warnings)))) return json({error:'Conversație invalidă.'},400);
+    const b=JSON.parse(raw); if((await hidden(user)).has(b.id))return json({error:'Conversație invalidă.'},400); if(!validChatId(b.id)||!Number.isInteger(b.revision)||!Array.isArray(b.messages)||b.messages.length>1000||b.messages.some((m: {role?:string;content?:string;sources?:unknown[];warnings?:unknown[]})=>!m||!['user','assistant'].includes(m.role||'')||typeof m.content!=='string'||m.content.length>20000|| (m.sources!==undefined&&!Array.isArray(m.sources)) || (m.warnings!==undefined&&!Array.isArray(m.warnings)))) return json({error:'Conversație invalidă.'},400);
     for (const message of b.messages) {
       if(message.document!==undefined&&!validGeneratedDocument(message.document))return json({error:"Document generat invalid."},400);
       if (message.warnings?.some((w:unknown)=>typeof w!=='string') || message.sources?.some((source:{url?:unknown;id?:unknown;title?:unknown})=>!source||typeof source.url!=='string'||! /^(https?:\/\/|\/api\/documents\/)/.test(source.url)||typeof source.title!=='string'||typeof source.id!=='number')) return json({error:'Surse invalide.'},400);
@@ -48,7 +51,8 @@ export async function DELETE(request: Request) {
   const user=await userId(request);if(!user)return json({error:'Autentificare necesară.'},401);
   const url=new URL(request.url),id=url.searchParams.get('id'),kind=url.searchParams.get('kind');
   if(!validChatId(id)||!['chat','project'].includes(kind||''))return json({error:'Element invalid.'},400);
-  if(id===await personalLibraryId(user))return json({error:'Element invalid.'},400);
+  if(kind==='chat'&&(await hidden(user)).has(id!))return json({error:'Element invalid.'},400);
+  if(kind==='project'&&(await listClasses(user)).some(c=>c.id===id))return json({error:'Clasele se șterg din „Clasele mele”.'},400);
   try {
     const db=storage().db;
     if(kind==='chat') {

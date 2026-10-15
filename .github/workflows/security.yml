@@ -54,4 +54,6 @@ jobs:
       - run: node tests/library-availability.mjs
       - run: node tests/cloud-library.mjs
       - run: node tests/supabase-storage.mjs
+      - run: node tests/personal-library.mjs
+      - run: node tests/class-workspace.mjs
       - run: npm audit --audit-level=high
