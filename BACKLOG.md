@@ -1,5 +1,9 @@
 # Lucrări rămase
 
+## P-085 — Verificat, publicare în curs — Caseta Plusi stabilă — 2026-10-15
+
+Responsabil Marcos Soames. Caseta turului are 380 × 300 px pe desktop, lățime adaptată telefonului și înălțime limitată de viewport, independent de lungimea mesajului. Textul se derulează în interior, accesibil din tastatură; navigarea păstrează containerul fără repetarea animației de scalare. Meniul claselor opac și auditul reparat în P-084 sunt păstrate. TypeScript, build final, toate cele 20 comenzi web din security.yml și auditul strict (zero vulnerabilități) trecute. Scanner Git/istoric/client fără detecții. Browser CUA indisponibil (native pipe closed), fără verificare vizuală declarată. Fără migrare, env, furnizor sau schimbare de acces. Publicarea Site se confirmă separat.
+
 ## P-084 — DONE — Audit toolchain și dialog clase — 2026-10-15
 
 Responsabil Marcos Soames, cerere explicită: actualizarea Site-ului, remedierea celor 8 alerte npm și dialogul de creare a claselor opac. Eliminat lanțul fast-glob/micromatch/braces prin adaptor local tinyglobby, cu teste de compatibilitate pentru consumatorii reali și protecție pentru patternuri adânci. Audit strict 0 vulnerabilități după instalare curată. Culorile temei sunt disponibile și portalurilor din body. CI complet verde; Site v33 publicat succeeded, conform confirmării native din WORKLOG. Audiență publică păstrată la alegerea explicită a titularului.

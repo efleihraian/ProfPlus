@@ -1,5 +1,9 @@
 # Starea proiectului
 
+## P-085 — Verificat, publicare în curs — Caseta Plusi stabilă — 2026-10-15
+
+Responsabil Marcos Soames. Caseta turului are 380 × 300 px pe desktop, lățime adaptată telefonului și înălțime limitată de viewport, independent de lungimea mesajului. Textul se derulează în interior, accesibil din tastatură; navigarea păstrează containerul fără repetarea animației de scalare. Meniul claselor opac și auditul reparat în P-084 sunt păstrate. TypeScript, build final, toate cele 20 comenzi web din security.yml și auditul strict (zero vulnerabilități) trecute. Scanner Git/istoric/client fără detecții. Browser CUA indisponibil (native pipe closed), fără verificare vizuală declarată. Fără migrare, env, furnizor sau schimbare de acces. Publicarea Site se confirmă separat.
+
 ## P-084 — DONE — GitHub și Site publicate — 2026-10-15 16:30:04 EEST
 
 Responsabil Marcos Soames. Cod GitHub `9a89a1de7f751fcafe7d05274c5ef8ffa4f733c4`; [CI 38741934804](https://github.com/ProfOS-Edu/ProfPlus/actions/runs/38741934804) complet **success**, inclusiv audit strict **0 vulnerabilități**. Instalare curată, TypeScript, build, toate cele 20 comenzi web și 61 teste Python trecute local; scanner main/istoric/client 1947, Site 884, fără detecții. Dialogul claselor primește culori opace în portal și în ambele teme; verificarea vizuală CUA indisponibilă (native pipe closed), fără capturi declarate.
