@@ -18,7 +18,7 @@ export default function DocumentsPage({onGenerate}: {onGenerate: (text: string) 
   return <main className="fx-page" style={{maxWidth: 1280, margin: "0 auto", padding: "48px 24px 80px"}}>
     <div style={{display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: 24, marginBottom: 28}}>
       <div style={{maxWidth: 760}}>
-        <h1 style={{margin: 0, fontSize: 36, fontWeight: 600, letterSpacing: -1.2, lineHeight: 1.15}}>Portofoliul tău <span style={{color: "var(--pp-accent-text)"}}>profesional</span></h1>
+        <h1 style={{margin: 0, fontSize: 36, fontWeight: 600, letterSpacing: -1.2, lineHeight: 1.15}}>Portofoliul tău profesional</h1>
         <p style={{margin: "12px 0 0", color: "var(--pp-muted)"}}>Din anul școlar 2026–2027 portofoliul profesional e obligatoriu pentru toate cadrele didactice (OMEC nr. 3.858/2026). Contează la definitivat, grade didactice, evaluarea anuală, inspecții și gradații de merit. Aici îl ții complet, pe cele 5 secțiuni din structura-cadru.</p>
       </div>
       <div data-tour="docs-export" style={{display: "flex", flexWrap: "wrap", gap: 10}}>

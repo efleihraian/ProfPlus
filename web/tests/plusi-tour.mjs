@@ -4,8 +4,8 @@ import {readFile} from 'node:fs/promises';
 import ts from 'typescript';
 const uri=s=>'data:text/javascript;base64,'+Buffer.from(ts.transpileModule(s,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText).toString('base64');
 const {TOURS}=await import(uri((await readFile('app/tours.ts','utf8')).replace(/^import .*;$/m,'')));
-for(const page of ['acasa','asistent','documente','clase','clasa','cont'])assert.ok(TOURS[page]?.length>=3,'tour for '+page);
-const sources=(await Promise.all(['app/page.tsx','app/home-page.tsx','app/documents-page.tsx','app/classes-page.tsx','app/assistant.tsx','app/help-plusi.tsx','app/account/page.tsx','app/news-section.tsx','app/shell-pages.css','app/globals.css'].map(f=>readFile(f,'utf8')))).join('\n');
+for(const page of ['acasa','asistent','documente','clase','meditatii','clasa','cont'])assert.ok(TOURS[page]?.length>=3,'tour for '+page);
+const sources=(await Promise.all(['app/page.tsx','app/home-page.tsx','app/documents-page.tsx','app/classes-page.tsx','app/assistant.tsx','app/help-plusi.tsx','app/tutoring-page.tsx','app/account/page.tsx','app/news-section.tsx','app/shell-pages.css','app/globals.css'].map(f=>readFile(f,'utf8')))).join('\n');
 for(const [page,steps] of Object.entries(TOURS))for(const s of steps){
  assert.ok(s.title.length<=40&&s.text.length<=220,`${page}: short copy (${s.title})`);
  for(const part of s.target.split(',')){

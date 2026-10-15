@@ -213,3 +213,8 @@ Se folosesc fluxurile RSS publice ale surselor, nu scraping de pagini, și se p�
 ## P-084 — 2026-10-15 — Eliminarea lanțului braces din unelte
 
 Advisory GHSA-vfj7-8cjw-p6xm nu are release reparat; nu se aplică sugestia npm de downgrade breaking și nu se exclude advisory-ul. Consumatorii pin-uiți folosesc numai sync/globSync cu cwd/onlyDirectories. Un pachet privat local @profplus/tooling-glob bazat pe tinyglobby 0.2.17 îi înlocuiește prin npm override referit la dependența directă; lockfile-ul și npm ci nu mai conțin braces/micromatch. Testul consumatorilor reali verifică diferențele de directoare/absolute și patternuri; upgrade-urile cer reverificare. Nu este o versiune oficială fast-glob/braces și nu implementează tot API-ul lor. Tokenurile pp sunt disponibile la :root pentru portaluri, păstrând paleta existentă. Titularul autorizează folosirea CI pentru limitările exclusiv locale, fără reducerea controlului de securitate.
+
+
+## P-087 — 2026-10-15 — Meditații cu date minime și fără înot între taburi
+
+Anunțurile sunt publice, dar telefonul și e-mailul se afișează numai utilizatorilor conectați, la cerere, ca să reducem colectarea automată; titlul și descrierea nu pot conține linkuri sau contacte. Cel mult 3 anunțuri active, expirare la 60 de zile, raportare unică per cont și ascundere automată la 3 raportări, cu decizia finală a administratorului. Animația cu Plusi între taburi se elimină (feedback titular); rămâne indicatorul tabului activ. Finisarea vizuală urmează ghidul de design: fără etichete decorative cu majuscule, fără cuvinte colorate în titluri, mișcare numai ca răspuns la acțiuni.

@@ -4,6 +4,7 @@ import {labelsDb} from './document-labels';
 import {accountStateDb} from './account-state';
 import {storage,type DocumentRow} from './document-store';
 import {eraseAccount} from './account-erasure';
+import {eraseTutoring} from './tutoring-store';
 export class DeletionError extends Error {constructor(public status:number,message:string){super(message);}}
 export function deletionEnabled(){const c=env as unknown as CloudConfig & {AUTH_PROVIDER?:string;DB?:D1Database;DOCUMENTS?:R2Bucket;OPENAI_API_KEY?:string};return c.AUTH_PROVIDER==='supabase'&&!!c.SUPABASE_SECRET_KEY&&(cloudReady(c)||(!!c.DB&&!!c.DOCUMENTS))&&!!c.OPENAI_API_KEY;}
 async function eraseOpenAI(key:string,path:string){
@@ -29,7 +30,7 @@ export async function deleteOwnAccount(user:string,supabaseUrl:string){
   eraseFile:id=>eraseOpenAI(key,'/files/'+encodeURIComponent(id)),
   eraseOriginal:async id=>{await bucket.delete(id);},
   eraseRow:async(owner,id)=>{await db.prepare('DELETE FROM documents WHERE id=? AND user_id=?').bind(id,owner).run();},
-  eraseAppData:async owner=>{await db.batch([db.prepare('DELETE FROM document_labels WHERE user_id=?').bind(owner),db.prepare('DELETE FROM conversations WHERE user_id=?').bind(owner),db.prepare('DELETE FROM projects WHERE user_id=?').bind(owner)]);},
+  eraseAppData:async owner=>{await db.batch([db.prepare('DELETE FROM document_labels WHERE user_id=?').bind(owner),db.prepare('DELETE FROM conversations WHERE user_id=?').bind(owner),db.prepare('DELETE FROM projects WHERE user_id=?').bind(owner)]);await eraseTutoring(owner);},
   eraseIdentity:async owner=>{
    const response=await fetch(supabaseUrl+'/auth/v1/admin/users/'+encodeURIComponent(owner.slice(9)),{method:'DELETE',headers:{apikey:secret,Authorization:`Bearer ${secret}`,'Content-Type':'application/json'},body:JSON.stringify({should_soft_delete:false}),signal:AbortSignal.timeout(20000)});
    if(!response.ok&&response.status!==404)throw new Error('AUTH_ERASURE_UNAVAILABLE');
