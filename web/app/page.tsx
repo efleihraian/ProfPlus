@@ -8,6 +8,8 @@ import DocumentsPage from "./documents-page";
 import ClassesPage from "./classes-page";
 import HelpPlusi from "./help-plusi";
 import TabSwimmer from "./tab-swimmer";
+import PlusiTour from "./plusi-tour";
+import {TOURS} from "./tours";
 
 type Tab = "acasa" | "asistent" | "documente" | "clase";
 const TABS: {id: Tab; label: string}[] = [
@@ -76,7 +78,8 @@ export default function Home() {
       {tab === "documente" && <DocumentsPage onGenerate={ask}/>}
       {tab === "clase" && <ClassesPage onGenerate={(text, projectId) => ask(text, {projectId})} onOpenChat={id => ask("", {openChat: id})}/>}
     </div>}
-    {(tab === "documente" || tab === "clase") && <HelpPlusi key={tab} onOpenAssistant={() => go("asistent")}/>}
+    {(tab === "documente" || tab === "clase") && <HelpPlusi key={tab} tourId={tab} onOpenAssistant={() => go("asistent")}/>}
+    {ready && <PlusiTour key={"tour-" + tab} id={tab} steps={TOURS[tab]} active={!phase} delay={tab === "asistent" ? 1500 : 1000}/>}
     {ready && <div className={"shell-assistant" + (phase === "in" ? " fx-page" : " tab-stage from-" + dir)} hidden={tab !== "asistent"}><Assistant seed={seed} splash={phase === "in"}/></div>}
   </div>;
 }

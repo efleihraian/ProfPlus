@@ -554,3 +554,8 @@ Verificări: build, tsc, test:account, class-workspace (nou), personal-library �
 Responsabil Marcos Soames; branch feature/P-082-news-feed din main b78b12e. Cerință: preluare automată a știrilor despre profesori/elevi, Acasă cu cele mai importante sau relevante pentru profil, aceeași aranjare. Decizie: fluxuri RSS publice în locul scraping-ului de pagini; doar titlu/extras/link. Cerințe afectate: licențe/surse (atribuire, extras scurt), minimizare (profil folosit doar pe server pentru ordonare), securitate (fetch cu timeout/limită 2 MB, validare editorială, scriere server-only cu cheia existentă, endpoint admin cu Origin), accesibilitate (motivul recomandării ca text). Fără migrare, furnizor AI sau date noi. Ingestia de pe localhost:3000 a publicat știri automate reale în tabelul de știri (aceeași bază ca Site-ul). [Detalii](NEWS_FEED.md).
 
 Verificări: news-feed (nou) și toate suitele din CI, build și tsc trecute; rulare reală pe surse fără scriere; verificare localhost:3000 (Acasă, listă, pagina știrii). O eroare găsită la rularea reală (User-Agent cu diacritice, invalid în antete HTTP) a fost corectată înainte de livrare.
+
+
+## P-083 — 2026-10-15 — Tururi ghidate cu Plusi
+
+Responsabil Marcos Soames; branch feature/P-083-plusi-tours din main c6188aa. Cerințe afectate: accesibilitate (dialog modal, tastatură, focus, mișcare redusă), minimizare (marcaj doar în browser), web/mobil. Fără date noi, furnizori sau migrare. Verificări: plusi-tour (nou) și suitele CI, build/tsc, harness desktop/mobil luminos/întunecat, localhost:3000 real. [Detalii](PLUSI_TOURS.md).

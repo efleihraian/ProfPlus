@@ -5,6 +5,8 @@ import {useStored} from "./use-stored";
 import type {ChatDocument} from "../lib/document-store";
 import {CLASS_SECTIONS, NOTE_TAGS, classContext, classTitle, emptyJournal, type ClassJournal, type ClassNote, type ClassSection} from "../lib/class-workspace";
 import {LIBRARY_ACCEPT, busyStatus, statusLabel} from "./personal-library-client";
+import PlusiTour from "./plusi-tour";
+import {TOURS} from "./tours";
 
 type Cls = {id: string; g: number; l: string};
 type Detail = {journal: ClassJournal; revision: number | null; documents: Record<ClassSection, ChatDocument[]>; conversations: {id: string; title: string; updatedAt: number}[]};
@@ -181,6 +183,7 @@ function ClassDetail({cls, signedIn, onGenerate, onOpenChat}: {cls: Cls; signedI
   }
   const tabs = [{id: "documente", label: "Documente"}, {id: "observatii", label: "Observații"}, {id: "personalizari", label: "Personalizări"}] as const;
   return <div className="fx-in class-detail">
+    <PlusiTour id="clasa" steps={TOURS.clasa} delay={1100}/>
     <div className="pp-segment" role="tablist" aria-label="Secțiunile clasei">
       {tabs.map(t => <button key={t.id} type="button" role="tab" aria-selected={view === t.id} onClick={() => setView(t.id)}>{t.label}</button>)}
     </div>
