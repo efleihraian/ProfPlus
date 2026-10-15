@@ -1,0 +1,10 @@
+{
+  "name": "@profplus/tooling-glob",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Small fast-glob compatibility surface for the pinned Next lint and Vinext build tools, backed by tinyglobby.",
+  "main": "index.cjs",
+  "dependencies": {
+    "tinyglobby": "0.2.17"
+  }
+}

@@ -1,5 +1,9 @@
 # Lucrări rămase
 
+## P-084 — În verificare — Audit toolchain și dialog clase — 2026-10-15
+
+Responsabil Marcos Soames, cerere explicită: actualizarea Site-ului, remedierea celor 8 alerte npm și dialogul de creare a claselor opac. Eliminat lanțul fast-glob/micromatch/braces prin adaptor local tinyglobby, cu teste de compatibilitate pentru consumatorii reali și protecție pentru patternuri adânci. Audit strict 0 vulnerabilități după instalare curată. Culorile temei sunt disponibile și portalurilor din body. Publicarea și CI final se confirmă în WORKLOG; nu se marchează DONE înainte de confirmarea nativă.
+
 ## P-083 — DONE (GitHub main) — Tururi ghidate cu Plusi — 2026-10-15
 
 Responsabil Marcos Soames, cerere din 2026-10-15. La prima intrare pe fiecare pagină, Plusi conduce un tur cu evidențieri (spot luminos și inel pulsatoriu), explică fiecare element și reacționează animat la fiecare pas; poate fi sărit, navigat cu tastatura și reluat din meniul lui Plusi sau din Cont. Fără date pe server. Test nou în CI, verificat în harness (desktop/mobil, luminos/întunecat) și pe localhost:3000. [Detalii](docs/PLUSI_TOURS.md).
