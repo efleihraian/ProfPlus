@@ -1,5 +1,9 @@
 # Istoricul versiunilor
 
+## Nelansat — P-085
+
+- Caseta turului Plusi păstrează dimensiunea la schimbarea mesajului; textul lung se derulează în interior, inclusiv prin tastatură.
+
 ## Publicat pe Site v33 — P-084 — 2026-10-15
 
 - Înlocuită dependența vulnerabilă de glob din uneltele de build/lint; auditul npm strict rămâne activ.

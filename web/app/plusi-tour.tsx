@@ -94,7 +94,7 @@ export default function PlusiTour({id, steps, active = true, delay = 900}: {id: 
       else if (e.key === "ArrowLeft") { e.preventDefault(); go(-1); }
       else if (e.key === "Tab") {
         // Focusul rămâne în bula turului.
-        const items = [...document.querySelectorAll<HTMLElement>(".plusi-tour-card button")];
+        const items = [...document.querySelectorAll<HTMLElement>(".plusi-tour-card [tabindex='0'], .plusi-tour-card button")];
         if (!items.length) return;
         const i = items.indexOf(document.activeElement as HTMLElement), n = e.shiftKey ? (i <= 0 ? items.length - 1 : i - 1) : (i + 1) % items.length;
         e.preventDefault(); items[n].focus();
@@ -105,24 +105,24 @@ export default function PlusiTour({id, steps, active = true, delay = 900}: {id: 
   }, [run, go, finish]);
 
   if (!run || !step || typeof document === "undefined") return null;
-  const mobile = view.w < 640, cardW = Math.min(380, view.w - 32), cardH = 220;
+  const mobile = view.w < 640, cardW = Math.min(380, view.w - 32), cardH = Math.min(300, view.h - 32);
   let card: React.CSSProperties;
   if (mobile || !box) card = {left: 16, right: 16, bottom: 16};
   else {
     const below = box.top + box.height + 16 + cardH < view.h, above = box.top - 16 - cardH > 0;
     const left = Math.max(16, Math.min(view.w - cardW - 16, box.left + box.width / 2 - cardW / 2));
-    card = below ? {left, top: box.top + box.height + 16, width: cardW} : above ? {left, top: box.top - 16 - cardH, width: cardW, minHeight: cardH} : {left: Math.max(16, view.w - cardW - 24), bottom: 24, width: cardW};
+    card = below ? {left, top: box.top + box.height + 16, width: cardW} : above ? {left, top: box.top - 16 - cardH, width: cardW} : {left: Math.max(16, view.w - cardW - 24), bottom: 16, width: cardW};
   }
   const last = index === run.length - 1;
   return createPortal(<div className={"plusi-tour" + (reduce ? " still" : "")} aria-live="polite">
     <div className="plusi-tour-shade" onClick={e => e.stopPropagation()}/>
     {box ? <div className="plusi-tour-spot" style={box}><span className="plusi-tour-ring"/></div> : <div className="plusi-tour-dim"/>}
-    <div className="plusi-tour-card" role="dialog" aria-modal="true" aria-labelledby={"tour-title-" + id} aria-describedby={"tour-text-" + id} style={card} key={index}>
+    <div className="plusi-tour-card" role="dialog" aria-modal="true" aria-labelledby={"tour-title-" + id} aria-describedby={"tour-text-" + id} style={card}>
       <div className="plusi-tour-head">
         <span className={"plusi-tour-mascot plusi-react " + (wave % 2 ? "wave" : "hop")} key={wave} aria-hidden="true"><Plusi width={64} height={60} bubbles={2} shadow={false} label=""/></span>
         <div><span className="plusi-tour-count">Pasul {index + 1} din {run.length}</span><strong id={"tour-title-" + id}>{step.title}</strong></div>
       </div>
-      <p id={"tour-text-" + id}>{step.text}</p>
+      <p id={"tour-text-" + id} tabIndex={0} key={index}>{step.text}</p>
       <div className="plusi-tour-dots" aria-hidden="true">{run.map((_, i) => <span key={i} className={i === index ? "on" : i < index ? "done" : ""}/>)}</div>
       <div className="plusi-tour-actions">
         <button type="button" className="plusi-tour-skip" onClick={finish}>{last ? "Închide" : "Sari peste tur"}</button>

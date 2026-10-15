@@ -24,3 +24,7 @@ Responsabil: Marcos Soames (cerere explicită din 2026-10-15). Branch `feature/P
 ## Limite
 
 - „Văzut” este per browser, nu per cont: pe alt dispozitiv turul apare din nou.
+
+## P-085 — Dimensiune stabilă, 2026-10-15
+
+Caseta păstrează 380 × 300 px pe desktop, iar pe telefon lățimea urmează ecranul cu margini de 16 px. Înălțimea este limitată la spațiul vizibil, fără legătură cu lungimea mesajului. Textul lung se derulează în interior; Tab permite focusarea textului, apoi derularea cu tastatura. La schimbarea pasului, textul revine la început, butoanele rămân separate de zona derulabilă și containerul nu se remontează pentru animație. Probe: build/TypeScript, suitele web CI și audit strict trecute; CUA indisponibil, fără probă vizuală finală.
