@@ -1,8 +1,8 @@
 # Starea proiectului
 
-## P-089 — În verificare — Potrivirea disciplinelor în știri — 2026-10-15
+## P-089 — DONE — Site v38 — Potrivirea disciplinelor în știri — 2026-10-15
 
-Responsabil Marcos Soames, cerere explicită a titularului. Criterii: Fizică distinctă de Educație fizică/pregătire sportivă, potrivire pe cuvinte/expresii întregi, fără recomandări bazate pe limba de predare a manualului; regresii pozitive/negative și publicare. Checkout fix/P-089-news-matching din 737da4b; fără AI, migrare, reindexare sau date noi. Dovezi în WORKLOG.
+Responsabil Marcos Soames, cerere explicită a titularului. Criterii: Fizică distinctă de Educație fizică/pregătire sportivă, potrivire pe cuvinte/expresii întregi, fără recomandări bazate pe limba de predare a manualului; regresii pozitive/negative și publicare. Cod 16f3fe9 pe main; Site v38 succeeded la 2026-10-15 23:53:25 București, source f8f3430e3f1866a9f79c0180e341794847b6abad, deployment appgdep_6ad13d2c43908191a41f9a2d1fcde464, public/env revision 5 păstrate. TypeScript/build main și Site, regresii de știri, audit strict 0 și scannere fără detecții. localhost:3000 actualizat în /private/tmp/profplus-P084-release/web. CI 38805413084 completed/success la încercarea 2, după HTTP500 tranzitoriu în testul de conturi nemodificat; regresia locală de conturi trecută. Articolul real despre Educație fizică militară: Fizică false, Educație fizică true. Fără AI, migrare, reindexare sau date noi. Dovezi/limite în WORKLOG.
 
 
 ## P-088 — DONE — Acasă și știri, Site v37 — 2026-10-15
