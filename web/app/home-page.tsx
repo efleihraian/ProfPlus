@@ -17,12 +17,12 @@ export default function HomePage({phase, onAsk, onDocuments}: {phase: string; on
   const diveFx = phase === "out" ? "fx-dive" : "";
   const send = () => { const text = draft.trim(); if (!text) return; onAsk(text); };
   return <main className="fx-page" style={{maxWidth: 1280, margin: "0 auto", padding: "48px 24px 80px"}}>
-    <section aria-labelledby="ai-home-titlu" style={{background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: 32, display: "flex", flexWrap: "wrap", gap: 32, alignItems: "center", marginBottom: 64, boxShadow: "0 24px 60px rgba(47,125,91,0.14), 0 2px 6px rgba(31,42,36,0.04)"}}>
-      <div className={diveFx} style={{flex: "1 1 220px", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, borderRadius: 20, padding: "16px 8px 8px", background: "var(--pp-plusi-glow)"}}>
-        <div key={line} className={line ? "say say-pop" : "say"} aria-live="polite" style={{background: "var(--pp-soft)", border: "1px solid var(--pp-soft-border)", color: "var(--text)", fontWeight: 500, fontSize: 15, padding: "10px 16px", borderRadius: 14, textAlign: "center", maxWidth: 230}}>{LINES[line % LINES.length]}</div>
+    <section className="home-assistant" aria-labelledby="ai-home-titlu" style={{background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, marginBottom: 64, boxShadow: "0 24px 60px rgba(47,125,91,0.14), 0 2px 6px rgba(31,42,36,0.04)"}}>
+      <div className={"home-assistant-mascot " + diveFx} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, borderRadius: 20, padding: "16px 8px 8px", background: "var(--pp-plusi-glow)"}}>
+        <div key={line} className={"home-assistant-speech " + (line ? "say say-pop" : "say")} role="region" aria-label="Mesajul lui Plusi" tabIndex={0} aria-live="polite" style={{background: "var(--pp-soft)", border: "1px solid var(--pp-soft-border)", color: "var(--text)", fontWeight: 500, fontSize: 15, padding: "10px 16px", borderRadius: 14, textAlign: "center"}}>{LINES[line % LINES.length]}</div>
         <PlusiReactive label="Atinge-l pe Plusi" onReact={() => setLine(n => n + 1)}><Plusi label=""/></PlusiReactive>
       </div>
-      <div className={homeFx} style={{flex: "999 1 520px", minWidth: 0, display: "flex", flexDirection: "column", gap: 14}}>
+      <div className={homeFx} style={{minWidth: 0, display: "flex", flexDirection: "column", gap: 14}}>
         
         <h1 id="ai-home-titlu" style={{margin: 0, fontSize: 40, fontWeight: 500, letterSpacing: -1.5, lineHeight: 1.2}}>Cu ce te pot ajuta?</h1>
         <p style={{margin: 0, color: "var(--muted)"}}>Lecții, exerciții și explicații, cu surse la îndemână.</p>

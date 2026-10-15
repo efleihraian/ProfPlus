@@ -1,5 +1,10 @@
 # Lucrări rămase
 
+## P-088 — În verificare — Acasă și navigarea știrilor — 2026-10-15
+
+Responsabil Marcos Soames, cerere explicită a titularului. Criterii: acțiunile „Citește articolul” aliniate la baza cardurilor din același rând; o singură revenire funcțională din articol la listă; caseta Acasă și spațiul mesajului Plusi stabile pentru toate replicile, desktop/mobil. Checkout izolat fix/P-088-home-news. Fără schimbări de date, API, conturi, dependențe sau configurație. Verificările și publicarea se confirmă în WORKLOG.
+
+
 ## P-087 — DONE — GitHub, Supabase și Site v36 — 2026-10-15
 
 Responsabil Marcos Soames. PR #25 integrat prin merge commit `956b7c084c9428f7bc4d350e2ae2ddf1b0e20bd3`; main era încă 06800a4, fără conflicte sau force-push. Meditații publicate pe Site v36: anunțuri/filtre, contact numai autentificat, raportare/moderare; înotul lui Plusi dintre taburi eliminat. Migrația `20261015200000_tutoring_ads.sql` aplicată în proiectul ProfPlus, înregistrare Supabase `20261015201138 tutoring_ads`; ambele tabele cu RLS, anon/authenticated fără privilegii, service_role cu acces. Probă reală inserare/listă fără contacte/raportare/ștergere trecută, zero fixture-uri rămase. Advisor: fără WARN/ERROR noi; INFO așteptate pentru tabele server-only și indexuri noi. Instalare curată, TypeScript/build, toate 22 comenzile web (inclusiv tutoring), 61 teste Python, audit strict 0 și scanner fără detecții trecute. CI PR 38767081287 și main 38799946702 success. Source Site `51decb670a33ab910c136b90d30658eb03fe0ec6`, deployment `appgdep_6ad134317b4c81919fab51699a5571f1`, status nativ **succeeded**, **2026-10-15 23:15:08 București**, env revision 5 și audiență publică neschimbate. Probe live 200/401 și tab Meditații în browser, fără mascotă între taburi. localhost:3000 sincronizat fără restart în `/private/tmp/profplus-P084-release/web`, configurația ignorată păstrată. Rămâne acceptanța titularului cu cont real: publicare, contact, raportare, ștergere anunț. [Detalii și limite](docs/TUTORING.md).
