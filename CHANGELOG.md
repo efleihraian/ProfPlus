@@ -1,6 +1,6 @@
 # Istoricul versiunilor
 
-## Nelansat — P-086
+## Publicat pe Site v35 — P-086 — 2026-10-15
 
 - Alegere GPT-4.1 mini / GPT-6.1 Sol în chat și setările contului, pentru testare.
 - Model afișat per răspuns; generare și revizie cu aceeași alegere, validată server-side.
