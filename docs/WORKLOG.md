@@ -533,3 +533,6 @@ Cerințe afectate: confidențialitate/minimizare (documente private, avertisment
 Verificări reale: tsc fără erori noi față de baseline; test nou personal-library și suite cloud-library, exercise-options, exercise-provenance, document-models, guest-chat, library-availability, account-lifecycle trecute; account-integration/teacher-test-controls nerulabile local (eșec identic pe baseline); ESLint fără erori; scanner `security_scan.py --history` fără detecții (fără `--client`, fiindcă build-ul nu a putut fi generat); probă vizuală în harness Chromium la 1280/390 px cu API simulat. Neexecutate: npm ci/build, audit npm, aplicația reală, Supabase/OpenAI reale, publicare Site. Fișierul temporar de sincronizare `uploads/p080-sync.tgz` este ignorat de Git.
 
 Pași următori: push branch + PR (cu acces GitHub), CI/build, review uman pe alt cont, apoi integrare și publicare autorizată.
+
+
+P-080, continuare 2026-10-15: titularul a publicat branch-ul din terminalul propriu (origin/feature/P-080-personal-library-plusi = 0acd88f) și a cerut explicit integrarea fără aprobarea altui cont, conform instrucțiunii active din 2026-10-11. Sesiunea agentului nu are acces de rețea la GitHub, deci fetch-ul, build-ul pe Mac și push-ul pe main se execută din terminalul titularului; până la confirmarea lor nu se declară integrarea sau publicarea Site.
