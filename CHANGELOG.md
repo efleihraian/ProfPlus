@@ -1,5 +1,11 @@
 # Istoricul versiunilor
 
+## Nelansat — P-086
+
+- Alegere GPT-4.1 mini / GPT-6.1 Sol în chat și setările contului, pentru testare.
+- Model afișat per răspuns; generare și revizie cu aceeași alegere, validată server-side.
+- Preferință per cont în browser; biblioteca și indexul existente păstrate.
+
 ## Publicat pe Site v34 — P-085 — 2026-10-15
 
 - Caseta turului Plusi păstrează dimensiunea la schimbarea mesajului; textul lung se derulează în interior, inclusiv prin tastatură.
