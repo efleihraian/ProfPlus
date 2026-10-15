@@ -1,5 +1,10 @@
 # Lucrări rămase
 
+## P-089 — În verificare — Potrivirea disciplinelor în știri — 2026-10-15
+
+Responsabil Marcos Soames, cerere explicită a titularului. Criterii: Fizică distinctă de Educație fizică/pregătire sportivă, potrivire pe cuvinte/expresii întregi, fără recomandări bazate pe limba de predare a manualului; regresii pozitive/negative și publicare. Checkout fix/P-089-news-matching din 737da4b; fără AI, migrare, reindexare sau date noi. Dovezi în WORKLOG.
+
+
 ## P-088 — DONE — Acasă și știri, Site v37 — 2026-10-15
 
 Responsabil Marcos Soames, cerere explicită a titularului. Criterii: acțiunile „Citește articolul” aliniate la baza cardurilor din același rând; o singură revenire funcțională din articol la listă; caseta Acasă și spațiul mesajului Plusi stabile pentru toate replicile, desktop/mobil. Livrate și verificate în browser real, desktop/mobil. Commit cod b18f44a pe main, Site v37 succeeded la 2026-10-15 23:42:54 București, source eb1d61c7e12ed40e43afc405510d0df9e5f0458a, deployment appgdep_6ad13ab5da4c81918ee504f11a97cfed. Audiență publică/env revision 5 păstrate. TypeScript/build, teste news-feed/admin-news, audit 0, scanner main/Site fără detecții. localhost:3000 actualizat în /private/tmp/profplus-P084-release/web; configurație ignorată păstrată. Fără schimbări de date, API, conturi, dependențe sau configurație. Dovezi și limite în WORKLOG.

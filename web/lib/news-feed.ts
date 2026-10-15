@@ -88,13 +88,49 @@ const STAGE_WORDS: Record<Stage, RegExp> = {
   middle: /gimnazi|evaluarea nationala|evaluare nationala|clasa a (v|vi|vii|viii)-a|clasele (a )?v-viii|clasa a viii/,
   high: /liceu|licee|bacalaureat|clasa a (ix|x|xi|xii)-a|clasele (a )?ix-xii/,
 };
-const STOP = new Set(["limba", "literatura", "si", "comunicare", "moderna", "educatie", "educatia", "pentru", "tehnologia", "informatiei", "comunicatiei", "religie", "cultura", "stiinte"]);
+// Expresii de disciplină, nu fragmente de cuvinte: „fizic” nu identifică Fizica.
+const PHYSICAL_EDUCATION = /\b(?:educati(?:e|a|ei) fizic(?:a|e)|pregatir(?:e|ea|ii) sportiv[ae])\b/g;
+const PHYSICAL_ACTIVITY = /\b(?:activitat(?:e|ea|i|ile|ilor)|pregatir(?:e|ea|ii)|conditi(?:e|a|ei)) fizic(?:a|e)\b/g;
+const STOP = new Set(["si", "de", "a", "ale", "in", "la", "pentru"]);
 export function subjectStems(subject: string): string[] {
-  const key = norm(subject);
-  // „română” ar potrivi „România” în orice știre: se caută expresiile disciplinei.
-  if (/\bromana\b/.test(key)) return ["limba romana", "literatura romana", "limba si literatura romana"];
-  const words = key.split(/[^a-z]+/).filter(w => w.length >= 5 && !STOP.has(w));
-  return [...new Set(words.map(w => w.slice(0, Math.max(5, w.length - 2))))];
+  // Păstrăm numele exportului pentru compatibilitate; termenii nu se mai trunchiază.
+  const key = norm(subject).replace(/[^a-z0-9]+/g, " ").trim();
+  const base = /^(?:limba|comunicare in limba|elemente de limba|metodica)\b/.test(key)
+    ? key.split(" pentru ")[0] : key.split(" in limba ")[0];
+  return [...new Set(base.split(" ").filter(w => w.length >= 4 && !STOP.has(w)))];
+}
+/** Potrivire conservatoare pe disciplină, independent de limba manualului. */
+export function matchesNewsSubject(value: string, subject: string): boolean {
+  const text = norm(value).replace(/[^a-z0-9]+/g, " ").trim();
+  const key = norm(subject).replace(/[^a-z0-9]+/g, " ").trim();
+  if (/^(?:educatie fizica|pregatire sportiva)\b/.test(key)) {
+    return new RegExp(PHYSICAL_EDUCATION.source).test(text)
+      || /\b(?:profesor(?:i|ii|ilor|ul|ului)?|ore(?:le|lor)?) de sport\b/.test(text);
+  }
+  if (/^fizica\b/.test(key)) {
+    const science = text.replace(PHYSICAL_EDUCATION, " ").replace(PHYSICAL_ACTIVITY, " ");
+    return /\bfizic(?:a|ii)\b/.test(science);
+  }
+  const terms = subjectStems(subject);
+  if (!terms.length) return false;
+  const base = key.split(" in limba ")[0];
+  if (/^(?:limba|comunicare in limba|elemente de limba|metodica)\b/.test(key)) {
+    // Limba de predare nu schimbă disciplina; România nu înseamnă limba română.
+    const language = terms.find(t => /^(?:romana|engleza|franceza|germana|maghiara|spaniola|italiana|latina|rromani|rusa|sarba|slovaca|turca|ucraineana)$/.test(t));
+    if (language) return new RegExp("\\b(?:limb(?:a|ii)|literatur(?:a|ii)) (?:si literatur(?:a|ii) )?(?:materna |moderna (?:[12] )?)?" + language + "\\b").test(text);
+  }
+  if (/^(?:informatica|tehnologia informatiei)\b/.test(base)) return /\b(?:informatica|informaticii|tic|tehnologia informatiei)\b/.test(text);
+  if (/^matematica\b/.test(base)) return /\b(?:matematica|matematicii)\b/.test(text);
+  const simpleSubjects: Record<string, RegExp> = {
+    biologie: /\bbiologi(?:e|ei)\b/, chimie: /\bchimi(?:e|ei)\b/,
+    geografie: /\bgeografi(?:e|ei)\b/, istorie: /\bistori(?:e|ei)\b/,
+    economie: /\beconomi(?:e|ei)\b/, filosofie: /\bfilosofi(?:e|ei)\b/,
+    sociologie: /\bsociologi(?:e|ei)\b/,
+  };
+  if (simpleSubjects[base]) return simpleSubjects[base].test(text);
+  // Disciplinele compuse cer toți termenii, nu doar unul generic precum „practic”.
+  const words = new Set(text.split(" "));
+  return terms.every(term => words.has(term));
 }
 export type NewsScore = {score: number; important: boolean; reasons: string[]; topic: number};
 export function scoreNews(article: Pick<NewsArticle, "title" | "summary" | "published_at">, profile: TeachingProfile | null, now = Date.now()): NewsScore {
@@ -105,7 +141,7 @@ export function scoreNews(article: Pick<NewsArticle, "title" | "summary" | "publ
   const topic = IMPORTANT.reduce((best, [, p], i) => matched[i] && (best < 0 || p > IMPORTANT[best][1]) ? i : best, -1);
   const reasons: string[] = []; let relevance = 0;
   if (profile) {
-    const subject = profile.subject && subjectStems(profile.subject).some(s => text.includes(s));
+    const subject = profile.subject && (matchesNewsSubject(article.title, profile.subject) || matchesNewsSubject(article.summary, profile.subject));
     const stages = profile.stages.filter(s => STAGE_WORDS[s].test(text));
     if (subject) { relevance += 4; reasons.push(profile.subject); }
     if (stages.length) { relevance += 3; reasons.push(stages.map(s => s === "primary" ? "primar" : s === "middle" ? "gimnaziu" : "liceu").join(", ")); }

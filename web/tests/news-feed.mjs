@@ -31,6 +31,33 @@ assert.ok(f.scoreNews(olymp,math8,NOW).score>f.scoreNews(bac,math8,NOW).score,'m
 assert.deepEqual(f.scoreNews(olymp,math8,NOW).reasons,['Matematică','gimnaziu']);
 assert.equal(f.scoreNews(salary,null,NOW).important,true);
 assert.deepEqual(f.scoreNews(romania,{role:'teacher',subject:'Limba și literatura română',stages:['high']},NOW).reasons,[],'Romanian subject does not match the word România');
+// P-089: discipline omonime, limite de cuvânt și limba de predare.
+const physics={role:'teacher',subject:'Fizică',stages:['middle']};
+const pe={...physics,subject:'Educație fizică și sport'};
+const relevant=(title,profile,summary='')=>f.scoreNews(art(title,1,summary),profile,NOW).reasons.includes(profile.subject);
+for(const title of [
+ 'Programa de Educație fizică militară pentru clasele IX-XII',
+ 'Olimpiada educatiei fizice pentru elevi',
+ 'Profesorii de sport primesc programa nouă',
+ 'Pregătirea sportivă în școli',
+]){assert.equal(relevant(title,physics),false,title);assert.equal(relevant(title,pe),true,title);}
+for(const title of ['Olimpiada de Fizică pentru gimnaziu','Noile programe ale fizicii','Concurs de fizică-chimie']){
+ assert.equal(relevant(title,physics),true,title);assert.equal(relevant(title,pe),false,title);
+}
+for(const title of ['Activitate fizică pentru elevi','Condiția fizică a elevilor','Conferință de metafizică'])assert.equal(relevant(title,physics),false,title);
+assert.equal(relevant('Educație fizică și sport',physics,'Olimpiada de fizică are loc separat.'),true,'a separate explicit physics mention is retained');
+assert.equal(relevant('Educație fizică și sport',physics,'Programa de educație fizică a fost actualizată.'),false,'summary does not reintroduce PE as physics');
+assert.equal(relevant('Limba germană la bacalaureat',{...physics,subject:'Fizica in limba germana'}),false,'instruction language is not the subject');
+assert.equal(relevant('Olimpiada de fizică',{...physics,subject:'Fizica in limba germana'}),true);
+assert.equal(relevant('Olimpiada de informatică',{...physics,subject:'Informatica si TIC'}),true);
+assert.equal(relevant('Noi informații pentru profesori',{...physics,subject:'Informatica'}),false,'substring is not a discipline');
+assert.equal(relevant('Olimpiada de chimie',{...physics,subject:'Chimie'}),true);
+assert.equal(relevant('Elevii la biochimie',{...physics,subject:'Chimie'}),false,'whole-word boundary');
+assert.equal(relevant('Olimpiada de limba română',{...physics,subject:'Limba si literatura romana'}),true);
+assert.equal(relevant('Religie la școală',{...physics,subject:'Religie Cultul Romano-Catolic de limba română'}),false,'Romanian instruction alone is not Romanian language');
+const peNews=art('Programa de educație fizică și sport pentru elevi',1);
+assert.ok(f.scoreNews(peNews,pe,NOW).score>f.scoreNews(peNews,physics,NOW).score,'PE gets its own relevance boost');
+console.log('PASS: distinct Physics/PE, explicit mixed mentions, whole words, inflections, instruction language, Romanian and Informatics aliases.');
 let home=f.homeSelection([],[misc,bac,salary,olymp],math8,NOW);
 assert.equal(home.length,4);assert.equal(home[0].id,olymp.id);assert.equal(home[0].slot,0);assert.match(home[0].reason,/^Pentru tine: Matematică · gimnaziu/);
 assert.deepEqual(home.map(n=>n.slot),[0,1,2,3]);assert.ok(home.some(n=>n.id===salary.id&&n.reason==='Important'),'major news stays visible');
