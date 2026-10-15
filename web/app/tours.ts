@@ -27,6 +27,12 @@ export const TOURS: Record<string, TourStep[]> = {
     {target: ".classes-grid .class-card, .classes-empty", title: "Deschide o clasă", text: "Apasă pe o clasă ca să generezi și să încarci planificări, proiecte de lecție, teste și fișe pentru ea."},
     {target: ".float-plusi", title: "Sunt aici dacă ai nevoie", text: "Mă găsești mereu în colț pentru întrebări despre ProfPlus."},
   ],
+  meditatii: [
+    {target: ".tutoring-head", title: "Meditații", text: "Aici găsești anunțurile profesorilor pentru meditații și îți poți publica propriul anunț, gratuit."},
+    {target: ".tutoring-filters", title: "Găsește rapid", text: "Filtrează după disciplină, nivel (inclusiv Evaluarea Națională și Bacalaureat), online sau față în față și localitate."},
+    {target: ".tutoring-list, .tutoring-empty", title: "Anunțurile", text: "Deschide un anunț ca să vezi descrierea. Datele de contact apar doar celor conectați, ca să nu fie colectate automat."},
+    {target: ".tutoring-head .pp-btn", title: "Publică-ți anunțul", text: "Ai până la trei anunțuri active, fiecare 60 de zile. Le poți pune pe pauză, edita sau șterge oricând."},
+  ],
   clasa: [
     {target: ".pp-segment", title: "Totul despre clasă", text: "Comuți între documentele clasei, observațiile tale și personalizări."},
     {target: ".class-topic", title: "Spune-mi tema", text: "Scrie tema sau detaliile, apoi alege ce generăm. Țin cont și de nivelul și preferințele clasei."},

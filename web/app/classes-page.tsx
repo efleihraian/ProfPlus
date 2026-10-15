@@ -86,7 +86,7 @@ export default function ClassesPage({onGenerate, onOpenChat}: {onGenerate: (text
   return <main className="fx-page classes" style={{maxWidth: 1280, margin: "0 auto", padding: "48px 24px 80px"}}>
     <div className="classes-head">
       <div>
-        {!open && <h1 className="classes-h1">Clasele la care <span className="pp-accent">predai</span></h1>}
+        {!open && <h1 className="classes-h1">Clasele la care predai</h1>}
         {open && <>
           <button type="button" className="classes-back" onClick={() => setOpenId(null)}>{icon(<><path d="M19 12H5"/><path d="m11 19-7-7 7-7"/></>)}Clasele mele</button>
           <h1 className="classes-h1">{classTitle(open.g, open.l)}</h1>

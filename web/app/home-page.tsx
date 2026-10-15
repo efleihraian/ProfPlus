@@ -23,8 +23,8 @@ export default function HomePage({phase, onAsk, onDocuments}: {phase: string; on
         <PlusiReactive label="Atinge-l pe Plusi" onReact={() => setLine(n => n + 1)}><Plusi label=""/></PlusiReactive>
       </div>
       <div className={homeFx} style={{flex: "999 1 520px", minWidth: 0, display: "flex", flexDirection: "column", gap: 14}}>
-        <div style={{fontSize: 12, fontWeight: 600, letterSpacing: 2, color: "var(--pp-soft-text)"}}>ASISTENT VIRTUAL</div>
-        <h1 id="ai-home-titlu" style={{margin: 0, fontSize: 40, fontWeight: 500, letterSpacing: -1.5, lineHeight: 1.2}}>Cu ce te pot <span style={{color: "var(--pp-accent-text)"}}>ajuta</span>?</h1>
+        
+        <h1 id="ai-home-titlu" style={{margin: 0, fontSize: 40, fontWeight: 500, letterSpacing: -1.5, lineHeight: 1.2}}>Cu ce te pot ajuta?</h1>
         <p style={{margin: 0, color: "var(--muted)"}}>Lecții, exerciții și explicații, cu surse la îndemână.</p>
         <div style={{background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 16, padding: "16px 18px 12px", boxShadow: "0 4px 20px rgba(31,42,36,0.027)", marginTop: 6}}>
           <label htmlFor="ai-home-input" className="sr-only">Mesaj pentru Plusi</label>
@@ -54,8 +54,8 @@ export default function HomePage({phase, onAsk, onDocuments}: {phase: string; on
         </svg>
       </div>
       <div style={{flex: "999 1 520px", minWidth: 0, display: "flex", flexDirection: "column", gap: 14}}>
-        <div style={{display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10}}><span style={{fontSize: 12, fontWeight: 600, letterSpacing: 2, color: "var(--pp-soft-text)"}}>DOCUMENTE PERSONALE</span><span style={{fontSize: 12, fontWeight: 600, color: "var(--pp-ok-text)", background: "var(--pp-ok-soft)", padding: "3px 9px", borderRadius: 999}}>Obligatoriu din 2026–2027</span></div>
-        <h2 id="docs-home-titlu" style={{margin: 0, fontSize: 34, fontWeight: 600, letterSpacing: -1.2, lineHeight: 1.15}}>Portofoliul profesional, mereu <span style={{color: "var(--pp-accent-text)"}}>în ordine</span></h2>
+        <div style={{display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10}}><span style={{fontSize: 12, fontWeight: 600, color: "var(--pp-ok-text)", background: "var(--pp-ok-soft)", padding: "3px 9px", borderRadius: 999}}>Obligatoriu din 2026–2027</span></div>
+        <h2 id="docs-home-titlu" style={{margin: 0, fontSize: 34, fontWeight: 600, letterSpacing: -1.2, lineHeight: 1.15}}>Portofoliul profesional, mereu în ordine</h2>
         <p style={{margin: 0, color: "var(--muted)", maxWidth: 680}}>Conform noii metodologii (OMEC nr. 3.858/2026), fiecare profesor trebuie să aibă un portofoliu profesional. Acesta contează la definitivat, grade didactice, evaluarea anuală, inspecții și gradații de merit. ProfPlus păstrează toate documentele din structura-cadru, pe secțiuni, cu opisul actualizat automat. Pe cele pe care le poți redacta, le generezi împreună cu Plusi.</p>
         <div style={{display: "flex", flexWrap: "wrap", alignItems: "center", gap: 14, marginTop: 6}}>
           <button type="button" onClick={onDocuments} style={{minHeight: 50, padding: "0 22px", borderRadius: 12, border: 0, background: "#1B4D36", color: "#FFFFFF", boxShadow: "0 8px 22px rgba(27,77,54,0.28)", fontSize: 15, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 10}}>Mergi la Documente personale{arrow}</button>

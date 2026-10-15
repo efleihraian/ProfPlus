@@ -1,5 +1,11 @@
 # Istoricul versiunilor
 
+## Nelansat — P-087 — 2026-10-15
+
+- Tab nou „Meditații”: anunțuri de meditații publicate de profesori, filtre, contact pentru utilizatori conectați, raportare și moderare.
+- Eliminată animația cu Plusi între taburi; bara tabului activ rămâne.
+- Design mai sobru: titluri fără accente decorative, hover discret, mișcare calmă, taburi derulabile pe telefon.
+
 ## Publicat pe Site v35 — P-086 — 2026-10-15
 
 - Alegere GPT-4.1 mini / GPT-6.1 Sol în chat și setările contului, pentru testare.
