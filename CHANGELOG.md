@@ -1,5 +1,12 @@
 # Istoricul versiunilor
 
+## Nelansat — P-080 — 2026-10-15
+
+- Tab „Bibliotecă personală” în Cont (`/account?view=library`) și `GET /api/library/personal`; încărcare prin `/api/documents` cu `scope=library`.
+- Întrebarea lui Plusi la prima deschidere a asistentului pentru adăugarea documentelor folosite des.
+- Documentele personale gata devin surse automate în toate conversațiile și sunt marcate în „Alege sursele”.
+- Reacții animate ale lui Plusi la atingere, înot între taburi cu indicator glisant și tranziții direcționale între pagini; mișcare redusă respectată.
+
 ## P-079 — DONE — Dashboard practic și flux de știri — 2026-10-14/15
 
 Responsabil Marcos Soames, issue #23. Dashboard pe trei zone, editor cu previzualizare și acțiuni distincte ciornă/publicare, poziții clare pe Acasă și înlocuire atomică păstrând știrea anterioară în lista completă. Citire cu titlu unic/paragrafe, principal + trei secundare, căutare/filtre și paginare public/admin. Membership și audiență păstrate; migration și probe reale rollback trecute. [Utilizare, dovezi și limite](docs/NEWS_EDITOR.md). Publicat pe main f09ff47 și Site succeeded la 00:04 București, 2026-10-15; dovezi în jurnal.

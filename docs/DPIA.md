@@ -216,3 +216,8 @@ Rol persistent legat de identitate Supabase verificată, fără rol din profil. 
 ## P-079 — Flux editorial simplificat
 
 Înlocuirea unei știri pe Acasă păstrează articolul deja published în lista completă, explicat editorului; arhivarea explicită îl retrage. Ciornele/archived rămân private, actorul și autorizarea identice. Fără date noi de profil ori transmitere AI. Auditul înlocuirii minim, cu aceeași retenție și limite P-078. Filtrare/paginare readonly și preview local; [dovezi și limite](NEWS_EDITOR.md). Nu este declarație de conformitate.
+
+
+## P-080 — Biblioteca personală, 2026-10-15
+
+Aceleași categorii de date și același flux ca documentele din conversații (original în stocarea privată, fișier și index la furnizorul AI pentru căutare, etichete din profil), dar disponibile în toate conversațiile contului. Nu se colectează câmpuri noi, nu se adaugă furnizor sau tracker; marcajul întrebării este local în browser. Interfața avertizează să nu se încarce date personale ale elevilor și explică indexarea la furnizor și ștergerea. Ștergerea individuală și a contului acoperă documentele (interogare după user_id). Risc rezidual: profesorul poate încărca totuși date ale elevilor; măsurile rămân avertismentul și controlul uman, fără detecție automată. Nu se declară conformitate completă.

@@ -10,8 +10,9 @@ import type {DocumentModelType} from './document-models';
 import {labelsDb} from './document-labels';
 import type {Stage,TeachingProfile} from './teaching-profile';
 import {automaticSources} from './source-selection';
+import {personalLibraryId} from './personal-library';
 import { openai, storage, type DocumentRow } from "./document-store";
-export type LibraryItem = { id: string; kind: "manual" | "document"; title: string; schoolClass?: string; subject?: string; publisher?: string; category?:ResourceCategory;stages?:Stage[];modelTypes?:DocumentModelType[];chatId?:string; url: string; status: string };
+export type LibraryItem = { id: string; kind: "manual" | "document"; title: string; schoolClass?: string; subject?: string; publisher?: string; category?:ResourceCategory;stages?:Stage[];modelTypes?:DocumentModelType[];chatId?:string;personal?:boolean; url: string; status: string };
 type CommonSnapshot={states:Record<string,string>;resources:Record<string,CommonResource>;originals?:Map<string,'manuals'|'competitions'>};
 const commonCache=new Map<string,{key:string;expires:number;value?:CommonSnapshot;pending?:Promise<CommonSnapshot>}>();
 export async function commonLibrary(key:string,store:string):Promise<CommonSnapshot>{
@@ -48,8 +49,8 @@ export function manualLibrary(states: Record<string, string>,dynamic:Record<stri
 export async function userDocuments(user: string) {
   return (await (await labelsDb()).prepare("SELECT d.*,l.metadata AS education FROM documents d LEFT JOIN document_labels l ON d.id=l.document_id AND d.user_id=l.user_id WHERE d.user_id = ? ORDER BY d.created_at DESC").bind(user).all<DocumentRow>()).results;
 }
-export function documentLibrary(rows: DocumentRow[]): LibraryItem[] {
-  return rows.map(d => {let metadata=null;try{metadata=resourceMetadata(JSON.parse(d.education||'null'));}catch{}return {...metadata,category:metadata?.category||'document',chatId:d.chat_id, id: d.id, kind: "document", title: d.name, url: `/api/documents/${d.id}`, status: d.status };});
+export function documentLibrary(rows: DocumentRow[],personalId?:string): LibraryItem[] {
+  return rows.map(d => {let metadata=null;try{metadata=resourceMetadata(JSON.parse(d.education||'null'));}catch{}return {...metadata,category:metadata?.category||'document',chatId:d.chat_id,...(personalId&&d.chat_id===personalId?{personal:true}:{}), id: d.id, kind: "document", title: d.name, url: `/api/documents/${d.id}`, status: d.status };});
 }
 
 export async function librarySnapshot(user:string|null,profile:TeachingProfile|null,key?:string,store?:string,chatId?:string){
@@ -59,7 +60,8 @@ export async function librarySnapshot(user:string|null,profile:TeachingProfile|n
  try{if((key&&store)||cloudEnabled(config)){const common=await commonLibrary(key||'',store||'');states=common.states;dynamic=common.resources;originals=common.originals;verified=true;}else warnings.push('Starea surselor comune nu este disponibilă.');}catch{warnings.push('Sursele comune nu au putut fi verificate. Reîncearcă.');}
  })(),(async()=>{if(user)try{const {refreshDocument}=await import('./document-store');documents=await parallelMap(await userDocuments(user),refreshDocument);}catch{warnings.push('Documentele tale nu au putut fi verificate. Reîncearcă.');}
  })()]);
- const items=[...manualLibrary(states,dynamic,verified),...documentLibrary(documents)];
+ const personalId=user?await personalLibraryId(user):undefined;
+ const items=[...manualLibrary(states,dynamic,verified),...documentLibrary(documents,personalId)];
  if(user&&originals)for(const item of items)if(item.kind==='manual'&&originals.has(item.id))item.url='/api/library/materials/'+originals.get(item.id)+'/'+encodeURIComponent(item.id);
  return {items,warnings,selection:automaticSources(items,profile,chatId)};
 }

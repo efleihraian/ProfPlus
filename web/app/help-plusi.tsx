@@ -1,6 +1,7 @@
 "use client";
 import {useEffect, useRef, useState} from "react";
 import {PlusiFloat, PlusiMini} from "./plusi";
+import {usePlusiReaction} from "./plusi-reactive";
 
 const TOPICS = ["Cum încarc un document?", "Ce înseamnă „după caz”?", "Cum generez un document cu Plusi?", "Ce este opisul?"];
 function answer(q: string) {
@@ -29,6 +30,7 @@ export default function HelpPlusi({onOpenAssistant}: {onOpenAssistant: () => voi
   const [draft, setDraft] = useState("");
   const [typing, setTyping] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const {reaction, react, bubbles} = usePlusiReaction();
   useEffect(() => () => clearTimeout(timer.current), []);
   function ask(text: string) {
     const q = text.trim(); if (!q) return;
@@ -80,8 +82,9 @@ export default function HelpPlusi({onOpenAssistant}: {onOpenAssistant: () => voi
         <span className="hint-pop" style={{display: "block", background: "#FFFFFF", border: "1px solid #BFDDCB", color: "#1F2A24", fontSize: 14, fontWeight: 500, padding: "8px 12px", borderRadius: 12, boxShadow: "0 4px 14px rgba(31,42,36,0.08)", whiteSpace: "nowrap"}}>Ai nevoie de ajutor?</span>
         {BURSTS.map(([left, top, dx, dy]) => <span key={left + top} className="burst" style={{left, top, ["--dx" as string]: dx, ["--dy" as string]: dy}}/>)}
       </span>}
-      <button type="button" onClick={() => { setMenu(m => !m && !chat); setChat(false); setHintDone(true); }} aria-label="Plusi: opțiuni de ajutor" aria-expanded={menu} style={{background: "none", border: 0, padding: 0, cursor: "pointer", borderRadius: "50%"}}>
-        <span style={{width: 96, height: 96, borderRadius: "50%", background: "#E8F3EC", border: "2px solid #BFDDCB", display: "grid", placeItems: "center", boxShadow: "0 8px 24px rgba(47,125,91,0.18)"}}><PlusiFloat/></span>
+      <button type="button" className="plusi-button float-plusi-button" onClick={() => { react(); setMenu(m => !m && !chat); setChat(false); setHintDone(true); }} aria-label="Plusi: opțiuni de ajutor" aria-expanded={menu} style={{background: "none", border: 0, padding: 0, cursor: "pointer", borderRadius: "50%", position: "relative"}}>
+        <span className="float-splash-ring" aria-hidden="true"/>
+        <span style={{width: 96, height: 96, borderRadius: "50%", background: "#E8F3EC", border: "2px solid #BFDDCB", display: "grid", placeItems: "center", boxShadow: "0 8px 24px rgba(47,125,91,0.18)"}}><span className={"plusi-react " + reaction}><PlusiFloat/></span></span>{bubbles}
       </button>
     </div>
   </div>;

@@ -42,6 +42,7 @@ async function cloudOriginals(){throw Error('Originals should be reused')};
 async function userDocuments(user){await Promise.resolve();return [{id:'document-'+user,title:user}];}
 const refreshDocument=async row=>row;
 const parallelMap=async(rows,fn)=>Promise.all(rows.map(fn));
+const personalLibraryId=async user=>'library-'+user;
 const manualLibrary=(states,dynamic,verified)=>[{id:'1-1',kind:'manual',status:verified?'ready':'unknown',url:'https://example.org/manual.pdf'}];
 const documentLibrary=rows=>rows.map(row=>({...row,kind:'document',status:'ready'}));
 const automaticSources=items=>({manualIds:items.filter(x=>x.kind==='manual').map(x=>x.id),documentIds:items.filter(x=>x.kind==='document').map(x=>x.id)});

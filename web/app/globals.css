@@ -200,3 +200,25 @@ input:focus-visible,select:focus-visible,summary:focus-visible,[contenteditable]
 @media(max-width:600px){.exercise-subpoint-row{grid-template-columns:minmax(0,1fr) 82px 36px;gap:7px}.exercise-total-control{font-size:14px}}
 
 :root:not([data-theme="dark"]){--action:#2F7D5B;--action-hover:#24654A}
+
+/* P-080: biblioteca personală (Cont și întrebarea de la prima deschidere a asistentului). */
+.personal-library-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:16px 0 8px}
+.personal-library-upload{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:10px;font-weight:600;cursor:pointer}
+.personal-library-upload:disabled{opacity:.55;cursor:not-allowed}
+.personal-library-count{font-size:13px;color:var(--muted)}
+.personal-library-progress{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);margin:6px 0}
+.personal-library-progress .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--primary);animation:pl-dot 1s infinite}
+.personal-library-progress .d2{animation-delay:.15s}.personal-library-progress .d3{animation-delay:.3s}
+@keyframes pl-dot{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
+.personal-library-list{list-style:none;margin:10px 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.personal-library-list li{display:flex;align-items:center;gap:12px;border:1px solid var(--border);border-radius:12px;padding:10px 12px;background:var(--card);animation:pl-in .4s cubic-bezier(.2,.9,.3,1.2) both}
+.personal-library-list li.failed{border-color:var(--danger-border);background:var(--danger-soft)}
+@keyframes pl-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.personal-library-name{flex:1;min-width:0;display:flex;flex-direction:column}
+.personal-library-name a{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.personal-library-name small{font-size:12px;color:var(--muted)}
+.personal-library-remove{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 10px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:13px}
+.personal-library-remove.confirm{border-color:var(--danger-border);color:var(--danger);background:var(--danger-soft)}
+.personal-library-empty{font-size:14px;color:var(--muted);border:1px dashed var(--border);border-radius:12px;padding:16px;text-align:center}
+.personal-library.compact .personal-library-rules{font-size:12px;margin:8px 0 0}
+@media(prefers-reduced-motion:reduce){.personal-library-list li,.personal-library-progress .dot{animation:none}}

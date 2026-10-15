@@ -1,6 +1,9 @@
 "use client";
 import {useState} from "react";
 import Plusi from "./plusi";
+import PlusiReactive from "./plusi-reactive";
+
+const LINES = ["Salut! Sunt Plusi. Cu ce te ajut azi?", "Hopa! Sunt gata de lucru.", "Îți caut ceva prin manuale?", "Scrie-mi o temă și pregătim lecția.", "Documentele des folosite le ții în biblioteca personală."];
 import NewsSection from "./news-section";
 import {usePortfolioProgress} from "./portfolio-data";
 
@@ -8,6 +11,7 @@ const arrow = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke
 
 export default function HomePage({phase, onAsk, onDocuments}: {phase: string; onAsk: (text: string) => void; onDocuments: () => void}) {
   const [draft, setDraft] = useState("");
+  const [line, setLine] = useState(0);
   const {done, total, pct} = usePortfolioProgress();
   const homeFx = phase === "out" ? "fx-out" : "";
   const diveFx = phase === "out" ? "fx-dive" : "";
@@ -15,8 +19,8 @@ export default function HomePage({phase, onAsk, onDocuments}: {phase: string; on
   return <main className="fx-page" style={{maxWidth: 1280, margin: "0 auto", padding: "48px 24px 80px"}}>
     <section aria-labelledby="ai-home-titlu" style={{background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: 32, display: "flex", flexWrap: "wrap", gap: 32, alignItems: "center", marginBottom: 64, boxShadow: "0 24px 60px rgba(47,125,91,0.14), 0 2px 6px rgba(31,42,36,0.04)"}}>
       <div className={diveFx} style={{flex: "1 1 220px", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, borderRadius: 20, padding: "16px 8px 8px", background: "radial-gradient(circle at 50% 62%, #D6EBDD 0%, #CFE6D8 45%, rgba(255,255,255,0) 72%)"}}>
-        <div className="say" style={{background: "#E8F3EC", border: "1px solid #BFDDCB", color: "var(--text)", fontWeight: 500, fontSize: 15, padding: "10px 16px", borderRadius: 14, textAlign: "center", maxWidth: 230}}>Salut! Sunt Plusi. Cu ce te ajut azi?</div>
-        <Plusi/>
+        <div key={line} className={line ? "say say-pop" : "say"} aria-live="polite" style={{background: "#E8F3EC", border: "1px solid #BFDDCB", color: "var(--text)", fontWeight: 500, fontSize: 15, padding: "10px 16px", borderRadius: 14, textAlign: "center", maxWidth: 230}}>{LINES[line % LINES.length]}</div>
+        <PlusiReactive label="Atinge-l pe Plusi" onReact={() => setLine(n => n + 1)}><Plusi label=""/></PlusiReactive>
       </div>
       <div className={homeFx} style={{flex: "999 1 520px", minWidth: 0, display: "flex", flexDirection: "column", gap: 14}}>
         <div style={{fontSize: 12, fontWeight: 600, letterSpacing: 2, color: "#1B4D36"}}>ASISTENT VIRTUAL</div>
