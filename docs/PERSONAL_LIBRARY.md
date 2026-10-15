@@ -32,8 +32,12 @@ Responsabil: Marcos Soames (cerere explicită din 2026-10-15). Branch `feature/P
 - ESLint pe fișierele atinse: zero erori (avertismente preexistente).
 - Probă vizuală într-un harness cu componentele reale (Chromium, API simulat, fără backend real): 1280 px și 390 px; reacția Plusi și bulele, înotul între taburi și alinierea indicatorului pe un rând și pe două rânduri, intrarea direcțională, întrebarea la prima deschidere, încărcare/ștergere cu confirmare, nereafișarea după răspuns, modul de mișcare redusă. A fost găsită și corectată o cheie React duplicată (pagina veche rămânea montată) și alinierea indicatorului pe mobil.
 
+## Verificări finale după integrare (2026-10-15)
+
+Dependențe instalate din lockfile pe Linux (VM-ul Mac-ului): `npm run build` reușit (ruta `/api/library/personal` inclusă), `tsc --noEmit` fără erori, `npm run test:account` (lifecycle + integrare normal/social-only) trecut, plus personal-library, cloud-library, exercise-options, exercise-provenance, document-models, guest-chat, library-availability și teacher-test-controls. `npm audit --omit=dev`: 0 vulnerabilități; audit complet: cele 8 high toolchain preexistente. `security_scan.py --history` pe repository și `--client` pe build: fără detecții. GitHub: PR #24 MERGED, origin/main = c126156.
+
 ## Limite
 
-- Nu s-a executat `npm run build`, aplicația reală, Supabase/OpenAI reale sau un login real: mediul de lucru nu are acces la registrul npm, iar dependențele Mac locale nu rulează în mediul Linux de verificare. Build-ul și CI trebuie confirmate înainte de integrare.
+- Nu s-au executat aplicația reală cu Supabase/OpenAI reale, un login real sau publicarea Site. CI remote nu a fost verificat în această sesiune.
 - Întrebarea de prima deschidere este per browser; după delogare poate reapărea dacă biblioteca e goală.
 - Limita de 10 documente provine din limita existentă pe grup; creșterea ei cere schimbarea operației SQL aprobate (migrare).
