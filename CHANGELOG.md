@@ -1,28 +1,28 @@
 # Istoricul versiunilor
 
-## Nelansat — P-084 — 2026-10-15
+## Publicat pe Site v33 — P-084 — 2026-10-15
 
 - Înlocuită dependența vulnerabilă de glob din uneltele de build/lint; auditul npm strict rămâne activ.
 - Corectat fundalul transparent al dialogului „Adaugă o clasă”, inclusiv tema întunecată, prin disponibilitatea culorilor în portaluri.
 - Verificările CI pe commitul publicat pot furniza dovezile pentru probele blocate exclusiv de mediul local; limitele se raportează separat.
 
-## Nelansat — P-083 — 2026-10-15
+## Publicat pe Site v33 — P-083 — 2026-10-15
 
 - Tur ghidat de Plusi la prima intrare pe fiecare pagină, cu evidențierea elementelor, reluabil oricând.
 
-## Nelansat — P-082 — 2026-10-15
+## Publicat pe Site v33 — P-082 — 2026-10-15
 
 - Flux automat de știri din surse RSS publice despre educație, publicat în lista completă (titlu, extras, link).
 - Acasă recomandă automat știrile importante și pe cele relevante pentru profilul tău, păstrând aranjarea principal + trei secundare.
 - Admin: „Actualizează fluxul automat”.
 
-## Nelansat — P-081 — 2026-10-15
+## Publicat pe Site v33 — P-081 — 2026-10-15
 
 - Clasele mele salvate în cont, cu documente pe secțiuni (generare cu Plusi, încărcare, ștergere), conversațiile clasei, observații și personalizări.
 - Documentele clasei devin surse automate în conversațiile clasei.
 - Favicon cu logo-ul verde; mod întunecat cu paleta verde și culori lizibile pe toate paginile.
 
-## Nelansat — P-080 — 2026-10-15
+## Publicat pe Site v33 — P-080 — 2026-10-15
 
 - Tab „Bibliotecă personală” în Cont (`/account?view=library`) și `GET /api/library/personal`; încărcare prin `/api/documents` cu `scope=library`.
 - Întrebarea lui Plusi la prima deschidere a asistentului pentru adăugarea documentelor folosite des.
