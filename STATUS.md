@@ -1,8 +1,8 @@
 # Starea proiectului
 
-## P-086 — Selector AI — Verificare/publicare în curs — 2026-10-15
+## P-086 — DONE — Selector AI publicat pe Site v35 — 2026-10-15
 
-Responsabil Marcos Soames. GPT-4.1 mini și GPT-6.1 Sol în chat și Cont → Aspect și preferințe, pentru toate conturile autentificate în pilot. Preferință per cont/browser, model afișat și salvat lângă răspuns. Generare și revizie cu modelul ales; RAG/indexuri neschimbate. Aceeași cheie, reutilizare autorizată explicit. Allowlist server, Sol guest refuzat, reasoning medium/bugete și timeout adaptate, fără fallback ascuns. Fără migrare/env/furnizor nou. [Utilizare și limite](docs/MODEL_SELECTION.md). Probe reale API pe ambele modele trecute; build main/Site, TypeScript, 21 comenzi web, audit strict zero vulnerabilități și scanner fără detecții trecute. Publicarea se confirmă în jurnal.
+Responsabil Marcos Soames. GPT-4.1 mini și GPT-6.1 Sol în chat și Cont → Aspect și preferințe, pentru toate conturile autentificate în pilot. Preferință per cont/browser, model afișat și salvat lângă răspuns. Generare și revizie cu modelul ales; RAG/indexuri neschimbate. Aceeași cheie, reutilizare autorizată explicit. Allowlist server, Sol guest refuzat, reasoning medium/bugete și timeout adaptate, fără fallback ascuns. Fără migrare/env/furnizor nou. [Utilizare și limite](docs/MODEL_SELECTION.md). Probe reale API pe ambele modele trecute; build main/Site, TypeScript, 21 comenzi web, audit strict zero vulnerabilități și scanner fără detecții trecute. Site v35 publicat, source `96e2c14e5fc27b7e9ae41e9ac722ae75cc3aaaaa`, deployment `appgdep_6ad0f3c8cda88191ac982b7a0d0710f5`, status nativ **succeeded** la 2026-10-15 **18:40:31 București**, env revision 5 și audiență publică păstrate. Cod `6b321a1e2293122d2de34d88362149cb723224d8`; [CI 38761952839](https://github.com/ProfOS-Edu/ProfPlus/actions/runs/38761952839) completed/success. localhost:3000 sincronizat prin fast-forward, fără restart, în `/private/tmp/profplus-P084-release/web`. CUA indisponibil, fără test vizual autentificat declarat.
 
 ## P-085 — DONE — GitHub și Site v34 publicate — Caseta Plusi stabilă — 2026-10-15
 
