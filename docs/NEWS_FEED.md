@@ -30,3 +30,12 @@ Responsabil: Marcos Soames (cerere explicită din 2026-10-15). Branch `feature/P
 - Ciclul de predare este cel din profil (primar/gimnaziu/liceu), nu clasa exactă.
 - Pe Site, ingestia depinde de permisiunea platformei pentru cereri HTTPS externe către surse; se verifică la publicare.
 - Drepturile asupra conținutului rămân ale surselor; ProfPlus afișează titlu + extras scurt cu link. Dacă o sursă cere oprirea, se scoate din `NEWS_SOURCES`.
+
+
+## Precizia disciplinei — P-089, 2026-10-15
+
+Relevanța pentru profil nu mai folosește fragmente obținute prin tăierea finalului cuvintelor. Fizică acceptă „fizică”/„fizicii” pe cuvinte întregi, după eliminarea expresiilor de educație fizică, pregătire sportivă și activitate/condiție/pregătire fizică. Educație fizică are propriile expresii; simpla apariție a Fizicii nu îi oferă relevanță. Un articol care menționează separat ambele discipline poate primi ambele potriviri. Titlul și rezumatul se verifică separat.
+
+Pentru alte discipline: cuvinte întregi, aliasuri explicite pentru Matematică și Informatică/TIC, variante flexionare uzuale pentru științe și expresii de limbă/literatură; disciplinele compuse necunoscute cer toți termenii semnificativi. Sufixul „în limba …” al unei discipline nonlingvistice este ignorat. Regresii în tests/news-feed.mjs: confundări negative, potriviri pozitive, text mixt, metafizică/biochimie/informații, limba de predare și prioritatea de scor.
+
+Regulile sunt deterministe și conservatoare, nu clasificare semantică perfectă. Știrile pot apărea în continuare pentru importanță generală/ciclu sau fixarea editorului, fără motivul de disciplină greșit. Reordonarea se aplică la următoarea cerere; fără reimport, reindexare RAG, model AI ori migrare.
