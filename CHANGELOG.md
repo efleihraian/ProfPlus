@@ -1,6 +1,6 @@
 # Istoricul versiunilor
 
-## Nelansat — P-088
+## Publicat pe Site v37 — P-088 — 2026-10-15
 
 - Acțiuni „Citește articolul” aliniate la baza cardurilor.
 - O singură revenire la toate știrile, prin navigare completă care reîncarcă lista.
