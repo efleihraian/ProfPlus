@@ -36,8 +36,16 @@ Responsabil: Marcos Soames (cerere explicită din 2026-10-15). Branch `feature/P
 
 Dependențe instalate din lockfile pe Linux (VM-ul Mac-ului): `npm run build` reușit (ruta `/api/library/personal` inclusă), `tsc --noEmit` fără erori, `npm run test:account` (lifecycle + integrare normal/social-only) trecut, plus personal-library, cloud-library, exercise-options, exercise-provenance, document-models, guest-chat, library-availability și teacher-test-controls. `npm audit --omit=dev`: 0 vulnerabilități; audit complet: cele 8 high toolchain preexistente. `security_scan.py --history` pe repository și `--client` pe build: fără detecții. GitHub: PR #24 MERGED, origin/main = c126156.
 
+## Verificare cu backendul real, fără cont (2026-10-15)
+
+Build-ul final rulat local (wrangler dev, 127.0.0.1, configurația reală din `.dev.vars`, copiată numai în spațiul privat al sesiunii, fără afișarea valorilor): `/api/account` raportează Supabase pregătit și ștergerea disponibilă; biblioteca comună reală răspunde cu 9.538 de materiale fără avertismente; știrile 200; `/api/library/personal` și încărcarea în bibliotecă fără cont 401; un mesaj de vizitator cu OpenAI real primește răspuns. Nu s-au scris date în Supabase.
+
+CI GitHub (Security checks) pentru main: secrete, contracte import, install, tsc, build, scanner client, test:account și toate suitele trec; jobul pică numai la `npm audit --audit-level=high` din cauza celor 8 alerte braces (GHSA-vfj7-8cjw-p6xm, fără versiune reparată, doar unelte de dezvoltare). Titularul a decis păstrarea controlului strict; CI rămâne roșu până la o remediere reală.
+
+Testul autentificat se face de titular cu propriul cont (decizie 2026-10-15), după publicarea pe Site sau pe serverul local: Cont → Bibliotecă personală (încărcare, „Gata · folosit de Plusi”, ștergere), întrebarea la prima deschidere a asistentului, un mesaj care folosește documentul.
+
 ## Limite
 
-- Nu s-au executat aplicația reală cu Supabase/OpenAI reale, un login real sau publicarea Site. CI remote nu a fost verificat în această sesiune.
+- Nu s-a executat un login real și nici scrieri autentificate în Supabase/OpenAI; publicarea Site nu a fost executată.
 - Întrebarea de prima deschidere este per browser; după delogare poate reapărea dacă biblioteca e goală.
 - Limita de 10 documente provine din limita existentă pe grup; creșterea ei cere schimbarea operației SQL aprobate (migrare).
