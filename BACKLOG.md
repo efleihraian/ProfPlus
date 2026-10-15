@@ -1,30 +1,30 @@
 # Lucrări rămase
 
-## P-084 — În verificare — Audit toolchain și dialog clase — 2026-10-15
+## P-084 — DONE — Audit toolchain și dialog clase — 2026-10-15
 
-Responsabil Marcos Soames, cerere explicită: actualizarea Site-ului, remedierea celor 8 alerte npm și dialogul de creare a claselor opac. Eliminat lanțul fast-glob/micromatch/braces prin adaptor local tinyglobby, cu teste de compatibilitate pentru consumatorii reali și protecție pentru patternuri adânci. Audit strict 0 vulnerabilități după instalare curată. Culorile temei sunt disponibile și portalurilor din body. Publicarea și CI final se confirmă în WORKLOG; nu se marchează DONE înainte de confirmarea nativă.
+Responsabil Marcos Soames, cerere explicită: actualizarea Site-ului, remedierea celor 8 alerte npm și dialogul de creare a claselor opac. Eliminat lanțul fast-glob/micromatch/braces prin adaptor local tinyglobby, cu teste de compatibilitate pentru consumatorii reali și protecție pentru patternuri adânci. Audit strict 0 vulnerabilități după instalare curată. Culorile temei sunt disponibile și portalurilor din body. CI complet verde; Site v33 publicat succeeded, conform confirmării native din WORKLOG. Audiență publică păstrată la alegerea explicită a titularului.
 
-## P-083 — DONE (GitHub main) — Tururi ghidate cu Plusi — 2026-10-15
+## P-083 — DONE (GitHub + Site) — Tururi ghidate cu Plusi — 2026-10-15
 
 Responsabil Marcos Soames, cerere din 2026-10-15. La prima intrare pe fiecare pagină, Plusi conduce un tur cu evidențieri (spot luminos și inel pulsatoriu), explică fiecare element și reacționează animat la fiecare pas; poate fi sărit, navigat cu tastatura și reluat din meniul lui Plusi sau din Cont. Fără date pe server. Test nou în CI, verificat în harness (desktop/mobil, luminos/întunecat) și pe localhost:3000. [Detalii](docs/PLUSI_TOURS.md).
 
-## P-082 — DONE (GitHub main) — Știri automate și recomandări pe profil — 2026-10-15
+## P-082 — DONE (GitHub + Site) — Știri automate și recomandări pe profil — 2026-10-15
 
 Responsabil Marcos Soames, cerere din 2026-10-15. Știri preluate automat din fluxuri RSS publice (Ministerul Educației, Edupedu, Digi24 Educație, Educație Privată): titlu, extras scurt și link, publicate automat în lista completă, fără dubluri. Acasă păstrează principalul + trei secundare: fixările recente ale editorului, apoi cele mai importante (ex. salarii) și cele relevante pentru profilul didactic (disciplină, ciclu, olimpiade), cu motivul afișat. Fără AI, fără date noi. Test nou în CI, rulare reală pe surse și verificare pe localhost:3000. [Detalii și limite](docs/NEWS_FEED.md).
 
 Urmează: verificarea ingestiei pe Site după publicare; eventual surse noi (ISJ-uri) și clasa exactă în profil.
 
-## P-081 — DONE (GitHub main) — Clasele mele complete, favicon și mod întunecat — 2026-10-15
+## P-081 — DONE (GitHub + Site) — Clasele mele complete, favicon și mod întunecat — 2026-10-15
 
 Responsabil Marcos Soames, cerere din 2026-10-15. Clasele mele în cont (proiecte), cu Generează cu Plusi în conversații ale clasei, încărcare pe Planificări/Proiecte/Teste/Fișe, observații generale despre clasă și personalizări folosite de Plusi; documentele clasei sunt surse automate doar în conversațiile clasei. Fără migrare, grupuri interne derivate pe server, ascunse din istoric; ștergerea clasei elimină documentele și jurnalul. Favicon verde și mod întunecat verde, lizibil, pe shell și paginile de cont. Build, TypeScript, test nou în CI și suitele trecute; probă vizuală luminos/întunecat. Fără test cu cont real. [Detalii și limite](docs/CLASSES.md).
 
 Urmează separat: test cu cont real după publicare, catalog/observații per elev numai după P-043 și DPIA, migrare pentru limite mai mari.
 
-## P-080 — DONE (GitHub main) — Bibliotecă personală, întrebare la prima deschidere și animații Plusi — 2026-10-15
+## P-080 — DONE (GitHub + Site) — Bibliotecă personală, întrebare la prima deschidere și animații Plusi — 2026-10-15
 
 Responsabil Marcos Soames, cerere din 2026-10-15 (fără issue GitHub: GitHub nu a fost accesibil din sesiune). Tab „Bibliotecă personală” în Cont și întrebare la prima deschidere a asistentului pentru adăugarea documentelor folosite des. Documentele personale gata sunt surse automate în toate conversațiile, excluse manual la nevoie; fără migrare, cu grup derivat pe server, ascuns din istoric și aceleași validări/limite/ștergeri. Plusi reacționează la atingere și înoată între taburi, cu tranziții direcționale și respectarea mișcării reduse. TypeScript fără erori noi, test nou și suite relevante trecute, probă vizuală desktop/mobil în harness; build real, CI și publicare neexecutate. [Detalii și limite](docs/PERSONAL_LIBRARY.md).
 
-Criterii: (1) tab în Cont cu adăugare/listare/ștergere numai pentru conturi; (2) întrebare la prima deschidere a asistentului; (3) chatul folosește automat documentele; (4) aceleași reguli de securitate, minimizare și ștergere; (5) animații la interacțiune și la schimbarea taburilor. Titularul a cerut integrarea directă, fără reviewer. Integrat pe main (PR #24, c126156) cu build/teste/audit/scanner trecute. Rămas separat: publicarea Site.
+Criterii: (1) tab în Cont cu adăugare/listare/ștergere numai pentru conturi; (2) întrebare la prima deschidere a asistentului; (3) chatul folosește automat documentele; (4) aceleași reguli de securitate, minimizare și ștergere; (5) animații la interacțiune și la schimbarea taburilor. Titularul a cerut integrarea directă, fără reviewer. Integrat pe main (PR #24, c126156) cu build/teste/audit/scanner trecute. Publicarea Site v33 este confirmată în predarea P-084 din WORKLOG.
 
 ## P-079 — DONE — Dashboard practic și flux de știri — 2026-10-14/15
 
