@@ -559,3 +559,26 @@ Verificări: news-feed (nou) și toate suitele din CI, build și tsc trecute; ru
 ## P-083 — 2026-10-15 — Tururi ghidate cu Plusi
 
 Responsabil Marcos Soames; branch feature/P-083-plusi-tours din main c6188aa. Cerințe afectate: accesibilitate (dialog modal, tastatură, focus, mișcare redusă), minimizare (marcaj doar în browser), web/mobil. Fără date noi, furnizori sau migrare. Verificări: plusi-tour (nou) și suitele CI, build/tsc, harness desktop/mobil luminos/întunecat, localhost:3000 real. [Detalii](PLUSI_TOURS.md).
+
+## Predare Codex după Claude — P-080–P-083 — 2026-10-15 16:03:07 EEST
+
+Cerere explicită a lui Marcos Soames: verificare main și publicare condiționată de verificări, apoi commit exclusiv documentație direct pe main, fără force. Citite AGENTS, TEAM_WORKFLOW, README, CONTRIBUTING, STATUS, BACKLOG, CHANGELOG Nelansat, intrările noi WORKLOG/DECISIONS, PRODUCT_REQUIREMENTS, SECURITY_REQUIREMENTS/REVIEW și documentele PERSONAL_LIBRARY, CLASSES, NEWS_FEED, PLUSI_TOURS.
+
+Sincronizare: fetch origin din copia operațională a eșuat DNS; nicio modificare/reset/stash/pull acolo. Clonă independentă cu istoric complet în `/tmp/profplus-release-20261015`, HEAD/main și origin/main aliniate la `a548469a8febfe36c878fc3d1349aa6df5aa69c5` din obiectele copiei locale, SHA main confirmat separat prin GitHub API. Pull ff-only din clona curată a eșuat DNS; nu este declarat reușit.
+
+Comparație publicare: Site v32 source `f5df7b01f8e9b96284b635542fdf7659985cdfe1` confirmat nativ; WORKLOG îl mapează la GitHub `f09ff47b4abfea7ceab33cdd90c598e373fa5085` (P-079). Source Site aparține unui istoric separat și nu există în clona GitHub; nu s-a pretins un git diff direct între istorice. Diff GitHub P-079..main: 59 fișiere, 2.126 adăugări/239 eliminări; opt commituri, dintre care patru funcționale P-080–P-083 și patru note de livrare. NePublicate: biblioteca personală și animațiile Plusi; clase/documente/observații/personalizări, favicon și dark mode; știri RSS/recomandări; tururi Plusi. Nicio diferență în supabase, exemple env, package.json/lockfile; documentele noi declară fără migrare/variabile/furnizor AI nou. RSS folosește patru surse HTTPS publice, încă neverificate pe Worker; limitele documentelor și acceptanța autentificată sunt în documentele funcțiilor. Nu s-au modificat configurații, date ori acces.
+
+Verificări locale reale, Node 22.20.0/npm 10.9.3:
+
+- `npm run install:ci`, `npx tsc --noEmit`, `npm run build`: exit 0, build cu avertismente framework existente.
+- `npm run test:account`: lifecycle și antete trecute; integrarea D1/Auth normală eșuează la inițializare cu `listen EPERM 127.0.0.1`; executat separat și social-only, același blocaj. Nu se declară trecute local.
+- Toate celelalte 18 comenzi de teste web din security.yml trecute: guest-chat, export-layout, exercise-options, admin-news, teacher-test-controls, document-models, document-latex, exercise-provenance, export-provenance, common-rag, test:manual-library, library-availability, cloud-library, supabase-storage, personal-library, class-workspace, news-feed, plusi-tour.
+- Unittest Python pentru cele șapte module CI încercat: erori de import requests/PyMuPDF; creat .venv-ci, instalarea requirements-rag.txt a eșuat DNS PyPI. Nicio probă locală Python trecută.
+- `python3 scripts/security_scan.py --history --client`: exit 0, 1.922 fișiere/bloburi, zero findings; limita scannerului de tipare rămâne.
+- `npm audit --audit-level=high`: exit 1 local din cauza DNS registry.npmjs.org, fără raport nou local.
+
+CI main verificat prin API și pași/loguri: [Security checks 38734528746](https://github.com/ProfOS-Edu/ProfPlus/actions/runs/38734528746), SHA a548469, completed/failure. Joburile secrets și library-import-contracts trecute; dependencies-and-build are install/tsc/build/scanner client/test:account și toate cele 18 suite trecute, numai auditul strict eșuează. Logul confirmă 8 high în braces/micromatch și lanțul uneltelor (GHSA-vfj7-8cjw-p6xm), sugestia npm implică downgrade breaking; fără modificări de dependențe, dezactivări ori excepții.
+
+Publicare oprită: condiția utilizatorului «dacă verificările trec» nu este îndeplinită. Niciun save/deploy nou inițiat. Status nativ al deployment-ului existent `appgdep_6acfee54a3508191afa0004aa4b6f834`: `succeeded`, source v32 de mai sus, env revision 5, ultima actualizare 2026-10-15 00:05:31 București (timestamp nativ), audiență owner-private confirmată. URL https://profos-chat.cosminsoames.chatgpt.site. Ora confirmării: 2026-10-15 16:03:07 EEST.
+
+Procese: localhost:3000, PID 2690, cwd `/Users/marcos/dev/profplus-P-077-exercise-mix/web`, HEAD a548469. Nu este necesar restart pentru noul cod (același HEAD); nu s-a repornit/oprit niciun server sau import. Testele curente nu au folosit backend/provider real, contul titularului sau secrete operaționale. Pașii rămași: remediere reală audit, reexecutarea verificărilor locale blocate într-un mediu cu DNS/loopback, publicare prin fluxul Sites cu aceeași configurație și audiență, apoi acceptanță cont/RSS. Predarea de față modifică numai STATUS și WORKLOG.
