@@ -1,9 +1,9 @@
 import {validExerciseOptions,type ExerciseOptions} from './exercise-options';
 import {matchesTeaching,type TeachingProfile,type Stage} from './teaching-profile';
 export type SourceSelection={mode?:'automatic'|'manual';manualIds:string[];documentIds:string[];priorityManualIds?:string[];priorityDocumentIds?:string[];exerciseOptions?:ExerciseOptions};
-export type SelectableSource={id:string;kind:'manual'|'document';status:string;subject?:string;schoolClass?:string;stages?:Stage[];modelTypes?:string[];chatId?:string;category?:string};
+export type SelectableSource={id:string;kind:'manual'|'document';status:string;subject?:string;schoolClass?:string;stages?:Stage[];modelTypes?:string[];chatId?:string;category?:string;personal?:boolean};
 export function automaticSources(items:SelectableSource[],profile:TeachingProfile|null,chatId?:string):SourceSelection{
- const eligible=items.filter(i=>!i.modelTypes?.length&&i.status==='ready'&&((profile&&matchesTeaching(i,profile))||(!profile&&i.kind==='manual')||(i.kind==='document'&&i.chatId===chatId&&!!chatId&&!i.subject)));
+ const eligible=items.filter(i=>!i.modelTypes?.length&&i.status==='ready'&&((profile&&matchesTeaching(i,profile))||(!profile&&i.kind==='manual')||(i.kind==='document'&&i.chatId===chatId&&!!chatId&&!i.subject)||(i.kind==='document'&&!!i.personal)));
  return {mode:'automatic',manualIds:[...new Set(eligible.filter(i=>i.kind==='manual').map(i=>i.id))],documentIds:[...new Set(eligible.filter(i=>i.kind==='document').map(i=>i.id))]};
 }
 export function withPriorities(selection:SourceSelection,preferred:SourceSelection|null|undefined):SourceSelection{

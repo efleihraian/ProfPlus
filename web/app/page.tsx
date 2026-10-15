@@ -7,6 +7,7 @@ import HomePage from "./home-page";
 import DocumentsPage from "./documents-page";
 import ClassesPage from "./classes-page";
 import HelpPlusi from "./help-plusi";
+import TabSwimmer from "./tab-swimmer";
 
 type Tab = "acasa" | "asistent" | "documente" | "clase";
 const TABS: {id: Tab; label: string}[] = [
@@ -15,6 +16,7 @@ const TABS: {id: Tab; label: string}[] = [
   {id: "documente", label: "Documente personale"},
   {id: "clase", label: "Clasele mele"},
 ];
+const order = (t: Tab) => TABS.findIndex(x => x.id === t);
 const fromHash = (): Tab => TABS.find(t => t.id === window.location.hash.slice(1))?.id ?? "acasa";
 
 export default function Home() {
@@ -24,9 +26,12 @@ export default function Home() {
   const [seed, setSeed] = useState<{text: string; n: number}>();
   const [signedIn, setSignedIn] = useState(false);
   const [admin,setAdmin]=useState(false);
+  // Direcția tranziției: pagina nouă intră din partea tabului ales.
+  const [dir, setDir] = useState<"left" | "right">("right");
+  const nav = useRef<HTMLElement>(null);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   useEffect(() => {
-    const sync = () => { setTab(fromHash()); setReady(true); };
+    const sync = () => { const next = fromHash(); setTab(prev => { if (prev !== next) setDir(order(next) > order(prev) ? "right" : "left"); return next; }); setReady(true); };
     sync(); window.addEventListener("hashchange", sync);
     void fetch("/api/account", {cache: "no-store"}).then(r => r.ok ? r.json() as Promise<{user?: unknown;admin?:boolean}> : null).then(data => {setSignedIn(!!data?.user);setAdmin(!!data?.admin);}).catch(() => {});
     const pending = timers.current;
@@ -35,6 +40,7 @@ export default function Home() {
   const later = (fn: () => void, ms: number) => { timers.current.push(setTimeout(fn, ms)); };
   function go(next: Tab) {
     if (next === tab) return;
+    setDir(order(next) > order(tab) ? "right" : "left");
     setTab(next); setPhase(next === "asistent" ? "in" : "");
     window.history.replaceState(null, "", "#" + next); window.scrollTo(0, 0);
     if (next === "asistent") later(() => setPhase(""), 900);
@@ -43,7 +49,7 @@ export default function Home() {
   function ask(text: string) {
     if (phase) return;
     const fromHome = tab === "acasa";
-    const open = () => { setSeed(s => ({text, n: (s?.n ?? 0) + 1})); setTab("asistent"); setPhase("in"); window.history.replaceState(null, "", "#asistent"); window.scrollTo(0, 0); later(() => setPhase(""), 900); };
+    const open = () => { setDir("right"); setSeed(s => ({text, n: (s?.n ?? 0) + 1})); setTab("asistent"); setPhase("in"); window.history.replaceState(null, "", "#asistent"); window.scrollTo(0, 0); later(() => setPhase(""), 900); };
     if (fromHome) { setPhase("out"); later(open, 480); } else open();
   }
   return <div className="shell">
@@ -53,8 +59,9 @@ export default function Home() {
           <svg width="38" height="38" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#2F7D5B"/><path d="M9 25V7h7.5a5.6 5.6 0 0 1 0 11.2H12.6V25zm3.6-10h3.7a2.3 2.3 0 0 0 0-4.6h-3.7z" fill="#FFFFFF"/><path d="M24.5 19.5v7M21 23h7" stroke="#86D9AE" strokeWidth="2.8" strokeLinecap="round"/></svg>
           <span>Prof<span style={{fontWeight: 400}}>Plus</span></span>
         </a>
-        <nav aria-label="Navigare principală" className="shell-tabs">
+        <nav ref={nav} aria-label="Navigare principală" className={"shell-tabs" + (ready ? " has-indicator" : "")}>
           {TABS.map(t => <button key={t.id} type="button" className="shell-tab" aria-current={tab === t.id ? "page" : undefined} onClick={() => go(t.id)}>{t.label}</button>)}
+          {ready && <TabSwimmer navRef={nav} index={order(tab)}/>}
         </nav>
         <div className="shell-account-actions"><div className="shell-theme"><ThemeToggle/></div>{admin&&<a href="/admin" className="shell-admin">Admin</a>}
           <a href={signedIn ? "/account" : "/account?view=login"} aria-label={signedIn ? "Cont și setări" : "Autentificare"} title={signedIn ? "Cont și setări" : "Autentificare"} className="shell-login">
@@ -64,10 +71,12 @@ export default function Home() {
         </div>
       </div>
     </header>
-    {tab === "acasa" && <HomePage phase={phase} onAsk={ask} onDocuments={() => go("documente")}/>}
-    {tab === "documente" && <DocumentsPage onGenerate={ask}/>}
-    {tab === "clase" && <ClassesPage/>}
+    {tab !== "asistent" && <div key={"stage-" + tab} className={"tab-stage from-" + dir}>
+      {tab === "acasa" && <HomePage phase={phase} onAsk={ask} onDocuments={() => go("documente")}/>}
+      {tab === "documente" && <DocumentsPage onGenerate={ask}/>}
+      {tab === "clase" && <ClassesPage/>}
+    </div>}
     {(tab === "documente" || tab === "clase") && <HelpPlusi key={tab} onOpenAssistant={() => go("asistent")}/>}
-    {ready && <div className={"shell-assistant" + (phase === "in" ? " fx-page" : "")} hidden={tab !== "asistent"}><Assistant seed={seed} splash={phase === "in"}/></div>}
+    {ready && <div className={"shell-assistant" + (phase === "in" ? " fx-page" : " tab-stage from-" + dir)} hidden={tab !== "asistent"}><Assistant seed={seed} splash={phase === "in"}/></div>}
   </div>;
 }

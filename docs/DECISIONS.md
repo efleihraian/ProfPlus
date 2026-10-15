@@ -194,3 +194,8 @@ Manualele sunt baza factuală pentru teste și planificări, iar modelele person
 ## P-073 — 2026-10-12
 
 Responsabil Marcos Soames, issue #18. Inventar opt worktree-uri și sursele Sites; toate implementările existente sunt în main. Merge-uri istorice pentru 8977bda și 2fdfbc2, conflicte revizuite păstrând P-054/P-065/P-067/P-069/P-072 și guard-ul fixture-urilor. Runtime/teste/scheme identice cu 1c50602, fără migrare, furnizor, cheie, permisiune sau audiență nouă. Rezumatul importului include numai numărări, fără URL-uri/titluri/private content; jurnalul brut și checkpointurile rămân excluse. 61 teste Python și suitele web focalizate trecute; scanner Git/istoric/client fără detecții, audit 8 high toolchain existente și zero producție. Site-ul P-072 deja publicat rămâne curent, fără deploy redundant; import paused și checkout operațional păstrat. Nu se declară CI complet verde, audit complet sau conformitate GDPR. [Dovezi](MAIN_CONSOLIDATION.md).
+
+
+## P-080 — 2026-10-15 — Biblioteca personală fără migrare
+
+Biblioteca personală reutilizează tabelul și operațiile aprobate `documents`, grupate sub un UUID determinist derivat pe server din identitatea verificată, în locul unei coloane/tabele noi (care ar cere migrare de producție și modificarea RPC-ului cu operații fixe). Grupul este ascuns din istoric și refuzat ca conversație. Consecință acceptată: limita existentă de 10 documente pe grup. Documentele personale gata sunt surse automate în toate conversațiile (cererea titularului: chatul ține cont de ele); profesorul le poate exclude manual. Întrebarea de la prima deschidere se reține doar în browser, pentru a nu colecta date noi.

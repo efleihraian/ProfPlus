@@ -197,3 +197,8 @@ Membership server-only, verificare getUser/cont confirmat/neșters și membershi
 ## P-079 — Știri și înlocuire atomică
 
 Grants/RLS/membership server-only păstrate; GET admin protejat, publicare validată (titlu/rezumat/text sau sursă), filtre/paginare limitate, fără SQL/HTML executabil din client. RPC cu lock tranzacțional, revizie și audit, conflictul anulează inclusiv deplasarea știrii anterioare. Node și SQL real cu rollback verifică refuzuri și păstrarea datelor; nu este stress test concurrent. Advisor numai INFO existente. [Dovezi](NEWS_EDITOR.md); scanările și buildurile finale în WORKLOG.
+
+
+## P-080 — Biblioteca personală
+
+Grupul bibliotecii este derivat pe server (SHA-256 al identității verificate); clientul nu îl poate alege, iar `chatId` egal cu grupul este refuzat la încărcare, chat și istoric. Rutele noi/extinse păstrează autentificarea, verificarea Origin, validarea tipului/semnăturii/mărimii, limitele SQL existente și blocarea în timpul ștergerii contului; listarea filtrează după user_id. Teste negative: fără cont 401, scope invalid 400, conversație străină 404, limită 409, grup ca conversație 400. Scanner Git/istoric fără detecții; scanarea client și auditul npm nu au putut fi executate fără build.

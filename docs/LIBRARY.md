@@ -51,3 +51,7 @@ Limita cache-ului P-059: snapshotul de 5 minute este în memoria instanței serv
 ## P-065 — 2026-10-11
 
 Cache doar pentru metadatele educaționale comune confirmate din Supabase, proiecție minimă server-side. Documentele proprii rămân autorizate pe cont și nu intră în cache. Fără date, furnizori, trackere, permisiuni sau audiență noi. [Implementare, verificări și limite](LIBRARY_LOADING.md).
+
+## Biblioteca personală — P-080
+
+Documentele adăugate din Cont → Bibliotecă personală (sau la prima deschidere a asistentului) sunt surse automate în toate conversațiile, marcate „Biblioteca personală” în listă. [Detalii](PERSONAL_LIBRARY.md).

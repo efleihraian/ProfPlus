@@ -1,5 +1,11 @@
 # Lucrări rămase
 
+## P-080 — IN REVIEW — Bibliotecă personală, întrebare la prima deschidere și animații Plusi — 2026-10-15
+
+Responsabil Marcos Soames, cerere din 2026-10-15 (fără issue GitHub: GitHub nu a fost accesibil din sesiune). Tab „Bibliotecă personală” în Cont și întrebare la prima deschidere a asistentului pentru adăugarea documentelor folosite des. Documentele personale gata sunt surse automate în toate conversațiile, excluse manual la nevoie; fără migrare, cu grup derivat pe server, ascuns din istoric și aceleași validări/limite/ștergeri. Plusi reacționează la atingere și înoată între taburi, cu tranziții direcționale și respectarea mișcării reduse. TypeScript fără erori noi, test nou și suite relevante trecute, probă vizuală desktop/mobil în harness; build real, CI și publicare neexecutate. [Detalii și limite](docs/PERSONAL_LIBRARY.md).
+
+Criterii: (1) tab în Cont cu adăugare/listare/ștergere numai pentru conturi; (2) întrebare la prima deschidere a asistentului; (3) chatul folosește automat documentele; (4) aceleași reguli de securitate, minimizare și ștergere; (5) animații la interacțiune și la schimbarea taburilor. Rămas pentru DONE: build/CI, review uman, integrare și publicare autorizată.
+
 ## P-079 — DONE — Dashboard practic și flux de știri — 2026-10-14/15
 
 Responsabil Marcos Soames, issue #23. Dashboard pe trei zone, editor cu previzualizare și acțiuni distincte ciornă/publicare, poziții clare pe Acasă și înlocuire atomică păstrând știrea anterioară în lista completă. Citire cu titlu unic/paragrafe, principal + trei secundare, căutare/filtre și paginare public/admin. Membership și audiență păstrate; migration și probe reale rollback trecute. [Utilizare, dovezi și limite](docs/NEWS_EDITOR.md). Publicat pe main f09ff47 și Site succeeded la 00:04 București, 2026-10-15; dovezi în jurnal.

@@ -522,3 +522,14 @@ Verificări finale P-079, continuare în 2026-10-15: TypeScript și build main/S
 
 
 Livrare P-079 confirmată, 2026-10-15: cod GitHub f09ff47b4abfea7ceab33cdd90c598e373fa5085 publicat direct pe main; Site source f5df7b01f8e9b96284b635542fdf7659985cdfe1, deployment appgdep_6acfee54a3508191afa0004aa4b6f834, status succeeded la 2026-10-14T21:04:47Z (2026-10-15 00:04 București), env revision 5 neschimbată, URL https://profos-chat.cosminsoames.chatgpt.site. Owner-private păstrat. localhost:3000 verificat 200 pe implementarea finală; copia operațională veche/backup păstrate. Proxy-ul QA 3088 se oprește și tabul său se mută la aplicația reală; fixture-urile sunt numai locale, niciun articol exemplu publicat în baza reală. Issue #23 se închide după livrare.
+
+
+## P-080 — 2026-10-15 — Bibliotecă personală și animații Plusi
+
+Responsabil Marcos Soames; branch feature/P-080-personal-library-plusi din origin/main 04fd690 (ultima predare P-079), în worktree-ul ~/dev/profplus-P-077-exercise-mix, curat la început. Folderul operațional principal are modificări necomise mai vechi și este cu 74 de commituri în urma origin/main; nu a fost atins. `git fetch`, push și PR nu au fost posibile: GitHub refuză conexiunea din shell-ul local al sesiunii (proxy 403), iar contul GitHub din mediul cloud nu este autentificat. Starea origin/main folosită este fetch-ul local existent (04fd690, 2026-10-15 00:05).
+
+Cerințe afectate: confidențialitate/minimizare (documente private, avertisment fără date ale elevilor, fără date noi pe server), securitate (grup derivat pe server, aceleași validări, izolare pe user_id), ștergere (rute existente și ștergerea contului), accesibilitate (etichete, aria-live, confirmare în doi pași, reduced motion), web/mobil (layout 390 px). Android/iOS nu au încă aplicații native în repository; comportamentul se aplică aceluiași web responsive. Fără tracker, SDK, furnizor, migrare sau cheie nouă. [Detalii](PERSONAL_LIBRARY.md).
+
+Verificări reale: tsc fără erori noi față de baseline; test nou personal-library și suite cloud-library, exercise-options, exercise-provenance, document-models, guest-chat, library-availability, account-lifecycle trecute; account-integration/teacher-test-controls nerulabile local (eșec identic pe baseline); ESLint fără erori; scanner `security_scan.py --history` fără detecții (fără `--client`, fiindcă build-ul nu a putut fi generat); probă vizuală în harness Chromium la 1280/390 px cu API simulat. Neexecutate: npm ci/build, audit npm, aplicația reală, Supabase/OpenAI reale, publicare Site. Fișierul temporar de sincronizare `uploads/p080-sync.tgz` este ignorat de Git.
+
+Pași următori: push branch + PR (cu acces GitHub), CI/build, review uman pe alt cont, apoi integrare și publicare autorizată.
