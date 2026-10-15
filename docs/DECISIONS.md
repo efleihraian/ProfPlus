@@ -199,3 +199,8 @@ Responsabil Marcos Soames, issue #18. Inventar opt worktree-uri și sursele Site
 ## P-080 — 2026-10-15 — Biblioteca personală fără migrare
 
 Biblioteca personală reutilizează tabelul și operațiile aprobate `documents`, grupate sub un UUID determinist derivat pe server din identitatea verificată, în locul unei coloane/tabele noi (care ar cere migrare de producție și modificarea RPC-ului cu operații fixe). Grupul este ascuns din istoric și refuzat ca conversație. Consecință acceptată: limita existentă de 10 documente pe grup. Documentele personale gata sunt surse automate în toate conversațiile (cererea titularului: chatul ține cont de ele); profesorul le poate exclude manual. Întrebarea de la prima deschidere se reține doar în browser, pentru a nu colecta date noi.
+
+
+## P-081 — 2026-10-15 — Clase fără migrare și fără date despre elevi
+
+O clasă este un proiect al contului cu nume standard; documentele pe secțiuni și jurnalul (observații, personalizări) folosesc grupuri interne derivate pe server, ca biblioteca P-080, pentru a evita o migrare de producție. Observațiile sunt generale despre clasă; catalogul, notele și observațiile per elev rămân excluse până la P-043 (roluri/izolare) și o evaluare DPIA dedicată. Documentele clasei sunt surse automate numai în conversațiile clasei. Modul întunecat folosește aceeași identitate verde ca modul luminos.

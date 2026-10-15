@@ -9,7 +9,12 @@ const PREFIX = "profplus:personal-library:v1:";
 /** UUID determinist (format v8) pentru grupul de documente al bibliotecii personale. */
 export async function personalLibraryId(user: string): Promise<string> {
   if (!user) throw new Error("INVALID_USER");
-  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(PREFIX + user))).slice(0, 16);
+  return derivedGroupId(PREFIX + user);
+}
+
+/** UUID determinist pentru un grup intern al contului (bibliotecă, documente sau jurnal de clasă). */
+export async function derivedGroupId(label: string): Promise<string> {
+  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(label))).slice(0, 16);
   digest[6] = (digest[6] & 0x0f) | 0x80; // versiunea 8: identificator definit de aplicație
   digest[8] = (digest[8] & 0x3f) | 0x80; // varianta RFC 9562
   const hex = [...digest].map(b => b.toString(16).padStart(2, "0")).join("");

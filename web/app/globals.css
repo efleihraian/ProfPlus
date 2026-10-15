@@ -110,7 +110,7 @@ input:focus-visible,select:focus-visible,summary:focus-visible,[contenteditable]
 
 /* Theme preferences are stored only in this browser; exports retain print colors. */
 :root{color-scheme:light;--action:#2563EB;--action-hover:#1D4ED8;--on-action:#FFFFFF;--on-success:#0F172A}
-:root[data-theme="dark"]{color-scheme:dark;--background:#0F172A;--surface:#172033;--text:#F8FAFC;--muted:#CBD5E1;--subtle:#94A3B8;--border:#334155;--primary:#93C5FD;--primary-hover:#BFDBFE;--blue-soft:#172E4F;--blue-border:#355D8B;--success-soft:#123A32;--success-text:#6EE7B7;--danger:#FCA5A5;--danger-soft:#3F2029;--danger-border:#7F3542;--warning:#FCD34D}
+:root[data-theme="dark"]{color-scheme:dark;--background:#0F1613;--surface:#17211C;--text:#E6EFE9;--muted:#B3C2B9;--subtle:#98A89F;--border:#2B3A33;--primary:#7FD3A6;--primary-hover:#9BDDB9;--blue-soft:#1C3328;--blue-border:#2F5B46;--success-soft:#123A32;--success-text:#6EE7B7;--danger:#FCA5A5;--danger-soft:#3F2029;--danger-border:#7F3542;--warning:#FCD34D}
 .theme-toggle{margin-left:auto;display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:9px;padding:8px 10px;background:var(--surface);color:var(--text);font-size:12px;flex:none}
 .theme-toggle:hover:not(:disabled){background:var(--blue-soft);border-color:var(--blue-border)}
 :root[data-theme="dark"] .danger-confirm{background:#B91C1C;border-color:#B91C1C;color:var(--on-action)}
@@ -222,3 +222,7 @@ input:focus-visible,select:focus-visible,summary:focus-visible,[contenteditable]
 .personal-library-empty{font-size:14px;color:var(--muted);border:1px dashed var(--border);border-radius:12px;padding:16px;text-align:center}
 .personal-library.compact .personal-library-rules{font-size:12px;margin:8px 0 0}
 @media(prefers-reduced-motion:reduce){.personal-library-list li,.personal-library-progress .dot{animation:none}}
+
+/* P-081: modul întunecat folosește aceeași identitate verde ca modul luminos (butoane principale verzi, text alb). */
+[data-theme="dark"]{--action:#2F7D5B;--action-hover:#3A9168;--on-action:#FFFFFF}
+[data-theme="dark"] .document-editor-dialog::backdrop,:root[data-theme="dark"] .library-dialog::backdrop,:root[data-theme="dark"] .organize-dialog::backdrop{background:rgba(5,10,8,.72)}

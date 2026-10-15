@@ -1,5 +1,11 @@
 # Istoricul versiunilor
 
+## Nelansat — P-081 — 2026-10-15
+
+- Clasele mele salvate în cont, cu documente pe secțiuni (generare cu Plusi, încărcare, ștergere), conversațiile clasei, observații și personalizări.
+- Documentele clasei devin surse automate în conversațiile clasei.
+- Favicon cu logo-ul verde; mod întunecat cu paleta verde și culori lizibile pe toate paginile.
+
 ## Nelansat — P-080 — 2026-10-15
 
 - Tab „Bibliotecă personală” în Cont (`/account?view=library`) și `GET /api/library/personal`; încărcare prin `/api/documents` cu `scope=library`.

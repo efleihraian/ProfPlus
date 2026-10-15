@@ -221,3 +221,8 @@ Rol persistent legat de identitate Supabase verificată, fără rol din profil. 
 ## P-080 — Biblioteca personală, 2026-10-15
 
 Aceleași categorii de date și același flux ca documentele din conversații (original în stocarea privată, fișier și index la furnizorul AI pentru căutare, etichete din profil), dar disponibile în toate conversațiile contului. Nu se colectează câmpuri noi, nu se adaugă furnizor sau tracker; marcajul întrebării este local în browser. Interfața avertizează să nu se încarce date personale ale elevilor și explică indexarea la furnizor și ștergerea. Ștergerea individuală și a contului acoperă documentele (interogare după user_id). Risc rezidual: profesorul poate încărca totuși date ale elevilor; măsurile rămân avertismentul și controlul uman, fără detecție automată. Nu se declară conformitate completă.
+
+
+## P-081 — Clasele mele, 2026-10-15
+
+Date noi în cont: numele clasei (ex. „Clasa a V-a B”), documente încărcate pe secțiuni (același flux ca restul documentelor), observații text și personalizări (disciplină, nivel, număr de elevi, manual, preferințe). Nu se colectează identități, note sau situații individuale ale elevilor; interfața o cere explicit, dar textul liber poate conține totuși date personale introduse de profesor — risc rezidual, controlat prin avertisment și control uman, fără detecție automată. Personalizările sunt trimise furnizorului AI numai în cererile generate din clasă. Ștergerea clasei și a contului elimină documentele și jurnalul. Nu se declară conformitate completă.

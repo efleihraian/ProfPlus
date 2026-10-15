@@ -22,6 +22,7 @@ console.log('PASS: ready personal documents are automatic sources in every conve
 const calls=[];let reserve=1;
 const documentsRoute=(await readFile('app/api/documents/route.ts','utf8')).replace(/^import .*;\s*$/gm,'');
 const stubs=`import {PERSONAL_LIBRARY_LIMIT,personalLibraryId} from ${JSON.stringify(libraryUri)};
+const ownedClass=async()=>null,userProjectIds=async()=>[],isClassSection=()=>false,classDocumentsId=async()=>'x',hiddenGroupIds=async user=>new Set([await personalLibraryId(user)]);
 const json=(body,status=200)=>Response.json(body,{status});const sameOrigin=()=>true;const userId=async()=>globalThis.__user;
 const validChatId=v=>typeof v==='string'&&${chatPattern}.test(v);const accountIdentity=async()=>({teaching:null});const resourceMetadata=()=>null;const saveDocumentLabels=async()=>true;
 const statement=sql=>({bind:(...args)=>({run:async()=>{globalThis.__calls.push({sql,args});return {meta:{changes:sql.startsWith('INSERT')?globalThis.__reserve:1}};},first:async()=>{globalThis.__calls.push({sql,args});return null;}})});
@@ -44,7 +45,8 @@ console.log('PASS: library uploads need an account, use the server-derived group
 
 // History hides the library group and refuses to treat it as a conversation.
 const historyRoute=(await readFile('app/api/history/route.ts','utf8')).replace(/^import .*;\s*$/gm,'');
-const historyStubs=`import {personalLibraryId,withoutPersonalLibrary} from ${JSON.stringify(libraryUri)};
+const historyStubs=`import {personalLibraryId} from ${JSON.stringify(libraryUri)};
+const hiddenGroupIds=async user=>new Set([await personalLibraryId(user)]),userProjectIds=async()=>[],listClasses=async()=>[];
 const json=(body,status=200)=>Response.json(body,{status});const sameOrigin=()=>true;const userId=async()=>'supabase:aaaa';const validChatId=()=>true;const validSelection=()=>true,savedSelection=v=>v,validGeneratedDocument=()=>true;
 const rows=sql=>sql.includes('FROM projects')?[]:[{id:${JSON.stringify(a)},title:'Documente anterioare'},{id:'chat-1',title:'Lecție'}];
 const storage=()=>({db:{prepare:sql=>({bind:()=>({run:async()=>({meta:{changes:1}}),all:async()=>({results:rows(sql)}),first:async()=>({id:'x',messages:'[]',selection:'null'})})})}});`;

@@ -202,3 +202,8 @@ Grants/RLS/membership server-only păstrate; GET admin protejat, publicare valid
 ## P-080 — Biblioteca personală
 
 Grupul bibliotecii este derivat pe server (SHA-256 al identității verificate); clientul nu îl poate alege, iar `chatId` egal cu grupul este refuzat la încărcare, chat și istoric. Rutele noi/extinse păstrează autentificarea, verificarea Origin, validarea tipului/semnăturii/mărimii, limitele SQL existente și blocarea în timpul ștergerii contului; listarea filtrează după user_id. Teste negative: fără cont 401, scope invalid 400, conversație străină 404, limită 409, grup ca conversație 400. Scanner Git/istoric fără detecții; scanarea client și auditul npm nu au putut fi executate fără build.
+
+
+## P-081 — Clasele mele
+
+Clasele, jurnalul și documentele clasei sunt filtrate pe user_id și pe proiectul deținut; grupurile interne sunt derivate pe server și refuzate ca conversații (istoric GET/PUT/DELETE, chat, încărcare). Jurnalul are validare strictă (lungimi, tipuri, 200 observații) și control de revizie. Ștergerea clasei șterge documentele prin aceeași funcție ca ștergerea individuală (original, index la furnizor, etichete). Teste negative: 401 fără cont, 404 alt cont, 400 secțiune/clasă invalidă și grup intern, 409 duplicat/revizie. Scanner fără detecții; auditul npm păstrează cele 8 high toolchain (decizia titularului de a păstra controlul strict).
