@@ -7,16 +7,18 @@ import HomePage from "./home-page";
 import DocumentsPage from "./documents-page";
 import ClassesPage from "./classes-page";
 import HelpPlusi from "./help-plusi";
-import TabSwimmer from "./tab-swimmer";
+import TabIndicator from "./tab-indicator";
+import TutoringPage from "./tutoring-page";
 import PlusiTour from "./plusi-tour";
 import {TOURS} from "./tours";
 
-type Tab = "acasa" | "asistent" | "documente" | "clase";
+type Tab = "acasa" | "asistent" | "documente" | "clase" | "meditatii";
 const TABS: {id: Tab; label: string}[] = [
   {id: "acasa", label: "Acasă"},
   {id: "asistent", label: "Asistent virtual"},
   {id: "documente", label: "Documente personale"},
   {id: "clase", label: "Clasele mele"},
+  {id: "meditatii", label: "Meditații"},
 ];
 const order = (t: Tab) => TABS.findIndex(x => x.id === t);
 const fromHash = (): Tab => TABS.find(t => t.id === window.location.hash.slice(1))?.id ?? "acasa";
@@ -63,7 +65,7 @@ export default function Home() {
         </a>
         <nav ref={nav} aria-label="Navigare principală" className={"shell-tabs" + (ready ? " has-indicator" : "")}>
           {TABS.map(t => <button key={t.id} type="button" className="shell-tab" aria-current={tab === t.id ? "page" : undefined} onClick={() => go(t.id)}>{t.label}</button>)}
-          {ready && <TabSwimmer navRef={nav} index={order(tab)}/>}
+          {ready && <TabIndicator navRef={nav} index={order(tab)}/>}
         </nav>
         <div className="shell-account-actions"><div className="shell-theme"><ThemeToggle/></div>{admin&&<a href="/admin" className="shell-admin">Admin</a>}
           <a href={signedIn ? "/account" : "/account?view=login"} aria-label={signedIn ? "Cont și setări" : "Autentificare"} title={signedIn ? "Cont și setări" : "Autentificare"} className="shell-login">
@@ -77,8 +79,9 @@ export default function Home() {
       {tab === "acasa" && <HomePage phase={phase} onAsk={ask} onDocuments={() => go("documente")}/>}
       {tab === "documente" && <DocumentsPage onGenerate={ask}/>}
       {tab === "clase" && <ClassesPage onGenerate={(text, projectId) => ask(text, {projectId})} onOpenChat={id => ask("", {openChat: id})}/>}
+      {tab === "meditatii" && <TutoringPage/>}
     </div>}
-    {(tab === "documente" || tab === "clase") && <HelpPlusi key={tab} tourId={tab} onOpenAssistant={() => go("asistent")}/>}
+    {(tab === "documente" || tab === "clase" || tab === "meditatii") && <HelpPlusi key={tab} tourId={tab} onOpenAssistant={() => go("asistent")}/>}
     {ready && <PlusiTour key={"tour-" + tab} id={tab} steps={TOURS[tab]} active={!phase} delay={tab === "asistent" ? 1500 : 1000}/>}
     {ready && <div className={"shell-assistant" + (phase === "in" ? " fx-page" : " tab-stage from-" + dir)} hidden={tab !== "asistent"}><Assistant seed={seed} splash={phase === "in"}/></div>}
   </div>;

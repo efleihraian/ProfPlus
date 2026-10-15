@@ -4,7 +4,7 @@ Responsabil: Marcos Soames (cerere explicită din 2026-10-15). Branch `feature/P
 
 ## Comportament
 
-- La prima intrare pe fiecare pagină (Acasă, Asistent virtual, Documente personale, Clasele mele, pagina unei clase, Cont) pornește un tur scurt. Fiecare pas evidențiază un element: restul paginii se întunecă, elementul rămâne luminat, cu un inel verde pulsatoriu, iar zona luminată alunecă de la un pas la altul.
+- La prima intrare pe fiecare pagină (Acasă, Asistent virtual, Documente personale, Clasele mele, Meditații, pagina unei clase, Cont) pornește un tur scurt. Fiecare pas evidențiază un element: restul paginii se întunecă, elementul rămâne luminat, cu un inel verde pulsatoriu, iar zona luminată alunecă de la un pas la altul.
 - Plusi apare în bula turului, sare sau salută la fiecare pas și explică la persoana I. Bula are titlu, text, contor („Pasul 2 din 5”), puncte de progres și butoanele „Sari peste tur”, „Înapoi”, „Mai departe” / „Am înțeles!”.
 - Pașii al căror element nu e vizibil (de ex. meniul lateral pe telefon, o clasă inexistentă) sunt săriți automat. Pe ecrane sub 640 px bula se fixează jos.
 - Accesibilitate: dialog modal cu titlu și descriere, focus pe „Mai departe”, focus păstrat în bulă (Tab), Esc închide, săgețile stânga/dreapta navighează; focusul revine la elementul anterior. Cu „mișcare redusă” nu există animații, doar schimbarea pașilor.
