@@ -204,3 +204,8 @@ Biblioteca personală reutilizează tabelul și operațiile aprobate `documents`
 ## P-081 — 2026-10-15 — Clase fără migrare și fără date despre elevi
 
 O clasă este un proiect al contului cu nume standard; documentele pe secțiuni și jurnalul (observații, personalizări) folosesc grupuri interne derivate pe server, ca biblioteca P-080, pentru a evita o migrare de producție. Observațiile sunt generale despre clasă; catalogul, notele și observațiile per elev rămân excluse până la P-043 (roluri/izolare) și o evaluare DPIA dedicată. Documentele clasei sunt surse automate numai în conversațiile clasei. Modul întunecat folosește aceeași identitate verde ca modul luminos.
+
+
+## P-082 — 2026-10-15 — Știri automate din RSS
+
+Se folosesc fluxurile RSS publice ale surselor, nu scraping de pagini, și se păstrează doar titlul, un extras scurt și linkul, cu atribuire. Publicarea în listă este automată; Acasă rămâne principal + trei secundare, cu fixările recente ale editorului prioritare și restul completat după importanță și profilul didactic. Clasificarea este deterministă (cuvinte-cheie), fără AI, ca să fie verificabilă și fără costuri sau transfer de date.

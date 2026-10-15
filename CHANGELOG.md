@@ -1,5 +1,11 @@
 # Istoricul versiunilor
 
+## Nelansat — P-082 — 2026-10-15
+
+- Flux automat de știri din surse RSS publice despre educație, publicat în lista completă (titlu, extras, link).
+- Acasă recomandă automat știrile importante și pe cele relevante pentru profilul tău, păstrând aranjarea principal + trei secundare.
+- Admin: „Actualizează fluxul automat”.
+
 ## Nelansat — P-081 — 2026-10-15
 
 - Clasele mele salvate în cont, cu documente pe secțiuni (generare cu Plusi, încărcare, ștergere), conversațiile clasei, observații și personalizări.

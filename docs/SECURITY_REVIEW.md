@@ -207,3 +207,8 @@ Grupul bibliotecii este derivat pe server (SHA-256 al identității verificate);
 ## P-081 — Clasele mele
 
 Clasele, jurnalul și documentele clasei sunt filtrate pe user_id și pe proiectul deținut; grupurile interne sunt derivate pe server și refuzate ca conversații (istoric GET/PUT/DELETE, chat, încărcare). Jurnalul are validare strictă (lungimi, tipuri, 200 observații) și control de revizie. Ștergerea clasei șterge documentele prin aceeași funcție ca ștergerea individuală (original, index la furnizor, etichete). Teste negative: 401 fără cont, 404 alt cont, 400 secțiune/clasă invalidă și grup intern, 409 duplicat/revizie. Scanner fără detecții; auditul npm păstrează cele 8 high toolchain (decizia titularului de a păstra controlul strict).
+
+
+## P-082 — Flux de știri
+
+Fetch către surse fixe din cod (fără URL de la client), timeout 10 s, limită 2 MB, parser fără execuție de cod, text curățat de HTML, linkuri numai https validate de `validNews`. Scrierea folosește cheia server existentă, idempotent (ignore-duplicates). Endpointul manual de actualizare cere administrator și Origin identic.
