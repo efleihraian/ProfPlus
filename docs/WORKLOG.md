@@ -620,3 +620,5 @@ Verificări reale: TypeScript, build final, toate cele 20 comenzi web din securi
 ### P-085 — Livrare confirmată — 2026-10-15 16:52:12 București
 
 Cod GitHub `d9d751dc7a04c0c7c5deaa4cfd315e81ec218bd5`, push normal HEAD:main, fără force. [CI 38746209292](https://github.com/ProfOS-Edu/ProfPlus/actions/runs/38746209292) **completed/success**. Scanner final main/istoric/client: **1962** fișiere/bloburi, fără detecții. Build Site separat trecut; helperul a împachetat și publicat exact source `be6614fa6cd892d9911d794ef6e61b7a9bb9581b`. Site **v34**, deployment `appgdep_6ad0da700fc88191a2277e5855009655`, status nativ **succeeded**, URL https://profos-chat.cosminsoames.chatgpt.site, 2026-10-15T13:52:12Z / **16:52:12 București**, env revision **5**, audiență publică păstrată. HTTP online 200. Browser CUA rămâne indisponibil, fără verificare vizuală finală declarată.
+
+Localhost:3000 a fost sincronizat prin fast-forward în checkout-ul curat `/private/tmp/profplus-P084-release/web` la main cu P-085, fără restart (serverul dev existent preia sursele); HTTP 200. Copia operațională/importul neatinse. Preview-ul izolat 3091 a fost oprit.
