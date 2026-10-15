@@ -226,3 +226,8 @@ Aceleași categorii de date și același flux ca documentele din conversații (o
 ## P-081 — Clasele mele, 2026-10-15
 
 Date noi în cont: numele clasei (ex. „Clasa a V-a B”), documente încărcate pe secțiuni (același flux ca restul documentelor), observații text și personalizări (disciplină, nivel, număr de elevi, manual, preferințe). Nu se colectează identități, note sau situații individuale ale elevilor; interfața o cere explicit, dar textul liber poate conține totuși date personale introduse de profesor — risc rezidual, controlat prin avertisment și control uman, fără detecție automată. Personalizările sunt trimise furnizorului AI numai în cererile generate din clasă. Ștergerea clasei și a contului elimină documentele și jurnalul. Nu se declară conformitate completă.
+
+
+## P-082 — Știri automate, 2026-10-15
+
+Nu se colectează date noi despre utilizatori. Profilul didactic existent (disciplină, cicluri) este folosit numai pe server pentru ordonarea știrilor de pe Acasă; nu este trimis surselor sau unui furnizor AI. Cererile către sursele RSS nu conțin date ale utilizatorilor.

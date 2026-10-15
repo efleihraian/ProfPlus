@@ -5,3 +5,11 @@
 /* One lead story, followed by three equal secondary positions. No empty image blocks. */
 .news-grid{display:block}.news-grid>.news-feature{margin-bottom:24px}.news-grid>.news-feature.has-image>a{display:grid;grid-template-columns:minmax(0,0.8fr) minmax(0,1.2fr);align-items:stretch}.news-grid>.news-feature.has-image img{height:100%;min-height:240px;aspect-ratio:auto}.news-grid>.news-feature .news-card-copy{max-width:86ch}.news-grid .news-secondary{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.news-grid .news-secondary .news-card.has-image>a{display:block}.news-grid .news-secondary .news-card img{aspect-ratio:16/9;height:auto;min-height:0}.news-grid .news-secondary .news-card h3{font-size:21px}.news-card h3{text-wrap:balance}.news-detail h1{text-wrap:balance}
 @media(max-width:900px){.news-grid .news-secondary{grid-template-columns:1fr}.news-grid .news-secondary .news-card.has-image>a{display:grid;grid-template-columns:120px minmax(0,1fr)}.news-grid .news-secondary .news-card img{height:100%;min-height:150px;aspect-ratio:auto}.news-grid .news-secondary .news-card h3{font-size:19px}}@media(max-width:700px){.news-grid>.news-feature.has-image>a{display:block}.news-grid>.news-feature.has-image img{height:auto;min-height:0;aspect-ratio:16/9}.news-grid .news-secondary{gap:16px}.news-feature h3{font-size:26px}}
+
+/* P-082: motivul recomandării și sursa știrilor automate. */
+.news-reason{display:inline-block;margin:0 0 10px;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;background:var(--blue-soft);color:var(--primary);border:1px solid var(--blue-border)}
+.news-feature .news-reason{background:var(--surface)}
+.news-reason.important{background:#FEF3C7;color:#92400E;border-color:#FCD34D}
+[data-theme="dark"] .news-reason.important{background:#3B2F12;color:#FCD34D;border-color:#6B5418}
+.news-source-name{font-weight:600}
+.news-auto-note{font-size:14px;color:var(--muted);background:var(--blue-soft);border:1px solid var(--blue-border);border-radius:10px;padding:10px 14px;margin:0 0 18px}

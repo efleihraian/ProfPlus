@@ -56,4 +56,5 @@ jobs:
       - run: node tests/supabase-storage.mjs
       - run: node tests/personal-library.mjs
       - run: node tests/class-workspace.mjs
+      - run: node tests/news-feed.mjs
       - run: npm audit --audit-level=high

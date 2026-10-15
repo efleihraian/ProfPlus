@@ -1,5 +1,9 @@
 # Starea proiectului
 
+## P-082 — DONE (GitHub main) — Flux automat de știri și recomandări — 2026-10-15
+
+Responsabil Marcos Soames, cerere din 2026-10-15. Știri preluate automat din fluxuri RSS publice (Ministerul Educației, Edupedu, Digi24 Educație, Educație Privată): titlu, extras scurt și link, publicate automat în lista completă, fără dubluri. Acasă păstrează principalul + trei secundare: fixările recente ale editorului, apoi cele mai importante (ex. salarii) și cele relevante pentru profilul didactic (disciplină, ciclu, olimpiade), cu motivul afișat. Fără AI, fără date noi. Test nou în CI, rulare reală pe surse și verificare pe localhost:3000. [Detalii și limite](docs/NEWS_FEED.md). Publicarea Site prin Codex.
+
 ## P-081 — DONE (GitHub main) — Clasele mele, favicon și mod întunecat — 2026-10-15
 
 Responsabil Marcos Soames, cerere din 2026-10-15. Clasele mele în cont (proiecte), cu Generează cu Plusi în conversații ale clasei, încărcare pe Planificări/Proiecte/Teste/Fișe, observații generale despre clasă și personalizări folosite de Plusi; documentele clasei sunt surse automate doar în conversațiile clasei. Fără migrare, grupuri interne derivate pe server, ascunse din istoric; ștergerea clasei elimină documentele și jurnalul. Favicon verde și mod întunecat verde, lizibil, pe shell și paginile de cont. Build, TypeScript, test nou în CI și suitele trecute; probă vizuală luminos/întunecat. Fără test cu cont real. [Detalii și limite](docs/CLASSES.md). Integrare directă pe main la cererea titularului; publicarea Site prin Codex.
