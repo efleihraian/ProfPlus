@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import ts from 'typescript';
+const uri=s=>'data:text/javascript;base64,'+Buffer.from(ts.transpileModule(s,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText).toString('base64');
+const modelUri=uri(await readFile('lib/ai-models.ts','utf8'));
+const {resolveAIModel,isAIModel,modelRequestOptions}=await import(modelUri);
+assert.equal(resolveAIModel(undefined,false,'gpt-6.1-sol'),'gpt-4.1-mini');
+assert.equal(resolveAIModel('gpt-4.1-mini',false),'gpt-4.1-mini');
+assert.throws(()=>resolveAIModel('gpt-6.1-sol',false),/AI_MODEL_LOGIN_REQUIRED/);
+for(const bad of [null,'gpt-6-astra','gpt-4.1','',{},['gpt-6.1-sol'],123])assert.throws(()=>resolveAIModel(bad,true),/INVALID_AI_MODEL/);
+for(const model of ['gpt-4.1-mini','gpt-6.1-sol'])assert.equal(resolveAIModel(model,true),model);
+assert.equal(resolveAIModel(undefined,true,'arbitrary'),'gpt-4.1-mini');
+assert.equal(isAIModel('__proto__'),false);
+assert.deepEqual(modelRequestOptions('gpt-4.1-mini',4000),{max_output_tokens:4000});
+assert.deepEqual(modelRequestOptions('gpt-6.1-sol',4000),{reasoning:{effort:'medium'},max_output_tokens:12000});
+// Real Responses transport with a simulated provider.
+let hybrid=(await readFile('lib/hybrid-rag.ts','utf8')).replace(/^import .*;\s*$/gm,'');
+const transport=await import(uri(`import {modelRequestOptions} from ${JSON.stringify(modelUri)};
+let calls=[];const openai=async(key,path,init)=>{calls.push({path,body:JSON.parse(init.body)});return {json:async()=>({status:'completed',output:[{type:'message',content:[{type:'output_text',text:'56'}]}]})};};export const recorded=()=>calls;\n`+hybrid));
+for(const model of ['gpt-4.1-mini','gpt-6.1-sol'])assert.equal(transport.outputText(await transport.response('fixture',{model,max_output_tokens:4000},new AbortController().signal)),'56');
+assert.equal(transport.recorded()[0].body.reasoning,undefined);
+assert.equal(transport.recorded()[1].body.reasoning.effort,'medium');
+assert.ok(transport.recorded().every(c=>c.body.store===false));
+assert.throws(()=>transport.outputText({status:'incomplete',output:[]}),/INCOMPLETE_RESPONSE/);
+console.log('PASS: model allowlist, guest denial, authenticated selection, reasoning budgets, Responses transport, store:false and incomplete-response rejection.');

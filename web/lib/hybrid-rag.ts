@@ -1,3 +1,4 @@
+import {modelRequestOptions} from './ai-models';
 import {parallelMap} from './parallel-map';
 import type { Evidence, Source } from "./rag";
 import { openai, refreshDocument, rowsForChat, type DocumentRow, ownedDocument } from "./document-store";
@@ -16,7 +17,7 @@ export async function teacherEvidence(user: string, chat: string, query: string,
 type OutputText = { type: string; text?: string; annotations?: { type: string; url?: string; title?: string }[] };
 type ModelResponse = { status: string; output: { type: string; content?: OutputText[] }[] };
 export async function response(key: string, body: Record<string, unknown>, signal: AbortSignal): Promise<ModelResponse> {
-  return (await openai(key, "/responses", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...body, store: false }), signal })).json();
+  return (await openai(key, "/responses", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...body, ...modelRequestOptions(body.model, typeof body.max_output_tokens === "number" ? body.max_output_tokens : 4000), store: false }), signal })).json();
 }
 export function outputText(data: ModelResponse): string {
   if (data.status !== "completed") throw new Error("INCOMPLETE_RESPONSE");

@@ -231,3 +231,8 @@ Date noi în cont: numele clasei (ex. „Clasa a V-a B”), documente încărcat
 ## P-082 — Știri automate, 2026-10-15
 
 Nu se colectează date noi despre utilizatori. Profilul didactic existent (disciplină, cicluri) este folosit numai pe server pentru ordonarea știrilor de pe Acasă; nu este trimis surselor sau unui furnizor AI. Cererile către sursele RSS nu conțin date ale utilizatorilor.
+
+
+## P-086 — Selector de modele AI, 2026-10-15
+
+Același furnizor OpenAI și aceeași cheie/proiect autorizat, modele GPT-4.1 mini și GPT-6.1 Sol selectabile de conturile autentificate. Aceleași documente/pasaje/mesaje pot fi procesate de modelul ales; nu se extind sursele, destinatarii sau scopurile. store:false păstrat pentru Responses. Preferința este în browser, per cont; modelul se adaugă mesajelor din istoricul existent și se șterge cu acestea. Nicio migrare, reindexare sau reantrenare. Riscuri: consum API mai mare, latență și erori de generare; control prin allowlist server, Sol numai autentificat, bugete finite, timeout și verificare de către profesor. Probele live au folosit exclusiv cereri sintetice, fără date de elevi/documente private. Aceste verificări nu certifică exactitatea pedagogică sau conformitatea completă.

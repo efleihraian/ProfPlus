@@ -1,3 +1,4 @@
+import {isAIModel} from '../../../lib/ai-models';
 import {validSelection,savedSelection} from '../../../lib/source-selection';
 import {validGeneratedDocument} from '../../../lib/generated-document';
 import { json, sameOrigin, storage, userId, validChatId } from '../../../lib/document-store';
@@ -33,6 +34,7 @@ export async function PUT(request: Request) {
   try { const raw=await request.text(); if(raw.length>1000000) return json({error:'Conversația este prea mare.'},413);
     const b=JSON.parse(raw); if((await hidden(user)).has(b.id))return json({error:'Conversație invalidă.'},400); if(!validChatId(b.id)||!Number.isInteger(b.revision)||!Array.isArray(b.messages)||b.messages.length>1000||b.messages.some((m: {role?:string;content?:string;sources?:unknown[];warnings?:unknown[]})=>!m||!['user','assistant'].includes(m.role||'')||typeof m.content!=='string'||m.content.length>20000|| (m.sources!==undefined&&!Array.isArray(m.sources)) || (m.warnings!==undefined&&!Array.isArray(m.warnings)))) return json({error:'Conversație invalidă.'},400);
     for (const message of b.messages) {
+      if(message.model!==undefined&&!isAIModel(message.model))return json({error:"Model AI invalid."},400);
       if(message.document!==undefined&&!validGeneratedDocument(message.document))return json({error:"Document generat invalid."},400);
       if (message.warnings?.some((w:unknown)=>typeof w!=='string') || message.sources?.some((source:{url?:unknown;id?:unknown;title?:unknown})=>!source||typeof source.url!=='string'||! /^(https?:\/\/|\/api\/documents\/)/.test(source.url)||typeof source.title!=='string'||typeof source.id!=='number')) return json({error:'Surse invalide.'},400);
     }
