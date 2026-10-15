@@ -218,3 +218,8 @@ Fetch către surse fixe din cod (fără URL de la client), timeout 10 s, limită
 Înlocuit codul fast-glob/micromatch/braces prin adaptor propriu restrâns pe tinyglobby (deja prezent în Vite), fără secrete, date, telemetrie, servicii ori permisiuni noi. Instalare curată și audit complet strict: 0 vulnerabilități. Limite de pattern/număr/adâncime înainte de glob, opțiuni necunoscute refuzate, teste pentru rezoluția Next/Vinext și diferențe de directoare/căi absolute. Auditul din CI nu este dezactivat sau exceptat. Buildul, scannerul și rezultatele finale/CI sunt în WORKLOG; nu constituie audit complet de securitate sau conformitate. Remedierea CSS nu schimbă fluxurile de date ori DPIA.
 
 P-084, confirmare finală: CI 38741934804 success integral, audit npm strict 0 vulnerabilități, build și toate suitele trecute. Scanner main/istoric/client 1947 și Site 884 fără detecții. Site v33 publicat succeeded; audiența publică a fost confirmată explicit de titular după detectarea schimbării externe. Rutele private de clase/bibliotecă personală refuză guest cu 401. Fără autentificări reale sau audit complet de accesibilitate/securitate; detalii și ID-uri în WORKLOG.
+
+
+## P-087 — Meditații
+
+Tabele cu RLS și acces exclusiv service_role; API-ul filtrează pe user_id din identitatea verificată, verifică Origin la scrieri, limitează corpurile JSON și validează strict (lungimi, niveluri/moduri permise, preț, e-mail/telefon, interzicerea linkurilor). Lista publică nu selectează coloanele de contact; contactul cere autentificare și anunț activ. Raportare unică (cheie primară ad_id+reporter), fără auto-raportare; anunțurile ascunse nu pot fi republicate de autor. Teste negative în tests/tutoring.mjs. Limită: fără rate limiting dedicat pe vizualizarea contactelor.

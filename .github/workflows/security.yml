@@ -59,5 +59,6 @@ jobs:
       - run: node tests/class-workspace.mjs
       - run: node tests/news-feed.mjs
       - run: node tests/plusi-tour.mjs
+      - run: node tests/tutoring.mjs
       - run: node tests/toolchain-glob.mjs
       - run: npm audit --audit-level=high
