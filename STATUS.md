@@ -1,22 +1,26 @@
 # Starea proiectului
 
-## P-084 — În verificare/publicare — 2026-10-15
+## P-084 — DONE — GitHub și Site publicate — 2026-10-15 16:30:04 EEST
 
-Responsabil Marcos Soames. Cererea ulterioară autorizează publicarea P-080–P-083 și schimbarea condiției pentru blocajele mediului local, cu remedierea reală a celor 8 alerte. Adaptorul local tinyglobby elimină braces/micromatch din lockfile și instalarea curată; auditul complet strict raportează 0 vulnerabilități. Build/TypeScript și 61 contracte Python trecute. Corectate tokenurile temei la :root pentru dialogul de creare a claselor randat în body (fundal opac). Confirmarea testelor web/CI/deployment și limitele vizuale se consemnează în WORKLOG. Folderul operațional și localhost:3000 sunt păstrate.
+Responsabil Marcos Soames. Cod GitHub `9a89a1de7f751fcafe7d05274c5ef8ffa4f733c4`; [CI 38741934804](https://github.com/ProfOS-Edu/ProfPlus/actions/runs/38741934804) complet **success**, inclusiv audit strict **0 vulnerabilități**. Instalare curată, TypeScript, build, toate cele 20 comenzi web și 61 teste Python trecute local; scanner main/istoric/client 1947, Site 884, fără detecții. Dialogul claselor primește culori opace în portal și în ambele teme; verificarea vizuală CUA indisponibilă (native pipe closed), fără capturi declarate.
 
-## P-083 — DONE (GitHub main) — Tururi ghidate cu Plusi — 2026-10-15
+P-080–P-084 publicate pe Site v33: source `ef122b44417d3243d7ea9b8fe5f6570a382181d3`, deployment `appgdep_6ad0d4dbbbf8819194d1fb3d32c84819`, status nativ **succeeded**, 2026-10-15 **16:28:24 București**, env revision 5 neschimbată. Audiența a fost schimbată extern la public în timpul sarcinii (revizia 2); titularul a confirmat explicit „Păstrează-l public”. Nu s-a schimbat politica prin instrumentele agentului. URL https://profos-chat.cosminsoames.chatgpt.site. Probe live: /, /api/account, /api/news 200; clase și bibliotecă personală guest 401. Nu s-au testat autentificări/uploaduri reale sau funcționarea individuală a fiecărui RSS în Worker.
+
+localhost:3000 rulează acum `/private/tmp/profplus-P084-release/web`, listener PID 13767, HTTP 200. Oprit vechiul launcher 2690 și preview-ul propriu 3090; pornit noul server cu aceeași configurație locală ignorată de Git, fără afișarea valorilor. Copia operațională/importul păstrate. Notele anterioare de blocaj de mai jos sunt istorice și sunt înlocuite de această confirmare.
+
+## P-083 — DONE (GitHub + Site) — Tururi ghidate cu Plusi — 2026-10-15
 
 Responsabil Marcos Soames, cerere din 2026-10-15. La prima intrare pe fiecare pagină, Plusi conduce un tur cu evidențieri (spot luminos și inel pulsatoriu), explică fiecare element și reacționează animat la fiecare pas; poate fi sărit, navigat cu tastatura și reluat din meniul lui Plusi sau din Cont. Fără date pe server. Test nou în CI, verificat în harness (desktop/mobil, luminos/întunecat) și pe localhost:3000. [Detalii](docs/PLUSI_TOURS.md). Publicarea Site prin Codex.
 
-## P-082 — DONE (GitHub main) — Flux automat de știri și recomandări — 2026-10-15
+## P-082 — DONE (GitHub + Site) — Flux automat de știri și recomandări — 2026-10-15
 
 Responsabil Marcos Soames, cerere din 2026-10-15. Știri preluate automat din fluxuri RSS publice (Ministerul Educației, Edupedu, Digi24 Educație, Educație Privată): titlu, extras scurt și link, publicate automat în lista completă, fără dubluri. Acasă păstrează principalul + trei secundare: fixările recente ale editorului, apoi cele mai importante (ex. salarii) și cele relevante pentru profilul didactic (disciplină, ciclu, olimpiade), cu motivul afișat. Fără AI, fără date noi. Test nou în CI, rulare reală pe surse și verificare pe localhost:3000. [Detalii și limite](docs/NEWS_FEED.md). Publicarea Site prin Codex.
 
-## P-081 — DONE (GitHub main) — Clasele mele, favicon și mod întunecat — 2026-10-15
+## P-081 — DONE (GitHub + Site) — Clasele mele, favicon și mod întunecat — 2026-10-15
 
 Responsabil Marcos Soames, cerere din 2026-10-15. Clasele mele în cont (proiecte), cu Generează cu Plusi în conversații ale clasei, încărcare pe Planificări/Proiecte/Teste/Fișe, observații generale despre clasă și personalizări folosite de Plusi; documentele clasei sunt surse automate doar în conversațiile clasei. Fără migrare, grupuri interne derivate pe server, ascunse din istoric; ștergerea clasei elimină documentele și jurnalul. Favicon verde și mod întunecat verde, lizibil, pe shell și paginile de cont. Build, TypeScript, test nou în CI și suitele trecute; probă vizuală luminos/întunecat. Fără test cu cont real. [Detalii și limite](docs/CLASSES.md). Integrare directă pe main la cererea titularului; publicarea Site prin Codex.
 
-## P-080 — DONE (GitHub main) — Bibliotecă personală și animații Plusi — 2026-10-15
+## P-080 — DONE (GitHub + Site) — Bibliotecă personală și animații Plusi — 2026-10-15
 
 Responsabil Marcos Soames, cerere din 2026-10-15 (fără issue GitHub: GitHub nu a fost accesibil din sesiune). Tab „Bibliotecă personală” în Cont și întrebare la prima deschidere a asistentului pentru adăugarea documentelor folosite des. Documentele personale gata sunt surse automate în toate conversațiile, excluse manual la nevoie; fără migrare, cu grup derivat pe server, ascuns din istoric și aceleași validări/limite/ștergeri. Plusi reacționează la atingere și înoată între taburi, cu tranziții direcționale și respectarea mișcării reduse. Build, TypeScript, testul nou și suitele relevante (inclusiv test:account) trecute pe Linux cu dependențe instalate din lockfile; audit 0 producție/8 high toolchain preexistente; scanner Git/istoric/client fără detecții; probă vizuală desktop/mobil în harness. [Detalii și limite](docs/PERSONAL_LIBRARY.md). Branch feature/P-080-personal-library-plusi publicat pe GitHub de titular (0acd88f). Integrat pe main la cererea explicită a titularului (PR #24 MERGED, c126156), fără reviewer, conform instrucțiunii din 2026-10-11. Publicarea pe Site nu a fost executată (se face prin Codex/ChatGPT Sites).
 
