@@ -425,3 +425,11 @@ html:has(.shell){scrollbar-gutter:stable}
 .tutoring-filters-toggle{display:none}
 .tutoring-editor .pp-dialog-actions{position:sticky;bottom:-24px;margin:0 -24px -24px;padding:14px 24px;background:var(--pp-surface);border-top:1px solid var(--pp-border)}
 @media(max-width:860px){.tutoring-filters-toggle{display:inline-flex;margin-bottom:12px}.tutoring-filters.collapsed{display:none}}
+
+/* Reserve both tracks and the speech area: reacting must never resize the home panel. */
+.home-assistant{display:grid;grid-template-columns:270px minmax(0,1fr);gap:32px;align-items:center;padding:32px}
+.home-assistant-mascot{min-width:0}
+.home-assistant-speech{box-sizing:border-box;flex:none;width:230px;max-width:100%;height:96px;line-height:1.5;overflow:auto;overflow-wrap:anywhere;align-content:center}
+.home-assistant-speech:focus-visible{outline:2px solid var(--primary);outline-offset:3px}
+@media(max-width:800px){.home-assistant{grid-template-columns:minmax(0,1fr);gap:24px;padding:24px}}
+@media(max-width:400px){.home-assistant{padding:20px}}

@@ -1,5 +1,11 @@
 # Istoricul versiunilor
 
+## Nelansat — P-088
+
+- Acțiuni „Citește articolul” aliniate la baza cardurilor.
+- O singură revenire la toate știrile, prin navigare completă care reîncarcă lista.
+- Caseta mare Acasă și spațiul replicii Plusi nu se mai redimensionează când se schimbă mesajul.
+
 ## Publicat pe Site v36 — P-087 — 2026-10-15
 
 - Tab nou „Meditații”: anunțuri de meditații publicate de profesori, filtre, contact pentru utilizatori conectați, raportare și moderare.
