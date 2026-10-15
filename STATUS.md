@@ -1,8 +1,8 @@
 # Starea proiectului
 
-## P-085 — Verificat, publicare în curs — Caseta Plusi stabilă — 2026-10-15
+## P-085 — DONE — GitHub și Site v34 publicate — Caseta Plusi stabilă — 2026-10-15
 
-Responsabil Marcos Soames. Caseta turului are 380 × 300 px pe desktop, lățime adaptată telefonului și înălțime limitată de viewport, independent de lungimea mesajului. Textul se derulează în interior, accesibil din tastatură; navigarea păstrează containerul fără repetarea animației de scalare. Meniul claselor opac și auditul reparat în P-084 sunt păstrate. TypeScript, build final, toate cele 20 comenzi web din security.yml și auditul strict (zero vulnerabilități) trecute. Scanner Git/istoric/client fără detecții. Browser CUA indisponibil (native pipe closed), fără verificare vizuală declarată. Fără migrare, env, furnizor sau schimbare de acces. Publicarea Site se confirmă separat.
+Responsabil Marcos Soames. Caseta turului are 380 × 300 px pe desktop, lățime adaptată telefonului și înălțime limitată de viewport, independent de lungimea mesajului. Textul se derulează în interior, accesibil din tastatură; navigarea păstrează containerul fără repetarea animației de scalare. Meniul claselor opac și auditul reparat în P-084 sunt păstrate. TypeScript, build final, toate cele 20 comenzi web din security.yml și auditul strict (zero vulnerabilități) trecute. Scanner Git/istoric/client fără detecții. Browser CUA indisponibil (native pipe closed), fără verificare vizuală declarată. Fără migrare, env, furnizor sau schimbare de acces. Site v34 publicat: source `be6614fa6cd892d9911d794ef6e61b7a9bb9581b`, deployment `appgdep_6ad0da700fc88191a2277e5855009655`, status nativ **succeeded**, 2026-10-15 **16:52:12 București**, env revision 5 și audiență publică păstrate. Cod GitHub `d9d751dc7a04c0c7c5deaa4cfd315e81ec218bd5`, [CI 38746209292](https://github.com/ProfOS-Edu/ProfPlus/actions/runs/38746209292) completed/success. Scanner final: 1962 fișiere/bloburi, zero detecții. HTTP online 200.
 
 ## P-084 — DONE — GitHub și Site publicate — 2026-10-15 16:30:04 EEST
 

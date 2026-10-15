@@ -1,6 +1,6 @@
 # Istoricul versiunilor
 
-## Nelansat — P-085
+## Publicat pe Site v34 — P-085 — 2026-10-15
 
 - Caseta turului Plusi păstrează dimensiunea la schimbarea mesajului; textul lung se derulează în interior, inclusiv prin tastatură.
 
