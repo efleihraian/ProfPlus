@@ -1,8 +1,8 @@
 # Starea proiectului
 
-## P-080 — IN REVIEW — Bibliotecă personală și animații Plusi — 2026-10-15
+## P-080 — INTEGRARE PE MAIN — Bibliotecă personală și animații Plusi — 2026-10-15
 
-Responsabil Marcos Soames, cerere din 2026-10-15 (fără issue GitHub: GitHub nu a fost accesibil din sesiune). Tab „Bibliotecă personală” în Cont și întrebare la prima deschidere a asistentului pentru adăugarea documentelor folosite des. Documentele personale gata sunt surse automate în toate conversațiile, excluse manual la nevoie; fără migrare, cu grup derivat pe server, ascuns din istoric și aceleași validări/limite/ștergeri. Plusi reacționează la atingere și înoată între taburi, cu tranziții direcționale și respectarea mișcării reduse. TypeScript fără erori noi, test nou și suite relevante trecute, probă vizuală desktop/mobil în harness; build real, CI și publicare neexecutate. [Detalii și limite](docs/PERSONAL_LIBRARY.md). Branch feature/P-080-personal-library-plusi, commit local; push/PR blocate de accesul la GitHub din sesiune.
+Responsabil Marcos Soames, cerere din 2026-10-15 (fără issue GitHub: GitHub nu a fost accesibil din sesiune). Tab „Bibliotecă personală” în Cont și întrebare la prima deschidere a asistentului pentru adăugarea documentelor folosite des. Documentele personale gata sunt surse automate în toate conversațiile, excluse manual la nevoie; fără migrare, cu grup derivat pe server, ascuns din istoric și aceleași validări/limite/ștergeri. Plusi reacționează la atingere și înoată între taburi, cu tranziții direcționale și respectarea mișcării reduse. TypeScript fără erori noi, test nou și suite relevante trecute, probă vizuală desktop/mobil în harness; build real, CI și publicare neexecutate. [Detalii și limite](docs/PERSONAL_LIBRARY.md). Branch feature/P-080-personal-library-plusi publicat pe GitHub de titular (0acd88f). La cererea explicită a titularului din 2026-10-15 (conform instrucțiunii din 2026-10-11), integrarea pe main se face fără așteptarea unui reviewer, după build local; publicarea Site rămâne de confirmat separat.
 
 ## P-079 — DONE — Dashboard practic și flux de știri — 2026-10-14/15
 
