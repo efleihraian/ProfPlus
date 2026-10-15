@@ -2,6 +2,7 @@
 import {useEffect, useRef, useState} from "react";
 import {PlusiFloat, PlusiMini} from "./plusi";
 import {usePlusiReaction} from "./plusi-reactive";
+import {restartTour} from "./plusi-tour";
 
 const TOPICS = ["Cum încarc un document?", "Ce înseamnă „după caz”?", "Cum generez un document cu Plusi?", "Ce este opisul?"];
 function answer(q: string) {
@@ -22,7 +23,7 @@ const BURSTS: [string, string, string, string][] = [["12%", "10%", "-14px", "-12
 const menuItem = {width: "100%", display: "flex", alignItems: "center", gap: 12, padding: 10, border: 0, borderRadius: 10, background: "transparent", cursor: "pointer", textAlign: "left", color: "var(--pp-text)"} as const;
 const icon = (bg: string, color: string, d: React.ReactNode) => <span style={{flex: "none", width: 36, height: 36, borderRadius: 10, background: bg, color, display: "grid", placeItems: "center"}}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{d}</svg></span>;
 
-export default function HelpPlusi({onOpenAssistant}: {onOpenAssistant: () => void}) {
+export default function HelpPlusi({onOpenAssistant, tourId}: {onOpenAssistant: () => void; tourId?: string}) {
   const [hintDone, setHintDone] = useState(false);
   const [menu, setMenu] = useState(false);
   const [chat, setChat] = useState(false);
@@ -71,6 +72,10 @@ export default function HelpPlusi({onOpenAssistant}: {onOpenAssistant: () => voi
         {icon("#E8F3EC", "#2F7D5B", <><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></>)}
         <span><strong style={{display: "block", fontSize: 14, fontWeight: 600}}>Deschide Asistentul virtual</strong><span style={{fontSize: 13, color: "var(--pp-muted)"}}>Lecții, explicații și documente</span></span>
       </button>
+      {tourId && <button type="button" role="menuitem" className="float-menu-item" onClick={() => { setMenu(false); restartTour(tourId); }} style={menuItem}>
+        {icon("var(--pp-soft)", "var(--pp-accent-text)", <><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4z"/></>)}
+        <span><strong style={{display: "block", fontSize: 14, fontWeight: 600}}>Arată-mi turul paginii</strong><span style={{fontSize: 13, color: "var(--pp-muted)"}}>Plusi îți arată pe rând ce poți face aici</span></span>
+      </button>}
       <button type="button" role="menuitem" className="float-menu-item" onClick={openChat} style={menuItem}>
         {icon("#ECFDF5", "#047857", <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>)}
         <span><strong style={{display: "block", fontSize: 14, fontWeight: 600}}>Întreabă-l aici</strong><span style={{fontSize: 13, color: "var(--pp-muted)"}}>Cum funcționează ProfPlus</span></span>

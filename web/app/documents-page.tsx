@@ -21,13 +21,13 @@ export default function DocumentsPage({onGenerate}: {onGenerate: (text: string) 
         <h1 style={{margin: 0, fontSize: 36, fontWeight: 600, letterSpacing: -1.2, lineHeight: 1.15}}>Portofoliul tău <span style={{color: "var(--pp-accent-text)"}}>profesional</span></h1>
         <p style={{margin: "12px 0 0", color: "var(--pp-muted)"}}>Din anul școlar 2026–2027 portofoliul profesional e obligatoriu pentru toate cadrele didactice (OMEC nr. 3.858/2026). Contează la definitivat, grade didactice, evaluarea anuală, inspecții și gradații de merit. Aici îl ții complet, pe cele 5 secțiuni din structura-cadru.</p>
       </div>
-      <div style={{display: "flex", flexWrap: "wrap", gap: 10}}>
+      <div data-tour="docs-export" style={{display: "flex", flexWrap: "wrap", gap: 10}}>
         <button type="button" style={{minHeight: 44, padding: "0 18px", borderRadius: 10, border: "1px solid var(--pp-border)", background: "var(--pp-surface)", color: "var(--pp-text)", fontSize: 14, fontWeight: 600, cursor: "pointer"}}>Descarcă opisul</button>
         <button type="button" style={{minHeight: 44, padding: "0 18px", borderRadius: 10, border: "none", background: "#1B4D36", color: "#FFFFFF", boxShadow: "0 8px 22px rgba(27,77,54,0.28)", fontSize: 14, fontWeight: 600, cursor: "pointer"}}>Exportă portofoliul</button>
       </div>
     </div>
 
-    <div style={{background: "var(--pp-surface)", border: "1px solid var(--pp-border)", borderRadius: 16, padding: "20px 24px", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "20px 32px", marginBottom: 20}}>
+    <div data-tour="docs-progress" style={{background: "var(--pp-surface)", border: "1px solid var(--pp-border)", borderRadius: 16, padding: "20px 24px", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "20px 32px", marginBottom: 20}}>
       <div style={{flex: "1 1 280px", minWidth: 0}}>
         <div style={{display: "flex", justifyContent: "space-between", fontSize: 14, marginBottom: 8}}><strong style={{fontWeight: 600}}>Progres portofoliu</strong><span style={{color: "var(--pp-muted)"}}>{doneAll} din {totalAll} documente obligatorii</span></div>
         <div style={{height: 10, background: "var(--pp-soft)", borderRadius: 999, overflow: "hidden"}}><div style={{height: "100%", width: pctAll + "%", background: "#10B981", borderRadius: 999, transition: "width .4s"}}/></div>
@@ -69,7 +69,7 @@ export default function DocumentsPage({onGenerate}: {onGenerate: (text: string) 
                   {optional === 1 && <button type="button" onClick={() => setExtra(id, false)} aria-label={"Scoate din obligatorii: " + name} title="Scoate din obligatorii" style={{minHeight: 38, width: 38, borderRadius: 8, border: "1px solid var(--pp-border)", background: "var(--pp-surface)", color: "var(--pp-muted)", cursor: "pointer", display: "grid", placeItems: "center"}}>
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>}
                   {link && <a href={link} target="_blank" rel="noopener noreferrer" style={{...btn, textDecoration: "none"}}>{linkLabel} ↗</a>}
-                  {gen === 1 && <button type="button" onClick={() => onGenerate("Ajută-mă să pregătesc: " + name)} style={{...btn, border: "1px solid var(--pp-soft-border)", background: "var(--pp-soft)", color: "var(--pp-soft-text)", fontWeight: 600}}>Generează cu Plusi</button>}
+                  {gen === 1 && <button type="button" data-tour="docs-generate" onClick={() => onGenerate("Ajută-mă să pregătesc: " + name)} style={{...btn, border: "1px solid var(--pp-soft-border)", background: "var(--pp-soft)", color: "var(--pp-soft-text)", fontWeight: 600}}>Generează cu Plusi</button>}
                   <button type="button" onClick={() => setState(p => ({...p, done: {...p.done, [id]: true}}))} style={btn}>
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg>{ok ? "Înlocuiește" : "Încarcă"}</button>
                 </div>}

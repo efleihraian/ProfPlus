@@ -1,5 +1,9 @@
 # Istoricul versiunilor
 
+## Nelansat — P-083 — 2026-10-15
+
+- Tur ghidat de Plusi la prima intrare pe fiecare pagină, cu evidențierea elementelor, reluabil oricând.
+
 ## Nelansat — P-082 — 2026-10-15
 
 - Flux automat de știri din surse RSS publice despre educație, publicat în lista completă (titlu, extras, link).

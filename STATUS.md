@@ -1,5 +1,9 @@
 # Starea proiectului
 
+## P-083 — DONE (GitHub main) — Tururi ghidate cu Plusi — 2026-10-15
+
+Responsabil Marcos Soames, cerere din 2026-10-15. La prima intrare pe fiecare pagină, Plusi conduce un tur cu evidențieri (spot luminos și inel pulsatoriu), explică fiecare element și reacționează animat la fiecare pas; poate fi sărit, navigat cu tastatura și reluat din meniul lui Plusi sau din Cont. Fără date pe server. Test nou în CI, verificat în harness (desktop/mobil, luminos/întunecat) și pe localhost:3000. [Detalii](docs/PLUSI_TOURS.md). Publicarea Site prin Codex.
+
 ## P-082 — DONE (GitHub main) — Flux automat de știri și recomandări — 2026-10-15
 
 Responsabil Marcos Soames, cerere din 2026-10-15. Știri preluate automat din fluxuri RSS publice (Ministerul Educației, Edupedu, Digi24 Educație, Educație Privată): titlu, extras scurt și link, publicate automat în lista completă, fără dubluri. Acasă păstrează principalul + trei secundare: fixările recente ale editorului, apoi cele mai importante (ex. salarii) și cele relevante pentru profilul didactic (disciplină, ciclu, olimpiade), cu motivul afișat. Fără AI, fără date noi. Test nou în CI, rulare reală pe surse și verificare pe localhost:3000. [Detalii și limite](docs/NEWS_FEED.md). Publicarea Site prin Codex.
