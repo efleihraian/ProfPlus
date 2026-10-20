@@ -4,7 +4,7 @@ Actualizat: 2026-10-04 · 0.9.2. Decizia utilizatorului: acum Google/Apple; e-ma
 
 ## 1. Alegerea adresei aplicației
 
-Pilotul actual `https://profos-chat.cosminsoames.chatgpt.site` este privat și are filtrul de autentificare ChatGPT al Sites. Configurarea Supabase nu înlătură acest filtru. Pentru acces numai prin Google/Apple pregătim o găzduire cu autentificare proprie. Pentru probe se poate folosi localhost sau o adresă temporară HTTPS, de exemplu [Cloudflare workers.dev](https://developers.cloudflare.com/workers/configuration/routing/workers-dev/); domeniul propriu se adaugă ulterior. Nu s-a efectuat migrarea găzduirii sau a datelor.
+Pilotul actual `[adresa site-ului]` este privat și are filtrul de autentificare ChatGPT al Sites. Configurarea Supabase nu înlătură acest filtru. Pentru acces numai prin Google/Apple pregătim o găzduire cu autentificare proprie. Pentru probe se poate folosi localhost sau o adresă temporară HTTPS, de exemplu [Cloudflare workers.dev](https://developers.cloudflare.com/workers/configuration/routing/workers-dev/); domeniul propriu se adaugă ulterior. Nu s-a efectuat migrarea găzduirii sau a datelor.
 
 În exemplele de mai jos:
 

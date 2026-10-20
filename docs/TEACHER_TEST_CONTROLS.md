@@ -1,6 +1,6 @@
 # P-067 — Surse prioritare, copie pentru elevi și formule
 
-Cererea titularului, 2026-10-11; responsabil Marcos Soames. Branch izolat bazat pe P-065 deja publicat, păstrând checkout-ul operațional și importul activ. P-065 și P-067 integrate pe main la `08642f9`, 2026-10-11, conform noii instrucțiuni explicite: livrare direct pe main fără PR până la reluarea colaborării.
+Cererea titularului, 2026-10-11; responsabil echipa. Branch izolat bazat pe P-065 deja publicat, păstrând checkout-ul operațional și importul activ. P-065 și P-067 integrate pe main la `08642f9`, 2026-10-11, conform noii instrucțiuni explicite: livrare direct pe main fără PR până la reluarea colaborării.
 
 ## Comportament
 
@@ -23,4 +23,4 @@ PDF/Word: motorul SVG MathJax se încarcă numai la export; formulele devin imag
 - Detector UI: numai avertismentul fontului Inter existent, păstrat în această schimbare restrânsă.
 - Audit npm complet: 8 high deja existente în instrumentele de build/lint. Alertele introduse de dependențele matematice sunt remediate prin KaTeX 0.19.0 și xmldom 0.9.12; nu există alerte în dependențele de producție. Nu se dezactivează controlul CI.
 
-Nu este evaluare pedagogică sau audit complet de securitate/GDPR; nu schimbă audiența privată, identitățile, RLS sau furnizorii. Publicarea privată este confirmată succeeded, 2026-10-11 10:18 UTC, pe https://profos-chat.cosminsoames.chatgpt.site/. Source Sites `f359a4cfb6d0122560d73df1cd7fc87066a7fbd8`, deployment `appgdep_6acb626d1adc819195835585b1214694`, env revision 4. Scanner Git/istoric/client: 1.426 fișiere/bloburi, fără detecții. Scanner pentru checkout-ul și clientul Sites reale: 279 fișiere, fără detecții. Build local și Sites complete; ruta QA temporară exclusă din build/publicare.
+Nu este evaluare pedagogică sau audit complet de securitate/GDPR; nu schimbă audiența privată, identitățile, RLS sau furnizorii. Publicarea privată este confirmată succeeded, 2026-10-11 10:18 UTC, pe [adresa site-ului]. Source Sites `f359a4cfb6d0122560d73df1cd7fc87066a7fbd8`, deployment `appgdep_6acb626d1adc819195835585b1214694`, env revision 4. Scanner Git/istoric/client: 1.426 fișiere/bloburi, fără detecții. Scanner pentru checkout-ul și clientul Sites reale: 279 fișiere, fără detecții. Build local și Sites complete; ruta QA temporară exclusă din build/publicare.

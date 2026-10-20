@@ -1,6 +1,6 @@
 # Clasele mele — P-081
 
-Responsabil: Marcos Soames (cerere explicită din 2026-10-15). Branch `feature/P-081-classes-darkmode`, pornit din `main` 3d9e807. Include și favicon-ul verde și corecturile modului întunecat cerute în aceeași sesiune.
+Responsabil: echipa (cerere explicită din 2026-10-15). Branch `feature/P-081-classes-darkmode`, pornit din `main` 3d9e807. Include și favicon-ul verde și corecturile modului întunecat cerute în aceeași sesiune.
 
 ## Ce poate face profesorul
 

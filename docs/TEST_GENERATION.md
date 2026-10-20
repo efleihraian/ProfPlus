@@ -1,6 +1,6 @@
 # P-072 — Teste și șabloane de planificare, 2026-10-12
 
-Responsabil Marcos Soames, issue #17. Cererile titularului: manualele înaintea surselor complementare, structura implicită păstrată, planificările completate în șablonul furnizat.
+Responsabil echipa, issue #17. Cererile titularului: manualele înaintea surselor complementare, structura implicită păstrată, planificările completate în șablonul furnizat.
 
 ## Comportament
 

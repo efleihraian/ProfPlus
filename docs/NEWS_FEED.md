@@ -1,6 +1,6 @@
 # Flux automat de știri și recomandări — P-082
 
-Responsabil: Marcos Soames (cerere explicită din 2026-10-15). Branch `feature/P-082-news-feed`, din `main` b78b12e.
+Responsabil: echipa (cerere explicită din 2026-10-15). Branch `feature/P-082-news-feed`, din `main` b78b12e.
 
 ## Cum funcționează
 

@@ -38,7 +38,7 @@ Audit npm final: zero vulnerabilități de producție, opt high preexistente în
 
 Scannere finale: Git/istoric/client 1.527 fișiere/bloburi și source/client Site 283, fără detecții; scanare pe pattern și valori cunoscute, nu audit complet. Sursa Site verificată identică celor trei fișiere web modificate.
 
-Publicare privată confirmată succeeded la 2026-10-11T11:53:36Z, https://profos-chat.cosminsoames.chatgpt.site/, deployment appgdep_6acb78a73c508191bffc30f38b1babf5, source Site e5db4330e3b0194fb62bb9116a77ee00fe196ab1, env revision 4. Cod integrat direct în main la 214c40d, fără PR; audiența privată existentă păstrată. Localhost:3000 servește P-070, HTTP 200, PID 40544. Importurile 35349/35350 verificate active și păstrate. Nu se declară transferul întregii biblioteci finalizat.
+Publicare privată confirmată succeeded la 2026-10-11T11:53:36Z, [adresa site-ului], deployment appgdep_6acb78a73c508191bffc30f38b1babf5, source Site e5db4330e3b0194fb62bb9116a77ee00fe196ab1, env revision 4. Cod integrat direct în main la 214c40d, fără PR; audiența privată existentă păstrată. Localhost:3000 servește P-070, HTTP 200, PID 40544. Importurile 35349/35350 verificate active și păstrate. Nu se declară transferul întregii biblioteci finalizat.
 
 ## P-075 — Două teste suplimentare, clasa V, 2026-10-14
 

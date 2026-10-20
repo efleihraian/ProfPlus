@@ -1,6 +1,6 @@
 # P-079 — Dashboard și știri, 2026-10-14
 
-Cererea titularului: dashboard practic, știri intuitive pentru citire, așezare și adăugare. Issue #23, responsabil Marcos Soames. Interfața păstrează paleta, profilul normal și apartenența admin P-078.
+Cererea titularului: dashboard practic, știri intuitive pentru citire, așezare și adăugare. Issue #23, responsabil echipa. Interfața păstrează paleta, profilul normal și apartenența admin P-078.
 
 ## Pentru editor
 

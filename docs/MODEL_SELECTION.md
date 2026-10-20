@@ -1,6 +1,6 @@
 # Alegerea modelului AI — P-086
 
-Responsabil Marcos Soames, cerere din 2026-10-15. Aceeași cheie OpenAI existentă, reutilizată cu acordul explicit al titularului. Fără reindexare sau reantrenare.
+Responsabil echipa, cerere din 2026-10-15. Aceeași cheie OpenAI existentă, reutilizată cu acordul explicit al titularului. Fără reindexare sau reantrenare.
 
 ## Utilizare
 

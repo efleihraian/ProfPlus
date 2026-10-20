@@ -25,7 +25,7 @@ Titularul a autorizat omiterea materialelor cu erori: referință verificată î
 
 ## P-071 — scopul bibliotecii, 2026-10-11
 
-Responsabil Marcos Soames, issue #16. Cererea titularului păstrează toate materialele utile pentru învățare și generarea documentelor: subiecte, bareme, soluții, manuale, programe școlare, calendare școlare, repere metodologice, planificări, proiecte de lecție și unități de învățare. Un calendar/regulament/metodologie nu se elimină automat după titlu. Cazurile ambigue deja descoperite rămân în coadă.
+Responsabil echipa, issue #16. Cererea titularului păstrează toate materialele utile pentru învățare și generarea documentelor: subiecte, bareme, soluții, manuale, programe școlare, calendare școlare, repere metodologice, planificări, proiecte de lecție și unități de învățare. Un calendar/regulament/metodologie nu se elimină automat după titlu. Cazurile ambigue deja descoperite rămân în coadă.
 
 Linkurile includ pagini intermediare, nu numai documente. Numărul poate crește când o arhivă dezvăluie alte fișiere; SHA-256 previne indexarea aceluiași conținut de două ori. Navigarea prin meniuri tag/category/comentarii și anul din orice pagină generică nu mai extinde automat coada. Rutele ONI istorice, problemele Infoarena și descărcările Mateinfo sunt păstrate. Subiectele/baremele descărcabile din admitere/examene rămân utile, fără explorarea generală a administrării admiterii.
 

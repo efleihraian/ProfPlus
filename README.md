@@ -9,8 +9,7 @@ Aplicația există ca platformă web și ca aplicație Android (folderul [`andro
 - **Asistent virtual:** o mascotă care răspunde la întrebări și ajută la pregătirea materialelor, cu trimiteri la manual și pagină.
 - **Materiale didactice:** teste, bareme, fișe, planificări și proiecte de lecție, exportabile în PDF și Word.
 - **Bibliotecă de manuale:** peste 1.300 de manuale, culegeri și subiecte de concurs, cu căutare și filtre.
-- **Documente:** profesorul își încarcă propriile documente (PDF, Word, PowerPoint, text), le editează în aplicație și le exportă în PDF sau Word. Documentele folosite des devin surse pentru asistent, iar fiecare utilizator le vede doar pe ale lui.
-- **Documente legale:** politica de confidențialitate, termenii și condițiile și politica de cookie-uri, obligatorii prin lege (vezi secțiunea de mai jos).
+- **Documente personale (portofoliul profesional):** din anul școlar 2026–2027, fiecare profesor trebuie să aibă mereu la îndemână documentele personale și profesionale, împreună cu opisul lor. ProfPlus este alternativa digitală: profesorul nu mai cară dosarul după el. Vezi secțiunea de mai jos.
 - **Clasele mele:** spațiu de lucru pentru fiecare clasă, cu documentele și observațiile ei.
 - **Știri din educație:** noutăți recomandate după disciplina profesorului.
 - **Meditații:** anunțuri de meditații, cu filtre după materie, nivel și localitate.
@@ -27,18 +26,26 @@ Aplicația există ca platformă web și ca aplicație Android (folderul [`andro
 
 Fiecare senzor este folosit doar pentru funcția lui, iar camera cere permisiunea la prima folosire. Alți senzori (de exemplu localizarea aproximativă pentru meditații) sunt planificați.
 
-## Documente obligatorii prin lege
+## Documente personale obligatorii
 
-Aplicația prelucrează date personale (cont, documente încărcate, conversații), deci legislația (GDPR și legislația română privind protecția datelor) cere ca utilizatorul să fie informat și să își poată exercita drepturile. Documentele și mecanismele obligatorii sunt:
+Conform metodologiei în vigoare din 2026–2027 (OMEC nr. 3.858/2026), fiecare profesor trebuie să aibă un portofoliu profesional. Acesta contează la definitivat, gradele didactice, evaluarea anuală, inspecții și gradații de merit, iar documentele trebuie să fie disponibile oricând sunt cerute.
 
-- **Politica de confidențialitate:** ce date sunt colectate, de ce, cât timp se păstrează, către cine sunt trimise și cum își exercită utilizatorul drepturile.
-- **Termeni și condiții:** regulile de utilizare, limitele răspunsurilor generate de asistent și responsabilitățile.
-- **Politica privind cookie-urile și bannerul de consimțământ:** utilizatorul alege ce tehnologii acceptă, iar alegerea poate fi schimbată oricând.
-- **Consimțământ explicit** pentru fiecare scop distinct (de exemplu publicarea unui anunț de meditații) și pentru permisiunile telefonului (camera, microfonul).
-- **Ștergerea datelor:** utilizatorul își poate șterge contul și toate datele asociate.
-- **Evaluarea de impact asupra protecției datelor (DPIA)** și protecție specială pentru datele elevilor, înainte de orice funcție care le prelucrează.
+ProfPlus păstrează aceste documente în format digital, pe cele cinci secțiuni ale structurii-cadru:
 
-Starea actuală: ștergerea contului și consimțământul pentru anunțurile de meditații sunt implementate. Textele finale ale politicii de confidențialitate, ale termenilor și ale politicii de cookie-uri, precum și DPIA, sunt în pregătire și trebuie aprobate de operator înainte de lansarea publică. Cerințele detaliate sunt în [docs/PRODUCT_REQUIREMENTS.md](docs/PRODUCT_REQUIREMENTS.md) și [docs/DPIA.md](docs/DPIA.md).
+- **A.** Date personale și de identificare profesională
+- **B.** Activitate specifică normei: predare-învățare-evaluare
+- **C.** Activități complementare procesului de învățământ
+- **D.** Activități de management al clasei
+- **E.** Evoluția în carieră și dezvoltare profesională
+
+Ce poate face profesorul:
+- vede toate documentele cerute, pe secțiuni, și progresul de completare;
+- adaugă fiecare document, iar **opisul se actualizează automat**, cu data fiecărui document;
+- descarcă opisul sau exportă întregul portofoliu, ordonat pe secțiuni;
+- generează împreună cu asistentul documentele pe care le poate redacta singur (de exemplu planificări sau proiecte de lecție);
+- le are la îndemână de pe telefon, fără dosar fizic.
+
+Documentele sunt private: fiecare utilizator le vede doar pe ale lui, iar contul și toate datele se pot șterge oricând.
 
 ## Rularea aplicației Android
 

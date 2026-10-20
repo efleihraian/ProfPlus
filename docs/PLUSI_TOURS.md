@@ -1,6 +1,6 @@
 # Tururi ghidate cu Plusi — P-083
 
-Responsabil: Marcos Soames (cerere explicită din 2026-10-15). Branch `feature/P-083-plusi-tours`, din `main` c6188aa.
+Responsabil: echipa (cerere explicită din 2026-10-15). Branch `feature/P-083-plusi-tours`, din `main` c6188aa.
 
 ## Comportament
 
