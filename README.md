@@ -19,10 +19,24 @@ Aplicația există ca platformă web și ca aplicație Android (folderul [`andro
 | Senzor | La ce folosește |
 |---|---|
 | **Camera** | Fotografiază o pagină de manual sau un test, pentru a o păstra sau a o trimite mai departe. |
-| **Senzor biometric** (amprentă / față) | Blochează aplicația, ca documentele profesorului să rămână private. |
+| **Ecranul tactil** | Atingerea focalizează camera, iar ciupirea cu două degete face zoom pe pagina fotografiată. |
+| **Microfonul** | Profesorul dictează întrebarea sau cerința, iar textul apare pe ecran și poate fi copiat în conversația cu asistentul. |
 | **Senzor de lumină** | Măsoară lumina din sală (în prezent doar o afișează; trecerea automată între tema luminoasă și cea întunecată este planificată). |
 
-Fiecare senzor este folosit doar pentru funcția lui, iar camera cere permisiunea la prima folosire. Alți senzori (microfon pentru dictare, localizare aproximativă pentru meditații) sunt planificați.
+Fiecare senzor este folosit doar pentru funcția lui, iar camera cere permisiunea la prima folosire. Alți senzori (de exemplu localizarea aproximativă pentru meditații) sunt planificați.
+
+## Documente obligatorii prin lege
+
+Aplicația prelucrează date personale (cont, documente încărcate, conversații), deci legislația (GDPR și legislația română privind protecția datelor) cere ca utilizatorul să fie informat și să își poată exercita drepturile. Documentele și mecanismele obligatorii sunt:
+
+- **Politica de confidențialitate:** ce date sunt colectate, de ce, cât timp se păstrează, către cine sunt trimise și cum își exercită utilizatorul drepturile.
+- **Termeni și condiții:** regulile de utilizare, limitele răspunsurilor generate de asistent și responsabilitățile.
+- **Politica privind cookie-urile și bannerul de consimțământ:** utilizatorul alege ce tehnologii acceptă, iar alegerea poate fi schimbată oricând.
+- **Consimțământ explicit** pentru fiecare scop distinct (de exemplu publicarea unui anunț de meditații) și pentru permisiunile telefonului (camera, microfonul).
+- **Ștergerea datelor:** utilizatorul își poate șterge contul și toate datele asociate.
+- **Evaluarea de impact asupra protecției datelor (DPIA)** și protecție specială pentru datele elevilor, înainte de orice funcție care le prelucrează.
+
+Starea actuală: ștergerea contului și consimțământul pentru anunțurile de meditații sunt implementate. Textele finale ale politicii de confidențialitate, ale termenilor și ale politicii de cookie-uri, precum și DPIA, sunt în pregătire și trebuie aprobate de operator înainte de lansarea publică. Cerințele detaliate sunt în [docs/PRODUCT_REQUIREMENTS.md](docs/PRODUCT_REQUIREMENTS.md) și [docs/DPIA.md](docs/DPIA.md).
 
 ## Rularea aplicației Android
 

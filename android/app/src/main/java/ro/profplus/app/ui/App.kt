@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
@@ -34,7 +35,7 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import ro.profplus.app.authenticate
 import ro.profplus.app.canAuthenticate
 
-private enum class Tab(val label: String) { Plusi("Asistent"), Scan("Scanează"), Settings("Setări") }
+private enum class Tab(val label: String) { Plusi("Asistent"), Scan("Scanează"), Dictate("Dictează"), Settings("Setări") }
 
 private const val PREFS = "profplus"
 private const val KEY_LOCK = "biometric_lock"
@@ -72,6 +73,7 @@ fun ProfPlusApp(activity: FragmentActivity) {
                                 when (t) {
                                     Tab.Plusi -> Icons.Default.Face
                                     Tab.Scan -> Icons.Default.Search
+                                    Tab.Dictate -> Icons.Default.Edit
                                     Tab.Settings -> Icons.Default.Settings
                                 },
                                 contentDescription = null,
@@ -87,6 +89,7 @@ fun ProfPlusApp(activity: FragmentActivity) {
         when (tab) {
             Tab.Plusi -> WebScreen(webView, modifier)
             Tab.Scan -> ScanScreen(modifier)
+            Tab.Dictate -> DictationScreen(modifier)
             Tab.Settings -> SettingsScreen(
                 lockEnabled = lockEnabled,
                 deviceCanLock = deviceCanLock,
