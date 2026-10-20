@@ -8,7 +8,12 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.FocusMeteringAction
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.detectTransformGestures
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
@@ -81,6 +86,7 @@ private fun ColumnScope.CameraPreview(onCaptured: (File) -> Unit) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val imageCapture = remember { ImageCapture.Builder().build() }
     val previewView = remember { PreviewView(context) }
+    val camera = remember { arrayOfNulls<Camera>(1) }
 
     DisposableEffect(lifecycleOwner) {
         val providerFuture = ProcessCameraProvider.getInstance(context)
@@ -88,12 +94,31 @@ private fun ColumnScope.CameraPreview(onCaptured: (File) -> Unit) {
             val provider = providerFuture.get()
             val preview = Preview.Builder().build().also { it.surfaceProvider = previewView.surfaceProvider }
             provider.unbindAll()
-            provider.bindToLifecycle(lifecycleOwner, CameraSelector.DEFAULT_BACK_CAMERA, preview, imageCapture)
+            camera[0] = provider.bindToLifecycle(lifecycleOwner, CameraSelector.DEFAULT_BACK_CAMERA, preview, imageCapture)
         }, ContextCompat.getMainExecutor(context))
         onDispose { providerFuture.get().unbindAll() }
     }
 
-    AndroidView(factory = { previewView }, modifier = Modifier.weight(1f).fillMaxWidth())
+    // Ecranul tactil: atingere = focalizare, ciupire cu două degete = zoom.
+    AndroidView(
+        factory = { previewView },
+        modifier = Modifier
+            .weight(1f)
+            .fillMaxWidth()
+            .pointerInput(Unit) {
+                detectTapGestures { offset ->
+                    val point = previewView.meteringPointFactory.createPoint(offset.x, offset.y)
+                    camera[0]?.cameraControl?.startFocusAndMetering(FocusMeteringAction.Builder(point).build())
+                }
+            }
+            .pointerInput(Unit) {
+                detectTransformGestures { _, _, zoom, _ ->
+                    val current = camera[0]?.cameraInfo?.zoomState?.value?.zoomRatio ?: 1f
+                    camera[0]?.cameraControl?.setZoomRatio(current * zoom)
+                }
+            },
+    )
+    Text("Atinge ecranul pentru focalizare, ciupește pentru zoom", Modifier.padding(top = 8.dp))
     Button(
         onClick = {
             val file = File(scansDir(context), "scan-${System.currentTimeMillis()}.jpg")
