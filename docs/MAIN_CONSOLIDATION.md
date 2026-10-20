@@ -1,6 +1,6 @@
 # P-073 — Consolidarea pe main, 2026-10-12
 
-Responsabil Marcos Soames, issue #18, cerere explicită a titularului: toate lucrările existente pe main, fără PR.
+Responsabil echipa, issue #18, cerere explicită a titularului: toate lucrările existente pe main, fără PR.
 
 ## Inventar și integrare
 

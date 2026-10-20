@@ -58,11 +58,11 @@
 
 ## P-079 — DONE — Dashboard practic și flux de știri — 2026-10-14/15
 
-Responsabil Marcos Soames, issue #23. Dashboard pe trei zone, editor cu previzualizare și acțiuni distincte ciornă/publicare, poziții clare pe Acasă și înlocuire atomică păstrând știrea anterioară în lista completă. Citire cu titlu unic/paragrafe, principal + trei secundare, căutare/filtre și paginare public/admin. Membership și audiență păstrate; migration și probe reale rollback trecute. [Utilizare, dovezi și limite](docs/NEWS_EDITOR.md). Publicat pe main f09ff47 și Site succeeded la 00:04 București, 2026-10-15; dovezi în jurnal.
+Responsabil echipa, issue #23. Dashboard pe trei zone, editor cu previzualizare și acțiuni distincte ciornă/publicare, poziții clare pe Acasă și înlocuire atomică păstrând știrea anterioară în lista completă. Citire cu titlu unic/paragrafe, principal + trei secundare, căutare/filtre și paginare public/admin. Membership și audiență păstrate; migration și probe reale rollback trecute. [Utilizare, dovezi și limite](docs/NEWS_EDITOR.md). Publicat pe main f09ff47 și Site succeeded la 00:04 București, 2026-10-15; dovezi în jurnal.
 
 ## P-078 — DONE — Unificare, antet mobil și admin/știri — 2026-10-14
 
-Responsabil Marcos Soames, issue #22. Varianta funcțională Supabase combinată cu interfața P-074 și controalele P-077; copie operațională/backup păstrate. Antet responsive și cont aliniat, dashboard cu statistici agregate, rol persistent server-only pentru contul autorizat și știri principal + trei secundare cu draft/publicare/arhivare. Migration aplicată și controale reale de izolare/atomicitate trecute cu fixture-uri rollback. [Comportament și limite](docs/UNIFIED_APP_ADMIN.md). Publicat: main bd5f6b3 și Site succeeded, 21:57 București; livrarea este consemnată în jurnal.
+Responsabil echipa, issue #22. Varianta funcțională Supabase combinată cu interfața P-074 și controalele P-077; copie operațională/backup păstrate. Antet responsive și cont aliniat, dashboard cu statistici agregate, rol persistent server-only pentru contul autorizat și știri principal + trei secundare cu draft/publicare/arhivare. Migration aplicată și controale reale de izolare/atomicitate trecute cu fixture-uri rollback. [Comportament și limite](docs/UNIFIED_APP_ADMIN.md). Publicat: main bd5f6b3 și Site succeeded, 21:57 București; livrarea este consemnată în jurnal.
 
 ## P-077 — 2026-10-14
 
@@ -121,12 +121,12 @@ Responsabil Marcos Soames, issue #22. Varianta funcțională Supabase combinată
 
 ## P-068 — Modele personale de documente — 2026-10-11
 
-Responsabil: Marcos Soames, la cererea titularului. Modele private pentru test, barem, planificare, proiect de lecție și fișă; marcarea din bibliotecă și folosirea în toate conversațiile după tip/materie/ciclu. Modelele personale au prioritate pentru fiecare tip; registrul comun primește doar exemplele titularului aprobate și anonimizate. Registrul este deocamdată gol: exemplele nu au fost încă furnizate. Stilul standard a devenit sobru, fără introduceri și ornamente automate. [Comportament, verificări și limite](docs/DOCUMENT_MODELS.md). P-065 și P-067 sunt integrate pe main la `08642f9`; de acum livrare direct pe main fără PR, conform instrucțiunii explicite din 2026-10-11. Importul bibliotecii este separat.
+Responsabil: echipa, la cererea titularului. Modele private pentru test, barem, planificare, proiect de lecție și fișă; marcarea din bibliotecă și folosirea în toate conversațiile după tip/materie/ciclu. Modelele personale au prioritate pentru fiecare tip; registrul comun primește doar exemplele titularului aprobate și anonimizate. Registrul este deocamdată gol: exemplele nu au fost încă furnizate. Stilul standard a devenit sobru, fără introduceri și ornamente automate. [Comportament, verificări și limite](docs/DOCUMENT_MODELS.md). P-065 și P-067 sunt integrate pe main la `08642f9`; de acum livrare direct pe main fără PR, conform instrucțiunii explicite din 2026-10-11. Importul bibliotecii este separat.
 
 
 ## P-067 — Surse prioritare și copie pentru elevi — DONE, 2026-10-11
 
-Responsabil uman: Marcos Soames; cerere directă a titularului. Toate materialele potrivite pot rămâne selectate; steaua marchează maximum 10 surse comune și 10 documente proprii prioritare pentru enunț. Copia pentru elevi ascunde proveniența, citările și referințele la un singur click, inclusiv în PDF/Word. Formulele, variantele și spațierea sunt formatate. Implementare izolată în `feat/P-067-teacher-test-controls`, dependentă de P-065/PR #13 pentru păstrarea corecției bibliotecii deja publicate. [Dovezi și limite](docs/TEACHER_TEST_CONTROLS.md). Importul bibliotecii rămâne separat în curs.
+Responsabil uman: echipa; cerere directă a titularului. Toate materialele potrivite pot rămâne selectate; steaua marchează maximum 10 surse comune și 10 documente proprii prioritare pentru enunț. Copia pentru elevi ascunde proveniența, citările și referințele la un singur click, inclusiv în PDF/Word. Formulele, variantele și spațierea sunt formatate. Implementare izolată în `feat/P-067-teacher-test-controls`, dependentă de P-065/PR #13 pentru păstrarea corecției bibliotecii deja publicate. [Dovezi și limite](docs/TEACHER_TEST_CONTROLS.md). Importul bibliotecii rămâne separat în curs.
 
 
 ## P-065 — 2026-10-11

@@ -1,6 +1,6 @@
 # Biblioteca personală și animațiile Plusi — P-080
 
-Responsabil: Marcos Soames (cerere explicită din 2026-10-15). Branch `feature/P-080-personal-library-plusi`, pornit din `origin/main` 04fd690.
+Responsabil: echipa (cerere explicită din 2026-10-15). Branch `feature/P-080-personal-library-plusi`, pornit din `origin/main` 04fd690.
 
 ## Ce face
 

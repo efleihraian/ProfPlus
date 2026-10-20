@@ -1,6 +1,6 @@
 # Meditații, animația taburilor și finisarea designului — P-087
 
-Responsabil: Marcos Soames (cerere din 2026-10-15). Branch `feature/P-087-tutoring-design`, din `main` 06800a4. PR #25 integrat și publicat cu autorizarea explicită a titularului; confirmarea livrării este mai jos.
+Responsabil: echipa (cerere din 2026-10-15). Branch `feature/P-087-tutoring-design`, din `main` 06800a4. PR #25 integrat și publicat cu autorizarea explicită a titularului; confirmarea livrării este mai jos.
 
 ## Tabul „Meditații”
 
