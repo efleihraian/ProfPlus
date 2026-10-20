@@ -34,7 +34,7 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import ro.profplus.app.authenticate
 import ro.profplus.app.canAuthenticate
 
-private enum class Tab(val label: String) { Plusi("Plusi"), Scan("Scanează"), Settings("Setări") }
+private enum class Tab(val label: String) { Plusi("Asistent"), Scan("Scanează"), Settings("Setări") }
 
 private const val PREFS = "profplus"
 private const val KEY_LOCK = "biometric_lock"
