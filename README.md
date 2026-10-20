@@ -9,6 +9,8 @@ Aplicația există ca platformă web și ca aplicație Android (folderul [`andro
 - **Asistent virtual:** o mascotă care răspunde la întrebări și ajută la pregătirea materialelor, cu trimiteri la manual și pagină.
 - **Materiale didactice:** teste, bareme, fișe, planificări și proiecte de lecție, exportabile în PDF și Word.
 - **Bibliotecă de manuale:** peste 1.300 de manuale, culegeri și subiecte de concurs, cu căutare și filtre.
+- **Documente:** profesorul își încarcă propriile documente (PDF, Word, PowerPoint, text), le editează în aplicație și le exportă în PDF sau Word. Documentele folosite des devin surse pentru asistent, iar fiecare utilizator le vede doar pe ale lui.
+- **Documente legale:** politica de confidențialitate, termenii și condițiile și politica de cookie-uri, obligatorii prin lege (vezi secțiunea de mai jos).
 - **Clasele mele:** spațiu de lucru pentru fiecare clasă, cu documentele și observațiile ei.
 - **Știri din educație:** noutăți recomandate după disciplina profesorului.
 - **Meditații:** anunțuri de meditații, cu filtre după materie, nivel și localitate.
