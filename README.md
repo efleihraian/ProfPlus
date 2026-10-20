@@ -2,7 +2,7 @@
 
 **ProfPlus** este un asistent educațional bazat pe AI, creat pentru profesorii din România. Ajută la pregătirea lecțiilor, testelor, fișelor și planificărilor pornind de la manualele oficiale, culegeri, subiecte de olimpiadă și concurs, dar și de la documentele proprii ale profesorului. Fiecare răspuns indică sursele folosite.
 
-Aplicația web funcționează acum în pilot privat. Aplicațiile Android și iOS sunt planificate.
+Aplicația web funcționează acum în pilot privat. Aplicația **Android** (Kotlin, Jetpack Compose) este în dezvoltare, în folderul [`android/`](android/); aplicația iOS este planificată.
 
 > Versiunea curentă: **0.9.5**. Istoricul complet este în [CHANGELOG.md](CHANGELOG.md), iar starea la zi în [STATUS.md](STATUS.md).
 
@@ -67,7 +67,7 @@ Aplicația web funcționează acum în pilot privat. Aplicațiile Android și iO
 
 Versiunea web nu are acces la senzorii dispozitivului: camera, microfonul și geolocația sunt blocate explicit prin `Permissions-Policy`. Aplicația web folosește doar preferințele de sistem, cum ar fi tema luminoasă/întunecată și mișcarea redusă.
 
-Aplicațiile **Android și iOS** vor folosi următorii senzori. Fiecare va fi activat numai cu permisiunea explicită a utilizatorului și numai pentru funcția care are nevoie de el, conform cerințelor GDPR din [PRODUCT_REQUIREMENTS.md](docs/PRODUCT_REQUIREMENTS.md):
+Aplicația **Android** folosește deja camera, biometria și senzorul de lumină (vezi [android/README.md](android/README.md)); ceilalți senzori și iOS sunt planificate. Aplicațiile vor folosi următorii senzori. Fiecare va fi activat numai cu permisiunea explicită a utilizatorului și numai pentru funcția care are nevoie de el, conform cerințelor GDPR din [PRODUCT_REQUIREMENTS.md](docs/PRODUCT_REQUIREMENTS.md):
 
 | Senzor | Utilizare în ProfPlus |
 |---|---|
@@ -82,7 +82,7 @@ Aplicațiile **Android și iOS** vor folosi următorii senzori. Fiecare va fi ac
 
 ## Ce urmează
 
-- **Aplicații Android și iOS** cu sincronizare completă a contului, a bibliotecii și a claselor, plus funcțiile bazate pe senzorii de mai sus.
+- **Aplicația Android** (schelet funcțional în `android/`: WebView, cameră, biometrie) extinsă cu ecrane native, și **aplicația iOS**, cu sincronizare completă a contului, a bibliotecii și a claselor, plus funcțiile bazate pe senzorii de mai sus.
 - **Finalizarea importului bibliotecii:** toate manualele și originalele, OCR complet și calitate mai bună pentru formule și figuri.
 - **Calitate pedagogică:** evaluarea răspunsurilor pe un set de întrebări reale, cu măsurarea costului și a latenței.
 - **Roluri profesor, elev, părinte și școală**, cu izolare pe organizații (RLS), înainte de orice funcție pentru elevi.
@@ -109,7 +109,14 @@ Planul pe etape este în [ROADMAP.md](ROADMAP.md), iar sarcinile detaliate în [
 | AI | OpenAI Responses API (GPT-4.1 mini, GPT-6.1 Sol), indexare vectorială pentru RAG |
 | Documente | pdf-lib, docx, KaTeX, MathJax |
 | Import și scripturi | Python (import manuale/concursuri, OCR, sincronizare cloud) |
+| Mobil (Android) | Kotlin, Jetpack Compose, CameraX, BiometricPrompt, WebView |
 | CI | GitHub Actions: build, TypeScript, teste, audit npm, scanare de secrete |
+
+---
+
+## Aplicația Android
+
+Proiectul Android Studio este în [`android/`](android/). Deschide folderul în Android Studio și rulează pe un emulator sau telefon cu Android 8.0+. Detalii, arhitectură și limitări în [android/README.md](android/README.md).
 
 ---
 
