@@ -1,0 +1,71 @@
+{
+  "expo": {
+    "name": "ProfPlus",
+    "slug": "profplus",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "profplus",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "bundleIdentifier": "ro.profplus.app"
+    },
+    "android": {
+      "package": "ro.profplus.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#2F7D5B",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "server",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#FBF8F3",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "dark": {
+            "backgroundColor": "#1B4D36",
+            "image": "./assets/images/splash-icon.png"
+          }
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "cmakeVersion": "3.31.6"
+          }
+        }
+      ],
+      "expo-secure-store",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "ProfPlus folosește pozele alese de tine doar ca să le adaugi în portofoliul profesional.",
+          "cameraPermission": "ProfPlus folosește camera doar când fotografiezi un document pentru portofoliul tău.",
+          "microphonePermission": false
+        }
+      ],
+      "expo-image",
+      "expo-web-browser"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4f34324e-1dd4-4323-8a76-a9745e63f618"
+      }
+    },
+    "owner": "profplus"
+  }
+}
