@@ -26,4 +26,5 @@ Codul se adaugă în etape. Aplicația completă poate fi pornită după ultima 
 - `src/components`: componentele reutilizabile
 - `src/constants`: tema
 - `src/hooks`: funcții comune pentru ecrane
+- `src/lib`: contul (Supabase), legătura cu serverul ProfPlus, jurnalul de erori și tema
 - `../web/shared`: cod comun cu site-ul

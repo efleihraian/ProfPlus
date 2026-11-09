@@ -49,8 +49,8 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "ProfPlus folosește pozele alese de tine doar ca să le adaugi în portofoliul profesional.",
-          "cameraPermission": "ProfPlus folosește camera doar când fotografiezi un document pentru portofoliul tău.",
+          "photosPermission": "ProfPlus folosește pozele alese de tine doar ca să le adaugi în portofoliul profesional sau să i le arăți lui Profi.",
+          "cameraPermission": "ProfPlus folosește camera doar când fotografiezi un document pentru portofoliu sau un exercițiu pentru Profi. Fotografia din chat nu se salvează.",
           "microphonePermission": false
         }
       ],
@@ -63,9 +63,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "4f34324e-1dd4-4323-8a76-a9745e63f618"
+        "projectId": "c411e6a9-5bef-4ca7-9433-2b368606bd3c"
       }
     },
-    "owner": "profplus"
+    "owner": "profpluss-team"
   }
 }

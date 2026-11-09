@@ -3,7 +3,7 @@
 // aplicația mobilă le importă direct (mobile/src/constants/theme.ts). Fișierul nu importă nimic.
 
 // Paleta 60-30-10 din docs/design/README.md: crem/alb ca fundal, verde ca structură, verde închis pentru acțiuni.
-// Modul întunecat folosește verde închis, cu contrast AA (P-081).
+// Modul întunecat folosește fundaluri gri cu o nuanță discretă de verde (P-176, P-177, P-180, P-186), cu accente verzi și contrast AA (P-081).
 export const colors = {
   light: {
     bg: "#FBF8F3",
@@ -31,28 +31,28 @@ export const colors = {
     shadow: "rgba(31,42,36,.08)",
   },
   dark: {
-    bg: "#0F1613",
-    surface: "#17211C",
+    bg: "#121513",
+    surface: "#1B1F1D",
     text: "#E6EFE9",
     muted: "#B3C2B9",
     subtle: "#98A89F",
-    border: "#2B3A33",
-    borderStrong: "#3B4F45",
+    border: "#2F3633",
+    borderStrong: "#404A45",
     soft: "#1C3328",
     softBorder: "#2F5B46",
     softText: "#9BDDB9",
     accent: "#2F7D5B",
     accentText: "#7FD3A6",
     dark: "#2F7D5B",
-    hover: "#1F2C26",
-    rowMuted: "#131C18",
+    hover: "#222926",
+    rowMuted: "#151A18",
     dangerSoft: "#3A1F25",
     dangerBorder: "#7F3542",
     dangerText: "#FCA5A5",
     okSoft: "#123A2C",
     okText: "#6EE7B7",
-    track: "#2B3A33",
-    tag: "#26352E",
+    track: "#2F3633",
+    tag: "#2A312E",
     shadow: "rgba(0,0,0,.35)",
   },
 } as const;
