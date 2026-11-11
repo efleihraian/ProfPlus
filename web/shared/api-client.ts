@@ -1,6 +1,8 @@
 // Singurul loc prin care un client vorbește cu API-ul ProfPlus.
 // Site-ul îl folosește cu cookie-ul de sesiune; aplicația mobilă îi dă adresa serverului și tokenul Supabase.
 import type {ClassJournal} from "./class-catalog";
+import type {DocumentSharing} from "./library-sharing";
+import {readChatResponse, type ChatStage} from "./chat-progress";
 import type {AccountResponse, AccountUpdate, ChatDocument, ClassDetail, LibraryItem, ChatReply, ChatRequest, ChatMessage, HistoryChat, OwnedClass, PortfolioFile, Project, SavedChat} from "./api-types";
 
 export class ApiError extends Error {
@@ -27,11 +29,11 @@ const CHAT_TIMEOUT_MS = 480_000;
 const UPLOAD_TIMEOUT_MS = 120_000;
 
 export function createApiClient({baseUrl = "", getToken, timeoutMs, onRequestEnd}: ApiClientOptions = {}) {
-  async function request<T>(path: string, init: RequestInit = {}, limitMs = timeoutMs): Promise<T> {
+  async function request<T>(path: string, init: RequestInit = {}, limitMs = timeoutMs, read: (response: Response) => Promise<{ok: boolean; status: number; data: unknown}> = readJson): Promise<T> {
     const started = Date.now();
     const method = init.method ?? "GET";
     try {
-      const data = await send<T>(path, init, limitMs);
+      const data = await send<T>(path, init, limitMs, read);
       onRequestEnd?.({method, path, ok: true, status: 200, durationMs: Date.now() - started});
       return data;
     } catch (error) {
@@ -39,26 +41,31 @@ export function createApiClient({baseUrl = "", getToken, timeoutMs, onRequestEnd
       throw error;
     }
   }
-  async function send<T>(path: string, init: RequestInit, limitMs: number | undefined): Promise<T> {
+  async function readJson(response: Response) {
+    try { return {ok: response.ok, status: response.status, data: await response.json() as unknown}; } catch { throw new ApiError("Răspuns invalid de la server.", response.status); }
+  }
+  async function send<T>(path: string, init: RequestInit, limitMs: number | undefined, read: (response: Response) => Promise<{ok: boolean; status: number; data: unknown}>): Promise<T> {
     const headers = new Headers(init.headers);
     const token = await getToken?.();
     if (token) headers.set("Authorization", "Bearer " + token);
-    // Limita de timp și oprirea cerută de utilizator (init.signal) anulează aceeași cerere.
+    // Limita de timp și oprirea cerută de utilizator (init.signal) anulează aceeași cerere, inclusiv citirea unui răspuns
+    // trimis pe parcurs (pașii generării, P-199).
     const controller = limitMs || init.signal ? new AbortController() : null;
     const timer = limitMs && controller ? setTimeout(() => controller.abort(), limitMs) : null;
     init.signal?.addEventListener("abort", () => controller?.abort());
-    let response: Response;
+    const timedOut = () => !!controller?.signal.aborted && !init.signal?.aborted;
+    let result: {ok: boolean; status: number; data: unknown};
     try {
-      response = await fetch(baseUrl + path, {cache: "no-store", ...init, headers, ...(controller ? {signal: controller.signal} : {})});
+      const response = await fetch(baseUrl + path, {cache: "no-store", ...init, headers, ...(controller ? {signal: controller.signal} : {})});
+      result = await read(response);
     } catch (error) {
-      if (controller?.signal.aborted && !init.signal?.aborted) throw new ApiError("Serverul nu a răspuns la timp. Încearcă din nou.", 0);
+      if (timedOut()) throw new ApiError("Serverul nu a răspuns la timp. Încearcă din nou.", 0);
       throw error;
     } finally {
       if (timer) clearTimeout(timer);
     }
-    let data: {error?: string; field?: string};
-    try { data = await response.json(); } catch { throw new ApiError("Răspuns invalid de la server.", response.status); }
-    if (!response.ok) throw new ApiError(data.error || "Operația a eșuat.", response.status, data.field);
+    const data = result.data as {error?: string; field?: string};
+    if (!result.ok) throw new ApiError(data?.error || "Operația a eșuat.", result.status, data?.field);
     return data as T;
   }
   const json = (method: string, body: unknown): RequestInit => ({method, headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
@@ -80,7 +87,10 @@ export function createApiClient({baseUrl = "", getToken, timeoutMs, onRequestEnd
       /** Tot catalogul vizibil contului; `chatId` adaugă documentele conversației. */
       list: (chatId?: string | null) => request<{items: LibraryItem[]}>("/api/library" + (chatId ? "?chatId=" + encodeURIComponent(chatId) : "")),
       /** Biblioteca personală (P-195). Încărcarea: documents.upload cu `scope=library`; ștergerea: documents.remove. */
-      personal: () => request<{documents: ChatDocument[]; limit: number}>("/api/library/personal"),
+      personal: () => request<{documents: ChatDocument[]; limit: number; sharing?: Record<string, DocumentSharing>; sharingAvailable?: boolean}>("/api/library/personal"),
+      /** P-210: propune un document pentru toți profesorii (acord explicit) sau retrage acordul. */
+      share: (documentId: string) => request<{sharing: DocumentSharing}>("/api/library/shared", json("POST", {documentId, consent: true})),
+      withdraw: (documentId: string) => request<{withdrawn: true}>("/api/library/shared?id=" + encodeURIComponent(documentId), {method: "DELETE"}),
     },
     classes: {
       list: () => request<{classes: OwnedClass[]}>("/api/classes"),
@@ -110,6 +120,11 @@ export function createApiClient({baseUrl = "", getToken, timeoutMs, onRequestEnd
     },
     chat: {
       send: (body: ChatRequest, signal?: AbortSignal) => request<ChatReply>("/api/chat", {...json("POST", body), signal}, CHAT_TIMEOUT_MS),
+      /** P-199: cere pașii reali ai generării (NDJSON, P-198) și îi raportează pe măsură ce sosesc; serverul vechi răspunde JSON simplu. */
+      sendWithProgress: (body: ChatRequest, onStage: (stage: ChatStage) => void, signal?: AbortSignal) => {
+        const init = json("POST", body);
+        return request<ChatReply>("/api/chat", {...init, headers: {...init.headers as Record<string, string>, Accept: "application/x-ndjson, application/json"}, signal}, CHAT_TIMEOUT_MS, response => readChatResponse(response, onStage));
+      },
     },
   };
 }

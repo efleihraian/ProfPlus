@@ -99,7 +99,7 @@ function Form({ account, showName, disabled, onSaved }: Props) {
         Se aleg automat manualele, culegerile, olimpiadele, concursurile și documentele potrivite materiei și claselor. Nu solicităm școala, adresa sau date despre elevi.
       </ThemedText>
       {error ? (
-        <View accessibilityLiveRegion="polite" style={[styles.error, { backgroundColor: theme.dangerSoft, borderColor: theme.dangerBorder }]}>
+        <View accessibilityLiveRegion="polite" style={[styles.error, { backgroundColor: theme.dangerSoft }]}>
           <ThemedText themeColor="dangerText">{error}</ThemedText>
         </View>
       ) : null}
@@ -112,5 +112,5 @@ function Form({ account, showName, disabled, onSaved }: Props) {
 
 const styles = StyleSheet.create({
   form: { gap: Spacing.two },
-  error: { borderWidth: 1, borderRadius: 8, padding: 12 },
+  error: { borderRadius: 14, padding: 14 },
 });

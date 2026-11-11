@@ -1,6 +1,7 @@
-// Butoanele site-ului: principal verde închis cu text alb, secundar alb cu chenar. Minim 48 px înălțime pentru atingere.
+// Butoanele aplicației (P-200): în formă de pastilă, fără chenar. Principal verde închis cu text alb; secundar cu umplere
+// discretă; pericol pe roșu deschis; „ghost” doar text. La apăsare butonul se micșorează ușor. Minim 52 px înălțime.
 import type { ReactNode } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, Text } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { brand, radius } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
@@ -8,17 +9,23 @@ import { useTheme } from '@/hooks/use-theme';
 type Props = {
   children: ReactNode;
   onPress?: () => void;
-  variant?: 'primary' | 'secondary' | 'danger';
+  variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
+  /** Pictogramă înaintea textului; primește culoarea textului. */
+  icon?: (color: string) => ReactNode;
   disabled?: boolean;
   loading?: boolean;
   accessibilityHint?: string;
 };
 
-export function Button({ children, onPress, variant = 'primary', disabled, loading, accessibilityHint }: Props) {
+export function Button({ children, onPress, variant = 'primary', icon, disabled, loading, accessibilityHint }: Props) {
   const theme = useTheme();
-  const primary = variant === 'primary';
-  const danger = variant === 'danger';
   const inactive = disabled || loading;
+  const look = {
+    primary: { background: theme.dark, pressed: theme.accent, text: brand.onAccent },
+    secondary: { background: theme.fill, pressed: theme.fillStrong, text: theme.text },
+    danger: { background: theme.dangerSoft, pressed: theme.dangerBorder, text: theme.dangerText },
+    ghost: { background: 'transparent', pressed: theme.fill, text: theme.accentText },
+  }[variant];
   return (
     <Pressable
       accessibilityRole="button"
@@ -28,30 +35,27 @@ export function Button({ children, onPress, variant = 'primary', disabled, loadi
       onPress={onPress}
       style={({ pressed }) => [
         styles.button,
-        primary
-          ? { backgroundColor: pressed ? theme.accent : theme.dark, borderColor: 'transparent' }
-          : danger
-            ? { backgroundColor: pressed ? theme.dangerSoft : theme.surface, borderColor: theme.dangerBorder }
-            : { backgroundColor: pressed ? theme.hover : theme.surface, borderColor: theme.borderStrong },
+        { backgroundColor: pressed ? look.pressed : look.background },
+        pressed && styles.pressed,
         inactive && styles.inactive,
       ]}>
-      {loading ? <ActivityIndicator color={primary ? brand.onAccent : theme.text} /> : null}
-      <Text style={[styles.label, { color: primary ? brand.onAccent : danger ? theme.dangerText : theme.text }]}>{children}</Text>
+      {loading ? <ActivityIndicator color={look.text} /> : icon ? <View>{icon(look.text)}</View> : null}
+      <Text style={[styles.label, { color: look.text }]}>{children}</Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
-    minHeight: 48,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    paddingHorizontal: 18,
+    minHeight: 52,
+    borderRadius: radius.pill,
+    paddingHorizontal: 22,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
   },
-  label: { fontSize: 16, fontWeight: 600 },
-  inactive: { opacity: 0.55 },
+  pressed: { transform: [{ scale: 0.98 }] },
+  label: { fontSize: 16, fontWeight: 600, letterSpacing: 0.1, textAlign: 'center' },
+  inactive: { opacity: 0.45 },
 });

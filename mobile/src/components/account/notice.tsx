@@ -12,12 +12,12 @@ export function Notice({ outcome }: { outcome: Outcome | null }) {
   return (
     <View
       accessibilityLiveRegion="polite"
-      style={[styles.box, error ? { backgroundColor: theme.dangerSoft, borderColor: theme.dangerBorder } : { backgroundColor: theme.soft, borderColor: theme.softBorder }]}>
+      style={[styles.box, error ? { backgroundColor: theme.dangerSoft } : { backgroundColor: theme.soft }]}>
       <ThemedText themeColor={error ? 'dangerText' : 'softText'}>{error ? outcome.error : outcome.message}</ThemedText>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  box: { borderWidth: 1, borderRadius: 8, padding: 12 },
+  box: { borderRadius: 14, paddingVertical: 12, paddingHorizontal: 14 },
 });

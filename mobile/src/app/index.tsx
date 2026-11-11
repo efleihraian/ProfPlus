@@ -1,4 +1,6 @@
 // Acasă: aceleași trei intrări ca pagina principală a site-ului (asistentul, portofoliul, clasele).
+// P-202: salutul și Profi stau în aceeași casetă principală, apoi Portofoliul profesional și Clasele mele, fără etichete verzi.
+// P-217: Fun Prof nu mai are casetă pe Acasă; rămâne în Asistent (exemplul de cerere și modul din setările mesajului).
 import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
@@ -15,32 +17,33 @@ export default function HomeScreen() {
   const { session } = useAuth();
 
   return (
-    <Screen title="Bună! Cu ce te pot ajuta?" intro="Profi caută prin manuale și pregătește materiale pentru ora ta.">
+    <Screen>
       <Card soft>
         <View style={styles.assistant}>
           <View style={styles.assistantText}>
-            <ThemedText type="smallBold" themeColor="softText">
-              Asistent virtual
+            <ThemedText type="subtitle" accessibilityRole="header">
+              Bună! Cu ce te pot ajuta?
             </ThemedText>
-            <ThemedText type="subtitle">Întreabă-l pe Profi</ThemedText>
           </View>
           <Profi width={104} />
         </View>
-        <ThemedText themeColor="muted">Planificări, teste, fișe de lucru și explicații, cu sursele din manualele alese.</ThemedText>
+        <ThemedText themeColor="muted">
+          Profi caută prin manuale și pregătește planificări, teste, fișe de lucru și explicații pentru ora ta.
+        </ThemedText>
         <Button onPress={() => router.navigate('/asistent')}>Vorbește cu Profi</Button>
       </Card>
 
-      <Card eyebrow="Obligatoriu din 2026–2027" title="Portofoliul profesional">
+      <Card title="Portofoliul profesional">
         <ThemedText themeColor="muted">
-          Documentele cerute de OMEC nr. 3.858/2026, grupate pe secțiuni, cu progresul tău.
+          Documentele cerute de OMEC nr. 3.858/2026, obligatorii din 2026–2027, grupate pe secțiuni, cu progresul tău.
         </ThemedText>
         <Button variant="secondary" onPress={() => router.navigate('/documente')}>
           Mergi la Documente personale
         </Button>
       </Card>
 
-      <Card eyebrow="Clasele mele" title="Materiale pe fiecare clasă">
-        <ThemedText themeColor="muted">Planificări, proiecte de lecție, teste și fișe, ordonate pe clase.</ThemedText>
+      <Card title="Clasele mele">
+        <ThemedText themeColor="muted">Fiecare clasă cu jurnalul ei și materialele pregătite pentru ea: planificări, proiecte de lecție, teste și fișe.</ThemedText>
         <Button variant="secondary" onPress={() => router.navigate('/clase')}>
           Deschide clasele
         </Button>

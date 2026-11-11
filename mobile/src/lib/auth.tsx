@@ -9,7 +9,7 @@ import * as WebBrowser from 'expo-web-browser';
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 
 import { SITE_URL } from '@/components/ui/coming-soon';
-import { api, ApiError } from '@/lib/api';
+import { api, ApiError, appOAuthEntry } from '@/lib/api';
 import { log } from '@/lib/log';
 import { supabase, supabaseConfigured } from '@/lib/supabase';
 
@@ -93,7 +93,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       log('warn', 'auth_google_start_failed', { code: error?.code ?? null });
       return message(error ?? {});
     }
-    const result = await WebBrowser.openAuthSessionAsync(data.url, redirectTo);
+    // P-217: fereastra de login pornește de pe profplus.ro (iOS afișează domeniul primei adrese, nu pe cel Supabase);
+    // serverul redirecționează imediat la Supabase cu aceeași provocare PKCE. În dezvoltare (exp://) rămâne adresa directă.
+    const start = appOAuthEntry(SITE_URL, data.url) ?? data.url;
+    const result = await WebBrowser.openAuthSessionAsync(start, redirectTo);
     if (result.type !== 'success') {
       log('info', 'auth_google_closed', { result: result.type });
       return 'Conectarea cu Google nu s-a încheiat.';

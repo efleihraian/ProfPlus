@@ -145,3 +145,12 @@ export function FileTextIcon({ size = 20, color }: Props) {
     </Svg>
   );
 }
+// P-199: atașarea în chat (fotografii sau documente), ca butonul „+” de pe site.
+export function PlusIcon({ size = 20, color }: Props) {
+  return (
+    <Svg {...base(size)} stroke={color}>
+      <Path d="M5 12h14" />
+      <Path d="M12 5v14" />
+    </Svg>
+  );
+}

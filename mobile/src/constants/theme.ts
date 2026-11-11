@@ -2,7 +2,7 @@
 
 import '@/global.css';
 
-import { Platform } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 import { brand, colors, font, radius, type ColorScheme } from '../../../web/shared/design-tokens';
 
@@ -15,7 +15,22 @@ const scheme = (name: ColorScheme) => ({
   backgroundElement: colors[name].surface,
   backgroundSelected: colors[name].soft,
   textSecondary: colors[name].muted,
+  // P-200: umplerea discretă a butoanelor secundare și a câmpurilor (în locul chenarelor), doar în aplicație.
+  fill: name === 'light' ? 'rgba(31,42,36,0.055)' : 'rgba(255,255,255,0.075)',
+  fillStrong: name === 'light' ? 'rgba(31,42,36,0.1)' : 'rgba(255,255,255,0.13)',
 });
+
+/** P-200: formele aplicației — controale rotunjite, carduri cu colțuri mari (site-ul își păstrează `radius`). */
+export const Shape = { control: 14, card: 22, sheet: 28 } as const;
+
+/** Umbra fină a cardurilor în modul luminos; în modul întunecat cardul are doar un contur discret. */
+export function cardSurface(dark: boolean) {
+  if (dark) return { borderWidth: StyleSheet.hairlineWidth };
+  return Platform.select({
+    ios: { shadowColor: '#1F2A24', shadowOpacity: 0.07, shadowRadius: 14, shadowOffset: { width: 0, height: 4 } },
+    default: { elevation: 2, shadowColor: '#1F2A24' },
+  });
+}
 
 export const Colors = {
   light: scheme('light'),

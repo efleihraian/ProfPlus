@@ -48,16 +48,18 @@ export type HistoryChat = {id: string; title: string; project_id: string | null;
 export type Project = {id: string; name: string};
 
 /** O sursă citată în răspuns: manual, document al profesorului sau pagină web. */
-export type ChatSource = {id: number; kind: "manual" | "document" | "web"; title: string; schoolClass?: string; subject?: string; publisher?: string; page?: number; url: string};
+/** `shared`: fragment dintr-un material partajat de un profesor (P-210); `url` gol, originalul nu este oferit. */
+export type ChatSource = {id: number; kind: "manual" | "document" | "web"; title: string; schoolClass?: string; subject?: string; publisher?: string; page?: number; url: string; shared?: boolean};
 /** Documentul generat de Profi (test, fișă), editabil și exportabil pe site. */
 export type GeneratedDocument = {title: string; content: string; latex?: string};
-export type ChatMessage = {role: "user" | "assistant"; content: string; sources?: ChatSource[]; warnings?: string[]; document?: GeneratedDocument; model?: string};
+/** `followUps` (P-211): propunerile Fun Prof de sub răspuns, cel mult 4. */
+export type ChatMessage = {role: "user" | "assistant"; content: string; sources?: ChatSource[]; warnings?: string[]; document?: GeneratedDocument; model?: string; followUps?: string[]};
 /** O conversație salvată (GET /api/history?id=); `revision` previne suprascrierea din altă fereastră. */
 export type SavedChat = {id: string; title: string; project_id: string | null; messages: ChatMessage[]; selection: unknown; revision: number};
 /** POST /api/chat: fără `selection`, serverul alege sursele automat după profilul didactic. */
 /** `images`: P-166 — fotografii (data URL JPEG/PNG/WEBP) atașate temporar ultimului mesaj; nu se salvează. */
 export type ChatRequest = {messages: {role: "user" | "assistant"; content: string}[]; chatId?: string; revision?: number; model?: string; selection?: unknown; images?: {name: string; data: string}[]};
-export type ChatReply = {reply: string; grounded?: boolean; sources?: ChatSource[]; warnings?: string[]; document?: GeneratedDocument; model?: string; revision?: number};
+export type ChatReply = {reply: string; grounded?: boolean; sources?: ChatSource[]; warnings?: string[]; document?: GeneratedDocument; model?: string; revision?: number; funProf?: boolean; followUps?: string[]};
 
 /** O sursă din bibliotecă (GET /api/library): manual sau document propriu. */
 export type LibraryItem = {id: string; kind: "manual" | "document"; status: string; title?: string; publisher?: string; subject?: string; schoolClass?: string; modelTypes?: string[]};

@@ -74,6 +74,17 @@ const capitalized = (text: string) => text.charAt(0).toLocaleUpperCase("ro") + t
 
 /** Trei sugestii: un test, un plan de lecție și o fișă, pe teme ale disciplinei și ciclurilor din profil. */
 export function suggestionsFor(profile: TeachingProfile | null | undefined): Suggestion[] {
+  return topicsFor(profile).map(([topic, grade], i) => ({
+    label: `${KINDS[i]}: ${capitalized(topic)}`,
+    prompt: TEMPLATES[i](topic, gradeText(grade)),
+  }));
+}
+/** P-211: a patra sugestie, „Fun Prof”, pe a doua temă a profilului (idei de jocuri și activități în chat). */
+export function funProfSuggestion(profile: TeachingProfile | null | undefined): Suggestion {
+  const [topic, grade] = topicsFor(profile)[1];
+  return {label: `Fun Prof: jocuri despre ${topic}`, prompt: `Fun Prof: propune-mi idei de jocuri și activități interactive pentru lecția despre ${topic}, ${gradeText(grade)}`};
+}
+function topicsFor(profile: TeachingProfile | null | undefined): Topic[] {
   let topics: Topic[] = DEFAULT;
   if (profile?.role === "primary") topics = PRIMARY;
   else if (profile?.stages.length) {
@@ -84,8 +95,5 @@ export function suggestionsFor(profile: TeachingProfile | null | undefined): Sug
       return own?.[stage]?.[i] ?? [profile.subject.toLocaleLowerCase("ro"), STAGE_GRADE[stage]];
     });
   }
-  return topics.map(([topic, grade], i) => ({
-    label: `${KINDS[i]}: ${capitalized(topic)}`,
-    prompt: TEMPLATES[i](topic, gradeText(grade)),
-  }));
+  return topics;
 }

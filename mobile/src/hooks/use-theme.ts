@@ -12,3 +12,8 @@ export function useTheme() {
 
   return Colors[theme];
 }
+
+/** P-200: modul întunecat, pentru umbra sau conturul cardurilor (cardSurface). */
+export function useDark() {
+  return useColorScheme() === 'dark';
+}

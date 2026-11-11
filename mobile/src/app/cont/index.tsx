@@ -3,7 +3,7 @@
 import { useRouter } from 'expo-router';
 import { openBrowserAsync } from 'expo-web-browser';
 import { useState } from 'react';
-import { ActivityIndicator, Modal, Pressable, StyleSheet, View } from 'react-native';
+import { Modal, Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { MenuGroup, MenuRow } from '@/components/account/menu-row';
@@ -15,7 +15,7 @@ import { SITE_URL } from '@/components/ui/coming-soon';
 import { LibraryIcon, LogOutIcon, PencilIcon, SettingsIcon, UserIcon } from '@/components/ui/icons';
 import { Screen } from '@/components/ui/screen';
 import { TextField } from '@/components/ui/text-field';
-import { radius, Spacing } from '@/constants/theme';
+import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { api, ApiError, type AccountResponse } from '@/lib/api';
 import { useAuth, type Outcome } from '@/lib/auth';
@@ -32,20 +32,19 @@ export default function AccountScreen() {
 
   if (session === undefined) {
     return (
-      <Screen title="Cont">
-        <ActivityIndicator accessibilityLabel="Se încarcă" />
-      </Screen>
+      <Screen title="Cont" loading />
     );
   }
 
   const user = account?.user;
   const teaching = user?.teaching;
-  const profileDetail = !user ? undefined : user.deleting ? 'Ștergerea contului este în curs' : teaching ? (teaching.role === 'primary' ? 'Învățător' : teaching.subject) : 'Completează profilul didactic';
+  // P-201: rândurile meniului nu mai au descrieri; rămâne doar o atenționare când profilul cere ceva.
+  const profileAlert = !user ? undefined : user.deleting ? 'Ștergerea contului este în curs' : !teaching ? 'Completează profilul didactic' : undefined;
 
   return (
-    <Screen title="Cont">
+    <Screen title="Cont" loading={!!session && !account && !error}>
       <View style={styles.identity}>
-        <View style={[styles.avatar, { backgroundColor: theme.soft, borderColor: theme.softBorder }]}>
+        <View style={[styles.avatar, { backgroundColor: theme.soft }]}>
           <UserIcon size={40} color={theme.softText} />
         </View>
         {session ? (
@@ -59,12 +58,11 @@ export default function AccountScreen() {
                 accessibilityLabel="Editează numele"
                 hitSlop={8}
                 onPress={() => (account && accountEditable(account) ? setEditing(true) : openBrowserAsync(SITE_URL + '/account'))}
-                style={({ pressed }) => [styles.edit, { borderColor: theme.borderStrong, backgroundColor: pressed ? theme.hover : theme.surface }]}>
+                style={({ pressed }) => [styles.edit, { backgroundColor: pressed ? theme.fillStrong : theme.fill }]}>
                 <PencilIcon color={theme.text} />
               </Pressable>
             </View>
             <ThemedText themeColor="muted">{session.user.email}</ThemedText>
-            {!account && !error ? <ActivityIndicator accessibilityLabel="Se încarcă datele contului" /> : null}
             {error ? <ThemedText themeColor="dangerText">{error}</ThemedText> : null}
           </>
         ) : (
@@ -84,20 +82,19 @@ export default function AccountScreen() {
       <MenuGroup title="Gestionează contul">
         {session ? (
           <>
-            <MenuRow icon={(c) => <UserIcon color={c} />} label="Profil" detail={profileDetail} detailAccent={!!user && !teaching} onPress={() => router.push('/cont/profil')} />
-            <MenuRow icon={(c) => <LibraryIcon color={c} />} label="Bibliotecă personală" detail="Documentele pe care Profi le consultă mereu" onPress={() => router.push('/cont/biblioteca')} />
+            <MenuRow icon={(c) => <UserIcon color={c} />} label="Profil" detail={profileAlert} detailAccent onPress={() => router.push('/cont/profil')} />
+            <MenuRow icon={(c) => <LibraryIcon color={c} />} label="Bibliotecă personală" onPress={() => router.push('/cont/biblioteca')} />
           </>
         ) : null}
-        <MenuRow icon={(c) => <SettingsIcon color={c} />} label="Setări" detail="Aspect, preferințe, confidențialitate" onPress={() => router.push('/cont/setari')} />
+        <MenuRow icon={(c) => <SettingsIcon color={c} />} label="Setări" onPress={() => router.push('/cont/setari')} />
       </MenuGroup>
 
       {session ? (
         <MenuGroup title="Deconectare">
-          <MenuRow icon={(c) => <LogOutIcon color={c} />} label="Ieși din cont" detail="Doar de pe acest telefon" onPress={() => void signOut()} />
+          <MenuRow icon={(c) => <LogOutIcon color={c} />} label="Ieși din cont" onPress={() => void signOut()} />
           <MenuRow
             icon={(c) => <LogOutIcon color={c} />}
             label="Deconectează toate dispozitivele"
-            detail="Telefonul, site-ul și celelalte sesiuni"
             busy={busy === 'everywhere'}
             onPress={async () => {
               setBusy('everywhere');
@@ -174,12 +171,12 @@ function NameEditor({ account, onClose, onSaved }: { account: AccountResponse; o
 
 const styles = StyleSheet.create({
   identity: { alignItems: 'center', gap: Spacing.two, paddingVertical: Spacing.two },
-  avatar: { width: 84, height: 84, borderRadius: 42, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  avatar: { width: 88, height: 88, borderRadius: 44, alignItems: 'center', justifyContent: 'center' },
   nameRow: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two, maxWidth: '100%' },
   name: { flexShrink: 1, textAlign: 'center' },
-  edit: { width: 44, height: 44, borderRadius: 22, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  edit: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
   center: { textAlign: 'center' },
   signIn: { alignSelf: 'stretch' },
   backdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.35)' },
-  sheet: { borderTopWidth: 1, borderTopLeftRadius: radius.xl, borderTopRightRadius: radius.xl, padding: Spacing.three, gap: Spacing.three },
+  sheet: { borderTopLeftRadius: 28, borderTopRightRadius: 28, padding: Spacing.three, gap: Spacing.three },
 });

@@ -4,10 +4,12 @@ import {logRequest} from "./log";
 import {supabase} from "./supabase";
 
 export {ApiError} from "../../../web/shared/api-client";
-export {suggestionsFor} from "../../../web/shared/suggestions";
+export {funProfSuggestion, suggestionsFor} from "../../../web/shared/suggestions";
+export {appOAuthEntry} from "../../../web/shared/app-oauth";
 export {GRADATION, PORTFOLIO, type PortfolioItem, type PortfolioSection} from "../../../web/shared/portfolio-catalog";
 export {CLASS_SECTIONS, LETTERS, MAX_CLASSES, NOTE_TAGS, ROMAN, classContext, classTitle, type ClassJournal, type ClassLevel, type ClassNote, type ClassSettings} from "../../../web/shared/class-catalog";
 export {TEACHING_STAGES} from "../../../web/shared/teaching";
+export {PROGRESS_STEPS, elapsed, type ChatStage, type ProgressStage} from "../../../web/shared/chat-progress";
 export type {AccountResponse, AccountUpdate, Stage, TeachingProfile, ChatDocument, ChatMessage, ClassDetail, ChatSource, GeneratedDocument, HistoryChat, LibraryItem, OwnedClass, PortfolioFile, SavedChat} from "../../../web/shared/api-types";
 
 export const api = createApiClient({

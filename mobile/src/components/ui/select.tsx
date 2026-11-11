@@ -4,7 +4,7 @@ import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
-import { radius, Spacing } from '@/constants/theme';
+import { Shape, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 type Props<T extends string> = { label: string; value: T; options: readonly { value: T; label: string }[]; onChange: (value: T) => void };
@@ -16,13 +16,15 @@ export function Select<T extends string>({ label, value, options, onChange }: Pr
 
   return (
     <View style={styles.field}>
-      <ThemedText type="smallBold">{label}</ThemedText>
+      <ThemedText type="smallBold" themeColor="muted">
+        {label}
+      </ThemedText>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={`${label}: ${current}`}
         accessibilityHint="Deschide lista de opțiuni"
         onPress={() => setOpen(true)}
-        style={[styles.input, { backgroundColor: theme.surface, borderColor: open ? theme.accent : theme.borderStrong }]}>
+        style={[styles.input, { backgroundColor: theme.fill, borderColor: open ? theme.accent : 'transparent' }]}>
         <ThemedText numberOfLines={1} style={styles.value}>
           {current}
         </ThemedText>
@@ -42,7 +44,8 @@ export function OptionSheet<T extends string>({ visible, title, value, options, 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
       <Pressable accessibilityLabel="Închide lista" style={styles.backdrop} onPress={onClose} />
-      <View style={[styles.sheet, { backgroundColor: theme.surface, borderColor: theme.border, paddingBottom: insets.bottom + Spacing.three }]}>
+      <View style={[styles.sheet, { backgroundColor: theme.surface, paddingBottom: insets.bottom + Spacing.three }]}>
+        <View style={[styles.grabber, { backgroundColor: theme.borderStrong }]} />
         <ThemedText type="smallBold" themeColor="muted" accessibilityRole="header" style={styles.title}>
           {title}
         </ThemedText>
@@ -74,10 +77,11 @@ export function OptionSheet<T extends string>({ visible, title, value, options, 
 
 const styles = StyleSheet.create({
   field: { gap: 6 },
-  input: { minHeight: 48, borderWidth: 1, borderRadius: radius.sm, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
+  input: { minHeight: 52, borderWidth: 1.5, borderRadius: Shape.control, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
   value: { flex: 1 },
   backdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.35)' },
-  sheet: { maxHeight: '70%', borderTopWidth: 1, borderTopLeftRadius: radius.xl, borderTopRightRadius: radius.xl, paddingHorizontal: Spacing.three, paddingTop: Spacing.three, gap: Spacing.two },
+  sheet: { maxHeight: '70%', borderTopLeftRadius: Shape.sheet, borderTopRightRadius: Shape.sheet, paddingHorizontal: Spacing.three, paddingTop: Spacing.two, gap: Spacing.two },
+  grabber: { alignSelf: 'center', width: 40, height: 5, borderRadius: 3, marginBottom: Spacing.one },
   title: { paddingHorizontal: 4 },
-  option: { minHeight: 48, borderRadius: radius.md, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
+  option: { minHeight: 52, borderRadius: Shape.control, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
 });
