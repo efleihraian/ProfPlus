@@ -58,10 +58,10 @@ export default function ProfileScreen() {
         <Notice outcome={saved} />
       </Card>
       {!user.deleting ? <SecurityCard account={account} /> : null}
-      <Button variant="danger" onPress={() => (accountEditable(account) ? setDeleting(true) : openBrowserAsync(SITE_URL + '/account'))}>
+      <Button variant="danger" onPress={() => (accountEditable(account) && account.emailActionConfirmations ? setDeleting(true) : openBrowserAsync(SITE_URL + '/account?view=security'))}>
         {user.deleting ? 'Reia ștergerea contului' : 'Șterge contul'}
       </Button>
-      {accountEditable(account) ? <DeleteAccount account={account} visible={deleting} onClose={() => setDeleting(false)} /> : null}
+      {accountEditable(account) && account.emailActionConfirmations ? <DeleteAccount account={account} visible={deleting} onClose={() => setDeleting(false)} onRetry={reload} /> : null}
     </Screen>
   );
 }

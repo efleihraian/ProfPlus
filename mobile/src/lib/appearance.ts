@@ -1,6 +1,6 @@
 // Tema aplicației (P-195), ca „Aspect” pe site: luminoasă, întunecată sau ca pe telefon.
 // Appearance.setColorScheme schimbă tema doar în ProfPlus; „auto” revine la setarea telefonului (React Native 0.88).
-// Alegerea rămâne pe telefon, în AsyncStorage; nu ajunge pe server.
+// Preferința dispozitivului rămâne în AsyncStorage. Un cont conectat poate aplica și sincroniza propria temă.
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Appearance, Platform } from 'react-native';
 
@@ -19,20 +19,53 @@ const apply = (choice: ThemeChoice) => {
   if (Platform.OS !== 'web') Appearance.setColorScheme(choice);
 };
 
-/** La pornire: aplică tema aleasă înainte, dacă există. */
-export async function loadThemeChoice(): Promise<ThemeChoice> {
-  const saved = await AsyncStorage.getItem(THEME_KEY).catch(() => null);
-  const choice = valid(saved) ? saved : 'auto';
-  if (choice !== 'auto') apply(choice);
-  return choice;
+let choice: ThemeChoice | null = null;
+let accountChoice: ThemeChoice | null = null;
+const listeners = new Set<() => void>();
+const edits = new Set<(value: ThemeChoice) => void>();
+
+export const activeThemeChoice = () => accountChoice ?? choice;
+export function subscribeThemeChoice(listener: () => void) {
+  listeners.add(listener);
+  return () => { listeners.delete(listener); };
+}
+export function subscribeThemeEdits(listener: (value: ThemeChoice) => void) {
+  edits.add(listener);
+  return () => { edits.delete(listener); };
+}
+function refreshAppearance() {
+  apply(activeThemeChoice() ?? 'auto');
+  listeners.forEach(listener => listener());
+}
+export function applyAccountTheme(value: ThemeChoice | null) {
+  if (accountChoice === value) return;
+  accountChoice = value;
+  refreshAppearance();
 }
 
-export async function saveThemeChoice(choice: ThemeChoice) {
-  apply(choice);
-  try {
-    if (choice === 'auto') await AsyncStorage.removeItem(THEME_KEY);
-    else await AsyncStorage.setItem(THEME_KEY, choice);
-  } catch (error) {
-    log('warn', 'theme_unsaved', undefined, error);
-  }
+let loading: Promise<ThemeChoice> | undefined;
+let saving = Promise.resolve();
+
+export function loadThemeChoice(): Promise<ThemeChoice> {
+  if (choice !== null) return Promise.resolve(choice);
+  return loading ??= AsyncStorage.getItem(THEME_KEY).catch(() => null).then(saved => {
+    if (choice === null) {
+      choice = valid(saved) ? saved : 'auto';
+      refreshAppearance();
+    }
+    return choice;
+  });
+}
+
+export function saveThemeChoice(value: ThemeChoice) {
+  choice = value;
+  if (accountChoice !== null) accountChoice = value;
+  refreshAppearance();
+  edits.forEach(listener => listener(value));
+  saving = saving.then(async () => {
+    if (choice !== value) return;
+    if (value === 'auto') await AsyncStorage.removeItem(THEME_KEY);
+    else await AsyncStorage.setItem(THEME_KEY, value);
+  }).catch(error => log('warn', 'theme_unsaved', undefined, error));
+  return saving;
 }

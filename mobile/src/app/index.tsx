@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
+import { HomeNews } from '@/components/home-news';
 import { InfoHeading } from '@/components/portfolio/portfolio-info';
 import { Profi } from '@/components/profi';
 import { ThemedText } from '@/components/themed-text';
@@ -16,7 +17,7 @@ import { Card } from '@/components/ui/card';
 import { ArrowUpIcon } from '@/components/ui/icons';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { Screen } from '@/components/ui/screen';
-import { Spacing } from '@/constants/theme';
+import { brand, radius, Spacing } from '@/constants/theme';
 import { useDark, useTheme } from '@/hooks/use-theme';
 import { useAuth } from '@/lib/auth';
 import type { DocumentType } from '@/lib/chat-options';
@@ -60,13 +61,13 @@ export default function HomeScreen() {
   };
   const tone = (t: (typeof MAIN)[number]['tone']) =>
     t === 'dark'
-      ? { card: { backgroundColor: '#1B4D36' }, title: '#FFFFFF', text: '#CFE6D8', ctaBg: '#FFFFFF', ctaText: '#1B4D36' }
+      ? { card: { backgroundColor: theme.dark }, title: brand.onAccent, text: brand.onAccent, ctaBg: theme.surface, ctaText: theme.text }
       : t === 'soft'
-        ? { card: { backgroundColor: theme.soft, borderColor: theme.softBorder, borderWidth: 1 }, title: theme.text, text: theme.muted, ctaBg: '#2F7D5B', ctaText: '#FFFFFF' }
+        ? { card: { backgroundColor: theme.soft, borderColor: theme.softBorder, borderWidth: 1 }, title: theme.text, text: theme.muted, ctaBg: theme.accent, ctaText: brand.onAccent }
         : { card: { backgroundColor: theme.surface, borderColor: theme.border, borderWidth: 1 }, title: theme.text, text: theme.muted, ctaBg: theme.text, ctaText: theme.surface };
 
   return (
-    <Screen>
+    <Screen loading={session === undefined}>
       <View style={styles.headText}>
         <ThemedText type="title" accessibilityRole="header">
           Ce pregătim azi?
@@ -91,12 +92,20 @@ export default function HomeScreen() {
             accessibilityState={{ disabled: !text.trim() }}
             disabled={!text.trim()}
             onPress={ask}
-            style={[styles.saySend, { opacity: text.trim() ? 1 : 0.4 }]}>
-            <ArrowUpIcon size={18} color="#FFFFFF" />
+            style={[styles.saySend, { opacity: text.trim() ? 1 : 0.4, backgroundColor: theme.accent }]}>
+            <ArrowUpIcon size={18} color={brand.onAccent} />
           </Pressable>
         </View>
         <Profi width={72} />
       </View>
+
+      {session === null ? (
+        <Card title="Cont ProfPlus">
+          <ThemedText themeColor="muted">Creează un cont ca să generezi materiale și să-ți păstrezi clasele și documentele.</ThemedText>
+          <Button onPress={() => router.navigate({pathname: '/cont/intrare', params: {mod: 'cont-nou'}})}>Creează cont</Button>
+          <Button variant="secondary" onPress={() => router.navigate('/cont/intrare')}>Intră în cont</Button>
+        </Card>
+      ) : null}
 
       {MAIN.map((card) => {
         const c = tone(card.tone);
@@ -163,12 +172,7 @@ export default function HomeScreen() {
         <Button onPress={() => router.navigate('/documente')}>Mergi la Documente personale</Button>
       </Card>
 
-      {session === null ? (
-        <Card>
-          <ThemedText>Intră în cont ca să generezi materiale și să-ți păstrezi conversațiile, documentele și clasele.</ThemedText>
-          <Button onPress={() => router.navigate('/cont/intrare')}>Intră în cont</Button>
-        </Card>
-      ) : null}
+      {session !== undefined ? <HomeNews key={session?.user.id ?? 'visitor'} accountId={session?.user.id} /> : null}
     </Screen>
   );
 }
@@ -176,15 +180,15 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   head: { flexDirection: 'row', alignItems: 'flex-end', gap: Spacing.one },
   headText: { gap: 4 },
-  say: { flex: 1, marginBottom: 18, flexDirection: 'row', alignItems: 'center', gap: 6, borderWidth: 1, borderRadius: 12, borderBottomRightRadius: 4, paddingLeft: 14, padding: 4 },
+  say: { flex: 1, marginBottom: 18, flexDirection: 'row', alignItems: 'center', gap: 6, borderWidth: 1, borderRadius: radius.md, borderBottomRightRadius: 4, paddingLeft: 14, padding: 4 },
   sayInput: { flex: 1, minHeight: 40, fontSize: 16 },
-  saySend: { width: 40, height: 40, borderRadius: 8, alignItems: 'center', justifyContent: 'center', backgroundColor: '#2F7D5B' },
-  main: { borderRadius: 12, padding: 22, gap: 10 },
+  saySend: { width: 40, height: 40, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center' },
+  main: { borderRadius: radius.md, padding: 22, gap: 10 },
   pressed: { opacity: 0.88, transform: [{ scale: 0.985 }] },
   mainTitle: { fontSize: 28, lineHeight: 32, fontWeight: '600' },
-  cta: { alignSelf: 'flex-start', minHeight: 44, borderRadius: 8, paddingHorizontal: 16, justifyContent: 'center', marginTop: 4 },
+  cta: { alignSelf: 'flex-start', minHeight: 44, borderRadius: radius.md, paddingHorizontal: 16, justifyContent: 'center', marginTop: 4 },
   moreGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
-  more: { flexGrow: 1, flexBasis: '45%', minHeight: 68, borderRadius: 12, borderWidth: 1, padding: 12, flexDirection: 'row', alignItems: 'center', gap: 10 },
-  moreIcon: { width: 40, height: 40, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
+  more: { flexGrow: 1, flexBasis: '45%', minHeight: 68, borderRadius: radius.md, borderWidth: 1, padding: 12, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  moreIcon: { width: 40, height: 40, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center' },
   moreLabel: { flex: 1 },
 });

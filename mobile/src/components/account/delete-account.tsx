@@ -1,5 +1,5 @@
 // Ștergerea contului, cu aceleași explicații ca pe site (web/app/account/delete-account-dialog.tsx).
-// Se confirmă scriind STERGE și conectându-te din nou (parola sau Google); serverul șterge datele, apoi telefonul iese din cont.
+// Se confirmă cu un cod primit pe e-mail înainte ca serverul să înceapă ștergerea.
 import { useState } from 'react';
 import { Linking, Modal, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -13,35 +13,50 @@ import { useTheme } from '@/hooks/use-theme';
 import type { AccountResponse } from '@/lib/api';
 import { useAuth, type Outcome } from '@/lib/auth';
 
-type Props = { account: AccountResponse; visible: boolean; onClose: () => void };
+type Props = { account: AccountResponse; visible: boolean; onClose: () => void; onRetry: () => void };
 
-export function DeleteAccount({ account, visible, onClose }: Props) {
+export function DeleteAccount({ account, visible, onClose, onRetry }: Props) {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
-  const { deleteAccount, mfaEnrolled } = useAuth();
+  const { deleteAccount, requestDeletionCode } = useAuth();
   const linked = account.user?.linkedProviders ?? [];
-  const passwordAccount = linked.includes('email');
-  const [withGoogle, setWithGoogle] = useState(!passwordAccount);
   const [confirmation, setConfirmation] = useState('');
-  const [password, setPassword] = useState('');
+  const [code, setCode] = useState('');
+  const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [outcome, setOutcome] = useState<Outcome | null>(null);
   const pending = !!account.user?.deleting;
-  const ready = account.deletionEnabled && confirmation === 'STERGE' && (mfaEnrolled || withGoogle || !!password);
+  const ready = account.deletionEnabled && confirmation === 'STERGE' && (pending || sent && /^\d{6,10}$/.test(code));
+
+  async function sendCode() {
+    setBusy(true);
+    setOutcome(null);
+    const result = await requestDeletionCode();
+    if ('message' in result) {
+      setCode('');
+      setSent(true);
+    }
+    setOutcome(result);
+    setBusy(false);
+  }
 
   async function remove() {
     setBusy(true);
     setOutcome(null);
-    const result = await deleteAccount(withGoogle ? null : password);
+    const result = await deleteAccount(code);
     setBusy(false);
     // La reușită sesiunea se închide și ecranul Cont trece la intrare, cu mesajul de confirmare.
-    if (result && 'error' in result) setOutcome(result);
+    if ('error' in result) {
+      setOutcome(result);
+      onRetry();
+    }
   }
 
   function close() {
     if (busy) return;
     setConfirmation('');
-    setPassword('');
+    setCode('');
+    setSent(false);
     setOutcome(null);
     onClose();
   }
@@ -76,17 +91,13 @@ export function DeleteAccount({ account, visible, onClose }: Props) {
           <ThemedText themeColor="dangerText">Ștergerea automată necesită activarea configurației serverului. Nu au fost șterse date.</ThemedText>
         ) : null}
         <TextField label="Scrie STERGE pentru confirmare" value={confirmation} onChangeText={setConfirmation} autoCapitalize="characters" autoCorrect={false} editable={!busy} />
-        {mfaEnrolled ? <ThemedText type="small">Confirmarea din autentificator trebuie să fie recentă.</ThemedText> : withGoogle ? (
-          <ThemedText type="small" themeColor="muted">
-            Pentru siguranță, confirmi cu contul Google cu care ai intrat.
-          </ThemedText>
-        ) : (
-          <TextField label="Parola actuală" value={password} onChangeText={setPassword} secureTextEntry autoComplete="current-password" textContentType="password" editable={!busy} />
-        )}
-        {!mfaEnrolled && passwordAccount && linked.includes('google') ? (
-          <Button variant="secondary" onPress={() => setWithGoogle(!withGoogle)} disabled={busy}>
-            {withGoogle ? 'Confirmă cu parola' : 'Confirmă cu Google'}
-          </Button>
+        {!pending && account.deletionEnabled ? (
+          <>
+            <Button variant="secondary" disabled={busy} onPress={() => void sendCode()}>
+              {sent ? 'Retrimite codul' : 'Trimite codul pe e-mail'}
+            </Button>
+            {sent ? <TextField label="Cod din e-mail" value={code} onChangeText={text => setCode(text.trim())} keyboardType="number-pad" autoComplete="one-time-code" textContentType="oneTimeCode" maxLength={10} editable={!busy} /> : null}
+          </>
         ) : null}
         <Notice outcome={outcome} />
         <Button variant="danger" onPress={remove} loading={busy} disabled={!ready}>

@@ -7,26 +7,29 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedText } from '@/components/themed-text';
 import { Brand } from '@/components/ui/brand';
 import { ChevronLeftIcon } from '@/components/ui/icons';
+import { SchoolBackground } from '@/components/ui/school-background';
 import { LoadingBar } from '@/components/ui/loading-bar';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
-/** `back`: un ecran din interiorul unei file (de ex. Cont → Profil) are butonul rotund „Înapoi” (doar săgeata, P-201) în loc de logo.
+/** `back`: un ecran din interiorul unei file (de ex. Cont → Profil) afișează butonul „Înapoi” în loc de logo.
  * `loading` (P-219): bara de încărcare sub antet; conținutul se așază nevăzut și apare întreg când datele sunt gata. */
-export function Screen({ title, intro, back, loading = false, children, maxContentWidth = MaxContentWidth }: { title?: string; intro?: string; back?: boolean; loading?: boolean; maxContentWidth?: number; children?: ReactNode }) {
+export function Screen({ title, titleAction, intro, back, onBack, loading = false, children, maxContentWidth = MaxContentWidth }: { title?: string; titleAction?: ReactNode; intro?: string; back?: boolean; onBack?: () => void; loading?: boolean; maxContentWidth?: number; children?: ReactNode }) {
   const router = useRouter();
   const theme = useTheme();
   return (
     <SafeAreaView edges={['top', 'left', 'right']} style={[styles.safe, { backgroundColor: theme.background }]}>
+      <SchoolBackground />
       <View style={[styles.header, { borderColor: theme.border, backgroundColor: theme.surface }]}>
         {back ? (
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="Înapoi"
-            onPress={() => router.back()}
+            onPress={onBack ?? (() => {if (router.canGoBack()) router.back(); else router.replace('/');})}
             hitSlop={4}
             style={({ pressed }) => [styles.back, { backgroundColor: pressed ? theme.fillStrong : theme.fill }]}>
-            <ChevronLeftIcon color={theme.text} />
+            <ChevronLeftIcon size={18} color={theme.text} />
+            <ThemedText type="smallBold">Înapoi</ThemedText>
           </Pressable>
         ) : (
           <Brand />
@@ -36,9 +39,10 @@ export function Screen({ title, intro, back, loading = false, children, maxConte
       {/* Pe iOS bara de file plutește: lista lasă singură loc sub ultimul rând. */}
       <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={[styles.content, { maxWidth: maxContentWidth }]} keyboardShouldPersistTaps="handled">
         {title ? (
-          <ThemedText type="title" accessibilityRole="header">
-            {title}
-          </ThemedText>
+          <View style={styles.titleRow}>
+            <ThemedText style={styles.title} type="title" accessibilityRole="header">{title}</ThemedText>
+            {titleAction}
+          </View>
         ) : null}
         {intro ? <ThemedText themeColor="muted">{intro}</ThemedText> : null}
         <View
@@ -56,10 +60,12 @@ export function Screen({ title, intro, back, loading = false, children, maxConte
 const styles = StyleSheet.create({
   safe: { flex: 1 },
   header: { paddingHorizontal: Spacing.three, paddingVertical: 12, borderBottomWidth: 1 },
+  titleRow: {flexDirection: 'row', alignItems: 'center', gap: Spacing.two},
+  title: {flex: 1},
   barSpace: { height: 3 },
   body: { gap: Spacing.three },
   pending: { opacity: 0 },
-  back: { width: 42, height: 42, borderRadius: 21, alignItems: 'center', justifyContent: 'center' },
+  back: { minHeight: 44, paddingHorizontal: Spacing.two, borderRadius: 8, alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: Spacing.one },
   content: {
     padding: Spacing.three,
     paddingBottom: Spacing.six,

@@ -134,6 +134,8 @@ export function createApiClient({baseUrl = "", getToken, timeoutMs, onRequestEnd
       list: () => request<{chats: HistoryChat[]; projects: Project[]}>("/api/history"),
       get: (id: string) => request<{chat: SavedChat}>("/api/history?id=" + encodeURIComponent(id)),
       create: (projectId: string | null = null) => request<{id: string}>("/api/history", json("POST", {projectId})),
+      remove: (kind: 'chat' | 'project', id: string) =>
+        request<{deleted: true}>("/api/history?kind=" + kind + "&id=" + encodeURIComponent(id), {method: "DELETE"}),
       /** Salvează toată conversația; serverul refuză (409) dacă `revision` nu mai e cea curentă. */
       save: (chat: {id: string; revision: number; messages: ChatMessage[]; selection: unknown; projectId: string | null; title: string}) =>
         request<{revision: number}>("/api/history", json("PUT", chat)),

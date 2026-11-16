@@ -195,7 +195,8 @@ export default function SignInScreen() {
             <GoogleButton label={mode === 'register' ? 'Creează cont cu Google' : 'Continuă cu Google'} onPress={() => run('google', signInWithGoogle)} loading={busy === 'google'} disabled={busy !== null} />
             <ThemedText type="small" themeColor="muted" style={styles.center}>
               {mode === 'register' ? 'Prin crearea contului accepți ' : 'Prin conectare accepți '}
-              <ThemedText type="small" themeColor="accentText" accessibilityRole="link" onPress={() => openBrowserAsync(SITE_URL + '/termeni')}>Termenii de utilizare</ThemedText>.
+              <ThemedText type="small" themeColor="accentText" accessibilityRole="link" onPress={() => openBrowserAsync(SITE_URL + '/termeni')}>Termenii de utilizare</ThemedText> și{' '}
+              <ThemedText type="small" themeColor="accentText" accessibilityRole="link" onPress={() => openBrowserAsync(SITE_URL + '/confidentialitate')}>Politica de confidențialitate</ThemedText>.
             </ThemedText>
           </>
         ) : null}

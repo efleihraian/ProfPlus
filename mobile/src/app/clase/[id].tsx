@@ -3,8 +3,8 @@
 import { useFocusEffect, useIsFocused, useLocalSearchParams, useRouter } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, useWindowDimensions, View, type ViewStyle } from 'react-native';
-import Animated, { Easing, ReduceMotion, ZoomIn } from 'react-native-reanimated';
+import { Alert, BackHandler, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, useWindowDimensions, View, type ViewStyle } from 'react-native';
+import Animated, { Easing, FadeIn, FadeOut, ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import Svg, { Path } from 'react-native-svg';
 
 import { ClassNotes } from '@/components/classes/class-notes';
@@ -14,20 +14,19 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ChevronRightIcon, CloseIcon, SlidersIcon, TrashIcon } from '@/components/ui/icons';
 import { Screen } from '@/components/ui/screen';
-import { radius, Spacing } from '@/constants/theme';
+import { brand, radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import {
   api,
   ApiError,
   CLASS_CARD_ICONS,
-  CLASS_DIFFICULTY,
   CLASS_CARDS,
+  CLASS_SECTIONS,
   CLASSROOM_APP_RETURN,
   CLASSROOM_CODE_PARAM,
   CLASSROOM_ERROR_PARAM,
   CLASSROOM_FILES_PARAM,
   CLASSROOM_STATE_PARAM,
-  classContext,
   classSettingsWithSubject,
   type ChatDocument,
   type ClassCard,
@@ -37,31 +36,30 @@ import {
   type ClassSection,
   type DriveImportResult,
 } from '@/lib/api';
-import { DOCUMENT_TYPES, type DocumentType } from '@/lib/chat-options';
+import { type DocumentType } from '@/lib/chat-options';
 import { openPortfolioFile } from '@/lib/portfolio-open';
 import { log } from '@/lib/log';
 import { LIBRARY_TYPES, pickDocument, uploadForm } from '@/lib/upload';
+import { CLASS_SECTION_COLORS } from '../../../../web/shared/class-catalog';
 import { busyStatus, statusLabel } from '../../../../web/shared/document-status';
 
 export default function ClassScreen() {
   const router = useRouter();
   const theme = useTheme();
-  const { width, height } = useWindowDimensions();
+  const { width, height, fontScale } = useWindowDimensions();
   const panelHeight = Math.min(520, Math.max(340, Math.round(height * 0.56)));
   const focused = useIsFocused();
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id, settings: openSettings } = useLocalSearchParams<{ id: string; settings?: string }>();
   const [detail, setDetail] = useState<ClassDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [profile, setProfile] = useState<{ subject: string; subjects: string[] } | null>(null);
   const profileSubject = profile?.subject ?? null;
-  const generationLock = useRef(false);
   const [expanded, setExpanded] = useState<ClassCardId | null>(null);
   const [uploading, setUploading] = useState<ClassSection | null>(null);
   const [deletingDocument, setDeletingDocument] = useState<string | null>(null);
   const [fileError, setFileError] = useState<{ section: ClassSection; message: string } | null>(null);
   const fileOperation = useRef(false);
-  const [preparing, setPreparing] = useState<string | null>(null);
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(openSettings === '1');
   const [removing, setRemoving] = useState(false);
   // P-244: fișiere din Google Drive într-o secțiune; rezultatul rămâne afișat în cardul secțiunii.
   const [bringing, setBringing] = useState<string | null>(null);
@@ -100,7 +98,22 @@ export default function ClassScreen() {
   const settings = detail && classSettingsWithSubject(detail.journal.settings, profileSubject ?? '');
   const selected = CLASS_CARDS.find((card) => card.id === expanded);
   const wide = width >= 760;
-  const fiveAcross = width >= 1100;
+  const threeAcross = width >= 360 && fontScale <= 1.2;
+
+  useFocusEffect(useCallback(() => {
+    if (!expanded) return;
+    const listener = BackHandler.addEventListener('hardwareBackPress', () => {
+      setExpanded(null);
+      return true;
+    });
+    return () => listener.remove();
+  }, [expanded]));
+
+  function goBack() {
+    if (expanded) setExpanded(null);
+    else if (router.canGoBack()) router.back();
+    else router.replace('/clase');
+  }
 
   async function upload(section: ClassSection) {
     if (!detail || fileOperation.current) return;
@@ -148,26 +161,9 @@ export default function ClassScreen() {
     ]);
   }
 
-  async function generate(type: DocumentType) {
-    if (!detail || !settings || profileSubject === null || generationLock.current) return;
-    const document = DOCUMENT_TYPES.find((option) => option.id === type);
-    if (!document) return;
-    generationLock.current = true;
-    setPreparing(type);
-    setError(null);
-    try {
-      const { id: chatId } = await api.history.create(detail.class.id);
-      const context = classContext(detail.class.name, settings, detail.journal.classroom);
-      const seed = `Pregătește documentul „${document.label}” pentru ${context}. Folosește și documentele încărcate în această clasă, dacă sunt relevante.`;
-      const difficulty = (type === 'test' || type === 'worksheet') && settings.level ? CLASS_DIFFICULTY[settings.level] : '';
-      router.navigate({ pathname: '/asistent', params: { chatId, seed, documentType: type, grade: String(detail.class.g), difficulty } });
-    } catch (e) {
-      log('error', 'class_generation_failed', { type }, e);
-      setError(e instanceof ApiError ? e.message : 'Conversația nu a putut fi pregătită. Reîncearcă.');
-    } finally {
-      generationLock.current = false;
-      setPreparing(null);
-    }
+  function generate(type: DocumentType) {
+    if (!detail || !settings || profileSubject === null) return;
+    router.navigate({pathname:'/asistent', params:{classId: detail.class.id, type}});
   }
 
   /**
@@ -261,9 +257,7 @@ export default function ClassScreen() {
   const docs = documentSection ? detail?.documents[documentSection.id] ?? [] : [];
   const sectionDocuments = documentSection && detail ? <>
       <View style={styles.actions}>
-        <Button loading={preparing === documentSection.documentType}
-          disabled={!!preparing || profileSubject === null}
-          onPress={() => void generate(documentSection.documentType)}>
+        <Button disabled={profileSubject === null} onPress={() => generate(documentSection.documentType)}>
           Generează cu Profi
         </Button>
         <Button
@@ -334,13 +328,9 @@ export default function ClassScreen() {
     </> : null;
 
   return (
-    <Screen maxContentWidth={1440} title={detail?.class.name ?? 'Clasa'} loading={!detail && !error}>
-      <View style={styles.header}>
-        <Pressable accessibilityRole="button" onPress={() => router.back()} style={styles.back}>
-          <ThemedText type="linkPrimary">‹ Clasele mele</ThemedText>
-        </Pressable>
-        {detail ? (
-          <Pressable
+    <Screen back onBack={goBack} maxContentWidth={1440} title={detail?.class.name ?? 'Clasa'} loading={!detail && !error}
+      titleAction={detail ? (
+        <Pressable
             accessibilityRole="button"
             accessibilityLabel="Personalizări"
             accessibilityState={{ disabled: profileSubject === null }}
@@ -349,9 +339,7 @@ export default function ClassScreen() {
             style={({ pressed }) => [styles.iconButton, { backgroundColor: pressed ? theme.fillStrong : theme.fill }]}>
             <SlidersIcon size={24} color={theme.text} />
           </Pressable>
-        ) : null}
-      </View>
-
+      ) : null}>
       {error ? (
         <Card>
           <ThemedText themeColor="dangerText">{error}</ThemedText>
@@ -363,7 +351,7 @@ export default function ClassScreen() {
 
       {detail ? (
         <>
-          {editing && settings ? (
+          {editing && settings && profileSubject !== null ? (
             <Modal transparent visible onRequestClose={() => setEditing(false)}>
               <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.modalBackdrop}>
                 <View accessibilityViewIsModal style={[styles.modal, { backgroundColor: theme.surface, borderColor: theme.borderStrong }]}>
@@ -390,6 +378,10 @@ export default function ClassScreen() {
                         return saved;
                       }}
                     />
+                    <Button variant="secondary" onPress={() => {
+                      setEditing(false);
+                      setExpanded('observatii');
+                    }}>Observații</Button>
                     {detail.journal.classroom ? (
                       <Card title="Din Google Classroom">
                         <ThemedText type="small" themeColor="muted">
@@ -429,31 +421,28 @@ export default function ClassScreen() {
               <ScrollView horizontal={!wide} nestedScrollEnabled
                 style={wide ? [styles.sidebar, { maxHeight: panelHeight }] : styles.phoneSelector}
                 contentContainerStyle={wide ? styles.sidebarButtons : styles.phoneButtons}>
-                {CLASS_CARDS.filter((card) => card.id !== selected.id).map((card) => (
+                {CLASS_SECTIONS.filter((card) => card.id !== selected.id).map((card) => (
                   <SectionButton key={card.id} card={card} compact
                     style={!wide ? styles.phoneButton : undefined} onPress={() => setExpanded(card.id)} />
                 ))}
               </ScrollView>
             ) : (
-              <View style={styles.cardGrid}>
-                {CLASS_CARDS.map((card) => (
+              <Animated.View entering={gridEntrance} style={styles.cardGrid}>
+                {CLASS_SECTIONS.map((card) => (
                   <SectionButton key={card.id} card={card} compact={false}
-                    style={fiveAcross ? styles.gridCardWide : styles.gridCard} onPress={() => setExpanded(card.id)} />
+                    style={threeAcross ? styles.gridCardThird : styles.gridCardHalf} onPress={() => setExpanded(card.id)} />
                 ))}
-              </View>
+              </Animated.View>
             )}
             {selected ? (
-              <Animated.View key={selected.id} entering={panelEntrance}
+              <Animated.View key={selected.id} entering={panelEntrance} exiting={panelExit}
                 style={[styles.section, wide && styles.activePanelWide, { height: panelHeight, backgroundColor: theme.surface, borderColor: theme.softBorder }]}>
-                <View style={styles.panelHeader}>
+                <View style={[styles.panelHeader, {backgroundColor: CLASS_SECTION_COLORS[selected.id]}]}>
                   <View style={styles.sectionLabel}>
-                    <ThemedText type="subtitle" accessibilityRole="header">{selected.title}</ThemedText>
-                    <ThemedText type="small" themeColor="muted">{selected.desc}</ThemedText>
+                    <ThemedText type="subtitle" accessibilityRole="header" style={styles.onColor}>{selected.title}</ThemedText>
+                    <ThemedText type="small" style={styles.onColor}>{selected.desc}</ThemedText>
                   </View>
-                  <Pressable accessibilityRole="button" accessibilityLabel="Înapoi la toate cardurile"
-                    onPress={() => setExpanded(null)} style={styles.iconButton}>
-                    <CloseIcon size={22} color={theme.text} />
-                  </Pressable>
+
                 </View>
                 <ScrollView nestedScrollEnabled keyboardShouldPersistTaps="handled"
                   style={[styles.panelScroll, { borderColor: theme.border }]} contentContainerStyle={styles.sectionBody}>
@@ -479,39 +468,38 @@ const panelEntrance = ZoomIn
   .withInitialValues({ transform: [{ scale: 0.94 }] })
   .reduceMotion(ReduceMotion.System);
 
+const gridEntrance = FadeIn.duration(140).reduceMotion(ReduceMotion.System);
+const panelExit = FadeOut.duration(120).reduceMotion(ReduceMotion.System);
+
 function SectionButton({ card, compact, style, onPress }: {
   card: ClassCard; compact: boolean; style?: ViewStyle; onPress: () => void;
 }) {
-  const theme = useTheme();
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={compact ? card.title : `${card.title}. ${card.desc}`}
       onPress={onPress}
       style={({ pressed }) => [styles.section, styles.sectionHeader, compact ? styles.compact : styles.largeCard, style,
-        { backgroundColor: pressed ? theme.fill : theme.surface, borderColor: theme.borderStrong }]}>
+        { backgroundColor: CLASS_SECTION_COLORS[card.id], borderColor: "transparent", opacity: pressed ? 0.88 : 1 }]}>
       {!compact ? (
-        <Svg width={36} height={36} viewBox="0 0 24 24" fill="none" stroke={theme.accentText}
+        <Svg width={36} height={36} viewBox="0 0 24 24" fill="none" stroke={brand.onAccent}
           strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" accessible={false}>
           <Path d={CLASS_CARD_ICONS[card.id]} />
         </Svg>
       ) : null}
       {compact ? (
-        <ThemedText type="smallBold" style={styles.sectionLabel}>{card.title}</ThemedText>
+        <ThemedText type="smallBold" style={[styles.sectionLabel, styles.onColor]}>{card.title}</ThemedText>
       ) : (
         <View style={styles.cardCopy}>
-          <ThemedText type="subtitle" style={styles.cardText}>{card.title}</ThemedText>
-          <ThemedText type="small" themeColor="muted" style={styles.cardText}>{card.desc}</ThemedText>
+          <ThemedText type="smallBold" style={[styles.cardText, styles.onColor]}>{card.title.split(' · ')[0]}</ThemedText>
         </View>
       )}
-      {compact ? <ChevronRightIcon size={16} color={theme.muted} /> : null}
+      {compact ? <ChevronRightIcon size={16} color={brand.onAccent} /> : null}
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: Spacing.two },
-  back: { minHeight: 44, justifyContent: 'center' },
   modalBackdrop: { flex: 1, padding: Spacing.three, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(18,21,19,0.55)' },
   modal: { width: '100%', maxWidth: 520, maxHeight: '90%', borderRadius: radius.sm, borderWidth: 1 },
   modalHeader: { paddingHorizontal: Spacing.three, paddingVertical: Spacing.two, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: 1 },
@@ -520,8 +508,8 @@ const styles = StyleSheet.create({
   workspace: { gap: Spacing.two },
   workspaceWide: { flexDirection: 'row-reverse', alignItems: 'flex-start', gap: Spacing.three },
   cardGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.two },
-  gridCard: { width: '48%', flexGrow: 1 },
-  gridCardWide: { width: '18%', flexGrow: 1, minHeight: 190 },
+  gridCardHalf: {width: '48%'},
+  gridCardThird: {width: '31%'},
   sidebar: { width: 230, flexGrow: 0 },
   sidebarButtons: { gap: Spacing.two },
   phoneSelector: { flexGrow: 0 },
@@ -529,14 +517,15 @@ const styles = StyleSheet.create({
   phoneButton: { width: 160 },
   activePanelWide: { flex: 1, minWidth: 0 },
   section: { borderWidth: 1, borderRadius: radius.sm },
-  largeCard: { minHeight: 140, width: '100%', flexDirection: 'column', justifyContent: 'center', gap: Spacing.three },
+  largeCard: {minHeight: 116, padding: Spacing.two, flexDirection: 'column', justifyContent: 'center', gap: Spacing.two},
   cardCopy: { width: '100%', gap: Spacing.one },
   cardText: { textAlign: 'center' },
   compact: { minHeight: 52, paddingVertical: Spacing.two },
   iconButton: { width: 48, height: 48, borderRadius: radius.sm, justifyContent: 'center', alignItems: 'center', flexShrink: 0 },
   sectionHeader: { minHeight: 56, padding: Spacing.three, gap: Spacing.two, flexDirection: 'row', alignItems: 'center' },
   sectionLabel: { flex: 1, gap: Spacing.half },
-  panelHeader: { minHeight: 116, padding: Spacing.three, gap: Spacing.two, flexDirection: 'row', alignItems: 'flex-start' },
+  onColor: {color: brand.onAccent},
+  panelHeader: { borderTopLeftRadius: radius.sm, borderTopRightRadius: radius.sm, minHeight: 116, padding: Spacing.three, gap: Spacing.two, flexDirection: 'row', alignItems: 'flex-start' },
   panelScroll: { flex: 1, borderTopWidth: 1 },
   sectionBody: { padding: Spacing.three, gap: Spacing.two },
   actions: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.two },

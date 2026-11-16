@@ -16,7 +16,7 @@ export function PrivacyCard() {
   return (
     <Card eyebrow="Date și permisiuni">
       <ThemedText themeColor="muted">
-        Pe telefon se păstrează sesiunea criptată, tema aleasă, confirmarea informărilor și preferințe ale portofoliului. Aplicația nu folosește cookie-urile de autentificare ale site-ului, trackere publicitare, microfonul sau permisiunea de localizare.
+        Pe telefon se păstrează sesiunea criptată, tema aleasă, confirmarea informărilor și preferințe ale portofoliului. Când ești conectat, tema se poate sincroniza și în cont. Aplicația nu folosește cookie-urile de autentificare ale site-ului, trackere publicitare, microfonul sau permisiunea de localizare.
       </ThemedText>
       <ThemedText themeColor="muted">
         Pentru actualizări, Expo primește platforma, datele tehnice ale versiunii, identificatorul aleator al instalării și adresa IP. Poate primi date tehnice despre erori de pornire. ProfPlus nu atașează datele contului la această cerere.

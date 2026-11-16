@@ -1,12 +1,12 @@
 // Conectare și securitate, ca pe site: metodele asociate contului, parola și adresa de e-mail. P-310: fără texte explicative în plus.
-// Parola și e-mailul cer parola actuală: o conectare nouă înseamnă autentificare recentă, ca regula de 15 minute a serverului.
+// P-326: fiecare acțiune are un titlu scurt și o propoziție despre ce face; butoanele spun doar acțiunea.
+// Adresa cere autentificare recentă. Schimbarea parolei pornește cu un link trimis pe e-mail.
 // Deconectarea (de pe telefon sau de pe toate dispozitivele) e în meniul Cont.
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { AccountMfa } from '@/components/account/account-mfa';
 import { Notice } from '@/components/account/notice';
-import { PasswordRules } from '@/components/account/password-rules';
 import { ThemedText } from '@/components/themed-text';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -18,22 +18,18 @@ import { useAuth, type Outcome } from '@/lib/auth';
 type Open = 'password' | 'email' | null;
 
 export function SecurityCard({ account }: { account: AccountResponse }) {
-  const { changePassword, changeEmail, mfaEnrolled } = useAuth();
+  const { requestPasswordChange, resetPassword, changeEmail, mfaEnrolled } = useAuth();
   const linked = account.user?.linkedProviders ?? [];
   const passwordAccount = account.emailEnabled && linked.includes('email');
-  const [open, setOpen] = useState<Open>(null);
+  const [open, setOpen] = useState(false);
   const [current, setCurrent] = useState('');
-  const [next, setNext] = useState('');
-  const [confirm, setConfirm] = useState('');
   const [email, setEmail] = useState('');
   const [busy, setBusy] = useState<Open>(null);
   const [outcome, setOutcome] = useState<Outcome | null>(null);
 
-  function toggle(section: Open) {
-    setOpen(open === section ? null : section);
+  function toggleEmail() {
+    setOpen(!open);
     setCurrent('');
-    setNext('');
-    setConfirm('');
     setOutcome(null);
   }
 
@@ -44,10 +40,8 @@ export function SecurityCard({ account }: { account: AccountResponse }) {
     setBusy(null);
     setOutcome(result);
     if ('message' in result) {
-      setOpen(null);
+      setOpen(false);
       setCurrent('');
-      setNext('');
-      setConfirm('');
       setEmail('');
     }
   }
@@ -74,29 +68,31 @@ export function SecurityCard({ account }: { account: AccountResponse }) {
           </View>
         ))}
       {account.accountMfaEnrollment || account.admin || mfaEnrolled ? <AccountMfa canEnroll={!!account.accountMfaEnrollment || account.admin} /> : null}
+      {account.emailEnabled && account.user?.email ? (
+        <View style={styles.group}>
+          <ThemedText type="smallBold">Schimbă parola</ThemedText>
+          <ThemedText type="small" themeColor="muted">
+            Îți trimitem pe e-mail un link pentru parola nouă{mfaEnrolled ? ', care cere și codul de autentificare' : ''}.
+          </ThemedText>
+          <Button variant="secondary" onPress={() => void run('password', account.emailActionConfirmations ? requestPasswordChange : () => resetPassword(account.user!.email))} loading={busy === 'password'} disabled={busy !== null}>
+            Trimite linkul
+          </Button>
+        </View>
+      ) : null}
       {passwordAccount ? (
         <>
-          <Button variant="secondary" onPress={() => toggle('password')} disabled={busy !== null}>
-            Schimbă parola
-          </Button>
-          {open === 'password' ? (
-            <View style={styles.form}>
-              {currentField}
-              <TextField label="Parola nouă" value={next} onChangeText={setNext} secureTextEntry autoComplete="new-password" textContentType="newPassword" maxLength={128} />
-              <TextField label="Confirmă parola nouă" value={confirm} onChangeText={setConfirm} secureTextEntry autoComplete="new-password" textContentType="newPassword" maxLength={128} />
-              <PasswordRules value={next} />
-              <Button
-                onPress={() => (next === confirm ? run('password', () => changePassword(current, next)) : setOutcome({ error: 'Parolele nu coincid.' }))}
-                loading={busy === 'password'}
-                disabled={(!mfaEnrolled&&!current) || !next || !confirm || busy !== null}>
-                Salvează parola
-              </Button>
-            </View>
-          ) : null}
-          <Button variant="secondary" onPress={() => toggle('email')} disabled={busy !== null}>
-            Schimbă adresa de e-mail
-          </Button>
-          {open === 'email' ? (
+          <View style={styles.group}>
+            <ThemedText type="smallBold">Adresa de e-mail</ThemedText>
+            {account.user?.email ? (
+              <ThemedText type="small" themeColor="muted" selectable>
+                {account.user.email}
+              </ThemedText>
+            ) : null}
+            <Button variant="secondary" onPress={toggleEmail} disabled={busy !== null}>
+              {open ? 'Renunță' : 'Schimbă adresa'}
+            </Button>
+          </View>
+          {open ? (
             <View style={styles.form}>
               <TextField
                 label="Adresă nouă"
@@ -117,7 +113,7 @@ export function SecurityCard({ account }: { account: AccountResponse }) {
         </>
       ) : (
         <ThemedText type="small" themeColor="muted">
-          Te conectezi cu Google. Parola și adresa se schimbă din contul Google.
+          Poți schimba adresa asociată conectării cu Google din contul Google.
         </ThemedText>
       )}
       <Notice outcome={outcome} />
@@ -127,5 +123,6 @@ export function SecurityCard({ account }: { account: AccountResponse }) {
 
 const styles = StyleSheet.create({
   form: { gap: Spacing.two },
+  group: { gap: Spacing.one },
   method: { minHeight: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: Spacing.two },
 });

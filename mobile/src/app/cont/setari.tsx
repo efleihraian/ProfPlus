@@ -1,7 +1,7 @@
 // Cont → Setări (P-195): „Aspect și preferințe” și „Cookie-uri și confidențialitate” de pe site, împreună.
 // Disponibil și fără cont: tema și informațiile despre date țin de telefon.
 import { openBrowserAsync } from 'expo-web-browser';
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 
 import { Choice } from '@/components/account/choice';
 import { PrivacyCard } from '@/components/privacy-card';
@@ -10,21 +10,21 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { SITE_URL } from '@/components/ui/coming-soon';
 import { Screen } from '@/components/ui/screen';
-import { loadThemeChoice, saveThemeChoice, THEME_OPTIONS, type ThemeChoice } from '@/lib/appearance';
+import { activeThemeChoice, saveThemeChoice, subscribeThemeChoice, THEME_OPTIONS } from '@/lib/appearance';
+
+import { useAuth } from '@/lib/auth';
 
 export default function SettingsScreen() {
-  const [theme, setTheme] = useState<ThemeChoice | null>(null);
-
-  useEffect(() => {
-    void loadThemeChoice().then(setTheme);
-  }, []);
+  const {session} = useAuth();
+  const theme = useSyncExternalStore(subscribeThemeChoice, activeThemeChoice, activeThemeChoice);
 
   return (
     <Screen title="Setări" back>
       <Card eyebrow="Aspect și preferințe">
         <ThemedText type="smallBold" accessibilityRole="header">
-          Tema ProfPlus pe acest telefon
+          Tema ProfPlus
         </ThemedText>
+        {session ? <ThemedText type="small" themeColor="muted">Tema se sincronizează în cont când ești online.</ThemedText> : null}
         {THEME_OPTIONS.map((option) => (
           <Choice
             key={option.value}
@@ -32,10 +32,7 @@ export default function SettingsScreen() {
             label={option.label}
             selected={theme === option.value}
             disabled={theme === null}
-            onPress={() => {
-              setTheme(option.value);
-              void saveThemeChoice(option.value);
-            }}
+            onPress={() => void saveThemeChoice(option.value)}
           />
         ))}
       </Card>

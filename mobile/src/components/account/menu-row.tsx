@@ -1,6 +1,6 @@
 // Meniul din fila Cont (P-195, P-200): rânduri grupate într-un singur card, despărțite de linii fine, cu pictograma
 // într-un cerc colorat și săgeată, ca în aplicațiile de cont moderne. Fiecare rând are minim 60 px.
-import { Children, Fragment, isValidElement, type ReactElement, type ReactNode } from 'react';
+import { Children, cloneElement, Fragment, isValidElement, type ReactElement, type ReactNode } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
@@ -36,9 +36,13 @@ export function MenuRow({ icon, label, detail, detailAccent, danger, busy, onPre
 }
 
 // Rândurile pot veni și din fragmente (<>…</>), în funcție de cont; le aplatizăm ca să punem linia între ele.
-const flatten = (children: ReactNode): ReactElement[] =>
+// Cheile din fragment primesc prefixul fragmentului: Children.toArray numerotează fiecare nivel de la .0, iar fără prefix
+// un rând din fragment și unul de după el pot ajunge la aceeași cheie (de ex. „.1”).
+const flatten = (children: ReactNode, prefix = ''): ReactElement[] =>
   Children.toArray(children).flatMap((child) =>
-    isValidElement(child) && child.type === Fragment ? flatten((child as ReactElement<{ children?: ReactNode }>).props.children) : isValidElement(child) ? [child] : [],
+    isValidElement(child) && child.type === Fragment
+      ? flatten((child as ReactElement<{ children?: ReactNode }>).props.children, `${prefix}${child.key}/`)
+      : isValidElement(child) ? [prefix ? cloneElement(child, { key: `${prefix}${child.key}` }) : child] : [],
   );
 
 /** Un grup de rânduri într-un card, cu titlu de secțiune deasupra. */

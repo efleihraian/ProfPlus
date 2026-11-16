@@ -1,4 +1,4 @@
-// Butoanele aplicației (P-200): în formă de pastilă, fără chenar. Principal verde închis cu text alb; secundar cu umplere
+// Butoanele aplicației (P-200): cu raza comună, fără chenar. Principal verde închis cu text alb; secundar cu umplere
 // discretă; pericol pe roșu deschis; „ghost” doar text. La apăsare butonul se micșorează ușor. Minim 52 px înălțime.
 import type { ReactNode } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
@@ -15,9 +15,10 @@ type Props = {
   disabled?: boolean;
   loading?: boolean;
   accessibilityHint?: string;
+  expanded?: boolean;
 };
 
-export function Button({ children, onPress, variant = 'primary', icon, disabled, loading, accessibilityHint }: Props) {
+export function Button({ children, onPress, variant = 'primary', icon, disabled, loading, accessibilityHint, expanded }: Props) {
   const theme = useTheme();
   const inactive = disabled || loading;
   const look = {
@@ -29,7 +30,7 @@ export function Button({ children, onPress, variant = 'primary', icon, disabled,
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityState={{ disabled: inactive, busy: loading }}
+      accessibilityState={{ disabled: inactive, busy: loading, expanded }}
       accessibilityHint={accessibilityHint}
       disabled={inactive}
       onPress={onPress}
@@ -48,7 +49,7 @@ export function Button({ children, onPress, variant = 'primary', icon, disabled,
 const styles = StyleSheet.create({
   button: {
     minHeight: 52,
-    borderRadius: radius.pill,
+    borderRadius: radius.md,
     paddingHorizontal: 22,
     flexDirection: 'row',
     alignItems: 'center',

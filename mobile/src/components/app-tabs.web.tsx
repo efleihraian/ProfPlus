@@ -26,9 +26,9 @@ export default function AppTabs() {
 function TabButton({ children, isFocused, onPress, onLongPress }: TabTriggerSlotProps) {
   const theme = useTheme();
   return (
-    <Pressable accessibilityRole="tab" accessibilityState={{ selected: isFocused }} onPress={onPress} onLongPress={onLongPress}>
+    <Pressable accessibilityRole="tab" accessibilityState={{ selected: isFocused }} onPress={onPress} onLongPress={onLongPress} style={styles.trigger}>
       <View style={[styles.tab, isFocused && { backgroundColor: theme.soft }]}>
-        <ThemedText type="smallBold" themeColor={isFocused ? 'text' : 'muted'}>
+        <ThemedText numberOfLines={1} type="smallBold" style={styles.label} themeColor={isFocused ? 'text' : 'muted'}>
           {children}
         </ThemedText>
       </View>
@@ -38,5 +38,7 @@ function TabButton({ children, isFocused, onPress, onLongPress }: TabTriggerSlot
 
 const styles = StyleSheet.create({
   list: { flexDirection: 'row', justifyContent: 'space-around', borderTopWidth: 1, padding: Spacing.two },
-  tab: { paddingVertical: Spacing.one, paddingHorizontal: Spacing.three, borderRadius: radius.pill },
+  trigger: {flex: 1, minWidth: 0},
+  tab: {minHeight: 44, paddingHorizontal: Spacing.one, justifyContent: 'center', borderRadius: radius.md},
+  label: {fontSize: 12, textAlign: 'center'},
 });

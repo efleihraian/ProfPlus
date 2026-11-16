@@ -2,6 +2,7 @@
 import {createApiClient} from "../../../web/shared/api-client";
 import {librarySearchParams, type LibrarySearch, type PublicLibraryResults} from '../../../web/shared/public-library';
 import {logRequest} from "./log";
+import type {InterfacePreferences} from '../../../web/lib/interface-preferences';
 import {supabase} from "./supabase";
 
 export {ApiError} from "../../../web/shared/api-client";
@@ -29,3 +30,23 @@ export const api = createApiClient({
 const publicClient = createApiClient({baseUrl:process.env.EXPO_PUBLIC_API_URL ?? '',timeoutMs:8000});
 export const searchPublicLibrary = (filters:LibrarySearch,signal?:AbortSignal) =>
   publicClient.request<PublicLibraryResults>('/api/public-library?'+librarySearchParams(filters),{signal});
+
+export function mobilePreferences(userId: string) {
+  const client = createApiClient({
+    baseUrl: process.env.EXPO_PUBLIC_API_URL ?? '',
+    timeoutMs: 12_000,
+    getToken: async () => {
+      const {data: {session}} = await supabase.auth.getSession();
+      if (!session || session.user.id !== userId) throw new Error('SESSION_CHANGED');
+      return session.access_token;
+    },
+  });
+  const path = '/api/account/preferences';
+  type Payload = {userId: string; preferences: InterfacePreferences | null};
+  return {
+    read: (signal: AbortSignal) => client.request<Payload>(path, {signal}),
+    save: (preferences: InterfacePreferences, signal: AbortSignal) => client.request<Payload>(path, {
+      method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify(preferences), signal,
+    }),
+  };
+}

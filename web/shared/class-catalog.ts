@@ -18,6 +18,18 @@ export const CLASS_OBSERVATIONS = {id: "observatii", title: "Observații", desc:
 export const CLASS_CARDS = [CLASS_OBSERVATIONS, ...CLASS_SECTIONS] as const;
 export type ClassCard = typeof CLASS_CARDS[number];
 export type ClassCardId = ClassCard["id"];
+export const CLASS_SECTION_COLORS: Record<ClassCardId, string> = {
+  observatii: "#784F2E",
+  teste: "#39614E",
+  fise: "#2E596B",
+  teorie: "#595784",
+  planificari: "#7F445A",
+  unitati: "#545931",
+  proiecte: "#664970",
+  bareme: "#3C587A",
+  prezentari: "#8D4B3A",
+  activitati: "#27615E",
+};
 // Simbolurile cardurilor, în coordonate SVG 24 × 24, comune site-ului și aplicației.
 export const CLASS_CARD_ICONS: Record<ClassCardId, string> = {
   planificari: "M8 2v4m8-4v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z",
@@ -35,6 +47,12 @@ export const MAX_CLASSES = 30;
 
 export const ROMAN = ["0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII"];
 export const LETTERS = "ABCDEFGHIJ";
+/** Clasele sunt proiectele care poartă unul dintre numele standard, inclusiv forma veche. */
+export function parseClassTitle(name: string): {g: number; l: string} | null {
+  for (let g = 0; g < ROMAN.length; g++) for (const l of LETTERS) if (classTitle(g, l) === name || ((g===0?"Clasa pregătitoare":g===1?"Clasa I":"Clasa a "+ROMAN[g]+"-a")+" "+l)===name) return {g, l};
+  return null;
+}
+
 export const CLASS_BANNER_OPTIONS = [
   {id: "green", label: "Verde", color: "#28684D"},
   {id: "blue", label: "Albastru", color: "#215F78"},

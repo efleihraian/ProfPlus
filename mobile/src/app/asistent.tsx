@@ -4,6 +4,8 @@ import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import {
   ActivityIndicator,
+  BackHandler,
+  Keyboard,
   KeyboardAvoidingView,
   Modal,
   Platform,
@@ -15,25 +17,30 @@ import {
   View,
 } from 'react-native';
 import { Image } from 'expo-image';
+import Animated, {ReduceMotion, SlideInLeft} from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { TeachingForm } from '@/components/account/teaching-form';
 import { busyStatus, ChatDocuments } from '@/components/chat/chat-documents';
-import { ChatOptions, optionsSummary } from '@/components/chat/chat-options';
 import { GenerationProgress } from '@/components/chat/generation-progress';
 import { MessageBubble } from '@/components/chat/message-bubble';
+import { GenerationForm } from '@/components/chat/generation-form';
+import type { Project } from '../../../web/shared/api-types';
+import { parseClassTitle } from '../../../web/shared/class-catalog';
+import type { GenerationTitle } from '../../../web/lib/prompt-template';
 import { Profi } from '@/components/profi';
 import { ThemedText } from '@/components/themed-text';
 import { Brand } from '@/components/ui/brand';
 import { AboveTabBar } from '@/components/ui/above-tab-bar';
+import { SchoolBackground } from '@/components/ui/school-background';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { ArrowUpIcon, CloseIcon, HistoryIcon, NewChatIcon, PlusIcon, SlidersIcon, StopIcon } from '@/components/ui/icons';
-import { OptionSheet } from '@/components/ui/select';
+import { ArrowUpIcon, CloseIcon, HistoryIcon, NewChatIcon, PlusIcon, StopIcon } from '@/components/ui/icons';
+import { SiteIcon } from '@/components/ui/site-icon';
 import { brand, cardSurface, radius, Spacing } from '@/constants/theme';
 import { useDark, useTheme } from '@/hooks/use-theme';
 import type { GeneratedDocument } from '@/lib/api';
-import { api, ApiError, funProfSuggestion, isPlanKind, suggestionsFor, type ChatDocument, type ChatMessage, type GenerationPlan, type HistoryChat, type ProgressStage } from '@/lib/api';
+import { api, ApiError, isPlanKind, type ChatDocument, type ChatMessage, type GenerationPlan, type HistoryChat, type ProgressStage } from '@/lib/api';
 import { asSelection, AUTOMATIC, DIFFICULTIES, DOCUMENT_TYPES, type ChatSelection, type DocumentType } from '@/lib/chat-options';
 import { MAX_CHAT_PHOTOS, photoMarker, pickChatPhotos, takeChatPhoto, withinTotal, type ChatImage } from '@/lib/chat-photo';
 import { log } from '@/lib/log';
@@ -43,12 +50,14 @@ import { useAccount } from '@/lib/use-account';
 const isDocumentType = (value: unknown): value is DocumentType => DOCUMENT_TYPES.some((t) => t.id === value);
 
 /** P-199: „+” din compozitor, ca pe site — fotografii doar pentru acest mesaj sau un document salvat în conversație. */
-type AttachChoice = 'camera' | 'gallery' | 'document' | '';
-const ATTACH_OPTIONS: { value: AttachChoice; label: string }[] = [
-  { value: 'camera', label: 'Fotografiază (nu se păstrează)' },
-  { value: 'gallery', label: 'Fotografii din galerie (nu se păstrează)' },
-  { value: 'document', label: 'Adaugă document în conversație' },
+type AttachChoice = 'camera' | 'gallery' | 'document';
+const ATTACH_OPTIONS: { value: AttachChoice; label: string; title: string }[] = [
+  { value: 'camera', title: 'Cameră', label: 'Fotografiază (nu se păstrează)' },
+  { value: 'gallery', title: 'Galerie', label: 'Fotografii din galerie (nu se păstrează)' },
+  { value: 'document', title: 'Document', label: 'Adaugă document în conversație' },
 ];
+
+type HistoryTarget = { kind: 'chat' | 'project'; id: string; title: string };
 
 const MAX_MESSAGE = 6000;
 const NEW_TITLE = 'Conversație nouă';
@@ -60,8 +69,8 @@ const failure = (e: unknown, aborted: boolean) =>
 export default function AssistantScreen() {
   const accountState = useAccount();
   const router = useRouter();
-  const { seed, chatId: openId, type, documentType, grade, difficulty } = useLocalSearchParams<{
-    seed?: string; chatId?: string; type?: string; documentType?: string; grade?: string; difficulty?: string;
+  const { seed, chatId: openId, type, classId, documentType, grade, difficulty } = useLocalSearchParams<{
+    seed?: string; chatId?: string; type?: string; classId?: string; documentType?: string; grade?: string; difficulty?: string;
   }>();
   const requestedType = DOCUMENT_TYPES.find((option) => option.id === documentType)?.id;
   const requestedDifficulty = DIFFICULTIES.find((option) => option.id === difficulty)?.id;
@@ -71,24 +80,25 @@ export default function AssistantScreen() {
     ...(Number.isInteger(requestedGrade) && requestedGrade >= 0 && requestedGrade <= 13 ? { grade: requestedGrade } : {}),
     ...(requestedDifficulty ? { difficulty: requestedDifficulty } : {}),
   } : undefined;
-  const [launch, setLaunch] = useState({ seenSeed: seed, seenId: openId, seenType: type, type: isDocumentType(type) ? type : undefined, seed, openId, classOptions, version: 0 });
-  if (launch.seenSeed !== seed || launch.seenId !== openId || launch.seenType !== type) {
-    setLaunch({ ...launch, seenSeed: seed, seenId: openId, seenType: type, ...(seed || openId || type ? { seed, openId, type: isDocumentType(type) ? type : undefined, classOptions, version: launch.version + 1 } : {}) });
+  const [launch, setLaunch] = useState({ seenSeed: seed, seenId: openId, seenType: type, seenClass: classId, classId, type: isDocumentType(type) ? type : undefined, seed, openId, classOptions, version: 0 });
+  if (launch.seenSeed !== seed || launch.seenId !== openId || launch.seenType !== type || launch.seenClass !== classId) {
+    setLaunch({ ...launch, seenSeed: seed, seenId: openId, seenType: type, seenClass: classId, ...(seed || openId || type ? { seed, openId, classId, type: isDocumentType(type) ? type : undefined, classOptions, version: launch.version + 1 } : {}) });
   }
   useEffect(() => {
-    if (seed || openId || type) router.setParams({ type: '', seed: '', chatId: '', documentType: '', grade: '', difficulty: '' });
+    if (seed || openId || type) router.setParams({ type: '', seed: '', chatId: '', classId: '', documentType: '', grade: '', difficulty: '' });
   }, [seed, openId, type, router]);
   const signedIn = Boolean(accountState.account?.user);
   const needsProfile = accountState.account?.provider === 'supabase' && !!accountState.account.user && (!accountState.account.user.teaching || accountState.account.user.deleting);
   const identity = accountState.userId === undefined ? 'loading' : accountState.userId ?? 'guest';
-  return <AssistantConversation key={JSON.stringify([identity, signedIn, needsProfile, launch.version])} accountState={accountState} initialSeed={launch.seed} initialChatId={launch.openId} initialType={launch.type} initialClassOptions={launch.classOptions} />;
+  return <AssistantConversation key={JSON.stringify([identity, signedIn, needsProfile, launch.version])} accountState={accountState} initialSeed={launch.seed} initialChatId={launch.openId} initialType={launch.type} initialClassId={launch.classId} initialClassOptions={launch.classOptions} />;
 }
 
-function AssistantConversation({ accountState, initialSeed, initialChatId, initialType, initialClassOptions }: {
+function AssistantConversation({ accountState, initialSeed, initialChatId, initialType, initialClassId, initialClassOptions }: {
   accountState: ReturnType<typeof useAccount>;
   initialSeed?: string;
   initialChatId?: string;
   initialType?: DocumentType;
+  initialClassId?: string;
   initialClassOptions?: Partial<ChatSelection>;
 }) {
   const theme = useTheme();
@@ -104,11 +114,24 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
   const [draft, setDraft] = useState(initialSeed ?? '');
   // P-166: photos for the next message only; never saved in the history.
   const [photos, setPhotos] = useState<ChatImage[]>([]);
-  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [generation, setGeneration] = useState<DocumentType | null>(initialType ?? null);
+  const generationTitle = useRef<GenerationTitle | undefined>(undefined);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [chats, setChats] = useState<HistoryChat[] | null>(null);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const [projects, setProjects] = useState<Project[]>([]);
+  useEffect(() => {
+    if (!moreOpen) return;
+    const back = BackHandler.addEventListener('hardwareBackPress', () => {setMoreOpen(false); return true;});
+    return () => back.remove();
+  }, [moreOpen]);
   const [historyOpen, setHistoryOpen] = useState(false);
+  const [historyTarget, setHistoryTarget] = useState<HistoryTarget | null>(null);
+  const [historyDeleteError, setHistoryDeleteError] = useState<string | null>(null);
+  const [historyDeleting, setHistoryDeleting] = useState(false);
+  const deleteInFlight = useRef(false);
+  const historyReadVersion = useRef(0);
   // P-199: pasul generării (raportat de server) și documentele conversației.
   const [stage, setStage] = useState<ProgressStage>('prepare');
   const [startedAt, setStartedAt] = useState(0);
@@ -123,13 +146,13 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
   const documentRead = useRef<{id: string; controller: AbortController; promise: Promise<void>} | null>(null);
   const [uploading, setUploading] = useState<string | null>(null);
   const [attachOpen, setAttachOpen] = useState(false);
+  const pendingAttachment = useRef<AttachChoice | null>(null);
   const [fresh, setFresh] = useState<number | null>(null);
   const revision = useRef(0);
   const savingDocument = useRef(false);
-  const initialSelection: ChatSelection = initialType ? { ...AUTOMATIC, documentType: initialType } : AUTOMATIC;
+  const initialSelection: ChatSelection = AUTOMATIC;
   const selection = useRef<ChatSelection>(initialSelection);
   const [options, setOptions] = useState<ChatSelection>(initialSelection);
-  const summary = optionsSummary(options);
   const projectId = useRef<string | null>(null);
   const abort = useRef<AbortController | null>(null);
   const scroll = useRef<ScrollViewInstance>(null);
@@ -146,6 +169,7 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
   const show = useCallback((chat: { id: string; title: string; messages: ChatMessage[]; revision: number; selection: unknown; project_id: string | null }) => {
     setFresh(null);
     if (chat.id !== currentChatId.current) {
+      generationTitle.current = undefined;
       documentRead.current?.controller.abort();
       setDocuments([]);
       setDocumentLoadError(false);
@@ -162,6 +186,8 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
 
   const startNew = useCallback(() => {
     navigationVersion.current++;
+    generationTitle.current = undefined;
+    setGeneration(null);
     currentChatId.current = null;
     setAwaitingClassChat(false);
     setFresh(null);
@@ -188,9 +214,11 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
   },[startNew]));
 
   async function refreshHistory() {
+    const version = ++historyReadVersion.current;
     const data = await api.history.list();
+    if (version !== historyReadVersion.current) return;
     setChats(data.chats);
-    return data.chats;
+    setProjects(data.projects);
   }
 
   async function open(id: string) {
@@ -210,6 +238,63 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
     }
   }
 
+  function askToRemove(target: HistoryTarget) {
+    if (busy || uploading || savingDocument.current) return;
+    setHistoryDeleteError(null);
+    setHistoryTarget(target);
+  }
+
+  function closeHistory() {
+    if (deleteInFlight.current) return;
+    if (historyTarget) setHistoryTarget(null);
+    else setHistoryOpen(false);
+  }
+
+  async function removeFromHistory() {
+    const target = historyTarget;
+    if (!target || busy || uploading || savingDocument.current || deleteInFlight.current) return;
+    deleteInFlight.current = true;
+    setHistoryDeleting(true);
+    setHistoryDeleteError(null);
+    try {
+      await api.history.remove(target.kind, target.id);
+      historyReadVersion.current++;
+      if (target.kind === 'chat') {
+        setChats(list => list?.filter(chat => chat.id !== target.id) ?? null);
+        if (currentChatId.current === target.id) {
+          startNew();
+          setHistoryOpen(true);
+        }
+      } else {
+        setProjects(list => list.filter(project => project.id !== target.id));
+        setChats(list => list?.map(chat => chat.project_id === target.id ? {...chat, project_id: null} : chat) ?? null);
+        const activeId = currentChatId.current;
+        if (activeId && projectId.current === target.id) {
+          // Serverul schimbă și revizia. Recitește conversația înainte de a permite alte scrieri.
+          const version = ++navigationVersion.current;
+          try {
+            const {chat} = await api.history.get(activeId);
+            if (version === navigationVersion.current) show(chat);
+          } catch {
+            if (version === navigationVersion.current) {
+              startNew();
+              setDraft(draft);
+              setPhotos(photos);
+              setError('Proiectul a fost șters. Redeschide conversația din istoric pentru a continua.');
+            }
+          }
+        }
+      }
+      setHistoryTarget(null);
+      void refreshHistory().catch(() => {});
+    } catch (e) {
+      setHistoryDeleteError(e instanceof ApiError && e.status !== 0 ? e.message : 'Nu am putut confirma ștergerea. Verifică istoricul înainte să reîncerci.');
+    } finally {
+      deleteInFlight.current = false;
+      setHistoryDeleting(false);
+    }
+  }
+
   // Initial state comes from the component key/initialSeed, not synchronous state resets in effects.
   useEffect(() => {
     if (!signedIn || needsProfile) return;
@@ -222,11 +307,13 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
       setAwaitingClassChat(false);
     });
     const failed = (e: unknown) => { if (current()) setError(failure(e, false)); };
-    void api.history.list().then(({ chats: list }) => {
-      if (!current()) return;
+    const listVersion = ++historyReadVersion.current;
+    void api.history.list().then(({ chats: list, projects }) => {
+      if (!current() || listVersion !== historyReadVersion.current) return;
       setChats(list);
+      setProjects(projects);
       // P-231: history opens only through an explicit chatId, never the last chat automatically.
-    }).catch(failed);
+    }).catch(e => { if (listVersion === historyReadVersion.current) failed(e); });
     if (initialChatId) void load(initialChatId).catch(failed);
     return () => { active = false; };
   }, [signedIn, needsProfile, initialSeed, initialChatId, initialClassOptions, show]);
@@ -270,11 +357,18 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
   }, [chatId, signedIn, documentsPending, refreshDocuments]);
 
   /** Conversația pe server: există deja sau o creăm acum (la primul mesaj sau la primul document). */
-  async function ensureChat() {
-    if (chatId) return chatId;
+  async function ensureChat(selectedClass?: string) {
+    if (chatId && (!selectedClass || selectedClass === projectId.current)) return chatId;
     navigationVersion.current++;
-    const id = (await api.history.create(projectId.current)).id;
+    const project = selectedClass || projectId.current;
+    const id = (await api.history.create(project)).id;
     revision.current = (await api.history.get(id)).chat.revision;
+    if (currentChatId.current && currentChatId.current !== id) {
+      documentRead.current?.controller.abort();
+      setDocuments([]);
+      setDocumentLoadError(false);
+    }
+    projectId.current = project;
     currentChatId.current = id;
     setChatId(id);
     return id;
@@ -332,7 +426,7 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
     } finally { savingDocument.current=false; }
   }
 
-  async function deliver(next: ChatMessage[], alreadySaved: boolean) {
+  async function deliver(next: ChatMessage[], alreadySaved: boolean, selectedClass?: string) {
     if (savingDocument.current) return;
     navigationVersion.current++;
     setMessages(next);
@@ -342,6 +436,8 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
     abort.current = controller;
     // Pasul curent ajunge în jurnal dacă ceva eșuează: crearea, salvarea, generarea sau salvarea răspunsului.
     let stage = 'create';
+    const generated = generationTitle.current;
+    const writeTitle = generated?.conversation ?? (title === NEW_TITLE ? '' : title);
     const started = Date.now();
     setStage('prepare');
     setStartedAt(started);
@@ -349,7 +445,7 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
     try {
       let id = chatId;
       if (signedIn) {
-        id = await ensureChat();
+        id = await ensureChat(selectedClass);
         stage = 'save';
         if (!alreadySaved) {
           const saved = await api.history.save({
@@ -358,9 +454,10 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
             messages: next,
             selection: selection.current,
             projectId: projectId.current,
-            title: title === NEW_TITLE ? '' : title,
+            title: writeTitle,
           });
           revision.current = saved.revision;
+          if (generated) setTitle(generated.conversation);
         }
       }
       stage = 'generate';
@@ -369,6 +466,7 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
           messages: next.slice(-20).map(({ role, content }) => ({ role, content: content.slice(0, MAX_MESSAGE) })),
           ...(signedIn && id ? { chatId: id, revision: revision.current, selection: selection.current } : {}),
           ...(photos.length ? { images: photos } : {}),
+          ...(generated ? { documentTitle: generated.document } : {}),
         },
         setStage,
         controller.signal,
@@ -411,11 +509,11 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
           revision.current = reply.revision;
           if (funChosen)
             revision.current = (
-              await api.history.save({ id, revision: revision.current, messages: completed, selection: selection.current, projectId: projectId.current, title: '' })
+              await api.history.save({ id, revision: revision.current, messages: completed, selection: selection.current, projectId: projectId.current, title: writeTitle })
             ).revision;
         } else
           revision.current = (
-            await api.history.save({ id, revision: revision.current, messages: completed, selection: selection.current, projectId: projectId.current, title: '' })
+            await api.history.save({ id, revision: revision.current, messages: completed, selection: selection.current, projectId: projectId.current, title: writeTitle })
           ).revision;
         refreshHistory().catch(() => {});
       }
@@ -445,25 +543,27 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
       setError(`Scrie un mesaj de cel mult ${MAX_MESSAGE} de caractere.`);
       return;
     }
+    generationTitle.current = undefined;
     setDraft('');
     void deliver([...messages, { role: 'user', content }], false);
   }
 
   // P-173: camera sau galerie, până la 15 fotografii pe mesaj. P-199: și documente salvate în conversație.
   function chooseAttachment(choice: AttachChoice) {
+    if (busy || uploading || pendingAttachment.current) return;
+    setAttachOpen(false);
+    // Pe iOS picker-ul nativ are nevoie ca dialogul să fie deja retras.
+    if (Platform.OS === 'ios') pendingAttachment.current = choice;
+    else launchAttachment(choice);
+  }
+  function launchAttachment(choice: AttachChoice) {
     if (choice !== 'document' && photos.length >= MAX_CHAT_PHOTOS) {
       setError(`Poți atașa cel mult ${MAX_CHAT_PHOTOS} fotografii la un mesaj.`);
       return;
     }
-    // Pe iOS camera sau selectorul nu se pot deschide cât timp lista încă se închide.
-    setTimeout(
-      () => {
-        if (choice === 'document') void addDocument();
-        else if (choice === 'camera') void fromCamera();
-        else if (choice === 'gallery') void fromGallery();
-      },
-      Platform.OS === 'ios' ? 450 : 0,
-    );
+    if (choice === 'document') void addDocument();
+    else if (choice === 'camera') void fromCamera();
+    else void fromGallery();
   }
   function attach(added: ChatImage[], problem?: string) {
     const next = withinTotal(photos, added);
@@ -555,17 +655,20 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
   const unanswered = !busy && messages.at(-1)?.role === 'user';
   return (
     <Frame
-      actions={
-        <View style={styles.actions}>
-          {signedIn ? (
+      historyAction={signedIn ? (
             <Pressable
               accessibilityRole="button"
               accessibilityLabel="Istoricul conversațiilor"
-              onPress={() => setHistoryOpen(true)}
+              onPress={() => {
+                setHistoryOpen(true);
+                void refreshHistory().catch(() => {});
+              }}
               style={({ pressed }) => [styles.headerButton, { backgroundColor: pressed ? theme.fillStrong : theme.fill }]}>
               <HistoryIcon color={theme.text} />
             </Pressable>
           ) : null}
+      actions={
+        <View style={styles.actions}>
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="Conversație nouă"
@@ -583,7 +686,7 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
             style={styles.flex}
             contentContainerStyle={styles.messages}
             keyboardShouldPersistTaps="handled"
-            onContentSizeChange={() => scroll.current?.scrollToEnd({ animated: true })}>
+            onContentSizeChange={() => {if (messages.length > 0) scroll.current?.scrollToEnd({animated: true});}}>
             {messages.length === 0 ? (
               <View style={styles.welcome}>
                 <View style={styles.mascot}>
@@ -597,28 +700,7 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
                     ? 'Fișe de desenat, jocuri și activități pentru grădiniță.'
                     : 'Lecții, teste, fișe și explicații, cu surse din manualele potrivite profilului tău.'}
                 </ThemedText>
-                {suggestionsFor(account?.user?.teaching).map((s) => (
-                  <Pressable
-                    key={s.label}
-                    accessibilityRole="button"
-                    onPress={() => setDraft(s.prompt)}
-                    style={({ pressed }) => [styles.suggestion, { backgroundColor: theme.surface, borderColor: theme.border }, cardSurface(dark), pressed && styles.pressed]}>
-                    <ThemedText>{s.prompt}</ThemedText>
-                  </Pressable>
-                ))}
-                {(() => {
-                  const fun = funProfSuggestion(account?.user?.teaching);
-                  return (
-                    <Pressable
-                      key="fun-prof"
-                      accessibilityRole="button"
-                      accessibilityHint="Completează câmpul de mesaj cu un exemplu Fun Prof"
-                      onPress={() => setDraft(fun.prompt)}
-                      style={({ pressed }) => [styles.suggestion, { backgroundColor: theme.soft, borderColor: theme.border }, cardSurface(dark), pressed && styles.pressed]}>
-                      <ThemedText>{fun.prompt}</ThemedText>
-                    </Pressable>
-                  );
-                })()}
+                <GenerationTiles theme={theme} disabled={photos.length > 0 || !!uploading} onPick={setGeneration} onMore={() => setMoreOpen(true)} />
               </View>
             ) : (
               messages.map((m, i) => (
@@ -641,24 +723,6 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
             ) : null}
           </ScrollView>
 
-          {/* P-169: setările mesajului se deschid la cerere, ca listă verticală; nu mai ocupă un rând permanent. */}
-          {settingsOpen ? (
-            <View style={[styles.optionsPanel, { backgroundColor: theme.surface, borderColor: theme.border }]}>
-              <View style={styles.optionsHead}>
-                <ThemedText type="smallBold">Setări pentru mesaj</ThemedText>
-                <Pressable
-                  accessibilityRole="button"
-                  accessibilityLabel="Închide setările"
-                  onPress={() => setSettingsOpen(false)}
-                  style={[styles.done, { backgroundColor: theme.dark }]}>
-                  <ThemedText type="smallBold" style={{ color: brand.onAccent }}>
-                    Gata
-                  </ThemedText>
-                </Pressable>
-              </View>
-              <ChatOptions selection={options} layout="list" draft={draft} chatId={chatId} disabled={busy} onChange={choose} />
-            </View>
-          ) : null}
           <View style={[styles.composerArea, { backgroundColor: theme.background }]}>
             {documentLoadError && chatId ? (
               <View accessibilityLiveRegion="polite" style={[styles.error, { backgroundColor: theme.dangerSoft }]}>
@@ -702,31 +766,11 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
                   accessibilityLabel="Atașează: fotografii sau un document"
                   accessibilityHint="Fotografiile se trimit doar cu acest mesaj; documentul rămâne în conversație"
                   disabled={busy || !!uploading}
-                  onPress={() => setAttachOpen(true)}
+                  accessibilityState={{expanded: attachOpen}}
+                  onPress={() => {Keyboard.dismiss(); setAttachOpen(true);}}
                   hitSlop={4}
                   style={({ pressed }) => [styles.iconButton, { backgroundColor: pressed ? theme.fillStrong : theme.fill }, (busy || !!uploading) && styles.dim]}>
                   <PlusIcon color={theme.text} />
-                </Pressable>
-                <OptionSheet<AttachChoice>
-                  visible={attachOpen}
-                  title={`Atașează (până la ${MAX_CHAT_PHOTOS} fotografii pe mesaj)`}
-                  value=""
-                  options={ATTACH_OPTIONS}
-                  onChange={chooseAttachment}
-                  onClose={() => setAttachOpen(false)}
-                />
-                <Pressable
-                  accessibilityRole="button"
-                  accessibilityLabel={`Setări pentru mesaj: ${summary.label}`}
-                  accessibilityState={{ expanded: settingsOpen }}
-                  onPress={() => setSettingsOpen((open) => !open)}
-                  style={[
-                    styles.settings,
-                    { backgroundColor: summary.configured || settingsOpen ? theme.soft : theme.fill },
-                  ]}>
-                  {/* P-201: doar pictograma; setarea aleasă se citește în etichetă și se vede ca punct verde. */}
-                  <SlidersIcon color={summary.configured ? theme.softText : theme.text} />
-                  {summary.configured ? <View style={[styles.settingsDot, { backgroundColor: theme.accent, borderColor: theme.surface }]} /> : null}
                 </Pressable>
                 <View style={styles.flex} />
                 {busy ? (
@@ -743,10 +787,7 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
                     accessibilityLabel="Trimite mesajul"
                     accessibilityState={{ disabled: awaitingClassChat || (!draft.trim() && !photos.length) }}
                     disabled={awaitingClassChat || (!draft.trim() && !photos.length)}
-                    onPress={() => {
-                      setSettingsOpen(false);
-                      send();
-                    }}
+                    onPress={() => send()}
                     style={[styles.sendButton, { backgroundColor: theme.dark }, !draft.trim() && !photos.length && styles.dim]}>
                     <ArrowUpIcon color={brand.onAccent} />
                   </Pressable>
@@ -757,54 +798,185 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
         </KeyboardAvoidingView>
       </AboveTabBar>
 
-      <Modal visible={historyOpen} animationType="slide" onRequestClose={() => setHistoryOpen(false)}>
-        <SafeAreaView style={[styles.flex, { backgroundColor: theme.background }]}>
+      <Modal visible={attachOpen} transparent animationType="none" onRequestClose={() => setAttachOpen(false)} onDismiss={() => {
+        const choice = pendingAttachment.current;
+        pendingAttachment.current = null;
+        if (choice) launchAttachment(choice);
+      }}>
+        <View style={styles.popupBackdrop}>
+          <Pressable style={StyleSheet.absoluteFill} accessible={false} onPress={() => setAttachOpen(false)} />
+          <View accessibilityViewIsModal style={styles.popup}>
+            <Card title="Atașează la mesaj">
+              <View style={styles.attachmentChoices}>
+                {ATTACH_OPTIONS.map(({value, label, title: optionTitle}) => (
+                  <Pressable key={value} accessibilityRole="button" accessibilityLabel={label}
+                    disabled={busy || !!uploading} onPress={() => chooseAttachment(value)}
+                    style={({pressed}) => [styles.attachmentChoice, {backgroundColor: pressed ? theme.fillStrong : theme.fill}]}>
+                    <SiteIcon name={value} color={theme.text} />
+                    <ThemedText type="small" style={styles.generationLabel}>{optionTitle}</ThemedText>
+                  </Pressable>
+                ))}
+              </View>
+              <Button variant="ghost" onPress={() => setAttachOpen(false)}>Închide</Button>
+            </Card>
+          </View>
+        </View>
+      </Modal>
+
+      {generation && signedIn ? (
+        <GenerationForm
+          type={generation}
+          subject={account?.user?.teaching?.subject ?? ''}
+          subjects={account?.subjects ?? []}
+          classId={initialClassId}
+          chatId={chatId}
+          selection={options}
+          onClose={() => setGeneration(null)}
+          onSend={({text, title: generated, selection: chosen, classId: target}) => {
+            if (busy || savingDocument.current) return;
+            const history = target && target !== projectId.current ? [] : messages;
+            generationTitle.current = generated;
+            choose(chosen);
+            setDraft('');
+            setGeneration(null);
+            void deliver([...history, {role: 'user', content: text}], false, target);
+          }}
+        />
+      ) : null}
+      {moreOpen ? (
+        <View style={styles.moreOverlay}>
+          <Pressable style={StyleSheet.absoluteFill} accessible={false} onPress={() => setMoreOpen(false)} />
+          <View accessibilityViewIsModal style={[styles.morePanel, {backgroundColor: theme.surface}]}>
+            <View style={styles.modalHeader}>
+              <ThemedText type="subtitle" accessibilityRole="header">Ce generăm?</ThemedText>
+              <Button variant="secondary" onPress={() => setMoreOpen(false)}>Închide</Button>
+            </View>
+            <ScrollView contentContainerStyle={styles.history}>
+              <GenerationTiles theme={theme} onPick={(type) => {setMoreOpen(false); setGeneration(type);}} />
+            </ScrollView>
+          </View>
+        </View>
+      ) : null}
+      <Modal visible={historyOpen} transparent animationType="none" onRequestClose={closeHistory}>
+        <View style={styles.overlay}>
+          <Pressable style={StyleSheet.absoluteFill} accessible={false} onPress={closeHistory} />
+          {historyOpen ? <Animated.View accessibilityViewIsModal entering={SlideInLeft.duration(240).reduceMotion(ReduceMotion.System)} style={[styles.drawer, {backgroundColor: theme.background}]}>
+          <SafeAreaView style={styles.flex}>
           <View style={[styles.modalHeader, { borderColor: theme.border }]}>
             <ThemedText type="subtitle" accessibilityRole="header">
-              Conversațiile tale
+              Istoric și proiecte
             </ThemedText>
-            <Pressable accessibilityRole="button" onPress={() => setHistoryOpen(false)} style={styles.close}>
+            <Pressable accessibilityRole="button" onPress={closeHistory} style={styles.close}>
               <ThemedText type="linkPrimary">Închide</ThemedText>
             </Pressable>
           </View>
-          <ScrollView contentContainerStyle={styles.history}>
-            <Button onPress={startNew}>Conversație nouă</Button>
-            {chats === null ? <ActivityIndicator /> : null}
-            {chats?.length === 0 ? <ThemedText themeColor="muted">Nu ai încă nicio conversație salvată.</ThemedText> : null}
-            {chats?.map((chat) => (
-              <Pressable
-                key={chat.id}
-                accessibilityRole="button"
-                accessibilityState={{ selected: chat.id === chatId }}
-                onPress={() => open(chat.id)}
-                style={[
-                  styles.historyRow,
-                  chat.id === chatId ? { backgroundColor: theme.soft } : [{ backgroundColor: theme.surface, borderColor: theme.border }, cardSurface(dark)],
-                ]}>
-                <ThemedText numberOfLines={2}>{chat.title || NEW_TITLE}</ThemedText>
-                <ThemedText type="small" themeColor="subtle">
-                  {new Date(chat.updated_at).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' })}
-                </ThemedText>
-              </Pressable>
-            ))}
-          </ScrollView>
-        </SafeAreaView>
+          {historyTarget ? (
+            <ScrollView contentContainerStyle={styles.history}>
+              <Card title={historyTarget.kind === 'chat' ? 'Ștergi conversația?' : 'Ștergi proiectul?'}>
+                <ThemedText type="smallBold">{historyTarget.title}</ThemedText>
+                <ThemedText>{historyTarget.kind === 'chat'
+                  ? 'Mesajele și citările vor fi șterse definitiv. Documentele atașate rămân în bibliotecă.'
+                  : 'Proiectul va fi șters. Documentele se păstrează, iar conversațiile vor apărea în istoric, fără proiect.'}</ThemedText>
+                {historyDeleteError ? <ThemedText accessibilityRole="alert" themeColor="dangerText">{historyDeleteError}</ThemedText> : null}
+                <Button variant="secondary" disabled={historyDeleting} onPress={closeHistory}>Renunță</Button>
+                <Button variant="danger" loading={historyDeleting} onPress={removeFromHistory}>
+                  {historyDeleting ? 'Se șterge…' : historyTarget.kind === 'chat' ? 'Șterge conversația' : 'Șterge proiectul'}
+                </Button>
+              </Card>
+            </ScrollView>
+          ) : (
+            <ScrollView contentContainerStyle={styles.history}>
+              <Button disabled={busy || !!uploading} onPress={startNew}>Conversație nouă</Button>
+              {chats === null ? <ActivityIndicator /> : null}
+              {projects.length ? <ThemedText type="smallBold">Proiecte</ThemedText> : null}
+              {projects.map(project => (
+                <View key={project.id} style={styles.project}>
+                  {parseClassTitle(project.name) ? <ThemedText type="smallBold">{project.name}</ThemedText> : (
+                    <HistoryRow target={{kind: 'project', id: project.id, title: project.name}} locked={busy || !!uploading} onRemove={askToRemove} />
+                  )}
+                  {chats?.filter(chat => chat.project_id === project.id).map(chat => (
+                    <HistoryRow key={chat.id} target={{kind: 'chat', id: chat.id, title: chat.title || NEW_TITLE}} selected={chat.id === chatId}
+                      locked={busy || !!uploading} onOpen={() => open(chat.id)} onRemove={askToRemove} />
+                  ))}
+                </View>
+              ))}
+              <ThemedText type="smallBold">Conversații</ThemedText>
+              {chats?.length === 0 ? <ThemedText themeColor="muted">Nu ai încă nicio conversație salvată.</ThemedText> : null}
+              {chats?.filter(chat => !projects.some(project => project.id === chat.project_id)).map(chat => (
+                <HistoryRow key={chat.id} target={{kind: 'chat', id: chat.id, title: chat.title || NEW_TITLE}} selected={chat.id === chatId}
+                  updatedAt={chat.updated_at} locked={busy || !!uploading} onOpen={() => open(chat.id)} onRemove={askToRemove} />
+              ))}
+            </ScrollView>
+          )}
+          </SafeAreaView>
+          </Animated.View> : null}
+        </View>
       </Modal>
     </Frame>
   );
 }
 
+function HistoryRow({target, locked, selected, updatedAt, onOpen, onRemove}: {
+  target: HistoryTarget;
+  locked: boolean;
+  selected?: boolean;
+  updatedAt?: number;
+  onOpen?: () => void;
+  onRemove: (target: HistoryTarget) => void;
+}) {
+  const theme = useTheme();
+  const dark = useDark();
+  const remove = () => onRemove(target);
+  return (
+    <View style={[styles.historyRow, cardSurface(dark), {backgroundColor: selected ? theme.soft : theme.surface}]}>
+      <Pressable accessibilityRole={onOpen ? 'button' : undefined} accessibilityState={{selected, disabled: locked}}
+        accessibilityHint={locked ? undefined : 'Ține apăsat pentru a șterge'} disabled={locked}
+        onPress={onOpen} onLongPress={remove} style={styles.historyItem}>
+        <ThemedText type={target.kind === 'project' ? 'smallBold' : 'default'} numberOfLines={2}>{target.title}</ThemedText>
+        {updatedAt !== undefined ? <ThemedText type="small" themeColor="subtle">
+          {new Date(updatedAt).toLocaleDateString('ro-RO', {day: 'numeric', month: 'long', year: 'numeric'})}
+        </ThemedText> : null}
+      </Pressable>
+      <Pressable accessibilityRole="button" accessibilityLabel={`Șterge ${target.kind === 'project' ? 'proiectul' : 'conversația'} ${target.title}`}
+        disabled={locked} onPress={remove} style={styles.historyDelete}>
+        <SiteIcon name="more" color={theme.text} size={20} />
+      </Pressable>
+    </View>
+  );
+}
+
 // Antetul cu logo-ul (și butoanele conversației), pe fundalul ecranului.
-function Frame({ children, actions }: { children: ReactNode; actions?: ReactNode }) {
+function Frame({ children, actions, historyAction }: { children: ReactNode; actions?: ReactNode; historyAction?: ReactNode }) {
   const theme = useTheme();
   return (
     <SafeAreaView edges={['top', 'left', 'right']} style={[styles.flex, { backgroundColor: theme.background }]}>
+      <SchoolBackground />
       <View style={[styles.header, { borderColor: theme.border, backgroundColor: theme.surface }]}>
         <Brand />
         {actions}
       </View>
+      {historyAction ? <View style={styles.historyAction}>{historyAction}</View> : null}
       {children}
     </SafeAreaView>
+  );
+}
+
+function GenerationTiles({theme, disabled, onPick, onMore}: {
+  theme: ReturnType<typeof useTheme>; disabled?: boolean;
+  onPick: (type: DocumentType) => void; onMore?: () => void;
+}) {
+  const items = onMore ? [...DOCUMENT_TYPES, {id: 'more' as const, label: 'Mai multe'}] : DOCUMENT_TYPES;
+  return (
+    <View style={styles.generationGrid}>
+      {items.map(item => (
+        <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.label} disabled={disabled}
+          onPress={() => item.id === 'more' ? onMore?.() : onPick(item.id)}
+          style={({pressed}) => [styles.generationTile, {backgroundColor: pressed ? theme.soft : theme.surface, borderColor: theme.border}]}>
+          <SiteIcon name={item.id} color={theme.text} />
+          <ThemedText type="smallBold" style={styles.generationLabel}>{item.label.split(' · ')[0]}</ThemedText>
+        </Pressable>
+      ))}
+    </View>
   );
 }
 
@@ -827,8 +999,16 @@ const styles = StyleSheet.create({
   actions: { flexDirection: 'row', gap: 6, flexShrink: 1 },
   chip: { borderWidth: 1, borderRadius: radius.pill, paddingHorizontal: 12, minHeight: 36, justifyContent: 'center' },
   messages: { padding: Spacing.three, gap: Spacing.three, flexGrow: 1 },
+  generationGrid: {flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.two},
   welcome: { gap: Spacing.three, paddingTop: Spacing.two },
-  suggestion: { borderRadius: 18, paddingVertical: 14, paddingHorizontal: 16 },
+  generationTile: {width: '48%', minHeight: 76, gap: Spacing.one, borderRadius: radius.md, borderWidth: 1, padding: Spacing.two, justifyContent: 'center', alignItems: 'center'},
+  overlay: {flex: 1, backgroundColor: 'rgba(0,0,0,0.44)'},
+  drawer: {flex: 1, width: '80%', alignSelf: 'flex-start'},
+  historyAction: {paddingHorizontal: Spacing.three, paddingTop: Spacing.one, alignItems: 'flex-start'},
+  moreOverlay: {...StyleSheet.absoluteFill, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.44)', zIndex: 20},
+  morePanel: {width: '92%', maxWidth: 580, maxHeight: '85%', borderRadius: radius.md, overflow: 'hidden'},
+  project: {gap: Spacing.one, paddingVertical: Spacing.one},
+  generationLabel: {textAlign: 'center'},
   mascot: { alignItems: 'center' },
   error: { borderRadius: 14, padding: 14, gap: 6 },
   headerButton: { width: 42, height: 42, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },
@@ -837,12 +1017,7 @@ const styles = StyleSheet.create({
   input: { minHeight: 40, maxHeight: 132, paddingHorizontal: 4, paddingTop: 8, paddingBottom: 6, fontSize: 16 },
   toolbar: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   iconButton: { width: 42, height: 42, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },
-  settings: { width: 42, height: 42, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },
-  settingsDot: { position: 'absolute', top: 7, right: 7, width: 10, height: 10, borderRadius: 5, borderWidth: 2 },
   sendButton: { width: 44, height: 44, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },
-  optionsPanel: { borderTopWidth: 1, maxHeight: 360 },
-  optionsHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12, paddingTop: 10 },
-  done: { minHeight: 36, paddingHorizontal: 16, borderRadius: radius.pill, justifyContent: 'center' },
   send: { minHeight: 48, borderWidth: 1, borderRadius: radius.md, paddingHorizontal: 16, justifyContent: 'center' },
   photos: { flexDirection: 'row', gap: Spacing.two, paddingTop: 4 },
   photo: { width: 56, height: 56, borderRadius: 14 },
@@ -850,5 +1025,11 @@ const styles = StyleSheet.create({
   modalHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: Spacing.three, borderBottomWidth: 1 },
   close: { minHeight: 44, justifyContent: 'center' },
   history: { padding: Spacing.three, gap: Spacing.two },
-  historyRow: { borderRadius: 18, paddingVertical: 14, paddingHorizontal: 16, gap: 2 },
+  historyRow: { flexDirection: 'row', alignItems: 'center', borderRadius: radius.md },
+  historyItem: { flex: 1, minHeight: 48, paddingLeft: Spacing.two, paddingVertical: Spacing.one, justifyContent: 'center', gap: 2 },
+  historyDelete: { width: 48, minHeight: 48, alignItems: 'center', justifyContent: 'center' },
+  popupBackdrop: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.44)' },
+  popup: { width: '92%', maxWidth: 440 },
+  attachmentChoices: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.one },
+  attachmentChoice: { flexGrow: 1, flexBasis: '28%', minWidth: 80, minHeight: 64, padding: Spacing.one, alignItems: 'center', justifyContent: 'center', gap: 4, borderRadius: radius.md },
 });

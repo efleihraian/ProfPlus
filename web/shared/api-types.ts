@@ -33,15 +33,17 @@ export type AccountResponse = {
   registration: boolean;
   emailEnabled: boolean;
   deletionEnabled: boolean;
+  emailActionConfirmations?: boolean;
   defaultManualIds: string[];
   /** Disciplinele pentru profilul didactic (P-195; lipsește la un server mai vechi). */
   subjects?: string[];
 };
 
-/** POST /api/account din aplicație (P-195): profilul și ștergerea, singurele acțiuni de cont permise cu token Bearer. */
+/** Acțiunile de cont folosite de aplicație prin POST /api/account. */
 export type AccountUpdate =
   | {action: "profile"; name: string; teaching?: TeachingProfile}
-  | {action: "delete"; confirmation: "STERGE"};
+  | {action: "password-link" | "delete-code"}
+  | {action: "delete"; confirmation: "STERGE"; code: string};
 
 /** Un document încărcat de profesor (GET /api/documents). */
 export type ChatDocument = {id: string; name: string; size: number; status: string};
@@ -61,7 +63,7 @@ export type ChatMessage = {role: "user" | "assistant"; content: string; sources?
 export type SavedChat = {id: string; title: string; project_id: string | null; messages: ChatMessage[]; selection: unknown; revision: number};
 /** POST /api/chat: fără `selection`, serverul alege sursele automat după profilul didactic. */
 /** `images`: P-166 — fotografii (data URL JPEG/PNG/WEBP) atașate temporar ultimului mesaj; nu se salvează. */
-export type ChatRequest = {messages: {role: "user" | "assistant"; content: string}[]; chatId?: string; revision?: number; model?: string; selection?: unknown; images?: {name: string; data: string}[]};
+export type ChatRequest = {documentTitle?: string; messages: {role: "user" | "assistant"; content: string}[]; chatId?: string; revision?: number; model?: string; selection?: unknown; images?: {name: string; data: string}[]};
 export type ChatReply = {reply: string; grounded?: boolean; sources?: ChatSource[]; warnings?: string[]; document?: GeneratedDocument; model?: string; revision?: number; funProf?: boolean; followUps?: string[]};
 
 /** O sursă din bibliotecă (GET /api/library): manual sau document propriu. */

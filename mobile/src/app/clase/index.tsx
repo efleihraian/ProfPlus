@@ -1,7 +1,7 @@
 // Clasele mele: lista claselor contului (aceleași ca pe site) și adăugarea uneia noi.
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Modal, Pressable, StyleSheet, View } from 'react-native';
 
 import { AddClass } from '@/components/classes/add-class';
 import { ImportClassroom } from '@/components/classes/import-classroom';
@@ -10,7 +10,8 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Screen } from '@/components/ui/screen';
 import { cardSurface, Shape, Spacing } from '@/constants/theme';
-import { useDark } from '@/hooks/use-theme';
+import { SiteIcon } from '@/components/ui/site-icon';
+import { useDark, useTheme } from '@/hooks/use-theme';
 import { api, ApiError, MAX_CLASSES, type OwnedClass } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { ClassBannerArt } from '@/components/classes/class-banner-art';
@@ -19,9 +20,14 @@ import { classBannerOption } from '../../../../web/shared/class-catalog';
 export default function ClassesScreen() {
   const router = useRouter();
   const dark = useDark();
+  const theme = useTheme();
   const { session } = useAuth();
   const [classes, setClasses] = useState<OwnedClass[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState<OwnedClass | null>(null);
+  const [deleteBusy, setDeleteBusy] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [editing, setEditing] = useState(false);
   const [adding, setAdding] = useState(false);
   // P-241: importul din Google Classroom apare numai când serverul îl are configurat.
   const [classroom, setClassroom] = useState(false);
@@ -45,6 +51,7 @@ export default function ClassesScreen() {
   useFocusEffect(
     useCallback(() => {
       if (session) void reload();
+      return () => setEditing(false);
     }, [session, reload]),
   );
 
@@ -59,6 +66,21 @@ export default function ClassesScreen() {
       setAddError(e instanceof ApiError ? e.message : 'Clasa nu a putut fi adăugată. Reîncearcă.');
     } finally {
       setBusy(false);
+    }
+  }
+
+  async function remove() {
+    if (!deleting || deleteBusy) return;
+    setDeleteBusy(true);
+    setDeleteError(null);
+    try {
+      await api.classes.remove(deleting.id);
+      setClasses(previous => previous?.filter(cls => cls.id !== deleting.id) ?? null);
+      setDeleting(null);
+    } catch (e) {
+      setDeleteError(e instanceof ApiError ? e.message : 'Clasa nu a putut fi ștearsă. Reîncearcă.');
+    } finally {
+      setDeleteBusy(false);
     }
   }
 
@@ -83,6 +105,11 @@ export default function ClassesScreen() {
           Importă din Google Classroom
         </Button>
       ) : null}
+      {classes?.length ? (
+        <Button variant="secondary" expanded={editing} onPress={() => setEditing(value => !value)}>
+          {editing ? 'Gata' : 'Editează'}
+        </Button>
+      ) : null}
       {error ? (
         <Card>
           <ThemedText themeColor="dangerText">{error}</ThemedText>
@@ -100,18 +127,39 @@ export default function ClassesScreen() {
         {classes?.map((c) => {
           const banner = classBannerOption(c.g, c.l, c.bannerColor);
           return (
-          <Pressable
-            key={c.id}
-            accessibilityRole="button"
-            accessibilityLabel={`Deschide ${c.name}`}
-            onPress={() => router.push({ pathname: '/clase/[id]', params: { id: c.id } })}
-            style={({ pressed }) => [styles.card, { backgroundColor: banner.color }, cardSurface(dark), pressed && { transform: [{ scale: 0.98 }] }]}>
-            <ClassBannerArt color={banner.id} />
-            <ThemedText type="smallBold" style={styles.name}>{c.name}</ThemedText>
-          </Pressable>
+            <View key={c.id} style={[styles.card, {backgroundColor: banner.color}, cardSurface(dark)]}>
+              <ClassBannerArt color={banner.id} />
+              <Pressable accessibilityRole="button" accessibilityLabel={`Deschide ${c.name}`}
+                onPress={() => router.push({pathname: '/clase/[id]', params: {id: c.id}})} style={styles.nameButton}>
+                <ThemedText type="smallBold" style={styles.name}>{c.name}</ThemedText>
+              </Pressable>
+              {editing ? <View style={styles.tools}>
+                <Pressable accessibilityRole="button" accessibilityLabel={`Setări pentru ${c.name}`}
+                  onPress={() => router.push({pathname: '/clase/[id]', params: {id: c.id, settings: '1'}})}
+                  style={[styles.tool, {backgroundColor: theme.surface}]}>
+                  <SiteIcon name="settings" color={theme.text} size={20} />
+                </Pressable>
+                <Pressable accessibilityRole="button" accessibilityLabel={`Șterge ${c.name}`}
+                  onPress={() => {setDeleteError(null); setDeleting(c);}} style={[styles.tool, {backgroundColor: theme.surface}]}>
+                  <SiteIcon name="trash" color={theme.dangerText} size={20} />
+                </Pressable>
+              </View> : null}
+            </View>
           );
         })}
       </View>
+      <Modal visible={!!deleting} transparent animationType="fade" onRequestClose={() => {if (!deleteBusy) setDeleting(null);}}>
+        <View style={styles.backdrop}>
+          <View accessibilityViewIsModal style={styles.dialog}>
+            <Card title={`Ștergi ${deleting?.name ?? 'clasa'}?`}>
+              <ThemedText>Se șterg documentele încărcate în această clasă, observațiile și setările ei. Conversațiile rămân în istoric. Ștergerea nu poate fi anulată.</ThemedText>
+              {deleteError ? <ThemedText themeColor="dangerText">{deleteError}</ThemedText> : null}
+              <Button variant="secondary" disabled={deleteBusy} onPress={() => setDeleting(null)}>Renunță</Button>
+              <Button variant="danger" disabled={deleteBusy} onPress={remove}>{deleteBusy ? 'Se șterge…' : 'Șterge clasa'}</Button>
+            </Card>
+          </View>
+        </View>
+      </Modal>
       <AddClass
         visible={adding}
         existing={classes ?? []}
@@ -131,5 +179,10 @@ export default function ClassesScreen() {
 const styles = StyleSheet.create({
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.two },
   card: { width: '48%', flexGrow: 1, minHeight: 104, padding: Spacing.three, borderRadius: Shape.control, borderColor: 'transparent', overflow: 'hidden' },
+  nameButton: {minHeight: 44, justifyContent: 'center'},
+  tools: {flexDirection: 'row', justifyContent: 'flex-end', gap: Spacing.one},
+  tool: {width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: Shape.control},
+  backdrop: {flex: 1, justifyContent: 'center', padding: Spacing.three, backgroundColor: 'rgba(0,0,0,0.46)'},
+  dialog: {width: '100%', maxWidth: 480, alignSelf: 'center'},
   name: { color: '#FFFFFF', fontSize: 17, lineHeight: 23 },
 });

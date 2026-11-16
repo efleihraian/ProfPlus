@@ -3,7 +3,6 @@ import { openBrowserAsync } from 'expo-web-browser';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { documentAttribution } from '../../../../web/shared/document-attribution';
 import { SectionRevision } from '@/components/chat/section-revision';
 import { DocumentExport } from '@/components/chat/document-export';
 import { MarkdownText, PAPER_FONT } from '@/components/chat/markdown-text';
@@ -60,7 +59,6 @@ export function DocumentViewer({ document, sources, visible, onClose, onSave }: 
               {withMath(document.title)}
             </ThemedText>
             <MarkdownText content={documentText(document.content, document.title)} paper />
-            <MarkdownText content={documentAttribution(sources)} paper />
           </View>
         </ScrollView>
         <View style={[styles.footer, { backgroundColor: theme.surface, borderColor: theme.border }]}>

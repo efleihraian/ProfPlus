@@ -2,7 +2,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider, type ErrorBoundaryProps } from 
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import { ScrollView, StyleSheet, useColorScheme, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -11,6 +11,8 @@ import AppTabs from '@/components/app-tabs';
 import { ThemedText } from '@/components/themed-text';
 import { Button } from '@/components/ui/button';
 import { Colors } from '@/constants/theme';
+import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useAccountAppearance } from '@/hooks/use-account-appearance';
 import { loadThemeChoice } from '@/lib/appearance';
 import { AuthProvider, useAuth } from '@/lib/auth';
 import { installGlobalErrorLogging, log } from '@/lib/log';
@@ -46,7 +48,8 @@ function HideSplashWhenReady() {
 }
 
 function AccountGate(){
-  const {mfaState,checkMfa,signOut} = useAuth();
+  const {mfaState,checkMfa,signOut,session} = useAuth();
+  useAccountAppearance(mfaState === "verified" ? session?.user.id : undefined);
   if (mfaState==="verified")return <AppTabs/>;
   return <SafeAreaView style={{flex:1}}><ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{padding:24,gap:16}}>
     {mfaState==="challenge"?<AccountMfa challenge/>:mfaState==="checking"?<ThemedText>Se verifică sesiunea…</ThemedText>:<>

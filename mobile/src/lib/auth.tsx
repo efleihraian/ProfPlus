@@ -1,6 +1,6 @@
 // Starea contului în aplicație: sesiunea Supabase curentă și acțiunile de cont.
-// P-195: înregistrarea, recuperarea parolei, schimbarea parolei/e-mailului se fac direct cu Supabase, ca pe site:
-// linkurile din e-mailuri se deschid pe profplus.ro. Profilul și ștergerea trec prin serverul ProfPlus (POST /api/account).
+// Înregistrarea, recuperarea parolei și schimbarea adresei folosesc Supabase Auth.
+// Profilul, ștergerea și cererea de schimbare a parolei trec prin POST /api/account.
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { Session } from '@supabase/supabase-js';
 import * as Linking from 'expo-linking';
@@ -41,11 +41,11 @@ type Auth = {
   register: (email: string, password: string) => Promise<Outcome>;
   resendConfirmation: (email: string) => Promise<Outcome>;
   resetPassword: (email: string) => Promise<Outcome>;
-  changePassword: (current: string, next: string) => Promise<Outcome>;
+  requestPasswordChange: () => Promise<Outcome>;
   changeEmail: (current: string, email: string) => Promise<Outcome>;
   signOutEverywhere: () => Promise<Outcome>;
-  /** Ștergerea cere o conectare recentă (15 minute pe server): parola sau din nou Google. */
-  deleteAccount: (password: string | null) => Promise<Outcome | null>;
+  requestDeletionCode: () => Promise<Outcome>;
+  deleteAccount: (code: string) => Promise<Outcome>;
 };
 
 const AuthContext = createContext<Auth | null>(null);
@@ -139,7 +139,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   /** Confirmă din nou identitatea: o conectare nouă dă tokenului o oră de autentificare recentă. */
-  async function confirmIdentity(password: string | null): Promise<string | null> {
+  async function confirmIdentity(password: string): Promise<string | null> {
     if (mfaEnrolled) {
       const {data,error} = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
       const current = Date.now()/1000;
@@ -147,19 +147,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         typeof method === 'object' && method.method === 'totp' && method.timestamp <= current+60 && current-method.timestamp <= 900);
       return recent ? null : 'Reconectează-te și confirmă codul din autentificator, apoi revino la această operație.';
     }
-    const before = session?.user.id;
-    if (password === null) {
-      const problem = await signInWithGoogle();
-      if (problem) return problem;
-      // Altă adresă Google ar deschide alt cont; acțiunea se oprește, iar telefonul rămâne în contul ales acum.
-      const { data } = await supabase.auth.getSession();
-      return data.session?.user.id === before ? null : 'Ai ales alt cont Google. Acum ești conectat în acel cont; acțiunea nu a fost făcută.';
-    }
     const email = session?.user.email;
     if (!email) return 'Contul nu are o adresă de e-mail.';
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) log('warn', 'auth_reauth_failed', { code: error.code ?? null });
     return error ? (error.code === 'invalid_credentials' ? 'Parola actuală nu este corectă.' : message(error)) : null;
+  }
+
+  async function emailConfirmation(action: 'password-link' | 'delete-code'): Promise<Outcome> {
+    try {
+      const result = await api.account.update({ action });
+      return { message: result.message || 'Verifică e-mailul contului, inclusiv folderul Spam.' };
+    } catch (error) {
+      return { error: error instanceof ApiError ? error.message : 'E-mailul nu a putut fi trimis. Încearcă din nou.' };
+    }
   }
 
   const auth: Auth = {
@@ -211,19 +212,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         ? { error: 'Solicitarea nu a putut fi procesată acum. Așteaptă și reîncearcă.' }
         : { message: 'Dacă adresa are cont, vei primi un e-mail cu linkul de recuperare. Parola nouă o alegi pe profplus.ro, apoi intri cu ea și aici. Dacă ai 2FA, pregătește și autentificatorul.' };
     },
-    async changePassword(current, next) {
-      const weak = passwordProblem(next);
-      if (weak) return { error: weak };
-      const problem = await confirmIdentity(current);
-      if (problem) return { error: problem };
-      const { error } = await supabase.auth.updateUser({ password: next });
-      if (error) {
-        log('warn', 'auth_password_change_failed', { code: error.code ?? null });
-        return { error: error.code === 'same_password' ? 'Parola nouă trebuie să fie diferită de cea actuală.' : 'Parola nu a putut fi schimbată. Încearcă din nou.' };
-      }
-      // Ca pe site, parola nouă închide celelalte sesiuni; telefonul rămâne conectat.
-      await supabase.auth.signOut({ scope: 'others' });
-      return { message: 'Parola a fost schimbată. Celelalte dispozitive au fost deconectate.' };
+    async requestPasswordChange() {
+      return emailConfirmation('password-link');
     },
     async changeEmail(current, email) {
       email = email.trim();
@@ -244,12 +234,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setNotice('Te-ai deconectat de pe toate dispozitivele.');
       return { message: 'Te-ai deconectat de pe toate dispozitivele.' };
     },
-    async deleteAccount(password) {
-      const problem = await confirmIdentity(password);
-      if (problem === 'Conectarea cu Google nu s-a încheiat.') return null;
-      if (problem) return { error: problem };
+    async requestDeletionCode() {
+      return emailConfirmation('delete-code');
+    },
+    async deleteAccount(code) {
       try {
-        await api.account.update({ action: 'delete', confirmation: 'STERGE' });
+        await api.account.update({ action: 'delete', confirmation: 'STERGE', code });
       } catch (e) {
         log('error', 'account_delete_failed', { status: e instanceof ApiError ? e.status : 0 });
         return { error: e instanceof ApiError ? e.message : 'Ștergerea nu a putut fi pornită. Verifică internetul și reîncearcă.' };
