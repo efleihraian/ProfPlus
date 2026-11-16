@@ -1,0 +1,16 @@
+# Citit de EAS în locul fișierelor .gitignore, deci aici nu se aplică regulile din Git.
+# La Expo ajung doar aplicația și codul comun cu site-ul (web/shared), nimic altceva din repository.
+/*
+!/mobile
+!/web
+/web/*
+!/web/shared
+
+/mobile/node_modules
+/mobile/android
+/mobile/ios
+/mobile/.expo
+/mobile/dist
+/mobile/expo-env.d.ts
+/mobile/.env*
+!/mobile/.env.example

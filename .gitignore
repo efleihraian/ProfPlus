@@ -1,0 +1,39 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+node_modules/
+.venv/
+__pycache__/
+dist/
+build/
+coverage/
+data/
+uploads/
+*.log
+.sites-runtime/
+*.tsbuildinfo
+
+# Authentication material is never versioned, at any directory depth.
+.dev.vars*
+*.p8
+*.pem
+*.p12
+*.pfx
+*.key
+client_secret*.json
+credentials*.json
+service-account*.json
+firebase-adminsdk*.json
+
+# This directory contains Worker/plugin source, not generated build output.
+!web/build/
+!web/build/**
+
+supabase/.temp/
+
+# Regenerable public TeX runtime, downloaded and verified by the build.
+web/.latex-runtime/
+web/public/latex-runtime/
+
+web/public/latex-licenses/packages/
