@@ -9,7 +9,7 @@ import { OptionSheet } from '@/components/ui/select';
 import { radius } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { ROMAN } from '@/lib/api';
-import { assessmentSettingsVisible, DIFFICULTIES, DOCUMENT_TYPES, type ChatSelection, type Difficulty } from '@/lib/chat-options';
+import { exerciseCounts, setExerciseCount, assessmentSettingsVisible, DIFFICULTIES, DOCUMENT_TYPES, type ChatSelection, type Difficulty } from '@/lib/chat-options';
 
 const ListLayout = createContext(false);
 const useListLayout = () => useContext(ListLayout);
@@ -21,19 +21,23 @@ const GRADE_OPTIONS = [{ value: '', label: 'După profil și mesaj' }, ...ROMAN.
 
 const labelOf = (options: { value: string; label: string }[], value: string) => options.find((option) => option.value === value)?.label ?? FROM_MESSAGE;
 
-type Sheet = 'type' | 'difficulty' | 'grade' | 'sources' | null;
+type Sheet = 'type' | 'difficulty' | 'grade' | 'sources' | 'original' | 'copied' | null;
 type Props = { selection: ChatSelection; draft: string; chatId: string | null; disabled: boolean; onChange: (selection: ChatSelection) => void; layout?: 'row' | 'list' };
 
 /** P-169: textul butonului „Setări” din compozitor (tipul documentului ales sau „Setări”). */
 export function optionsSummary(selection: ChatSelection): { label: string; configured: boolean } {
   const type = DOCUMENT_TYPES.find((t) => t.id === selection.documentType);
-  const configured = !!(selection.documentType || selection.difficulty || selection.answerKey || selection.grade !== undefined || selection.mode === 'manual' || selection.extraManualIds?.length || selection.extraDocumentIds?.length);
+  const configured = !!(selection.exerciseOptions || selection.documentType || selection.difficulty || selection.answerKey || selection.grade !== undefined || selection.mode === 'manual' || selection.extraManualIds?.length || selection.extraDocumentIds?.length);
   return { label: type?.label ?? 'Setări', configured };
 }
 
 export function ChatOptions({ selection, draft, chatId, disabled, onChange, layout = 'row' }: Props) {
   const [sheet, setSheet] = useState<Sheet>(null);
   const assessment = assessmentSettingsVisible(selection.documentType, draft);
+  const counts = exerciseCounts(selection);
+  const countKind = sheet === 'copied' ? 'copied' : 'original';
+  const countLimit = 30 - counts[countKind === 'original' ? 'copied' : 'original'];
+  const countOptions = Array.from({length: countLimit + 1}, (_,value)=>({value:String(value),label:String(value)})).filter(option=>Number(option.value)+counts[countKind === 'original' ? 'copied' : 'original']>0);
   const extras = (selection.extraManualIds?.length ?? 0) + (selection.extraDocumentIds?.length ?? 0);
   const manual = selection.mode === 'manual';
   const sources = manual ? `${selection.manualIds.length + selection.documentIds.length} alese pe site` : extras ? `Automat + ${extras}` : 'Automat';
@@ -50,6 +54,8 @@ export function ChatOptions({ selection, draft, chatId, disabled, onChange, layo
         <Chip label="Creează" value={labelOf(TYPE_OPTIONS, selection.documentType ?? '')} active={!!selection.documentType} disabled={disabled} onPress={() => setSheet('type')} />
         {assessment ? (
           <>
+            <Chip label="Generate de ProfPlus" value={selection.exerciseOptions?.counts ? String(counts.original) : FROM_MESSAGE} active={!!selection.exerciseOptions?.counts} disabled={disabled} onPress={() => setSheet('original')} />
+            <Chip label="Preluate exact din surse" value={selection.exerciseOptions?.counts ? String(counts.copied) : FROM_MESSAGE} active={!!selection.exerciseOptions?.counts} disabled={disabled} onPress={() => setSheet('copied')} />
             <Chip label="Dificultate" value={labelOf(DIFFICULTY_OPTIONS, selection.difficulty ?? '')} active={!!selection.difficulty} disabled={disabled} onPress={() => setSheet('difficulty')} />
             <Chip
               label="Barem"
@@ -93,6 +99,14 @@ export function ChatOptions({ selection, draft, chatId, disabled, onChange, layo
         options={GRADE_OPTIONS}
         onClose={close}
         onChange={(value) => onChange({ ...selection, grade: value === '' ? undefined : Number(value) })}
+      />
+      <OptionSheet
+        visible={sheet === 'original' || sheet === 'copied'}
+        title={countKind === 'original' ? 'Generate de ProfPlus' : 'Preluate exact din surse'}
+        value={String(counts[countKind])}
+        options={countOptions}
+        onClose={close}
+        onChange={(value) => onChange(setExerciseCount(selection, countKind, Number(value)))}
       />
       <SourcePicker visible={sheet === 'sources'} selection={selection} chatId={chatId} onChange={onChange} onClose={close} />
     </ListLayout.Provider>

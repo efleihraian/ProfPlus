@@ -1,3 +1,4 @@
+import type {ExerciseOptions} from '../../../web/lib/exercise-options';
 // Setările pentru următorul mesaj din chat, aceleași ca pe site (web/lib/composer-tools.ts, web/lib/difficulty.ts).
 // web/tests/mobile-chat-options.mjs verifică să rămână identice cu cele de acolo.
 export const DOCUMENT_TYPES = [
@@ -26,6 +27,7 @@ export type ChatSelection = {
   documentType?: string;
   difficulty?: Difficulty;
   answerKey?: boolean;
+  exerciseOptions?: ExerciseOptions;
   grade?: number;
   extraManualIds?: string[];
   extraDocumentIds?: string[];
@@ -51,4 +53,19 @@ export function toggleExtra(selection: ChatSelection, item: { id: string; kind: 
   const field = item.kind === 'manual' ? 'extraManualIds' : 'extraDocumentIds';
   const current = selection[field] ?? [];
   return { ...selection, mode: 'automatic', [field]: add ? [...new Set([...current, item.id])].slice(0, MAX_EXTRA_SOURCES) : current.filter((id) => id !== item.id) };
+}
+
+/** Old preferences keep their total; numeric adaptations join generated exercises. */
+export const exerciseCounts = (selection: ChatSelection) => {
+  const counts = selection.exerciseOptions?.counts ?? {original:3,copied:3,numbers:0};
+  return {original:counts.original+counts.numbers,copied:counts.copied,numbers:0};
+};
+export function setExerciseCount(selection: ChatSelection, kind: 'original' | 'copied', value: number): ChatSelection {
+  const counts = exerciseCounts(selection);
+  const other = kind === 'original' ? 'copied' : 'original';
+  counts[kind] = Math.max(0, Math.min(30 - counts[other], Math.floor(value)));
+  const total = counts.original + counts.copied;
+  if (!total) return selection;
+  const options = selection.exerciseOptions;
+  return {...selection, exerciseOptions:{...options,total,counts,...(options?.subpoints ? {subpoints:options.subpoints.filter(rule=>rule.exercise<=total)} : {})}};
 }
