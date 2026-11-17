@@ -1,4 +1,3 @@
-// Sugestiile de pornire din chat, potrivite profilului didactic (disciplina și ciclul). Folosite de site și de aplicația mobilă.
 import type {Stage, TeachingProfile} from "./api-types";
 
 export type Suggestion = {label: string; prompt: string};
@@ -6,10 +5,8 @@ type Topic = [topic: string, grade: number];
 
 const ROMAN = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII"];
 const gradeText = (grade: number) => (grade === 1 ? "clasa I" : `clasa a ${ROMAN[grade]}-a`);
-// O clasă reprezentativă pentru disciplinele fără teme proprii.
 const STAGE_GRADE: Record<Stage, number> = {primary: 3, middle: 6, high: 10};
 
-// Teme reale din programă, câte trei pe ciclu, pentru disciplinele cele mai des alese.
 const TOPICS: Record<string, Partial<Record<Stage, Topic[]>>> = {
   matematica: {
     primary: [["adunarea și scăderea până la 1000", 3], ["tabla înmulțirii", 2], ["fracții simple", 4]],
@@ -50,7 +47,6 @@ const TOPICS: Record<string, Partial<Record<Stage, Topic[]>>> = {
     high: [["propozițiile condiționale", 10], ["vorbirea indirectă", 11], ["scrierea unui eseu", 12]],
   },
 };
-// Învățătorii predau mai multe discipline; temele amestecă matematica, limba română și științele.
 const PRIMARY: Topic[] = [["adunarea cu trecere peste ordin", 2], ["textul narativ", 3], ["ciclul de viață al plantelor", 3]];
 const EDUCATOR: Suggestion[] = [
   {label: "Fișă de colorat", prompt: "Creează o fișă A4 de colorat pentru grupa mare: desenează contururile mari a două cercuri, două pătrate și două triunghiuri. Adaugă o singură instrucțiune scurtă pentru copii."},
@@ -77,7 +73,6 @@ const TEMPLATES = [
 const KINDS = ["Test", "Plan de lecție", "Fișă de lucru"];
 const capitalized = (text: string) => text.charAt(0).toLocaleUpperCase("ro") + text.slice(1);
 
-/** Trei sugestii: un test, un plan de lecție și o fișă, pe teme ale disciplinei și ciclurilor din profil. */
 export function suggestionsFor(profile: TeachingProfile | null | undefined): Suggestion[] {
   if (profile?.role === "educator") return EDUCATOR;
   return topicsFor(profile).map(([topic, grade], i) => ({
@@ -85,7 +80,6 @@ export function suggestionsFor(profile: TeachingProfile | null | undefined): Sug
     prompt: TEMPLATES[i](topic, gradeText(grade)),
   }));
 }
-/** P-211: a patra sugestie, „Fun Prof”, pe a doua temă a profilului (idei de jocuri și activități în chat). */
 export function funProfSuggestion(profile: TeachingProfile | null | undefined): Suggestion {
   if (profile?.role === "educator") return {label: "Fun Prof: joc de potrivire", prompt: "Fun Prof: creează un joc de potrivire a formelor pentru grupa mare, de 10 minute. Include regulile și șase cartonașe cu contururi de tipărit."};
   const [topic, grade] = topicsFor(profile)[1];
@@ -96,7 +90,6 @@ function topicsFor(profile: TeachingProfile | null | undefined): Topic[] {
   if (profile?.role === "primary") topics = PRIMARY;
   else if (profile?.stages.length) {
     const own = TOPICS[discipline(profile.subject) ?? ""];
-    // Cu mai multe cicluri, sugestiile se împart între ele.
     topics = [0, 1, 2].map((i) => {
       const stage = profile.stages[i % profile.stages.length];
       return own?.[stage]?.[i] ?? [profile.subject.toLocaleLowerCase("ro"), STAGE_GRADE[stage]];

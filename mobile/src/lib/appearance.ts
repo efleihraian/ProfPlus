@@ -1,6 +1,3 @@
-// Tema aplicației (P-195), ca „Aspect” pe site: luminoasă, întunecată sau ca pe telefon.
-// Appearance.setColorScheme schimbă tema doar în ProfPlus; „auto” revine la setarea telefonului (React Native 0.88).
-// Preferința dispozitivului rămâne în AsyncStorage. Un cont conectat poate aplica și sincroniza propria temă.
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Appearance, Platform } from 'react-native';
 

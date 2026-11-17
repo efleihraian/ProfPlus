@@ -1,5 +1,3 @@
-// Profilul didactic, ca pe site (web/app/account/teaching-form.tsx): rolul, disciplina și ciclurile de clase.
-// Se salvează prin serverul ProfPlus, care validează disciplina și ciclurile (POST /api/account, acțiunea profile).
 import { openBrowserAsync } from 'expo-web-browser';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -17,10 +15,8 @@ import { api, ApiError, TEACHING_STAGES, type AccountResponse, type Stage, type 
 
 type Props = { account: AccountResponse; showName?: boolean; disabled?: boolean; onSaved: (message: string) => void };
 
-/** Serverul care primește profilul și ștergerea din aplicație trimite și lista disciplinelor (P-195). Un server mai vechi le refuză. */
 export const accountEditable = (account: AccountResponse) => Array.isArray(account.subjects);
 
-/** Până la actualizarea serverului, profilul se schimbă pe site; formularul ar fi refuzat. */
 export function OnSite({ what }: { what: string }) {
   return (
     <View style={styles.form}>

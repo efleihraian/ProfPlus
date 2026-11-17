@@ -1,4 +1,3 @@
-// Textul unui document generat, pentru afișarea pe telefon: titlul e separat, deci nu se repetă în pagină (ca documentBody de pe site).
 import { withMath } from './readable-math';
 
 const titleKey = (value: string) => value.normalize('NFKC').replace(/[*_`#]/g, '').toLocaleLowerCase('ro').replace(/[\s.,:;!?()"„”'–—-]+/g, '');
@@ -20,7 +19,6 @@ export function documentText(content: string, title: string) {
   return lines.join('\n').trim();
 }
 
-/** Primele rânduri ale documentului, fără semne de formatare și cu formulele lizibile, pentru pagina mică din conversație. */
 export function documentPreview(content: string, title: string) {
   return withMath(documentText(content, title))
     .replace(/\$\$?|\\[()[\]]/g, '')

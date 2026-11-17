@@ -1,4 +1,3 @@
-// Fila Clase are două niveluri: lista claselor și pagina unei clase; antetul îl desenează fiecare ecran.
 import { Stack } from 'expo-router';
 import { useReducedMotion } from 'react-native-reanimated';
 

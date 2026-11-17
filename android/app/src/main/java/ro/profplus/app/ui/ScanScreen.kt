@@ -48,10 +48,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import java.io.File
 
-/**
- * Fotografiază o pagină de manual sau un test. Poza rămâne doar în cache-ul aplicației,
- * iar utilizatorul o trimite explicit mai departe prin "Partajează".
- */
 @Composable
 fun ScanScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
@@ -99,7 +95,6 @@ private fun ColumnScope.CameraPreview(onCaptured: (File) -> Unit) {
         onDispose { providerFuture.get().unbindAll() }
     }
 
-    // Ecranul tactil: atingere = focalizare, ciupire cu două degete = zoom.
     AndroidView(
         factory = { previewView },
         modifier = Modifier

@@ -1,9 +1,7 @@
-/** One wall-clock budget, including preparation, provider streams and saving. Pings never extend it. */
 export const GENERATION_TIMEOUT_MS = 340_000;
 export const CHAT_TIMEOUT_MS = 360_000;
 export const GENERATION_TIMEOUT_MESSAGE = 'Generarea a depășit limita de timp. Poți reîncerca din conversație.';
 
-/** A race is necessary too: some adapters do not stop their promise when fetch is aborted. */
 export function generationDeadline(parent?: AbortSignal | null, ms = GENERATION_TIMEOUT_MS) {
   const controller = new AbortController();
   const stop = () => controller.abort(parent?.reason ?? new Error('GENERATION_STOPPED'));

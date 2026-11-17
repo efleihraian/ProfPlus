@@ -1,9 +1,3 @@
-// Jetoanele de design ProfPlus: sursa unică pentru culorile, fontul și razele site-ului și ale aplicației mobile.
-// Site-ul primește culorile ca variabile CSS --pp-* generate de `node scripts/generate-design-tokens.mjs` (din web/);
-// aplicația mobilă le importă direct (mobile/src/constants/theme.ts). Fișierul nu importă nimic.
-
-// Paleta 60-30-10 din docs/design/README.md: bej cald ca fundal și crem pentru suprafețe (P-253, fără alb pur; fundal și bara de sus mai calde), verde ca structură, verde închis pentru acțiuni.
-// Modul întunecat folosește fundaluri gri cu o nuanță discretă de verde (P-176, P-177, P-180, P-186), cu accente verzi și contrast AA (P-081).
 export const colors = {
   light: {
     bg: "#EFDFC6",
@@ -62,20 +56,16 @@ export const colors = {
 export type ColorScheme = keyof typeof colors;
 export type ColorToken = keyof typeof colors.light;
 
-// Culori identice în ambele teme: textul de pe butoanele verzi și „+”-ul mentă din logo.
 export const brand = {
   onAccent: "#FFFFFF",
   logoPlus: "#86D9AE",
 } as const;
 
-// Roboto, ca pe site (web/public/fonts). Pe Android este fontul sistemului.
 export const font = {
   family: "Roboto",
   weights: {regular: "400", medium: "500", semibold: "600", bold: "700"},
 } as const;
 
-// Razele de colț, în px. P-253: o singură rază (8) pentru carduri, butoane, câmpuri și meniuri; `pill` doar pentru
-// etichete-pastilă și elemente rotunde. Cheile rămân pentru aplicația mobilă.
 export const radius = {
   xs: 8,
   sm: 8,

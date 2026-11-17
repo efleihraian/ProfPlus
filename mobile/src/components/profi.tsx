@@ -1,5 +1,3 @@
-// Profi, foca ProfPlus: același desen ca pe site (web/features/profi/profi.tsx), cu mișcarea calmă de acolo.
-// E decorativ: cititoarele de ecran îl sar, iar animația se oprește dacă telefonul cere mișcare redusă.
 import { View } from 'react-native';
 import Animated, { useReducedMotion } from 'react-native-reanimated';
 import Svg, { Circle, Ellipse, G, Path } from 'react-native-svg';
@@ -54,7 +52,6 @@ export function Profi({ width = 140 }: { width?: number }) {
   );
 }
 
-// Avatarul din conversație: capul lui Profi într-un cerc; înoată cât timp pregătește răspunsul.
 export function ProfiAvatar({ size = 32, swimming = false }: { size?: number; swimming?: boolean }) {
   const theme = useTheme();
   const still = useReducedMotion();

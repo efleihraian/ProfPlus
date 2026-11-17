@@ -1,5 +1,3 @@
-// Cont → Setări (P-195): „Aspect și preferințe” și „Cookie-uri și confidențialitate” de pe site, împreună.
-// Disponibil și fără cont: tema și informațiile despre date țin de telefon.
 import { openBrowserAsync } from 'expo-web-browser';
 import { useSyncExternalStore } from 'react';
 

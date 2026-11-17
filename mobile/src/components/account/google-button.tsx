@@ -1,5 +1,3 @@
-// P-310: butonul „Continuă cu Google”, ca pe site, după ghidul Google pentru butoanele de conectare: sigla „G” multicoloră
-// nemodificată, fundal alb cu chenar #747775 în tema luminoasă și #131314 cu chenar #8E918F în cea întunecată.
 import { ActivityIndicator, Pressable, StyleSheet, Text } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 

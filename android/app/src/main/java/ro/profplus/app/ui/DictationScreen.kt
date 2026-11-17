@@ -27,10 +27,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import java.util.Locale
 
-/**
- * Dictare cu microfonul: profesorul vorbește, textul apare aici și poate fi copiat
- * în conversația cu asistentul. Sunetul este procesat de serviciul de recunoaștere al telefonului.
- */
 @Composable
 fun DictationScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current

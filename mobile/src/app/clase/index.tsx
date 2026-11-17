@@ -1,4 +1,3 @@
-// Clasele mele: lista claselor contului (aceleași ca pe site) și adăugarea uneia noi.
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { Modal, Pressable, StyleSheet, View } from 'react-native';
@@ -29,7 +28,6 @@ export default function ClassesScreen() {
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [editing, setEditing] = useState(false);
   const [adding, setAdding] = useState(false);
-  // P-241: importul din Google Classroom apare numai când serverul îl are configurat.
   const [classroom, setClassroom] = useState(false);
   const [importing, setImporting] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -47,7 +45,6 @@ export default function ClassesScreen() {
     }
   }, []);
 
-  // Lista se reîncarcă la fiecare revenire, ca o clasă ștearsă să dispară imediat.
   useFocusEffect(
     useCallback(() => {
       if (session) void reload();

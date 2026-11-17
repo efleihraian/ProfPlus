@@ -1,4 +1,3 @@
-// Documentele generate: în conversație apar ca o pagină, iar la deschidere se citesc ca pe hârtie, cu Word și PDF alături.
 import { openBrowserAsync } from 'expo-web-browser';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';

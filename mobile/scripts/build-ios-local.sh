@@ -4,7 +4,6 @@ mobile_dir="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$mobile_dir"
 output="${1:-$HOME/dev/profplus-builds/ios-local}"
 mkdir -p "$output"
-# Folosește numai profilul local pentru acest bundle; fără actualizări pe portalul Apple.
 team="${PROFPLUS_APPLE_TEAM_ID:-$(python3 - <<'PY'
 import datetime,plistlib,subprocess
 from pathlib import Path

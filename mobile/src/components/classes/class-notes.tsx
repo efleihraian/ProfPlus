@@ -1,4 +1,3 @@
-// Observațiile despre clasă, ca pe site: private, în contul profesorului, fără date despre elevi. Se notează cu data de azi.
 import { randomUUID } from 'expo-crypto';
 import { useState } from 'react';
 import { Alert, Pressable, StyleSheet, View } from 'react-native';

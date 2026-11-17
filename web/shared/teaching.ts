@@ -1,5 +1,3 @@
-// Ciclurile de clase din profilul didactic, pentru aplicația mobilă (P-195).
-// Copia lui `stages` din web/lib/teaching-profile.ts; tests/mobile-account.mjs verifică să rămână identice.
 import type {Stage,TeachingProfile} from "./api-types";
 
 export const EDUCATOR_PROFILE: TeachingProfile = {role: "educator", subject: "Educație timpurie", stages: []};

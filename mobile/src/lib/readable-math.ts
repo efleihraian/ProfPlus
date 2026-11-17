@@ -1,5 +1,3 @@
-// Formulele LaTeX simple devin text lizibil pe telefon; ce nu se poate traduce sigur rămâne scris ca în sursă.
-// Fără React Native: se folosește și în textul scurt de previzualizare al documentelor.
 const SYMBOLS: Record<string, string> = {
   cdot: '·', times: '×', div: '÷', pm: '±', le: '≤', leq: '≤', ge: '≥', geq: '≥', neq: '≠', ne: '≠', approx: '≈',
   in: '∈', notin: '∉', subset: '⊂', subseteq: '⊆', cup: '∪', cap: '∩', emptyset: '∅', varnothing: '∅', infty: '∞',
@@ -36,6 +34,5 @@ export function readableMath(tex: string) {
     .replace(/\\[{}]/g, (m) => m[1]);
 }
 
-/** $...$, $$...$$, \(...\) și \[...\] dintr-un text devin text lizibil. */
 export const withMath = (text: string) =>
   text.replace(/\$\$([\s\S]+?)\$\$|\$([^$\n]+?)\$|\\\(([\s\S]+?)\\\)|\\\[([\s\S]+?)\\\]/g, (_, a, b, c, d) => readableMath(a ?? b ?? c ?? d));

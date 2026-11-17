@@ -1,4 +1,3 @@
-// Dropdownul aplicației, în același stil ca pe site: câmp cu săgeată, iar lista se deschide de jos, cu alegerea curentă pe verde și bifă.
 import { useState } from 'react';
 import { FlatList, KeyboardAvoidingView, Modal, Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -41,7 +40,6 @@ export function Select<T extends string>({ label, value, options, onChange, sear
 
 type SheetProps<T extends string> = { visible: boolean; title: string; value: T; options: readonly { value: T; label: string }[]; onChange: (value: T) => void; onClose: () => void; searchLabel?: string };
 
-/** Lista care se deschide de jos, folosită și de butoanele din chat. */
 export function OptionSheet<T extends string>({ visible, title, value, options, onChange, onClose, searchLabel }: SheetProps<T>) {
   const theme = useTheme();
   const insets = useSafeAreaInsets();

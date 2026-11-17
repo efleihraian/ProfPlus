@@ -1,5 +1,3 @@
-// Afișează răspunsurile lui Profi: titluri, liste, paragrafe, **îngroșat** și citări [n].
-// Formulele LaTeX simple devin text lizibil (lib/readable-math.ts).
 import { Platform, StyleSheet, Text, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
@@ -7,7 +5,6 @@ import { Colors } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { withMath } from '@/lib/readable-math';
 
-/** Fontul paginii de document, cel mai apropiat de Times New Roman din exportul Word și PDF. */
 export const PAPER_FONT = Platform.select({ ios: 'Times New Roman', default: 'serif' });
 
 function Inline({ text, paper }: { text: string; paper?: boolean }) {
@@ -35,7 +32,6 @@ function Inline({ text, paper }: { text: string; paper?: boolean }) {
 
 const cells = (line: string) => line.trim().replace(/^\||\|$/g, '').split('|').map((cell) => cell.trim());
 
-/** `paper`: pagina albă a unui document, cu aceleași culori și în tema întunecată. */
 export function MarkdownText({ content, paper }: { content: string; paper?: boolean }) {
   const current = useTheme();
   const theme = paper ? Colors.light : current;

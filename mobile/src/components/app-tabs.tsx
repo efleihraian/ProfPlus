@@ -1,6 +1,3 @@
-// Filele de jos: aceleași secțiuni ca antetul site-ului, plus Cont (pe site butonul „Intră în cont”).
-// P-201: doar pictograme, la cererea titularului. Pe Android modul „unlabeled” ascunde textul, dar TalkBack citește numele;
-// pe iOS eticheta e ascunsă cu `hidden` (citirea cu VoiceOver neverificată).
 import { NativeTabs } from 'expo-router/native-tabs';
 import { Platform } from 'react-native';
 

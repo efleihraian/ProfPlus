@@ -1,6 +1,3 @@
-// Intrarea în cont (P-195): e-mail și parolă sau Google, cont nou și recuperarea parolei (Supabase, ca pe site).
-// P-310: e-mailul și parola sunt metoda principală, sus; Google dedesubt, după „sau”, cu sigla oficială.
-// După conectare ecranul se închide și fila Cont arată contul.
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { openBrowserAsync } from 'expo-web-browser';
 import { useEffect, useState } from 'react';
@@ -21,7 +18,6 @@ import { useTheme } from '@/hooks/use-theme';
 import { useAuth, type Outcome } from '@/lib/auth';
 import { useAccount } from '@/lib/use-account';
 
-// P-310: „profil” e pasul 2 al contului nou (sau al primei intrări cu Google): ce fel de cadru didactic ești.
 type Mode = 'login' | 'register' | 'forgot' | 'profil';
 const TITLES: Record<Mode, string> = { login: 'Intră în cont', register: 'Creează-ți contul', forgot: 'Ai uitat parola?', profil: 'Spune-ne ce predai' };
 
@@ -38,13 +34,10 @@ export default function SignInScreen() {
   const [confirm, setConfirm] = useState('');
   const [busy, setBusy] = useState<string | null>(null);
   const [outcome, setOutcome] = useState<Outcome | null>(null);
-  // Serverul spune dacă e-mailul și conturile noi sunt pornite; până răspunde, rămâne doar intrarea.
   const emailEnabled = !!account?.emailEnabled;
-  // Formularul cu e-mail apare și cât timp contul se încarcă, ca ecranul să nu sară; serverul refuză oricum dacă e oprit.
   const showEmail = emailEnabled || !account;
   const registration = !!account?.registration;
 
-  // După intrare: un cont fără profil didactic continuă cu pasul 2; celelalte închid ecranul.
   const needsProfile = !!session && account?.provider === 'supabase' && !!account.user && !account.user.teaching && !account.user.deleting;
   useEffect(() => {
     if (!session || !account?.user) return;
@@ -82,8 +75,6 @@ export default function SignInScreen() {
     }
   }
 
-  // P-310: ca pe site: e-mailul și parola sus, apoi „Ai uitat parola?”, „sau” și butonul Google cu sigla oficială; jos, trecerea
-  // între intrare și contul nou. Retrimiterea confirmării apare după un mesaj (eroare la intrare sau cont nou creat).
   const login = () => run('password', () => signInWithPassword(email, password));
   if (mode === 'profil' && account?.user) {
     return (

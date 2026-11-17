@@ -1,4 +1,3 @@
-// Ecran pentru secțiunile care nu sunt încă în aplicație: spune deschis ce vine și trimite la site între timp.
 import { openBrowserAsync } from 'expo-web-browser';
 
 import { ThemedText } from '@/components/themed-text';

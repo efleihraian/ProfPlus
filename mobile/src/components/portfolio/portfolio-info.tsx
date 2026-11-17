@@ -1,6 +1,3 @@
-// P-257: explicațiile ecranului Documente personale, ca pe site: la prima intrare într-o fereastră (portofoliul și
-// dosarul pentru gradația de merit), apoi la butonul „i” de lângă fiecare titlu. „Văzut” se reține în cont (același
-// marcaj ca pe site, deci fereastra apare o singură dată pe toate dispozitivele) și, ca rezervă, pe telefon.
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState, type ReactNode } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
@@ -46,7 +43,6 @@ export function GradationAbout() {
   );
 }
 
-/** Titlu de parte cu butonul „i”; explicația se deschide sub titlu. */
 export function InfoHeading({ title, label, children }: { title: string; label: string; children: ReactNode }) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -74,7 +70,6 @@ export function InfoHeading({ title, label, children }: { title: string; label: 
   );
 }
 
-/** Fereastra de la prima intrare. Fără internet, se bazează pe marcajul de pe telefon. */
 export function PortfolioIntro() {
   const theme = useTheme();
   const [visible, setVisible] = useState(false);

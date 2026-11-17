@@ -1,6 +1,5 @@
 export const MAX_LATEX_LENGTH=60000;
 export type LatexPreview={content:string;title?:string;warnings:string[]};
-/** Bounded reader for the educational subset. Never executes TeX, HTML or I/O. */
 export function previewLatex(source:string):LatexPreview{
  if(source.length>MAX_LATEX_LENGTH)return {content:'',warnings:['Sursa depășește limita de 60.000 de caractere.']};
  const warnings=new Set<string>();let title:string|undefined;

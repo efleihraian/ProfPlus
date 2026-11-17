@@ -1,5 +1,3 @@
-// Fila Cont (P-195), după modelul aplicațiilor cu meniu de cont: sus intrarea sau numele (cu editare),
-// dedesubt secțiunile site-ului în care intri — Profil, Bibliotecă personală, Setări — și, la final, deconectarea.
 import { useRouter } from 'expo-router';
 import { openBrowserAsync } from 'expo-web-browser';
 import { useState } from 'react';
@@ -38,7 +36,6 @@ export default function AccountScreen() {
 
   const user = account?.user;
   const teaching = user?.teaching;
-  // P-201: rândurile meniului nu mai au descrieri; rămâne doar o atenționare când profilul cere ceva.
   const profileAlert = !user ? undefined : user.deleting ? 'Ștergerea contului este în curs' : !teaching ? 'Completează profilul didactic' : undefined;
 
   return (
@@ -127,7 +124,6 @@ export default function AccountScreen() {
   );
 }
 
-/** Editarea numelui afișat, într-o fereastră de jos (serverul păstrează profilul didactic neschimbat). */
 function NameEditor({ account, onClose, onSaved }: { account: AccountResponse; onClose: () => void; onSaved: () => void }) {
   const theme = useTheme();
   const insets = useSafeAreaInsets();

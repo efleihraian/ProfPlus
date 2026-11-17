@@ -1,5 +1,3 @@
-// Surse adăugate peste selecția automată, ca pe site: Profi folosește în continuare manualele potrivite profilului, plus cele alese aici.
-// Biblioteca are peste 10.000 de surse, deci se încarcă o dată, se caută pe telefon și se afișează doar primele rezultate.
 import { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, FlatList, Modal, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useRouter } from 'expo-router';
@@ -15,7 +13,6 @@ import { log } from '@/lib/log';
 
 const MAX_RESULTS = 40;
 const usable = (item: LibraryItem) => item.status === 'ready' && !item.modelTypes?.length && !!item.title;
-// P-284: ca pe site, sursele din biblioteca personală sunt primele și au chenarul mov-roz (contrast ≥ 4,5:1 pe ambele teme).
 const PERSONAL_BORDER = { light: '#9B4D8F', dark: '#D493C9' } as const;
 const personalFirst = (items: LibraryItem[]) => [...items].sort((a, b) => Number(!!b.personal) - Number(!!a.personal));
 
@@ -85,7 +82,6 @@ export function SourcePicker({ visible, selection, chatId, onChange, onClose }: 
             autoCorrect={false}
             style={[styles.input, { color: theme.text, backgroundColor: theme.surface, borderColor: theme.borderStrong }]}
           />
-          {/* P-288: ca pe site, de aici se ajunge la biblioteca personală, unde adaugi materiale. */}
           <Button onPress={() => { onClose(); router.push('/cont/biblioteca'); }}>Biblioteca personală</Button>
         </View>
         {error ? (

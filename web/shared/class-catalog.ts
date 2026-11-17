@@ -1,7 +1,3 @@
-// Clasele profesorului: secțiunile, numele standard și contextul trimis lui Profi.
-// Comun site-ului (web/lib/class-workspace.ts îl reexportă) și aplicației mobile; fișierul nu importă nimic.
-
-// P-263: titlurile cardurilor sunt la plural (dosarele clasei); tipul documentului rămâne în `documentType`.
 export const CLASS_SECTIONS = [
   {id: "teste", documentType: "test", title: "Teste", desc: "Evaluări și teste pentru clasă."},
   {id: "fise", documentType: "worksheet", title: "Fișe de lucru", desc: "Exerciții pentru lucru la clasă."},
@@ -30,7 +26,6 @@ export const CLASS_SECTION_COLORS: Record<ClassCardId, string> = {
   prezentari: "#8D4B3A",
   activitati: "#27615E",
 };
-// Simbolurile cardurilor, în coordonate SVG 24 × 24, comune site-ului și aplicației.
 export const CLASS_CARD_ICONS: Record<ClassCardId, string> = {
   planificari: "M8 2v4m8-4v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z",
   proiecte: "M12 6c-3-3-6-3-10-2v15c4-1 7-1 10 2 3-3 6-3 10-2V4c-4-1-7-1-10 2zm0 0v15",
@@ -47,7 +42,6 @@ export const MAX_CLASSES = 30;
 
 export const ROMAN = ["0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII"];
 export const LETTERS = "ABCDEFGHIJ";
-/** Clasele sunt proiectele care poartă unul dintre numele standard, inclusiv forma veche. */
 export function parseClassTitle(name: string): {g: number; l: string} | null {
   for (let g = 0; g < ROMAN.length; g++) for (const l of LETTERS) if (classTitle(g, l) === name || ((g===0?"Clasa pregătitoare":g===1?"Clasa I":"Clasa a "+ROMAN[g]+"-a")+" "+l)===name) return {g, l};
   return null;
@@ -60,7 +54,6 @@ export const CLASS_BANNER_OPTIONS = [
   {id: "violet", label: "Violet", color: "#514F91"},
   {id: "rose", label: "Roz închis", color: "#8D3657"},
   {id: "forest", label: "Verde închis", color: "#1B4D36"},
-  // P-283: culori în plus, alese din lista claselor (butonul paletă din modul „Editează”).
   {id: "teal", label: "Turcoaz", color: "#1D6B68"},
   {id: "indigo", label: "Indigo", color: "#3B4A8C"},
   {id: "plum", label: "Prună", color: "#6A3A6E"},
@@ -72,12 +65,10 @@ export type ClassBannerColor = typeof CLASS_BANNER_OPTIONS[number]["id"];
 export const CLASS_BANNER_AUTO_COUNT = 6;
 export const isClassBannerColor = (value: unknown): value is ClassBannerColor => CLASS_BANNER_OPTIONS.some(option => option.id === value);
 
-/** Nuanța aleasă sau, la „Automat”, cea calculată după clasă și literă (P-274); P-279: desenul bannerului urmează nuanța. */
 export function classBannerOption(grade: number, letter: string, color?: ClassBannerColor | null): typeof CLASS_BANNER_OPTIONS[number] {
   const selected = CLASS_BANNER_OPTIONS.find(option => option.id === color);
   if (selected) return selected;
   const section = Math.max(0, LETTERS.indexOf(letter.toUpperCase()));
-  // „Automat” alege doar dintre primele 6 culori, ca nuanța claselor existente să nu se schimbe când se adaugă culori (P-283).
   const count = CLASS_BANNER_AUTO_COUNT;
   return CLASS_BANNER_OPTIONS[((grade + 1 - section) % count + count) % count] ?? CLASS_BANNER_OPTIONS[0];
 }
@@ -95,10 +86,6 @@ export type ClassSettings = {subject: string; level: ClassLevel; students: numbe
 export const CLASS_DIFFICULTY = {sprijin: "usor", mediu: "mediu", avansat: "dificil"} as const;
 export type ClassGenerationContext = {title: string; grade: number; settings: ClassSettings; classroom?: ClassroomLink};
 export type ClassNote = {id: string; date: string; tag: "lectie" | "evaluare" | "organizare" | "altele"; text: string};
-/**
- * P-245 — ce a adus profesorul din Google Classroom pentru această clasă: legătura cu cursul și titlurile
- * capitolelor, materialelor și temelor date. Numai titluri; fără elevi, descrieri, fișiere sau rezultate.
- */
 export type ClassroomLink = {courseId: string; name: string; section: string; importedAt: string; topics: string[]; materials: string[]; assignments: string[]};
 export const CLASSROOM_LIST_LIMIT = 50, CLASSROOM_TITLE_LIMIT = 160;
 export type ClassJournal = {settings: ClassSettings; notes: ClassNote[]; classroom?: ClassroomLink; bannerColor?: ClassBannerColor | null};
@@ -113,17 +100,14 @@ export function filterClassSubjects(subjects: readonly string[], query: string):
   });
 }
 
-/** Disciplina setată pe clasă are prioritate. Profilul de învățător poate avea valoarea generică „*”. */
 export function classSettingsWithSubject(settings: ClassSettings, profileSubject?: string): ClassSettings {
   const subject = profileSubject?.trim();
   return settings.subject.trim() || !subject || subject === "*" ? settings : {...settings, subject: subject.slice(0, 80)};
 }
-/** Contextul clasei pentru cererile către Profi: fără date despre elevi, doar setările profesorului. */
 export function classContext(title: string, s: ClassSettings, classroom?: ClassroomLink): string {
   const parts = [title, s.subject && "disciplina " + s.subject, s.level && "nivel " + (s.level === "sprijin" ? "cu nevoie de sprijin" : s.level), s.students ? s.students + " elevi" : "", s.manual && "manual: " + s.manual].filter(Boolean);
   return parts.join(", ") + (s.preferences ? ". Preferințe: " + s.preferences : "") + classroomContext(classroom);
 }
-/** Capitolele și ultimele teme din Google Classroom, pe scurt, ca Profi să știe ce s-a lucrat deja la clasă. */
 export function classroomContext(classroom?: ClassroomLink): string {
   if (!classroom) return "";
   const list = (label: string, items: string[], max: number) => items.length ? ". " + label + ": " + items.slice(0, max).join("; ") : "";

@@ -7,10 +7,8 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 
-// BIOMETRIC_STRONG + DEVICE_CREDENTIAL nu este permis pe API 28-29, deci folosim WEAK.
 private const val AUTHENTICATORS = BIOMETRIC_WEAK or DEVICE_CREDENTIAL
 
-/** True dacă telefonul are amprentă / față / PIN configurat. */
 fun canAuthenticate(activity: FragmentActivity): Boolean =
     BiometricManager.from(activity).canAuthenticate(AUTHENTICATORS) == BiometricManager.BIOMETRIC_SUCCESS
 

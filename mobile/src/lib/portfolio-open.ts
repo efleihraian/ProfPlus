@@ -1,6 +1,3 @@
-// Deschiderea unui fișier din portofoliu pe telefon: îl descarcă din contul utilizatorului (aceeași rută ca pe site,
-// cu tokenul de acces), în memoria temporară, apoi îl dă meniului telefonului (Deschide în…, Salvează, Trimite).
-// Aplicația nu păstrează o copie proprie: următoarea deschidere a aceluiași nume o înlocuiește.
 import { File, Paths } from 'expo-file-system';
 import { isAvailableAsync, shareAsync } from 'expo-sharing';
 

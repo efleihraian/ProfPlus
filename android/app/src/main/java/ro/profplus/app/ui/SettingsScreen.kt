@@ -54,7 +54,6 @@ fun SettingsScreen(
     }
 }
 
-/** Afișează lumina ambientală; baza pentru comutarea automată a temei (planificat). */
 @Composable
 private fun AmbientLight() {
     val context = LocalContext.current

@@ -1,5 +1,3 @@
-// Alegerea unui fișier pentru încărcare: o fotografie făcută acum cu camera (senzorul camerei) sau un fișier din telefon.
-// Serverul acceptă pentru portofoliu PDF, DOC, DOCX, PPTX, TXT, MD, HTML, JPG și PNG, de cel mult 10 MB (app/api/documents).
 import * as DocumentPicker from 'expo-document-picker';
 import { File as LocalFile } from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
@@ -24,7 +22,6 @@ const DOCUMENT_TYPES = [
 
 const tooLarge = (size?: number) => typeof size === 'number' && size > MAX_UPLOAD_BYTES;
 
-/** Fotografiază un document. Permisiunea camerei se cere doar acum, la prima folosire. */
 export async function takePhoto(label: string): Promise<PickResult> {
   const permission = await ImagePicker.requestCameraPermissionsAsync();
   if (!permission.granted) {
@@ -35,7 +32,6 @@ export async function takePhoto(label: string): Promise<PickResult> {
         : 'Accesul la cameră este oprit. Îl poți porni din Setări → Aplicații → ProfPlus → Permisiuni.',
     };
   }
-  // Calitatea 0,7 păstrează textul lizibil și ține poza mult sub 10 MB.
   const result = await ImagePicker.launchCameraAsync({ mediaTypes: ['images'], quality: 0.7, exif: false });
   if (result.canceled) return null;
   const asset = result.assets[0];
@@ -44,8 +40,6 @@ export async function takePhoto(label: string): Promise<PickResult> {
   return { file: { uri: asset.uri, name: `Fotografie ${label} ${date}.jpg`, type: asset.mimeType ?? 'image/jpeg', size: asset.fileSize } };
 }
 
-/** Alege un fișier existent (PDF, Word, poză etc.). */
-/** Biblioteca personală primește doar documente (fără poze), ca pe site. */
 export const LIBRARY_TYPES = DOCUMENT_TYPES.filter((type) => !type.startsWith('image/'));
 
 export async function pickDocument(types: string[] = DOCUMENT_TYPES): Promise<PickResult> {
@@ -56,8 +50,6 @@ export async function pickDocument(types: string[] = DOCUMENT_TYPES): Promise<Pi
   return { file: { uri: asset.uri, name: asset.name, type: asset.mimeType ?? 'application/octet-stream', size: asset.size } };
 }
 
-/** Corpul multipart al încărcării. Fetch-ul Expo nu acceptă forma veche React Native `{uri}`, ci o parte cu
- * `name`, `type` și `bytes()`; octeții se citesc din fișierul local abia la trimitere (cel mult 10 MB). */
 export function uploadForm(file: PickedFile, fields: Record<string, string>) {
   const form = new FormData();
   for (const [key, value] of Object.entries(fields)) form.append(key, value);

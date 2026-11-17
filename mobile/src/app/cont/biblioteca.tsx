@@ -1,6 +1,4 @@
 import {ACCOUNT_DOCUMENT_LIMIT} from "../../../../web/shared/document-limits";
-// Cont → Bibliotecă personală (P-195), ca pe site: documentele folosite des, consultate automat de Profi în toate conversațiile.
-// Aceleași rute ca site-ul: GET /api/library/personal, încărcare prin /api/documents cu scope=library, ștergere prin /api/documents/[id].
 import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -42,7 +40,6 @@ export default function PersonalLibraryScreen() {
   const [confirm, setConfirm] = useState<string | null>(null);
   const [rulesOpen, setRulesOpen] = useState(false);
   const [outcome, setOutcome] = useState<Outcome | null>(null);
-  // P-210: partajarea cu toți profesorii, cu acord explicit și verificare de administrator (ca pe site).
   const [sharing, setSharing] = useState<Record<string, DocumentSharing>>({});
   const [sharingAvailable, setSharingAvailable] = useState(false);
   const [consent, setConsent] = useState<ChatDocument | null>(null);
@@ -66,7 +63,6 @@ export default function PersonalLibraryScreen() {
     refresh().catch((e) => setOutcome({ error: failure(e, 'Biblioteca personală nu a putut fi încărcată.') }));
   }, [refresh]);
 
-  // Cât timp un document se pregătește, lista se reîmprospătează la 4 secunde, ca pe site.
   useEffect(() => {
     if (!documents?.some((d) => busyStatus(d.status))) return;
     const timer = setInterval(() => void refresh().catch(() => undefined), 4000);
@@ -161,7 +157,6 @@ export default function PersonalLibraryScreen() {
         <Button onPress={add} loading={!!uploading} disabled={documents === null || full}>
           {uploading ? 'Se încarcă…' : 'Adaugă un document'}
         </Button>
-        {/* P-288: regulile bibliotecii stau la butonul „i” de lângă contor, ca pe site. */}
         <View style={styles.countRow}>
           <ThemedText type="small" themeColor="muted" accessibilityLiveRegion="polite" style={styles.flex}>
             {documents === null ? 'Se verifică…' : `${documents.length} din ${limit} documente în biblioteca personală`}
@@ -264,7 +259,6 @@ export default function PersonalLibraryScreen() {
                   onPress={() => void remove(document)}
                   style={({ pressed }) => [
                     styles.remove,
-                    // P-288: butonul de ștergere e roșu mereu; la confirmare devine mai intens.
                     { borderColor: theme.dangerBorder, backgroundColor: asking || pressed ? theme.dangerSoft : 'transparent', borderWidth: asking ? 2 : 1 },
                   ]}>
                   <TrashIcon color={theme.dangerText} />

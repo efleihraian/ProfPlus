@@ -1,7 +1,3 @@
-// P-199 — ce se întâmplă cu cererea, ca pe site (P-198): pașii raportați de server, nu etape simulate.
-// P-227 — un rând care spune ce face Profi («Scriu testul și verific fiecare exercițiu · clasa a VI-a»), o bară subțire
-// față de durata obișnuită a acelui fel de cerere, pasul curent și cât mai durează. Bara nu este un procent măsurat:
-// se apropie de capăt la durata obișnuită și nu ajunge la 100% înaintea răspunsului.
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 

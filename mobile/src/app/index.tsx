@@ -1,8 +1,3 @@
-// Acasă (P-258), după macheta titularului, ca pe site: „Ce pregătim azi?” cu trei carduri mari (Test, Fișă de lucru,
-// Proiect de lecție), „Mai poți crea” cu celelalte tipuri (inclusiv Fun Prof) și portofoliul cu progresul.
-// Un card deschide Asistentul cu felul documentului deja ales; fără cont, duce la intrarea în cont.
-// Clasele rămân în bara de jos (fila „Clase”).
-// P-261: lângă Profi, o casetă de text în bula lui: textul ajunge în caseta Asistentului; explicația portofoliului e sub „i”.
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
@@ -45,7 +40,6 @@ export default function HomeScreen() {
   const signedIn = Boolean(session);
   const { progress } = usePortfolio(signedIn);
   const [text, setText] = useState('');
-  // Caseta lui Profi: textul ajunge în caseta Asistentului; fără cont, la intrarea în cont.
   const ask = () => {
     const message = text.trim();
     if (!message) return;

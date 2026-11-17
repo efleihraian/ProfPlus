@@ -1,8 +1,3 @@
-/**
- * Learn more about light and dark modes:
- * https://docs.expo.dev/guides/color-schemes/
- */
-
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
@@ -13,7 +8,6 @@ export function useTheme() {
   return Colors[theme];
 }
 
-/** P-200: modul întunecat, pentru umbra sau conturul cardurilor (cardSurface). */
 export function useDark() {
   return useColorScheme() === 'dark';
 }

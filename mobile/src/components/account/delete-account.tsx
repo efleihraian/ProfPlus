@@ -1,5 +1,3 @@
-// Ștergerea contului, cu aceleași explicații ca pe site (web/app/account/delete-account-dialog.tsx).
-// Se confirmă cu un cod primit pe e-mail înainte ca serverul să înceapă ștergerea.
 import { useState } from 'react';
 import { Linking, Modal, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -45,7 +43,6 @@ export function DeleteAccount({ account, visible, onClose, onRetry }: Props) {
     setOutcome(null);
     const result = await deleteAccount(code);
     setBusy(false);
-    // La reușită sesiunea se închide și ecranul Cont trece la intrare, cu mesajul de confirmare.
     if ('error' in result) {
       setOutcome(result);
       onRetry();

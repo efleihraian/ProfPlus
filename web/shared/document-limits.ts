@@ -1,4 +1,3 @@
-/** P-248: limite comune web/Android/iOS. SQL-ul fix și migrațiile sunt verificate separat. */
 export const PERSONAL_LIBRARY_LIMIT = 30;
 export const ACCOUNT_DOCUMENT_LIMIT = 200;
 export const GROUP_DOCUMENT_LIMIT = 10;

@@ -1,6 +1,4 @@
 import type {ExerciseOptions} from '../../../web/lib/exercise-options';
-// Setările pentru următorul mesaj din chat, aceleași ca pe site (web/lib/composer-tools.ts, web/lib/difficulty.ts).
-// web/tests/mobile-chat-options.mjs verifică să rămână identice cu cele de acolo.
 export const DOCUMENT_TYPES = [
   { id: 'test', label: 'Test' },
   { id: 'worksheet', label: 'Fișă de lucru' },
@@ -36,7 +34,6 @@ export type ChatSelection = {
 export const AUTOMATIC: ChatSelection = { mode: 'automatic', manualIds: [], documentIds: [] };
 export const MAX_EXTRA_SOURCES = 50;
 
-/** Conversațiile vechi pot avea `selection` nul; alegerile făcute pe site rămân neschimbate. */
 export const asSelection = (value: unknown): ChatSelection => (value && typeof value === 'object' ? (value as ChatSelection) : AUTOMATIC);
 
 const fold = (text: string) => text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
@@ -44,7 +41,6 @@ export const searchable = fold;
 
 const isAssessmentText = (text: string) => /\b(?:test(?:e(?:le)?|ul)?|exerciti\w*|fisa|fise|problem(?:a|e)(?:le)?|item(?:i|ul)?|sarcin(?:a|i)(?:le)?|calcule)\b/.test(fold(text));
 
-/** Dificultatea și baremul au sens doar la teste și fișe: alese explicit sau numite în mesaj. */
 export function assessmentSettingsVisible(type: string | undefined, draft: string) {
   return type ? type === 'test' || type === 'worksheet' : isAssessmentText(draft);
 }
@@ -55,7 +51,6 @@ export function toggleExtra(selection: ChatSelection, item: { id: string; kind: 
   return { ...selection, mode: 'automatic', [field]: add ? [...new Set([...current, item.id])].slice(0, MAX_EXTRA_SOURCES) : current.filter((id) => id !== item.id) };
 }
 
-/** Old preferences keep their total; numeric adaptations join generated exercises. */
 export const exerciseCounts = (selection: ChatSelection) => {
   const counts = selection.exerciseOptions?.counts ?? {original:3,copied:3,numbers:0};
   return {original:counts.original+counts.numbers,copied:counts.copied,numbers:0};

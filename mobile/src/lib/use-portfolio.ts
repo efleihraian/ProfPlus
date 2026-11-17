@@ -1,5 +1,3 @@
-// Portofoliul profesorului: fișierele de pe server și rubricile „după caz” adăugate la obligatorii.
-// Ca pe site, alegerea rubricilor opționale rămâne pe dispozitiv (pe site în browser, aici în AsyncStorage).
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -44,7 +42,6 @@ export function usePortfolio(enabled: boolean) {
   const bySlot = new Map<string, PortfolioFile[]>();
   for (const file of files ?? []) bySlot.set(file.slot, [...(bySlot.get(file.slot) ?? []), file]);
 
-  // Progresul numără ca pe site: rubricile obligatorii plus cele „după caz” adăugate; dosarul de gradație (G) e separat.
   const counted = PORTFOLIO.flatMap((s) => s.items).filter((i) => !i[3] || extra[i[0]]);
   const done = counted.filter((i) => bySlot.has(i[0])).length;
 

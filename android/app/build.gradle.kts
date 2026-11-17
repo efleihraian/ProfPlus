@@ -15,7 +15,6 @@ android {
         versionCode = 1
         versionName = "0.1.0"
 
-        // Adresa platformei web încărcate în aplicație.
         buildConfigField("String", "WEB_URL", "\"https://profos-chat.cosminsoames.chatgpt.site\"")
     }
 
@@ -52,7 +51,6 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.8.5")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
 
-    // Senzori: biometrie și cameră
     implementation("androidx.biometric:biometric:1.1.0")
     val cameraX = "1.4.0"
     implementation("androidx.camera:camera-core:$cameraX")

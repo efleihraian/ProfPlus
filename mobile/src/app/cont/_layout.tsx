@@ -1,4 +1,3 @@
-// Fila Cont (P-195): meniul contului și ecranele în care intri (Intrare, Profil, Bibliotecă personală, Setări).
 import { Stack } from 'expo-router';
 import { useReducedMotion } from 'react-native-reanimated';
 

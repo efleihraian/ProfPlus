@@ -1,7 +1,3 @@
-// Conectare și securitate, ca pe site: metodele asociate contului, parola și adresa de e-mail. P-310: fără texte explicative în plus.
-// P-326: fiecare acțiune are un titlu scurt și o propoziție despre ce face; butoanele spun doar acțiunea.
-// Adresa cere autentificare recentă. Schimbarea parolei pornește cu un link trimis pe e-mail.
-// Deconectarea (de pe telefon sau de pe toate dispozitivele) e în meniul Cont.
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 

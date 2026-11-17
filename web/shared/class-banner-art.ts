@@ -1,13 +1,9 @@
-// P-279: desenele de pe bannerul clasei, ca pe Google Classroom: fiecare nuanță are temă proprie, desenată în dreapta
-// bannerului cu linii albe transparente. Aceleași forme pe site (SVG) și în aplicație (react-native-svg).
 import type {ClassBannerColor} from "./class-catalog";
 
 export type BannerShape = {d: string} | {c: readonly [number, number, number]};
-/** Desenele stau într-un cadru de 160×100, aliniat la dreapta bannerului. */
 export const CLASS_BANNER_ART_VIEWBOX = "0 0 160 100";
 
 export const CLASS_BANNER_ART: Record<ClassBannerColor, readonly BannerShape[]> = {
-  // Matematică: echer, raportor, semne de calcul, π.
   green: [
     {d: "M92 92h60L92 32z"}, {d: "M103 82h24l-24-24z"},
     {d: "M30 92a26 26 0 0 1 52 0z"}, {d: "M56 92v-8"}, {d: "M38 74l5 5"}, {d: "M74 74l-5 5"},
@@ -15,7 +11,6 @@ export const CLASS_BANNER_ART: Record<ClassBannerColor, readonly BannerShape[]> 
     {d: "M112 12h26"}, {d: "M119 12v18"}, {d: "M131 12v15q0 4 4 4"},
     {c: [20, 50, 2]}, {c: [148, 18, 2]},
   ],
-  // Lectură: raft cu cărți și o carte deschisă.
   blue: [
     {d: "M86 92h70"}, {d: "M94 38h14v54H94z"}, {d: "M94 48h14"}, {d: "M94 82h14"},
     {d: "M110 28h13v64h-13z"}, {d: "M126 44l12-3 12 48-12 3z"},
@@ -23,14 +18,12 @@ export const CLASS_BANNER_ART: Record<ClassBannerColor, readonly BannerShape[]> 
     {d: "M30 54h10"}, {d: "M56 54h10"}, {d: "M30 62h10"}, {d: "M56 62h10"},
     {c: [130, 16, 2]}, {c: [70, 18, 2]},
   ],
-  // Natură: frunze, soare, iarbă.
   ochre: [
     {c: [40, 30, 10]}, {d: "M40 12v-6"}, {d: "M40 54v-6"}, {d: "M22 30h-6"}, {d: "M64 30h-6"}, {d: "M27 17l-4-4"}, {d: "M53 43l4 4"}, {d: "M53 17l4-4"}, {d: "M27 43l-4 4"},
     {d: "M98 92q-6-42 44-60q8 46-44 60z"}, {d: "M98 92q16-26 34-48"},
     {d: "M68 92q2-24 26-30q0 26-26 30z"}, {d: "M68 92q8-12 18-22"},
     {d: "M150 92q-2-10 4-18"}, {d: "M144 92q0-8-6-14"},
   ],
-  // Spațiu: planetă cu inel, stele, o orbită.
   violet: [
     {c: [116, 52, 18]}, {d: "M86 62q30-26 62-22q8 4-2 10q-30 22-58 18q-10-2-2-6"},
     {d: "M38 16l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"}, {d: "M146 12l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"},
@@ -38,49 +31,41 @@ export const CLASS_BANNER_ART: Record<ClassBannerColor, readonly BannerShape[]> 
     {c: [86, 18, 2]}, {c: [22, 60, 2]}, {c: [150, 84, 2]}, {c: [40, 88, 2]},
     {d: "M10 96q40-30 70-20"},
   ],
-  // Arte: note muzicale și o paletă.
   rose: [
     {d: "M44 72V30l26-6v40"}, {c: [38, 72, 6]}, {c: [64, 66, 6]}, {d: "M44 40l26-6"},
     {d: "M108 30q36-8 42 18q4 18-14 14q-10-2-8 8q2 12-14 10q-26-4-22-30q2-16 16-20z"},
     {c: [114, 44, 3]}, {c: [128, 38, 3]}, {c: [140, 46, 3]}, {c: [106, 60, 3]},
     {d: "M18 22q6-6 12 0"}, {c: [86, 16, 2]}, {c: [90, 90, 2]},
   ],
-  // Geografie: munți, soare, păsări.
   forest: [
     {d: "M60 92l32-48 16 22 12-16 30 42z"}, {d: "M84 56l8-12 7 10-5 4z"},
     {c: [128, 24, 9]}, {d: "M26 30q4-5 8 0q4-5 8 0"}, {d: "M48 18q3-4 6 0q3-4 6 0"},
     {d: "M10 92q20-10 40-2"}, {d: "M22 70h18"}, {d: "M30 76h20"},
   ],
-  // P-283 — Chimie: balon Erlenmeyer cu bule și o moleculă.
   teal: [
     {d: "M112 28h16"}, {d: "M116 28v20l-16 34q-2 8 6 8h28q8 0 6-8l-16-34V28"}, {d: "M106 70h28"},
     {c: [120, 60, 3]}, {c: [130, 52, 2]}, {c: [124, 16, 3]},
     {d: "M40 30l12-7 12 7v14l-12 7-12-7z"}, {d: "M64 44l14 8"}, {c: [82, 55, 4]}, {d: "M40 44l-12 8"}, {c: [24, 55, 4]},
   ],
-  // P-283 — Informatică: monitor cu cod, cifre binare.
   indigo: [
     {d: "M90 28h60v40H90z"}, {d: "M114 68l-3 14h18l-3-14"}, {d: "M104 84h32"},
     {d: "M108 42l-6 6 6 6"}, {d: "M132 42l6 6-6 6"}, {d: "M124 40l-8 16"},
     {c: [30, 40, 7]}, {d: "M48 33l4-3v20"}, {c: [70, 20, 2]}, {c: [20, 82, 2]},
   ],
-  // P-283 — Limbi străine: două baloane de dialog.
   plum: [
     {d: "M86 24h48q8 0 8 8v20q0 8-8 8h-30l-12 10V60h-6q-8 0-8-8V32q0-8 8-8z"}, {d: "M96 36h36"}, {d: "M96 46h24"},
     {d: "M24 50h34q6 0 6 6v14q0 6-6 6h-6v8l-10-8H24q-6 0-6-6V56q0-6 6-6z"}, {d: "M30 60h22"},
     {c: [150, 88, 2]}, {c: [70, 18, 2]},
   ],
-  // P-283 — Istorie: templu cu coloane și un pergament.
   brick: [
     {d: "M88 40l32-16 32 16z"}, {d: "M90 44h60"}, {d: "M96 48v36"}, {d: "M110 48v36"}, {d: "M130 48v36"}, {d: "M144 48v36"}, {d: "M86 88h68"},
     {d: "M24 30h32v40H28q-4 0-4-4z"}, {d: "M56 30q6 0 6 6q0 6-6 6"}, {d: "M30 42h18"}, {d: "M30 50h18"}, {d: "M30 58h12"},
   ],
-  // P-283 — Sport: minge de fotbal în mișcare.
   olive: [
     {c: [118, 58, 22]}, {d: "M118 48l9 7-3 10h-12l-3-10z"},
     {d: "M118 48V36"}, {d: "M127 55l11-4"}, {d: "M124 65l7 10"}, {d: "M112 65l-7 10"}, {d: "M109 55l-11-4"},
     {d: "M64 50h18"}, {d: "M58 60h22"}, {d: "M68 70h14"}, {c: [30, 30, 2]}, {c: [40, 84, 2]},
   ],
-  // P-283 — Fizică: magnet și fulger.
   slate: [
     {d: "M96 28v32a24 24 0 0 0 48 0V28h-12v32a12 12 0 0 1-24 0V28z"}, {d: "M96 38h12"}, {d: "M132 38h12"},
     {d: "M50 18L36 44h12l-8 24 20-30H48l10-20z"}, {d: "M76 22q-6-6-12 0"}, {d: "M80 30q-10-10-20 0"},

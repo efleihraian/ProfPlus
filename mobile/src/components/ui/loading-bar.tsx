@@ -1,5 +1,3 @@
-// P-219: bara subțire de încărcare, ca pe site. Cât ecranul își citește datele, conținutul lui nu apare pe bucăți:
-// sub antet rulează bara, apoi ecranul apare întreg. Cu mișcare redusă, bara rămâne fixă.
 import { StyleSheet, View } from 'react-native';
 import Animated, { useReducedMotion } from 'react-native-reanimated';
 

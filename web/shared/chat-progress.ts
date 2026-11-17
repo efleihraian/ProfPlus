@@ -1,13 +1,8 @@
-// P-199 — pașii reali ai unei generări (P-198), pentru aplicația mobilă: același format ca pe site.
-// Copia părții de client din web/lib/chat-progress.ts (care rămâne fără importuri, fiindcă testele serverului o încarcă singură);
-// tests/mobile-chat-progress.mjs verifică să citească fluxul la fel și să aibă aceleași etichete ca site-ul.
 export type ChatStage = "sources" | "writing" | "checking" | "saving";
 export const CHAT_STAGES: ChatStage[] = ["sources", "writing", "checking", "saving"];
-/** P-227: felul cererii stabilit de server (textul și durata din bara de progres). */
 export type ChatPlan = {kind: string; grade?: number | null; web?: boolean};
 export type ChatEvent = {type: "stage"; stage: ChatStage} | {type: "ping"} | ({type: "plan"} & ChatPlan) | {type: "delta"; text?: string; reset?: boolean} | {type: "result"; status: number; body: unknown};
 
-/** Pașii afișați: „prepare” e pasul clientului (pregătirea și salvarea cererii), restul vin de la server. */
 export type ProgressStage = "prepare" | ChatStage;
 export const PROGRESS_STEPS: {id: ProgressStage; label: string}[] = [
   {id: "prepare", label: "Pregătesc și salvez cererea"},
@@ -21,8 +16,6 @@ export const elapsed = (ms: number) => {
   return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
 };
 
-/** Citește răspunsul /api/chat (flux NDJSON sau JSON simplu) și raportează pașii pe măsură ce sosesc. */
-/** P-220: `onDelta` primește textul răspunsului pe măsură ce este scris (ciornă); `reset` golește ciorna. */
 export async function readChatResponse<T>(response: Response, onStage: (stage: ChatStage) => void, onDelta?: (text: string, reset: boolean) => void, onPlan?: (plan: ChatPlan) => void): Promise<{ok: boolean; status: number; data: T; streamed: boolean}> {
   if (!response.headers.get("content-type")?.includes("application/x-ndjson") || !response.body) {
     const data = (await response.json().catch(() => ({error: "Răspunsul nu a putut fi citit. Încearcă din nou."}))) as T;

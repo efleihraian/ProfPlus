@@ -1,6 +1,3 @@
-// P-241 — Importul claselor din Google Classroom, ca pe site: explicația, consimțământul Google într-o fereastră de
-// browser, apoi verificarea propunerilor (clasă, literă, disciplină) înainte de a adăuga ceva. Tokenul Google nu ajunge
-// în aplicație: aceasta primește doar codul de o singură folosire și îl trimite serverului ProfPlus, cu contul conectat.
 import * as WebBrowser from 'expo-web-browser';
 import { useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
@@ -34,7 +31,6 @@ import {
 
 type Row = ClassroomCourse & ImportChoice;
 type Props = { visible: boolean; existing: OwnedClass[]; onClose: () => void; onImported: () => Promise<void> };
-// Pregătitoare (0) și clasele I–XII, ca la adăugarea manuală.
 const GRADES = ROMAN.slice(0, 13).map((label, g) => ({ g, label: g === 0 ? 'P' : label }));
 const text = (e: unknown, fallback: string) => (e instanceof ApiError ? e.message : fallback);
 
@@ -75,7 +71,6 @@ export function ImportClassroom({ visible, existing, onClose, onImported }: Prop
       }
       const back = new URL(result.url).searchParams;
       const code = back.get(CLASSROOM_CODE_PARAM);
-      // Numai răspunsul la cererea pornită acum de aplicație.
       if (!code || !state || back.get(CLASSROOM_STATE_PARAM) !== state) {
         setError(
           back.get(CLASSROOM_ERROR_PARAM) === 'denied'
@@ -85,7 +80,6 @@ export function ImportClassroom({ visible, existing, onClose, onImported }: Prop
         return;
       }
       const { courses } = await api.classes.classroomCourses(code, state);
-      // Clasele noi sunt alese din start; cele existente se actualizează numai dacă profesorul le alege.
       setRows(courses.map((c) => ({ ...c, selected: c.g !== null && !!c.l && !existing.some((k) => k.g === c.g && k.l === c.l) })));
       setStep('review');
     } catch (e) {
@@ -105,10 +99,8 @@ export function ImportClassroom({ visible, existing, onClose, onImported }: Prop
         if (status === 'ready') {
           const created = await api.classes.create(row.g!, row.l!);
           count++;
-          // Disciplina, numărul de elevi și titlurile din Classroom intră în clasă; dacă salvarea lor eșuează, clasa rămâne.
           await api.classes.saveJournal(created.class.id, journalWithImport(emptyJournal(), row, today()), null).catch(() => {});
         } else if (status === 'update') {
-          // Clasă existentă: observațiile și setările profesorului rămân; revizia refuză salvarea peste o modificare paralelă.
           const owned = existing.find((c) => c.g === row.g && c.l === row.l);
           if (!owned) continue;
           const current = await api.classes.get(owned.id);

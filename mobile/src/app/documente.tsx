@@ -1,5 +1,3 @@
-// Documente personale: portofoliul profesional (OMEC nr. 3.858/2026), cu încărcare direct din telefon.
-// Fișierele merg în aceeași rubrică ca pe site (POST /api/documents, scope=portfolio), deci se văd în ambele locuri.
 import { useRouter } from 'expo-router';
 import { useState, type ReactNode } from 'react';
 import { AccessibilityInfo, Alert, Pressable, StyleSheet, View } from 'react-native';
@@ -63,7 +61,6 @@ export default function DocumentsScreen() {
     }
   }
 
-  // P-257: „Înlocuiește” încarcă fișierul nou în aceeași rubrică, apoi îl șterge pe cel vechi (ca pe site).
   function replace(file: PortfolioFile) {
     const run = async (pick: () => Promise<PickResult>) => {
       if (busySlot) return;
@@ -183,7 +180,6 @@ export default function DocumentsScreen() {
 
       {files ? (
         <>
-          {/* P-203: două părți distincte, ca pe site — portofoliul din structura-cadru, apoi dosarul separat pentru gradația de merit. */}
           <InfoHeading title="Portofoliul profesional" label="Despre portofoliul profesional">
             <PortfolioAbout />
           </InfoHeading>

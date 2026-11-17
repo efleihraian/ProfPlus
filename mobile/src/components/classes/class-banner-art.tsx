@@ -1,4 +1,3 @@
-// P-279: desenul temei din dreapta bannerului clasei, aceleași forme ca pe site (web/shared/class-banner-art.ts).
 import { StyleSheet } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 

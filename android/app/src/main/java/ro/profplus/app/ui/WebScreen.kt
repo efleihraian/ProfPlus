@@ -18,7 +18,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import ro.profplus.app.BuildConfig
 
-/** Un singur WebView păstrat între taburi, ca sesiunea să nu se piardă. */
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun rememberProfPlusWebView(onCanGoBackChanged: (Boolean) -> Unit): WebView {
@@ -39,7 +38,6 @@ fun rememberProfPlusWebView(onCanGoBackChanged: (Boolean) -> Unit): WebView {
             settings.domStorageEnabled = true
             webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
-                    // Linkurile către alte domenii se deschid în browser.
                     val own = Uri.parse(BuildConfig.WEB_URL).host.orEmpty()
                     if (request.url.host == own) return false
                     context.startActivity(Intent(Intent.ACTION_VIEW, request.url).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
@@ -50,7 +48,6 @@ fun rememberProfPlusWebView(onCanGoBackChanged: (Boolean) -> Unit): WebView {
                     onCanGoBackChanged(view.canGoBack())
                 }
             }
-            // Permite încărcarea documentelor (PDF, DOCX etc.) din aplicație.
             webChromeClient = object : WebChromeClient() {
                 override fun onShowFileChooser(
                     webView: WebView,

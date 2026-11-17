@@ -1,4 +1,3 @@
-// Un mesaj din conversație: al profesorului (dreapta, verde deschis) sau al lui Profi (stânga, card alb cu surse).
 import { openBrowserAsync } from 'expo-web-browser';
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -13,16 +12,12 @@ import type { ChatMessage, ChatSource, GeneratedDocument } from '@/lib/api';
 
 function sourceLabel(source: ChatSource) {
   const details = [source.schoolClass, source.publisher, source.page ? `p. ${source.page}` : null].filter(Boolean).join(' · ');
-  // P-210: fragment dintr-un material partajat de un profesor și verificat; originalul nu se deschide.
   if (source.shared) return `${source.title} — material partajat de un profesor`;
   return details ? `${source.title} — ${details}` : source.title;
 }
 
-// Manualele și paginile web se deschid în browser; documentele proprii cer contul, deci rămân doar ca titlu.
 const openable = (source: ChatSource) => source.kind !== 'document' && /^https:\/\//.test(source.url);
 
-// `opened`: documentul abia generat se deschide singur, ca pe site.
-// `onFollowUp` (P-211): propunerile Fun Prof de sub ultimul răspuns trimit cererea direct.
 export function MessageBubble({ message, opened = false, onFollowUp, onSaveDocument }: { message: ChatMessage; opened?: boolean; onFollowUp?: (text: string) => void; onSaveDocument?: (document: GeneratedDocument)=>Promise<void> }) {
   const theme = useTheme();
   const dark = useDark();

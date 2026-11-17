@@ -1,5 +1,3 @@
-// Butoanele aplicației (P-200): cu raza comună, fără chenar. Principal verde închis cu text alb; secundar cu umplere
-// discretă; pericol pe roșu deschis; „ghost” doar text. La apăsare butonul se micșorează ușor. Minim 52 px înălțime.
 import type { ReactNode } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -10,7 +8,6 @@ type Props = {
   children: ReactNode;
   onPress?: () => void;
   variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
-  /** Pictogramă înaintea textului; primește culoarea textului. */
   icon?: (color: string) => ReactNode;
   disabled?: boolean;
   loading?: boolean;

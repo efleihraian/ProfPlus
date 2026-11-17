@@ -1,4 +1,3 @@
-// Logo-ul ProfPlus ca pe site: pătrat verde cu „P” alb și „+” mentă, urmat de „Prof**Plus**”.
 import { StyleSheet, Text, View } from 'react-native';
 
 import { brand, radius } from '@/constants/theme';

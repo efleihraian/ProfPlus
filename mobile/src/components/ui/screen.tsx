@@ -1,4 +1,3 @@
-// Cadrul comun al unui ecran: logo sus, titlu, conținut derulabil pe fundalul crem al site-ului.
 import { useRouter } from 'expo-router';
 import type { ReactNode } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
@@ -12,8 +11,6 @@ import { LoadingBar } from '@/components/ui/loading-bar';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
-/** `back`: un ecran din interiorul unei file (de ex. Cont → Profil) afișează butonul „Înapoi” în loc de logo.
- * `loading` (P-219): bara de încărcare sub antet; conținutul se așază nevăzut și apare întreg când datele sunt gata. */
 export function Screen({ title, titleAction, intro, back, onBack, loading = false, children, maxContentWidth = MaxContentWidth }: { title?: string; titleAction?: ReactNode; intro?: string; back?: boolean; onBack?: () => void; loading?: boolean; maxContentWidth?: number; children?: ReactNode }) {
   const router = useRouter();
   const theme = useTheme();
@@ -36,7 +33,6 @@ export function Screen({ title, titleAction, intro, back, onBack, loading = fals
         )}
       </View>
       {loading ? <LoadingBar label="Se încarcă ecranul" /> : <View style={styles.barSpace} />}
-      {/* Pe iOS bara de file plutește: lista lasă singură loc sub ultimul rând. */}
       <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={[styles.content, { maxWidth: maxContentWidth }]} keyboardShouldPersistTaps="handled">
         {title ? (
           <View style={styles.titleRow}>

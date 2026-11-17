@@ -54,7 +54,6 @@ export function AccountMfa({ challenge=false, canEnroll=false }: {challenge?:boo
 
   const managing=!!factors&&!challenge&&!enrolled&&!remove;
   const removing=factors?.find(factor=>factor.id===id);
-  // P-326: ca pe site, fiecare autentificator are rândul lui cu „Elimină”; adăugarea are o propoziție despre ce face.
   return <View style={{gap:12}}>
     <View style={styles.head}>
       <ThemedText type="subtitle" accessibilityRole="header">Autentificare în doi pași</ThemedText>

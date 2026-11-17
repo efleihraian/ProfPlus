@@ -1,12 +1,6 @@
-/**
- * P-210: partajarea materialelor din biblioteca personală cu toți utilizatorii ProfPlus, cu acordul profesorului
- * și după verificarea unui administrator. Modul pur, folosit de site, aplicație și server.
- */
-/** Versiunea textului de acord. Se schimbă când se schimbă textul; rândul păstrează versiunea acceptată. */
 export const SHARING_CONSENT_VERSION = "2026-11-10";
 export type SharingStatus = "pending" | "approved" | "rejected";
 export type DocumentSharing = {status: SharingStatus; note?: string};
-/** Textul acordului, afișat înainte de confirmare (site și aplicație). */
 export const SHARING_CONSENT_POINTS = [
   "Sunt autorul materialului sau am dreptul să îl partajez (de exemplu, nu este o culegere sau un manual publicat de altcineva, fără acordul acestuia).",
   "Materialul nu conține date personale ale elevilor sau ale altor persoane (nume, note, situații, fotografii).",
@@ -21,11 +15,9 @@ export function sharingLabel(sharing: DocumentSharing | undefined): string {
   if (sharing.status === "approved") return "Partajat · folosit de Profi pentru toți";
   return "Partajare respinsă" + (sharing.note ? ": " + sharing.note : "");
 }
-/** Poate fi propus un document gata indexat, care nu este deja în verificare sau aprobat. */
 export const canShare = (status: string, sharing: DocumentSharing | undefined) => status === "ready" && (!sharing || sharing.status === "rejected");
 export const canWithdraw = (sharing: DocumentSharing | undefined) => !!sharing && sharing.status !== "rejected";
 
-/** Validarea deciziei administratorului (ruta de administrare); motivul este text simplu, maximum 500 de caractere. */
 export function reviewDecision(body: unknown): {id: string; decision: "approved" | "rejected"; note: string; revision: number} | null {
   if (!body || typeof body !== "object") return null;
   const b = body as Record<string, unknown>;

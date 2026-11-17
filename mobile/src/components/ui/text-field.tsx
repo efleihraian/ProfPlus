@@ -1,4 +1,3 @@
-// Câmp de formular cu etichetă vizibilă (P-200): umplere discretă în loc de chenar; la focus, contur verde.
 import { useState } from 'react';
 import { StyleSheet, TextInput, View, type TextInputProps } from 'react-native';
 

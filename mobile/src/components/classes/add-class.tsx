@@ -1,4 +1,3 @@
-// Adăugarea unei clase: clasa (P, I–XII) și litera (A–J), cu previzualizarea numelui și refuzul dublurilor, ca pe site.
 import { useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,7 +8,6 @@ import { radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { classTitle, LETTERS, ROMAN, type OwnedClass } from '@/lib/api';
 
-// Pregătitoare (0) și clasele I–XII; XIII apare doar la unele licee și se poate adăuga de pe site.
 const GRADES = ROMAN.slice(0, 13).map((label, g) => ({ g, label: g === 0 ? 'P' : label }));
 
 type Props = { visible: boolean; existing: OwnedClass[]; busy: boolean; error: string | null; onClose: () => void; onAdd: (g: number, l: string) => void };

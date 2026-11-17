@@ -1,5 +1,3 @@
-// Structura-cadru a portofoliului profesional (Anexa 1, OMEC 3.858/2026) și dosarul pentru gradația de merit.
-// Date comune site-ului (web/lib/portfolio-catalog.ts o reexportă) și aplicației mobile; fișierul nu importă nimic.
 export const SECTION_BADGE: Record<string, {bg: string; color: string; glow: string}> = {
   a: {bg: "#E8F3EC", color: "#2F7D5B", glow: "rgba(47,125,91,0.18)"},
   b: {bg: "#DCEBE2", color: "#1B4D36", glow: "rgba(27,77,54,0.2)"},
@@ -66,7 +64,6 @@ export const PORTFOLIO: PortfolioSection[] =
 ]
 ;
 
-/** Dosarul pentru gradația de merit: separat de portofoliu, opțional. Ordinea și conținutul urmează art. 9 din metodologia sesiunii 2026 (OMEC nr. 3.919/2026). */
 export const GRADATION: PortfolioSection = { id: 'g', letter: 'G', title: 'Dosarul pentru gradația de merit', items: [
   ['g1', 'Opisul dosarului (gradația de merit)', 'În două exemplare; fiecare pagină numerotată și trecută în opis. Un exemplar îți rămâne, semnat de tine și de conducerea școlii.', 0, 1],
   ['g2', 'Cererea-tip de înscriere', 'Modelul elaborat de inspectoratul școlar, în care îți precizezi opțiunea. Îl găsești pe site-ul inspectoratului tău.', 0, 0],
@@ -78,7 +75,6 @@ export const GRADATION: PortfolioSection = { id: 'g', letter: 'G', title: 'Dosar
   ['g8', 'Documente justificative, grupate pe criterii', 'Emise de școli, universități, inspectorate, CCD, CJRAE/CMBRAE, MEC sau parteneri sociali ai MEC; cele emise de alte entități se vizează de director sau de inspectorat. Le poți reutiliza pe cele din portofoliu.', 0, 0]
 ] };
 
-// P-257: explicațiile paginii Documente personale, comune site-ului și aplicației (fereastra de la prima intrare și butoanele „i”).
 export const PORTFOLIO_INFO = {
   about: 'Din anul școlar 2026–2027 portofoliul profesional e obligatoriu pentru toate cadrele didactice (OMEC nr. 3.858/2026). Contează la definitivat, grade didactice, evaluarea anuală, inspecții și gradații de merit. Aici îl ții complet, pe cele 5 secțiuni din structura-cadru.',
   note: 'Lista urmează structura-cadru din Anexa 1 la OMEC nr. 3.858/2026. Este orientativă și minimală, iar școala o poate adapta prin procedura proprie. Documentele administrative (fișe de evaluare, adeverințe) se păstrează și în dosarul personal.',

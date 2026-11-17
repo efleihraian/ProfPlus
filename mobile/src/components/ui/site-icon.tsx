@@ -1,4 +1,3 @@
-// Pictograme Lucide (licență ISC), folosite și de grila web.
 import type {ReactNode} from 'react';
 import Svg, {Circle, Path, Rect} from 'react-native-svg';
 

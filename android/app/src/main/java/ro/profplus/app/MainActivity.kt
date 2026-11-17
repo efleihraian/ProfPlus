@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentActivity
 import ro.profplus.app.ui.ProfPlusApp
 import ro.profplus.app.ui.ProfPlusTheme
 
-// BiometricPrompt cere FragmentActivity, nu doar ComponentActivity.
 class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

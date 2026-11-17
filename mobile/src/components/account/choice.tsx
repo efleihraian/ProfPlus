@@ -1,4 +1,3 @@
-// Rând de alegere cu buton radio sau bifă (P-200: umplere discretă, alegerea pe verde cu contur), min. 52 px.
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';

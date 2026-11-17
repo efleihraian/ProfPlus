@@ -1,6 +1,3 @@
-// Clientul Supabase al aplicației: login direct la Supabase, apoi tokenul merge la serverul ProfPlus ca `Authorization: Bearer`.
-// Sesiunea rămâne pe telefon criptată: cheia AES stă în Keystore/Keychain (SecureStore), iar datele criptate în AsyncStorage,
-// fiindcă SecureStore nu primește valori peste 2048 de octeți (rețeta din ghidul Supabase pentru Expo).
 import 'react-native-url-polyfill/auto';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,8 +9,6 @@ import { AppState, Platform } from 'react-native';
 
 import { log } from './log';
 
-// Hermes nu are WebCrypto. Fără el, Supabase ar genera verificatorul PKCE cu Math.random și l-ar trimite necriptat
-// („plain”); îi dăm generatorul sigur și SHA-256 ale sistemului (expo-crypto).
 type MinimalCrypto = {
   getRandomValues?: typeof getRandomValues;
   subtle?: { digest: (algorithm: string, data: BufferSource) => Promise<ArrayBuffer> };
@@ -29,7 +24,6 @@ if (!globalCrypto.subtle) {
     },
   };
 }
-// În Node (la exportul de release) `crypto` există deja și nu poate fi rescris.
 if (!host.crypto) host.crypto = globalCrypto;
 
 class EncryptedSessionStore {
@@ -45,14 +39,12 @@ class EncryptedSessionStore {
       const cipher = new aesjs.ModeOfOperation.ctr(aesjs.utils.hex.toBytes(keyHex), new aesjs.Counter(1));
       return aesjs.utils.utf8.fromBytes(cipher.decrypt(aesjs.utils.hex.toBytes(encrypted)));
     } catch (error) {
-      // O sesiune care nu se mai poate citi înseamnă delogare; jurnalul spune de ce.
       log('error', 'session_read_failed', undefined, error);
       return null;
     }
   }
 
   async setItem(key: string, value: string) {
-    // Cheie nouă la fiecare scriere, deci contorul CTR nu se refolosește cu aceeași cheie.
     const encryptionKey = getRandomBytes(32);
     const cipher = new aesjs.ModeOfOperation.ctr(encryptionKey, new aesjs.Counter(1));
     const encrypted = cipher.encrypt(aesjs.utils.utf8.toBytes(value));
@@ -66,7 +58,6 @@ class EncryptedSessionStore {
   }
 }
 
-// Adresa și cheia publică (publishable) a proiectului, din mobile/.env.local. Cheia publică nu este un secret.
 const url = process.env.EXPO_PUBLIC_SUPABASE_URL ?? '';
 const publishableKey = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '';
 export const supabaseConfigured = Boolean(url && publishableKey);
@@ -81,7 +72,6 @@ export const supabase = createClient(url || 'https://invalid.local', publishable
   },
 });
 
-// Reîmprospătează tokenul doar cât timp aplicația este deschisă.
 if (Platform.OS !== 'web') {
   AppState.addEventListener('change', (state) => {
     if (state === 'active') supabase.auth.startAutoRefresh();

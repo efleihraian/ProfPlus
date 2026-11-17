@@ -1,4 +1,3 @@
-// Cont → Profil (P-195): profilul didactic, conectarea și securitatea, apoi ștergerea contului.
 import { useRouter } from 'expo-router';
 import { openBrowserAsync } from 'expo-web-browser';
 import { useEffect, useState } from 'react';
@@ -23,7 +22,6 @@ export default function ProfileScreen() {
   const [saved, setSaved] = useState<Outcome | null>(null);
   const [deleting, setDeleting] = useState(false);
 
-  // După ieșire sau ștergere, ecranul nu mai are cont: înapoi la meniul Cont.
   useEffect(() => {
     if (session === null) router.back();
   }, [session, router]);

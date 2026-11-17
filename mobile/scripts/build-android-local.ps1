@@ -1,6 +1,3 @@
-# Build Android local pe Windows: APK de test (release, semnat cu cheia de debug generată de Expo).
-# `eas build --local` nu merge pe Windows, așa că folosim `expo prebuild` + Gradle direct.
-# Utilizare (din mobile/):  powershell -ExecutionPolicy Bypass -File scripts\build-android-local.ps1 [-Debug]
 param([switch]$Debug)
 $ErrorActionPreference = 'Stop'
 Set-Location (Split-Path $PSScriptRoot -Parent)

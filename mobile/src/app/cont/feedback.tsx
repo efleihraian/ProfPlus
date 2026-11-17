@@ -1,5 +1,3 @@
-// P-291 — feedback din aplicație, ca pe site: tipul, textul și cel mult 5 imagini din galerie (selectorul sistemului, fără acces
-// la toată galeria). P-310: fără lista „Feedback-ul tău”; textul sugerat urmează tipul ales. Imaginile sunt reîncodate ca JPEG, fără EXIF (deci fără locație).
 import Constants from 'expo-constants';
 import { File as LocalFile } from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
@@ -40,7 +38,6 @@ export default function FeedbackScreen() {
     setOutcome(null);
     const room = FEEDBACK_MAX_IMAGES - images.length;
     if (room <= 0) return;
-    // Calitatea 0,4 ține o fotografie sau o captură de ecran sub 2 MB, cu textul lizibil.
     const result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ['images'], allowsMultipleSelection: true, selectionLimit: room, quality: 0.4, exif: false });
     if (result.canceled) return;
     const chosen = result.assets.slice(0, room).map((asset) => ({ uri: asset.uri, size: asset.fileSize }));

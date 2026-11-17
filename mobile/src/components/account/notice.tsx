@@ -1,4 +1,3 @@
-// Rezultatul unei acțiuni de cont: eroare pe roșu sau confirmare pe verde, anunțat și cititorului de ecran.
 import { StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';

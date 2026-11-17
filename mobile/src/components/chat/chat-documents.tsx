@@ -1,5 +1,3 @@
-// P-199 — documentele atașate unei conversații, ca „Documentele tale” de pe site: numele, starea și ștergerea (cu confirmare).
-// Profi le folosește în conversația respectivă după ce se pregătesc.
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 

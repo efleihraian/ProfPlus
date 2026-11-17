@@ -1,5 +1,3 @@
-// P-310: regulile parolei, ca pe site (aceleași reguli ca serverul, din web/shared/password-rules.ts), bifate pe măsură ce
-// sunt respectate. Înlocuiesc textul „Cel puțin 12 caractere”.
 import { StyleSheet, View } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 

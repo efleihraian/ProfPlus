@@ -1,5 +1,3 @@
-// Pagina unei clase: personalizări, carduri pentru documente și observații, ștergerea clasei; „Generează cu Profi” pornește
-// o conversație nouă în proiectul clasei, cu o ciornă editabilă care folosește personalizările clasei.
 import { useFocusEffect, useIsFocused, useLocalSearchParams, useRouter } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -61,7 +59,6 @@ export default function ClassScreen() {
   const fileOperation = useRef(false);
   const [editing, setEditing] = useState(openSettings === '1');
   const [removing, setRemoving] = useState(false);
-  // P-244: fișiere din Google Drive într-o secțiune; rezultatul rămâne afișat în cardul secțiunii.
   const [bringing, setBringing] = useState<string | null>(null);
   const [drive, setDrive] = useState<{ section: string; error?: string; results?: DriveImportResult[] } | null>(null);
 
@@ -166,10 +163,6 @@ export default function ClassScreen() {
     router.navigate({pathname:'/asistent', params:{classId: detail.class.id, type}});
   }
 
-  /**
-   * P-244: profesorul alege fișierele în selectorul Google, deschis în browserul sistemului; aplicația primește doar
-   * codul de o singură folosire și identificatorii fișierelor alese, iar serverul ProfPlus le aduce în secțiune.
-   */
   async function bringFromDrive(section: ClassSection) {
     if (!detail || fileOperation.current) return;
     fileOperation.current = true;
@@ -186,7 +179,6 @@ export default function ClassScreen() {
       const back = new URL(result.url).searchParams;
       const code = back.get(CLASSROOM_CODE_PARAM);
       const files = (back.get(CLASSROOM_FILES_PARAM) ?? '').split(',').filter(Boolean);
-      // Numai răspunsul la cererea pornită acum de aplicație.
       if (!code || !state || back.get(CLASSROOM_STATE_PARAM) !== state || !files.length) {
         const reason = back.get(CLASSROOM_ERROR_PARAM);
         setDrive({
@@ -212,7 +204,6 @@ export default function ClassScreen() {
     }
   }
 
-  // Revizia împiedică suprascrierea unei modificări făcute pe alt dispozitiv.
   async function saveJournal(journal: ClassJournal) {
     if (!detail) return false;
     setError(null);

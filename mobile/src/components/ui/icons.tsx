@@ -1,5 +1,3 @@
-// Pictograme mici, desenate cu react-native-svg (deja în aplicație), ca butoanele să ocupe puțin loc.
-// Contururile urmează pictogramele Lucide (licență ISC), aceleași ca pe site.
 import Svg, { Circle, Line, Path, Polyline } from 'react-native-svg';
 
 type Props = { size?: number; color: string };
@@ -68,7 +66,6 @@ export function CloseIcon({ size = 14, color }: Props) {
     </Svg>
   );
 }
-// P-195: meniul din fila Cont.
 export function UserIcon({ size = 20, color }: Props) {
   return (
     <Svg {...base(size)} stroke={color}>
@@ -145,7 +142,6 @@ export function FileTextIcon({ size = 20, color }: Props) {
     </Svg>
   );
 }
-// P-199: atașarea în chat (fotografii sau documente), ca butonul „+” de pe site.
 export function PlusIcon({ size = 20, color }: Props) {
   return (
     <Svg {...base(size)} stroke={color}>
@@ -154,7 +150,6 @@ export function PlusIcon({ size = 20, color }: Props) {
     </Svg>
   );
 }
-// P-291: feedback (o bulă de mesaj cu rânduri), în meniul Cont.
 export function FeedbackIcon({ size = 20, color }: Props) {
   return (
     <Svg {...base(size)} stroke={color}>

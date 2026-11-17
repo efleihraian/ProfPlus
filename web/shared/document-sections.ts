@@ -7,7 +7,6 @@ export type SectionFormat = 'markdown' | 'latex';
 export type RevisionInput = {format: SectionFormat; fragment: string; instruction: string};
 export type DocumentSection = {id: string; label: string; start: number; end: number; fragment: string; format: SectionFormat};
 
-/** Validate editable TeX boundaries without interpreting executable commands. */
 export function balancedLatexFragment(source: string): boolean {
   const clean = source.replace(/(?<!\\)%[^\n]*/g,'');
   const stack: string[] = [];

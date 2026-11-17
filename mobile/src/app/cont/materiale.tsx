@@ -1,5 +1,3 @@
-// P-304/P-307: biblioteca publică în aplicație, cu aceleași materiale și filtre ca profplus.ro/biblioteca.
-// Tipurile sunt pastile cu numărul de materiale; fiecare card arată sursa și ce se deschide (PDF, arhivă, pagină).
 import { openBrowserAsync } from 'expo-web-browser';
 import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';

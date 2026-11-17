@@ -1,5 +1,3 @@
-// Cardul aplicației (P-200): alb, colțuri mari și umbră fină, fără chenar; în modul întunecat, gri cu un contur discret.
-// `soft`: card verde deschis pentru informații evidențiate.
 import type { ReactNode } from 'react';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 
@@ -27,6 +25,5 @@ export function Card({ title, eyebrow, soft, style, children }: Props) {
 
 const styles = StyleSheet.create({
   card: { borderRadius: Shape.card, padding: Spacing.three + 4, gap: Spacing.three - 4 },
-  // P-272: eticheta cardului e un titlu mic în litere normale, nu majuscule decorative.
   eyebrow: { fontSize: 14 },
 });

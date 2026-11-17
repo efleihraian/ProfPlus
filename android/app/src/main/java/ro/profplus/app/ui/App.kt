@@ -47,7 +47,6 @@ fun ProfPlusApp(activity: FragmentActivity) {
     var unlocked by rememberSaveable { mutableStateOf(false) }
     val deviceCanLock = remember { canAuthenticate(activity) }
 
-    // Aplicația se reblochează când ajunge în fundal.
     LifecycleEventEffect(Lifecycle.Event.ON_STOP) { unlocked = false }
 
     if (lockEnabled && deviceCanLock && !unlocked) {

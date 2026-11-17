@@ -1,6 +1,3 @@
-// P-167 — „Date și permisiuni” în aplicație: ce se prelucrează, ce senzori se folosesc și cum retragi accesul.
-// Aplicația nu are cookie-uri, trackere de analiză/publicitate, microfon sau localizare; camera și pozele se cer
-// doar la folosire. Textul trebuie să rămână aliniat cu profplus.ro/confidentialitate și cu declarațiile din magazine.
 import * as SecureStore from 'expo-secure-store';
 import { openBrowserAsync } from 'expo-web-browser';
 import { useState } from 'react';

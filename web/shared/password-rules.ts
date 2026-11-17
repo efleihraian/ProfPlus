@@ -1,5 +1,3 @@
-// P-310: regulile parolei, aceleași pe site, pe server și în aplicație. Serverul refuză parolele care nu le respectă;
-// Supabase refuză separat parolele apărute în scurgeri de date. Nu cerem majuscule sau simboluri: lungimea contează cel mai mult.
 export const PASSWORD_MIN = 12;
 export const PASSWORD_MAX = 128;
 
@@ -9,12 +7,10 @@ const SEQUENCES = ["0123456789", "abcdefghijklmnopqrstuvwxyz", "qwertyuiopasdfgh
 const distinct = (value: string) => new Set(value.toLowerCase()).size;
 const obvious = (value: string) => { const lower = value.toLowerCase(); return COMMON.test(lower) || SEQUENCES.some(seq => seq.includes(lower) || (seq + seq).includes(lower)); };
 
-/** Parolă evident ușor de ghicit, indiferent de lungime. */
 export function weakPassword(value: string): boolean {
   return distinct(value) < 5 || obvious(value);
 }
 
-/** Regulile afișate sub câmpul de parolă, cu starea fiecăreia pentru valoarea curentă. */
 export function passwordRules(value: string): {id: string; label: string; ok: boolean}[] {
   return [
     {id: "length", label: `Între ${PASSWORD_MIN} și ${PASSWORD_MAX} de caractere`, ok: value.length >= PASSWORD_MIN && value.length <= PASSWORD_MAX},

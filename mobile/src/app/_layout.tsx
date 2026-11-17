@@ -20,7 +20,6 @@ import { installGlobalErrorLogging, log } from '@/lib/log';
 SplashScreen.preventAutoHideAsync();
 installGlobalErrorLogging();
 
-// Un ecran care se blochează la desenare nu închide aplicația: profesorul vede un mesaj și poate reîncerca, iar jurnalul păstrează cauza.
 export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
   const theme = Colors[useColorScheme() === 'dark' ? 'dark' : 'light'];
   useEffect(() => {
@@ -38,7 +37,6 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
   );
 }
 
-// Ecranul de pornire rămâne până se citește sesiunea salvată, ca fila Cont să nu clipească între „conectat” și „neconectat”.
 function HideSplashWhenReady() {
   const { session } = useAuth();
   useEffect(() => {
@@ -61,7 +59,6 @@ function AccountGate(){
 }
 
 export default function RootLayout() {
-  // P-195: tema aleasă în Cont → Setări se aplică la pornire.
   useEffect(() => {
     void loadThemeChoice();
   }, []);

@@ -1,7 +1,3 @@
-// O rubrică din portofoliu: stare, fișierele încărcate și acțiunile (fotografiază, încarcă, generează cu Profi).
-// P-257: starea e un semn în stânga titlului (bifă verde / X roșu / cerc punctat pentru „după caz”), fără descriere.
-// După titlu, o pictogramă de document deschide fișierul; cu mai multe fișiere, „+N” arată lista numerotată în ordinea
-// încărcării, fiecare cu „Înlocuiește” și „Șterge”. Cu un singur fișier, × și „Înlocuiește” stau înaintea celorlalte butoane.
 import { openBrowserAsync } from 'expo-web-browser';
 import { useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';

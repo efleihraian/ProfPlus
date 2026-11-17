@@ -15,7 +15,6 @@ export function ThemedText({ style, type = 'default', themeColor, ...rest }: The
   return <Text style={[{ color }, styles[type], style]} {...rest} />;
 }
 
-// Mărimi pentru telefon, după ierarhia site-ului (titluri 600–700, text 16/24).
 const styles = StyleSheet.create({
   small: {
     fontSize: 14,

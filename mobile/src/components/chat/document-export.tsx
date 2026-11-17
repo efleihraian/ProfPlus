@@ -1,5 +1,3 @@
-// Export Word și PDF: aplicația deschide invizibil pagina de export a site-ului, deci fișierul iese identic cu cel de pe
-// profplus.ro (formule, Times New Roman, surse). Documentul e dat paginii direct pe telefon, nu trece printr-un server.
 import { useEffect, useRef, useState, type ComponentType, type RefAttributes } from 'react';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 import { WebView as NativeWebView } from 'react-native-webview';
@@ -16,12 +14,9 @@ import { appExportFormats, documentKind, type ExportFormat } from '../../../../w
 type AppFormat = Exclude<ExportFormat, 'tex'>;
 const LABELS: Record<AppFormat, string> = { pptx: 'PowerPoint', docx: 'Word', pdf: 'PDF' };
 
-// P-168/P-228: butoanele urmează tipul documentului, ca pe site (prezentare → PowerPoint, PDF, Word; test sau fișă → PDF, Word;
-// planificare sau proiect de lecție → Word, PDF). PowerPoint numai pentru prezentări.
 type Format = AppFormat;
 type Result = { ready: true } | { ok: true; base64: string; name: string; mime: string; warnings: string[] } | { ok: false; error: string };
 
-// Tipurile bibliotecii nu se potrivesc cu React Native 0.88 (propsurile devin `never`), deci declarăm ce folosim de aici.
 type Page = { injectJavaScript: (code: string) => void };
 type PageProps = ViewProps & {
   source: { uri: string };
@@ -33,7 +28,7 @@ type PageProps = ViewProps & {
 const WebView = NativeWebView as unknown as ComponentType<PageProps & RefAttributes<Page>>;
 
 const EXPORT_URL = SITE_URL + '/mobile-export';
-const TIMEOUT_MS = 120_000; // LaTeX: cold runtime download and compilation are bounded to 90 s.
+const TIMEOUT_MS = 120_000;
 const UNAVAILABLE = 'Exportul nu a mers. Verifică internetul și reîncearcă.';
 
 export function DocumentExport({ document, sources }: { document: GeneratedDocument; sources?: ChatSource[] }) {

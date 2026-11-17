@@ -1,6 +1,3 @@
-// Starea contului în aplicație: sesiunea Supabase curentă și acțiunile de cont.
-// Înregistrarea, recuperarea parolei și schimbarea adresei folosesc Supabase Auth.
-// Profilul, ștergerea și cererea de schimbare a parolei trec prin POST /api/account.
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { Session } from '@supabase/supabase-js';
 import * as Linking from 'expo-linking';
@@ -16,24 +13,18 @@ import { PASSWORD_MAX, PASSWORD_MIN, weakPassword } from '../../../web/shared/pa
 
 WebBrowser.maybeCompleteAuthSession();
 
-/** Unde duc linkurile din e-mailurile de confirmare și recuperare: pagina de cont a site-ului. */
 const EMAIL_CALLBACK = SITE_URL + '/auth/callback';
-/** Aceeași regulă ca serverul (POST /api/account). */
-// P-310: aceleași limite și reguli ca serverul (web/shared/password-rules.ts).
 export { PASSWORD_MAX, PASSWORD_MIN };
-/** Ce ține aplicația pe telefon în afara sesiunii; se șterge odată cu contul. */
 const LOCAL_KEYS = { async: ['profplus-portfolio-extra'], secure: ['profplus-photo-notice-v1'] };
 
 export type Outcome = { error: string } | { message: string };
 
 type Auth = {
-  /** undefined cât timp se citește sesiunea salvată pe telefon. */
   session: Session | null | undefined;
   configured: boolean;
   mfaEnrolled: boolean;
   mfaState: "checking" | "verified" | "challenge" | "unavailable";
   checkMfa: () => void;
-  /** Mesajul afișat după o acțiune care a închis sesiunea (de ex. contul șters). */
   notice: string | null;
   signInWithPassword: (email: string, password: string) => Promise<string | null>;
   signInWithGoogle: () => Promise<string | null>;
@@ -50,7 +41,6 @@ type Auth = {
 
 const AuthContext = createContext<Auth | null>(null);
 
-// Mesajele Supabase sunt în engleză; le traducem pe cele pe care le vede profesorul des.
 function message(error: { message?: string; code?: string } | null) {
   if (!error) return null;
   if (error.code === 'invalid_credentials') return 'Email sau parolă greșite.';
@@ -109,7 +99,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function signInWithGoogle() {
-    // Supabase trebuie să aibă adresa profplus://auth/callback în Redirect URLs.
     const redirectTo = Linking.createURL('auth/callback');
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -119,8 +108,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       log('warn', 'auth_google_start_failed', { code: error?.code ?? null });
       return message(error ?? {});
     }
-    // P-217: fereastra de login pornește de pe profplus.ro (iOS afișează domeniul primei adrese, nu pe cel Supabase);
-    // serverul redirecționează imediat la Supabase cu aceeași provocare PKCE. În dezvoltare (exp://) rămâne adresa directă.
     const start = appOAuthEntry(SITE_URL, data.url) ?? data.url;
     const result = await WebBrowser.openAuthSessionAsync(start, redirectTo);
     if (result.type !== 'success') {
@@ -129,7 +116,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     const code = new URL(result.url).searchParams.get('code');
     if (!code) {
-      // Fără cod, Supabase a refuzat întoarcerea (de ex. adresa lipsește din Redirect URLs); motivul vine în URL.
       log('warn', 'auth_google_no_code', { reason: new URL(result.url).searchParams.get('error_description') });
       return 'Conectarea cu Google nu s-a încheiat. Încearcă din nou.';
     }
@@ -138,7 +124,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return message(exchanged.error);
   }
 
-  /** Confirmă din nou identitatea: o conectare nouă dă tokenului o oră de autentificare recentă. */
   async function confirmIdentity(password: string): Promise<string | null> {
     if (mfaEnrolled) {
       const {data,error} = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
@@ -183,7 +168,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const weak = passwordProblem(password);
       if (weak) return { error: weak };
       const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: EMAIL_CALLBACK } });
-      // Ca pe server: fără confirmarea adresei nu se intră în cont, chiar dacă furnizorul ar fi configurat greșit.
       if (data.session) {
         log('error', 'auth_register_without_confirmation');
         await supabase.auth.signOut({ scope: 'local' });
@@ -193,7 +177,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         log('warn', 'auth_register_failed', { code: error.code ?? null, status: error.status ?? null });
         return { error: error.status === 429 ? 'Prea multe încercări. Așteaptă înainte să reîncerci.' : 'Înregistrarea nu a putut fi procesată. Reîncearcă mai târziu.' };
       }
-      // Același mesaj și când adresa există deja: nu spunem cine are cont.
       return { message: 'Dacă adresa poate fi înregistrată, vei primi un e-mail de confirmare. Deschide linkul din el, apoi intră în cont aici. Verifică și folderul Spam.' };
     },
     async resendConfirmation(email) {
@@ -230,7 +213,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         log('warn', 'auth_global_sign_out_failed', { code: error.code ?? null });
         return { error: 'Deconectarea a eșuat. Reîncearcă.' };
       }
-      // Și telefonul iese din cont; mesajul apare pe ecranul de intrare.
       setNotice('Te-ai deconectat de pe toate dispozitivele.');
       return { message: 'Te-ai deconectat de pe toate dispozitivele.' };
     },
@@ -248,7 +230,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         ...LOCAL_KEYS.async.map((key) => AsyncStorage.removeItem(key).catch(() => undefined)),
         ...LOCAL_KEYS.secure.map((key) => SecureStore.deleteItemAsync(key).catch(() => undefined)),
       ]);
-      // Contul nu mai există pe server; închidem doar sesiunea de pe telefon.
       await supabase.auth.signOut({ scope: 'local' }).catch(() => undefined);
       setSession(null);
       setNotice('Contul ProfPlus și datele active asociate au fost șterse.');

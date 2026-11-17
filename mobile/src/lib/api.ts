@@ -1,4 +1,3 @@
-// Clientul API al aplicației mobile: același contract ca site-ul (web/shared), deci aceleași rute și aceleași tipuri.
 import {createApiClient} from "../../../web/shared/api-client";
 import {librarySearchParams, type LibrarySearch, type PublicLibraryResults} from '../../../web/shared/public-library';
 import {logRequest} from "./log";
@@ -17,13 +16,9 @@ export {isPlanKind, planLabel, planSeconds, progressFraction, remainingText, typ
 export type {AccountResponse, AccountUpdate, Stage, TeachingProfile, ChatDocument, ChatMessage, ClassDetail, ChatSource, GeneratedDocument, HistoryChat, LibraryItem, OwnedClass, PortfolioFile, SavedChat} from "../../../web/shared/api-types";
 
 export const api = createApiClient({
-  // Adresa serverului ProfPlus, din mobile/.env.local (EXPO_PUBLIC_API_URL).
   baseUrl: process.env.EXPO_PUBLIC_API_URL ?? "",
-  // Tokenul de acces Supabase al utilizatorului conectat; serverul îl verifică la fiecare cerere.
   getToken: async () => (await supabase.auth.getSession()).data.session?.access_token ?? null,
-  // Pe telefon conexiunea poate cădea; nicio cerere nu rămâne agățată (chatul are limita lui, mai lungă).
   timeoutMs: 20_000,
-  // Eșecurile și cererile lente ajung în jurnal (lib/log.ts), fără conținut sau tokenuri.
   onRequestEnd: logRequest,
 });
 

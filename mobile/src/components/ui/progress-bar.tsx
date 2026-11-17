@@ -1,4 +1,3 @@
-// Bara de progres a site-ului: pistă gri, umplere verde.
 import { StyleSheet, View } from 'react-native';
 
 import { radius } from '@/constants/theme';

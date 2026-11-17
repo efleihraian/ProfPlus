@@ -1,5 +1,3 @@
-// Fișierul exportat ajunge în memoria temporară a aplicației, apoi în meniul de partajare al telefonului
-// (WhatsApp, email, salvare în Fișiere). Aplicația nu păstrează o copie proprie: exportul următor o înlocuiește.
 import { File, Paths } from 'expo-file-system';
 import { isAvailableAsync, shareAsync } from 'expo-sharing';
 

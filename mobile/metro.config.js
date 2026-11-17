@@ -1,4 +1,3 @@
-// Aplicația importă contractul API și module de client din web; .easignore permite numai sursele necesare.
 const { getDefaultConfig } = require("expo/metro-config");
 const path = require("path");
 

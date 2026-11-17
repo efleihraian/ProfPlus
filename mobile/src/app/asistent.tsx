@@ -1,5 +1,3 @@
-// Asistentul virtual: conversația cu Profi, salvată în același istoric ca pe site.
-// Fluxul urmează site-ul: mesajul profesorului se salvează întâi (PUT /api/history), apoi serverul generează și salvează răspunsul.
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import {
@@ -49,7 +47,6 @@ import { useAccount } from '@/lib/use-account';
 
 const isDocumentType = (value: unknown): value is DocumentType => DOCUMENT_TYPES.some((t) => t.id === value);
 
-/** P-199: „+” din compozitor, ca pe site — fotografii doar pentru acest mesaj sau un document salvat în conversație. */
 type AttachChoice = 'camera' | 'gallery' | 'document';
 const ATTACH_OPTIONS: { value: AttachChoice; label: string; title: string }[] = [
   { value: 'camera', title: 'Cameră', label: 'Fotografiază (nu se păstrează)' },
@@ -65,7 +62,6 @@ const NEW_TITLE = 'Conversație nouă';
 const failure = (e: unknown, aborted: boolean) =>
   aborted ? 'Răspunsul a fost oprit. Poți reîncerca.' : e instanceof ApiError ? e.message : 'Conexiunea a eșuat. Verifică internetul și încearcă din nou.';
 
-// P-214: account/navigation changes create fresh state; clearing consumed parameters keeps the current draft.
 export default function AssistantScreen() {
   const accountState = useAccount();
   const router = useRouter();
@@ -112,7 +108,6 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
   const [awaitingClassChat, setAwaitingClassChat] = useState(Boolean(initialClassOptions && initialChatId));
   const [title, setTitle] = useState(NEW_TITLE);
   const [draft, setDraft] = useState(initialSeed ?? '');
-  // P-166: photos for the next message only; never saved in the history.
   const [photos, setPhotos] = useState<ChatImage[]>([]);
   const [generation, setGeneration] = useState<DocumentType | null>(initialType ?? null);
   const generationTitle = useRef<GenerationTitle | undefined>(undefined);
@@ -132,13 +127,10 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
   const [historyDeleting, setHistoryDeleting] = useState(false);
   const deleteInFlight = useRef(false);
   const historyReadVersion = useRef(0);
-  // P-199: pasul generării (raportat de server) și documentele conversației.
   const [stage, setStage] = useState<ProgressStage>('prepare');
   const [startedAt, setStartedAt] = useState(0);
-  // P-220: textul răspunsului în curs de scriere (ciornă); răspunsul final îl înlocuiește.
   const [draftReply, setDraftReply] = useState('');
   const draftBuffer = useRef('');
-  // P-227: felul cererii, anunțat de server (textul și durata obișnuită din bara de progres).
   const [plan, setPlan] = useState<GenerationPlan | null>(null);
   const draftTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [documents, setDocuments] = useState<ChatDocument[]>([]);
@@ -158,7 +150,6 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
   const scroll = useRef<ScrollViewInstance>(null);
   const router = useRouter();
   const currentChatId = useRef<string | null>(null);
-  // A manual navigation/new message supersedes the initial history request.
   const navigationVersion = useRef(0);
 
   const choose = useCallback((next: ChatSelection) => {
@@ -270,7 +261,6 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
         setChats(list => list?.map(chat => chat.project_id === target.id ? {...chat, project_id: null} : chat) ?? null);
         const activeId = currentChatId.current;
         if (activeId && projectId.current === target.id) {
-          // Serverul schimbă și revizia. Recitește conversația înainte de a permite alte scrieri.
           const version = ++navigationVersion.current;
           try {
             const {chat} = await api.history.get(activeId);
@@ -295,7 +285,6 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
     }
   }
 
-  // Initial state comes from the component key/initialSeed, not synchronous state resets in effects.
   useEffect(() => {
     if (!signedIn || needsProfile) return;
     let active = true;
@@ -312,7 +301,6 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
       if (!current() || listVersion !== historyReadVersion.current) return;
       setChats(list);
       setProjects(projects);
-      // P-231: history opens only through an explicit chatId, never the last chat automatically.
     }).catch(e => { if (listVersion === historyReadVersion.current) failed(e); });
     if (initialChatId) void load(initialChatId).catch(failed);
     return () => { active = false; };
@@ -320,7 +308,6 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
 
   useEffect(() => () => { abort.current?.abort(); }, []);
 
-  // P-199/P-214: only the active conversation can receive a document-list response.
   const refreshDocuments = useCallback(async (id: string) => {
     const pending = documentRead.current;
     if (pending?.id === id && !pending.controller.signal.aborted) return pending.promise;
@@ -356,7 +343,6 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
     return () => clearInterval(timer);
   }, [chatId, signedIn, documentsPending, refreshDocuments]);
 
-  /** Conversația pe server: există deja sau o creăm acum (la primul mesaj sau la primul document). */
   async function ensureChat(selectedClass?: string) {
     if (chatId && (!selectedClass || selectedClass === projectId.current)) return chatId;
     navigationVersion.current++;
@@ -386,7 +372,6 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
     try {
       const id = await ensureChat();
       const { document } = await api.documents.upload(uploadForm(picked.file, { chatId: id }));
-      // Cu sursele alese manual (pe site), documentul nou intră în listă, ca pe site; în modul automat îl ia serverul.
       if (selection.current.mode === 'manual') choose({ ...selection.current, documentIds: [...new Set([...selection.current.documentIds, document.id])] });
       documentRead.current?.controller.abort();
       void refreshDocuments(id);
@@ -434,7 +419,6 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
     setError(null);
     const controller = new AbortController();
     abort.current = controller;
-    // Pasul curent ajunge în jurnal dacă ceva eșuează: crearea, salvarea, generarea sau salvarea răspunsului.
     let stage = 'create';
     const generated = generationTitle.current;
     const writeTitle = generated?.conversation ?? (title === NEW_TITLE ? '' : title);
@@ -470,7 +454,6 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
         },
         setStage,
         controller.signal,
-        // P-220: ciorna se actualizează cel mult de câteva ori pe secundă.
         (text, reset) => {
           draftBuffer.current = reset ? '' : draftBuffer.current + text;
           if (!draftTimer.current)
@@ -496,7 +479,6 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
           ...(reply.followUps?.length ? { followUps: reply.followUps.slice(0, 4) } : {}),
         },
       ];
-      // P-211: după primul răspuns Fun Prof (pornit din mesaj), modul rămâne ales în setările mesajului, ca pe site.
       const funChosen = !!reply.funProf && !selection.current.documentType;
       if (funChosen) choose({ ...selection.current, documentType: 'fun' });
       if (reply.document) setFresh(completed.length - 1);
@@ -504,7 +486,6 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
       setPhotos([]);
       stage = 'save-reply';
       if (signedIn && id) {
-        // Serverul salvează singur răspunsul când primește revision; altfel îl salvăm noi.
         if (typeof reply.revision === 'number') {
           revision.current = reply.revision;
           if (funChosen)
@@ -548,11 +529,9 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
     void deliver([...messages, { role: 'user', content }], false);
   }
 
-  // P-173: camera sau galerie, până la 15 fotografii pe mesaj. P-199: și documente salvate în conversație.
   function chooseAttachment(choice: AttachChoice) {
     if (busy || uploading || pendingAttachment.current) return;
     setAttachOpen(false);
-    // Pe iOS picker-ul nativ are nevoie ca dialogul să fie deja retras.
     if (Platform.OS === 'ios') pendingAttachment.current = choice;
     else launchAttachment(choice);
   }
@@ -581,7 +560,6 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
     if (result) attach(result.photos, result.error);
   }
 
-  // Reluarea ultimei cereri: citește versiunea salvată, ca să nu dublăm mesajul sau să suprascriem altă fereastră.
   async function retry() {
     if (savingDocument.current) return;
     if (!signedIn || !chatId) {
@@ -616,7 +594,6 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
       </Frame>
     );
   }
-  // Serverul primește cereri fără cont doar din paginile site-ului, deci în aplicație conversația cere logarea.
   if (!signedIn) {
     return (
       <Frame>
@@ -641,7 +618,6 @@ function AssistantConversation({ accountState, initialSeed, initialChatId, initi
               <Button onPress={() => router.navigate('/cont')}>Deschide Cont</Button>
             </Card>
           ) : (
-            // P-195: profilul se completează aici, nu pe site.
             <Card title="Completează profilul didactic">
               <ThemedText themeColor="muted">Profi adaptează exemplele și sursele la profilul tău didactic.</ThemedText>
               <TeachingForm account={account} onSaved={reload} />
@@ -945,7 +921,6 @@ function HistoryRow({target, locked, selected, updatedAt, onOpen, onRemove}: {
   );
 }
 
-// Antetul cu logo-ul (și butoanele conversației), pe fundalul ecranului.
 function Frame({ children, actions, historyAction }: { children: ReactNode; actions?: ReactNode; historyAction?: ReactNode }) {
   const theme = useTheme();
   return (

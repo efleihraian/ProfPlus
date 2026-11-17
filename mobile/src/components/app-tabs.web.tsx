@@ -1,4 +1,3 @@
-// Varianta pentru browser (expo start --web): aceleași file, ca bară simplă jos.
 import { Tabs, TabList, TabTrigger, TabSlot, type TabTriggerSlotProps } from 'expo-router/ui';
 import { Pressable, StyleSheet, View } from 'react-native';
 

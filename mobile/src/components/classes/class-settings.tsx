@@ -1,4 +1,3 @@
-// Setările clasei, aceleași câmpuri și limite ca pe site. Profi le folosește când pregătește documente pentru clasă.
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 
@@ -56,7 +55,6 @@ export function ClassSettingsForm({ value, bannerColor, grade, letter, profileSu
       <View style={styles.field}>
         <ThemedText type="smallBold" themeColor="muted">Culoarea cardului</ThemedText>
         <View accessibilityRole="radiogroup" accessibilityLabel="Culoarea cardului" style={styles.colors}>
-          {/* P-279: miniaturi ale bannerului (nuanța și desenul temei), ca pe site. */}
           {[{ id: null, label: 'Automat', option: classBannerOption(grade, letter) }, ...CLASS_BANNER_OPTIONS.map((option) => ({ id: option.id, label: option.label, option }))].map(({ id, label, option }) => {
             const checked = id === color;
             return (
